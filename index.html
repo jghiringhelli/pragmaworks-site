@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juan Carlos Ghiringhelli — Pragmaworks</title>
+<meta name="description" content="Independent researcher and engineer. Generative Specification, ForgeCraft, CodeSeeker, The Forge.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:      #C44B1A;
+    --ember-glow: #E8652E;
+    --molten:     #F4A623;
+    --iron:       #2C2C2E;
+    --steel:      #48484A;
+    --smoke:      #8E8E93;
+    --ash:        #D1D1D6;
+    --parchment:  #F5F0E8;
+    --forge-dark: #1A1611;
+    --midnight:   #0D0B09;
+    --blue-steel: #4A6580;
+    --tempered:   #6B8F71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--midnight);
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    background: rgba(13,11,9,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+  }
+
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--parchment);
+  }
+
+  .nav-brand span {
+    color: var(--ember-glow);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--parchment); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2.5rem 5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: fixed;
+    bottom: 0; left: 0; right: 0; height: 50vh;
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(196,75,26,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: 0.05em;
+    background: linear-gradient(160deg, var(--parchment) 30%, var(--molten) 80%, var(--ember) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--smoke);
+    font-style: italic;
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+
+  .hero-statement {
+    font-size: 1.15rem;
+    color: var(--ash);
+    max-width: 620px;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  .hero-statement strong {
+    color: var(--parchment);
+    font-weight: 600;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(196,75,26,0.5);
+    color: var(--parchment);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn:hover {
+    border-color: var(--ember-glow);
+    background: rgba(196,75,26,0.08);
+  }
+
+  .btn-primary {
+    border-color: var(--ember-glow);
+    background: rgba(196,75,26,0.12);
+  }
+
+  /* ── SECTION ── */
+  section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--parchment);
+    margin-bottom: 1rem;
+  }
+
+  .section-intro {
+    font-size: 1rem;
+    color: var(--smoke);
+    max-width: 580px;
+    margin-bottom: 3rem;
+    line-height: 1.75;
+  }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 1.75rem;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    border-color: rgba(196,75,26,0.3);
+    background: rgba(196,75,26,0.04);
+  }
+
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--smoke);
+    line-height: 1.7;
+    flex: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-glow);
+    transition: color 0.2s;
+  }
+
+  .card-link:hover { color: var(--molten); }
+
+  .card-link::after { content: ' →'; }
+
+  /* ── FEATURED (paper) ── */
+  .featured {
+    background: rgba(196,75,26,0.05);
+    border: 1px solid rgba(196,75,26,0.25);
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .featured-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .featured-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .featured-desc {
+    font-size: 0.95rem;
+    color: var(--ash);
+    line-height: 1.75;
+    max-width: 640px;
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 1.75rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(196,75,26,0.15);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+  }
+
+  .fstat-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--molten);
+    display: block;
+    line-height: 1;
+  }
+
+  .fstat-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--smoke);
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+
+  .featured-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── FORGE ── */
+  .forge-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .forge-price {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+  }
+
+  .forge-price-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .forge-price-main {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--molten);
+    line-height: 1;
+  }
+
+  .forge-price-detail {
+    font-size: 0.7rem;
+    color: var(--smoke);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .forge-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+  }
+
+  .forge-desc {
+    font-size: 0.9rem;
+    color: var(--ash);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .contact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    min-width: 80px;
+  }
+
+  .contact-value {
+    color: var(--ash);
+    transition: color 0.2s;
+  }
+
+  .contact-value:hover { color: var(--parchment); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--steel);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-domains {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-domains a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--steel);
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .footer-domains a:hover { color: var(--smoke); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .forge-block { grid-template-columns: 1fr; }
+    .forge-price { text-align: left; }
+    footer { padding: 1.5rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">PRAGMA<span>WORKS</span></div>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Independent researcher · Engineer · Author</div>
+  <h1 class="hero-name">Juan Carlos<br>Ghiringhelli</h1>
+  <p class="hero-title">Building the methodology for engineering in the AI age.</p>
+  <p class="hero-statement">
+    I research how software specifications change when the reader is stateless.
+    I build tools that encode that research into daily practice.
+    I teach teams how to direct AI instead of just prompting it.
+    <strong>Everything I make is designed to be used, not just read.</strong>
+  </p>
+  <div class="hero-links">
+    <a href="#research" class="btn btn-primary">Generative Specification</a>
+    <a href="#training" class="btn">The Forge Workshop</a>
+    <a href="#contact" class="btn">Get in touch</a>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <span class="section-label">Research</span>
+  <h2 class="section-title">Generative Specification</h2>
+  <p class="section-intro">
+    A programming paradigm for the stateless reader. Seven properties that make a specification derivable by an AI that carries no accumulated context.
+  </p>
+
+  <div class="featured">
+    <span class="featured-label">Preprint · v1.2 · March 2026</span>
+    <div class="featured-title">Generative Specification: A Pragmatic Programming Paradigm for the Stateless Reader</div>
+    <p class="featured-desc">
+      Structured programming operates at the syntactic tier. SOLID, TDD, and DDD operate at the semantic tier.
+      Generative Specification operates at the pragmatic tier: the tier at which derivability by a stateless reader becomes a binding constraint.
+      Empirical evidence spans six production projects, a multi-agent adversarial study (AX), and a cross-implementation replication experiment (BX).
+    </p>
+    <div class="featured-stats">
+      <div>
+        <span class="fstat-num">14/14</span>
+        <span class="fstat-desc">AX rubric score · v7</span>
+      </div>
+      <div>
+        <span class="fstat-num">109</span>
+        <span class="fstat-desc">passing tests · live DB</span>
+      </div>
+      <div>
+        <span class="fstat-num">104</span>
+        <span class="fstat-desc">RX replication tests</span>
+      </div>
+      <div>
+        <span class="fstat-num">40</span>
+        <span class="fstat-desc">developers · DX study · April 2026</span>
+      </div>
+    </div>
+    <div class="featured-links">
+      <a href="https://genspec.dev" class="btn btn-primary" target="_blank" rel="noopener">genspec.dev</a>
+      <a href="https://github.com/jghiringhelli/generative-specification" class="btn" target="_blank" rel="noopener">GitHub — experiments &amp; data</a>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <span class="section-label">Open Tools</span>
+  <h2 class="section-title">The MCP Stack</h2>
+  <p class="section-intro">
+    Free tools for individual developers. Each one addresses a specific failure mode of AI-assisted development.
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-tag">Configuration · Free</div>
+      <div class="card-title">ForgeCraft</div>
+      <p class="card-desc">
+        Quality gates as code. ForgeCraft encodes Generative Specification properties into your project's
+        CI pipeline — automatically detecting tag drift, enforcing specification completeness, and giving
+        every contributor the same quality floor.
+      </p>
+      <a href="https://forgecraft.tools" class="card-link" target="_blank" rel="noopener">forgecraft.tools</a>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Code Intelligence · Free</div>
+      <div class="card-title">CodeSeeker</div>
+      <p class="card-desc">
+        Graph-powered hybrid search for your codebase. Vector + BM25 + path, fused with RRF.
+        Semantic search, dependency traversal, and contextual file reads — the AI reads your
+        codebase the way you do, not just grep.
+      </p>
+      <a href="https://github.com/jghiringhelli/codeseeker" class="card-link" target="_blank" rel="noopener">GitHub</a>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Memory · In Development</div>
+      <div class="card-title">Chronicle</div>
+      <p class="card-desc">
+        Three-tier persistent memory for AI sessions. Buffer, Working, and Core layers with
+        Ebbinghaus decay and an intelligence distillation layer. Cross-project knowledge
+        that survives context boundaries.
+      </p>
+      <a href="https://github.com/jghiringhelli/chronicle" class="card-link" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section id="training">
+  <span class="section-label">Training</span>
+  <h2 class="section-title">The Forge</h2>
+  <p class="section-intro">
+    Two days. Your team. Your codebase. A different speed.
+  </p>
+
+  <div class="forge-block">
+    <div>
+      <div class="forge-title">Where developers become architects of the AI age</div>
+      <p class="forge-desc">
+        Most teams are using AI at 10% of potential — generating slightly faster slop.
+        The gap between that and the real 100x is not the tool. It is the methodology.
+        Spec-driven development, clean architecture, and the ability to direct AI
+        instead of just prompting it. That is what The Forge teaches, in two days,
+        on your actual codebase, with your team.
+      </p>
+      <a href="mailto:juan@pragmaworks.dev?subject=The%20Forge%20%E2%80%94%20Inquiry&body=Hi%20Juan%2C%0A%0AI%20saw%20The%20Forge%20and%20I%27d%20like%20to%20have%20a%20conversation." class="btn btn-primary">Book a Conversation</a>
+    </div>
+    <div class="forge-price">
+      <div class="forge-price-label">Investment</div>
+      <div class="forge-price-main">$20,000</div>
+      <div class="forge-price-detail">2 days · up to 15 engineers<br>on-site or remote</div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section id="writing">
+  <span class="section-label">Writing</span>
+  <h2 class="section-title">Ambient Engineer</h2>
+  <p class="section-intro">
+    Long-form writing on specification, AI-assisted development, and what it means to engineer in an age of stateless readers.
+  </p>
+  <a href="https://ambientengineer.substack.com" class="btn" target="_blank" rel="noopener">ambientengineer.substack.com</a>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label">Contact</span>
+  <h2 class="section-title">Get in Touch</h2>
+  <p class="section-intro">Workshop inquiries, research questions, collaboration.</p>
+
+  <div class="contact-block">
+    <div class="contact-line">
+      <span class="contact-label">Email</span>
+      <a href="mailto:juan@pragmaworks.dev" class="contact-value">juan@pragmaworks.dev</a>
+    </div>
+    <div class="contact-line">
+      <span class="contact-label">LinkedIn</span>
+      <a href="https://linkedin.com/in/jghiringhelli" class="contact-value" target="_blank" rel="noopener">linkedin.com/in/jghiringhelli</a>
+    </div>
+    <div class="contact-line">
+      <span class="contact-label">GitHub</span>
+      <a href="https://github.com/jghiringhelli" class="contact-value" target="_blank" rel="noopener">github.com/jghiringhelli</a>
+    </div>
+    <div class="contact-line">
+      <span class="contact-label">Substack</span>
+      <a href="https://ambientengineer.substack.com" class="contact-value" target="_blank" rel="noopener">ambientengineer.substack.com</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2026 Juan Carlos Ghiringhelli · pragmaworks.dev</span>
+  <div class="footer-domains">
+    <a href="https://genspec.dev" target="_blank" rel="noopener">genspec.dev</a>
+    <a href="https://forgecraft.tools" target="_blank" rel="noopener">forgecraft.tools</a>
+    <a href="https://ambientengineer.substack.com" target="_blank" rel="noopener">ambientengineer.dev</a>
+    <a href="https://github.com/jghiringhelli/codeseeker" target="_blank" rel="noopener">codeseeker</a>
+  </div>
+</footer>
+
+</body>
+</html>
