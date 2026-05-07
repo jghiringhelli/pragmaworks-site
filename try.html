@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try PragmaWorks in an Afternoon</title>
+<meta name="description" content="A guided conversation with your AI assistant. New project or existing one — leave with something you wouldn't have built without it.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 56px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 32px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .at-the-end {
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .at-the-end h3 { margin-top: 0; }
+  .at-the-end ul { margin: 0 0 0 20px; }
+  .at-the-end li { font-size: 15px; margin-bottom: 8px; color: var(--steel); }
+  .at-the-end li strong { color: var(--iron); font-style: normal; }
+
+  .help-box {
+    margin: 64px 0 0;
+    padding: 28px 32px;
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+  }
+
+  .help-box h3 {
+    color: var(--molten);
+    margin: 0 0 10px;
+  }
+
+  .help-box p {
+    color: var(--ash);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .help-box a {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--molten);
+    text-decoration: none;
+    border-bottom: 1px solid var(--molten);
+  }
+
+  .help-box a:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  .small-note {
+    font-size: 13px;
+    color: var(--smoke);
+    font-style: italic;
+    margin-top: -8px;
+    margin-bottom: 20px;
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 44px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="eyebrow">PragmaWorks · Try It in an Afternoon</div>
+    <h1>Have a conversation. Leave with a real project.</h1>
+    <p class="lede">No installs. No configs. No CLI commands you have to type. <strong>Open your AI assistant, follow the prompts below, and let it do the work.</strong> An afternoon of conversation gets you something you wouldn't have built any other way — under a discipline that keeps the AI from drifting.</p>
+    <p class="lede">Pick the path that fits your situation.</p>
+
+    <div class="path-picker">
+      <a href="#greenfield">
+        <div class="label">Path A</div>
+        <div class="name">Starting from scratch</div>
+        <div class="desc">A new idea. Empty folder. You'll have a working project by dinner.</div>
+      </a>
+      <a href="#brownfield">
+        <div class="label">Path B</div>
+        <div class="name">You already have a project</div>
+        <div class="desc">Existing repo. Get an audit, a remediation, and a before/after report.</div>
+      </a>
+    </div>
+
+    <h2 id="greenfield">Path A — Starting from scratch</h2>
+    <div class="h2-sub">~2-3 hours · greenfield</div>
+
+    <p>You have an idea — a tool, a small SaaS, a video game, a TTRPG companion app, a niche utility. You want it to actually exist by tonight. Here's the conversation:</p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text"><strong>Open your AI assistant.</strong> Claude Code, Cursor, VS Code with GitHub Copilot Chat, Aider, Windsurf — whatever you already use. Make a new empty folder somewhere on your machine and point the assistant at it (open the folder in your editor, or <code>cd</code> into it in the CLI version).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text"><strong>Tell it what you want to build.</strong> Two or three sentences, plain language, no jargon. Something like:
+<div class="prompt-box"><span class="prompt-label">Paste this, edited for your idea</span>I want to build a small tool that lets me track which board games I've played
+with friends, what we thought, and which ones we want to play next. It should
+work on my phone, sync across devices, and not require an account to start.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text"><strong>Ask it to use PragmaWorks.</strong> This is the move that turns a regular AI conversation into a disciplined one:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use the PragmaWorks methodology to bootstrap this project. Find pragmaworks
+on npm, install what you need, generate the specification first, set up the
+ForgeCraft cascade, then build the project under that discipline. Before you
+start, ask me 2-3 clarifying questions about scope and tech stack — pick the
+stack yourself if I have no preference.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-text"><strong>Answer its questions briefly.</strong> The assistant will ask things like: "What's the smallest version that's useful (the MVP)?" "Any tech stack preference, or should I choose?" "Local-only or hosted?" Answer in one or two sentences each. Don't overthink it — the spec it builds will absorb your answers and ask follow-ups if anything is unclear.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (specification), Tier 2 (test harness), and Tier 3 (deployment) are done automatically.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-text"><strong>Optional — verify the harness yourself.</strong> If you're technical and want to feel the discipline working, ask the assistant:
+<div class="prompt-box"><span class="prompt-label">Optional follow-up</span>Run the harness end-to-end. Show me the test results, take screenshots
+of the running app, and confirm everything matches the spec.</div>
+The assistant will spin up the local app, drive it through the use cases, capture screenshots, compare against the spec, and report back. If anything is off, it will tighten the spec and regenerate — not patch the code.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">07</div>
+      <div class="step-text"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. You can run it locally or push to wherever you deploy. From here you can ask for new features the same way: <em>"Add a leaderboard for players' favorite games."</em> The discipline keeps the second feature from breaking the first.</div>
+    </div>
+
+    <h2 id="brownfield">Path B — You already have a project</h2>
+    <div class="h2-sub">~2-4 hours · brownfield</div>
+
+    <p>You inherited a codebase. Or you built one over a year and you're not sure what shape it's in. Or you've been using AI assistance for a few months and you suspect things are quietly degrading. Here's the conversation:</p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text"><strong>Open your AI assistant in the project root.</strong> Same options as Path A — Claude Code, Cursor, VS Code, etc. Point it at your existing repository.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text"><strong>Ask it to audit the project.</strong> One prompt:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use PragmaWorks to audit this project. Find pragmaworks on npm, install
+what you need, run the analysis on a new branch (don't touch main), and
+generate the initial report as a PDF. Cover structural disciplines, the
+GS rubric, test coverage, documentation health, and propose a remediation
+plan I can review before we apply anything.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text"><strong>Read the initial report.</strong> The assistant generates a PDF. It tells you what your codebase looks like today: which structural disciplines apply (it picks from the standard catalog — SOLID, TDD, hexagonal, layered, clean architecture, etc.), what scores it gets on each, the seven GS properties scored 0-2 with evidence, where documentation has rotted, what the test pyramid actually looks like, and where the AI sees the most leverage for improvement.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-text"><strong>Approve the plan, or modify it.</strong> The remediation plan is in the report. Say something like:
+<div class="prompt-box"><span class="prompt-label">Paste this</span>The plan looks right. Apply it on the same branch. Pause before any
+change that would touch the database schema or the public API — ask
+me first on those.</div>
+You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing tests for past bugs to prevent regression, and pausing where you said to pause.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text"><strong>Get the after-report.</strong> Once the work is done, ask:
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Generate the after-report. Same format as the initial one, but with a
+before/after comparison: coverage delta, structural discipline scores
+delta, GS rubric delta, regression tests added for past bugs, documentation
+updates. Include charts.</div>
+A second PDF lands. Side-by-side numbers. Charts. The receipts of what changed.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-text"><strong>Optional — commit history study.</strong> If you want to know how your team has been operating (PR review density, commit-size distribution, AI-introduced bug signal, who collaborates with whom), ask:
+<div class="prompt-box"><span class="prompt-label">Optional</span>Run the team-habit analysis on the last 90 days of commit history.
+Output as a separate PDF with charts.</div>
+Useful at the team level. Optional at the individual level.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">07</div>
+      <div class="step-text"><strong>Optional — install Chronicle for living documentation.</strong> If you want the project to keep a memory of decisions, prompts, and architectural choices across future AI sessions:
+<div class="prompt-box"><span class="prompt-label">Optional</span>Install Chronicle for this project so future sessions inherit
+the architectural decisions, the spec rationale, and the prompt
+history we just built.</div>
+Particularly worth it if you're going to keep working on this codebase with AI assistance over months. Read more in the <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle README</a> if you want detail before deciding.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">08</div>
+      <div class="step-text"><strong>Optional — add a new feature under the same discipline.</strong> Now that the spec exists and the harness is wired, adding a feature is conversational:
+<div class="prompt-box"><span class="prompt-label">Optional</span>Add [your feature]. Update the spec first, regenerate what needs
+to change, run the harness, and report back.</div>
+This is the moment most people feel what GS actually feels like — a feature added without breaking the existing tests, without ad-hoc patches, without the AI silently creating coupling.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">09</div>
+      <div class="step-text"><strong>Verify it still works.</strong> Run the project. Click around. The harness verified the contracts; you verify the experience. This is the judgment layer — what only a human can decide. Welcome.</div>
+    </div>
+
+    <h2>What you'll have at the end</h2>
+    <div class="h2-sub">both paths</div>
+
+    <div class="at-the-end">
+      <h3>Path A — Greenfield</h3>
+      <ul>
+        <li><strong>A working project.</strong> Code, tests, deployment scripts, all derived from a written specification.</li>
+        <li><strong>A specification you can hand to anyone.</strong> Use cases, ADRs, behavioral contracts, AI behavioral rules. The next session knows what to do without you in the room.</li>
+        <li><strong>Tier 1, 2, and 3 done.</strong> Spec, test harness, deployment infrastructure — all under discipline.</li>
+        <li><strong>An optional path forward.</strong> Add features by conversation. Each one tightens the spec.</li>
+      </ul>
+    </div>
+
+    <div class="at-the-end">
+      <h3>Path B — Brownfield</h3>
+      <ul>
+        <li><strong>Two PDF reports.</strong> Initial state and final state. Same metrics, side by side. Charts. Receipts.</li>
+        <li><strong>A remediated codebase.</strong> Higher scores on the seven properties, regression tests for past bugs, refreshed documentation, better structural discipline.</li>
+        <li><strong>A working harness.</strong> Test suite that runs against the running application, not just the code.</li>
+        <li><strong>Optional team-habit report.</strong> A separate PDF showing how the team has been operating.</li>
+        <li><strong>Optional Chronicle install.</strong> Future sessions inherit what this one learned.</li>
+        <li><strong>Optional new feature.</strong> Built under the same discipline so it doesn't break what already works.</li>
+      </ul>
+    </div>
+
+    <p class="small-note">Everything happens on a branch. Your <code>main</code> is untouched until you decide to merge. The AI does not type — you do, but only into the chat.</p>
+
+    <div class="help-box">
+      <h3>If you get stuck</h3>
+      <p>Email me directly. I read every message.</p>
+      <p><a href="mailto:juan@pragmaworks.dev?subject=Stuck%20on%20PragmaWorks%20cookbook">juan@pragmaworks.dev →</a></p>
+      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">If you'd rather skim the underlying tools first: <a href="https://github.com/jghiringhelli/forgecraft-mcp">ForgeCraft</a>, <a href="https://github.com/jghiringhelli/codeseeker">CodeSeeker</a>, <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle</a> — each repo's README explains it in one screen.</p>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/start">Resources</a> ·
+      <a href="/leaders">Leaders Cookbook</a> ·
+      <a href="/teams">Pricing & Tiers</a> ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+    </div>
+
+  </div>
+</body>
+</html>

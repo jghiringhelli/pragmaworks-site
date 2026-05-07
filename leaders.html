@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Leaders — Try PragmaWorks on Your Team's Repo</title>
+<meta name="description" content="A guided conversation that gets your engineering manager or tech lead a real audit of one of your team's repos — including the team-habit report no static analyzer surfaces.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  .who-it-for {
+    margin: 32px 0 56px;
+    padding: 22px 28px;
+    background: #fff;
+    border-left: 3px solid var(--ember);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .who-it-for strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--forge-dark);
+    margin: 56px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 28px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .what-you-get {
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .what-you-get h3 { margin-top: 0; }
+  .what-you-get ul { margin: 0 0 0 20px; }
+  .what-you-get li { font-size: 15px; margin-bottom: 10px; color: var(--steel); }
+  .what-you-get li strong { color: var(--iron); font-style: normal; }
+
+  .chronicle-box {
+    margin: 40px 0 0;
+    padding: 24px 28px;
+    background: #fff;
+    border: 1px dashed var(--ember);
+    border-radius: 4px;
+  }
+
+  .chronicle-box h3 { margin-top: 0; color: var(--ember); }
+  .chronicle-box p { font-size: 15px; color: var(--steel); }
+  .chronicle-box code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--ash);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: var(--iron);
+  }
+
+  .help-box {
+    margin: 64px 0 0;
+    padding: 28px 32px;
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+  }
+
+  .help-box h3 {
+    color: var(--molten);
+    margin: 0 0 10px;
+  }
+
+  .help-box p {
+    color: var(--ash);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .help-box a {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--molten);
+    text-decoration: none;
+    border-bottom: 1px solid var(--molten);
+  }
+
+  .help-box a:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  .small-note {
+    font-size: 13px;
+    color: var(--smoke);
+    font-style: italic;
+    margin-top: -8px;
+    margin-bottom: 20px;
+  }
+
+  .judgment-note {
+    margin: 40px 0 0;
+    padding: 22px 26px;
+    background: #fff;
+    border: 1px dashed var(--ash);
+    font-size: 15px;
+    color: var(--steel);
+    font-style: italic;
+  }
+
+  .judgment-note strong { font-style: normal; color: var(--forge-dark); }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 28px; }
+    h2 { font-size: 21px; }
+    .container { padding: 44px 20px 64px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="eyebrow">PragmaWorks · For Engineering Leaders</div>
+    <h1>Get a real audit of one of your team's repos. By dinner.</h1>
+    <p class="lede">If you're a tech lead, engineering manager, VP, or CTO and your team has been using AI assistance for code generation, your codebase is changing in ways your usual review cadence can't catch. <strong>This guide gets you a manager-grade report on one of your repos in an afternoon</strong> — including the team-habit and AI-bug analysis no static analyzer surfaces.</p>
+
+    <div class="who-it-for">
+      <strong>Who this is for.</strong> This page is for leaders running existing engineering teams. If you're starting a brand-new project, the <a href="/try">developer cookbook</a> covers that path. If you're not technical enough to run an AI assistant yourself, hand this page to your tech lead — the conversation works the same way and they bring you the result.
+    </div>
+
+    <h2>What you'll get</h2>
+    <div class="h2-sub">at the end of the afternoon</div>
+
+    <div class="what-you-get">
+      <ul>
+        <li><strong>An initial audit PDF.</strong> Eight sections including the seven GS properties scored 0-2 with evidence, structural-discipline assessment, test pyramid coverage, documentation health, security/logging baseline, and a prioritized remediation plan.</li>
+        <li><strong>A team-habit report (separate PDF).</strong> Last 90 days of commit history analyzed: PR review density, regression coverage of past bugs, AI-introduced bug rate, commit-size distribution, collaboration graph across team members. Charts. The organizational metrics no other tool surfaces.</li>
+        <li><strong>An after-report PDF.</strong> If you choose to apply remediations, a side-by-side comparison of initial vs. final state with deltas you can show your CEO or board.</li>
+        <li><strong>A working test harness.</strong> Spec-derived behavioral verification running against your application — the foundation that lets your team use AI assistance safely going forward.</li>
+        <li><strong>An optional Chronicle install.</strong> Persistent organizational memory so future AI sessions inherit what this audit learned.</li>
+      </ul>
+    </div>
+
+    <h2>The conversation</h2>
+    <div class="h2-sub">~3-4 hours · brownfield only</div>
+
+    <p>Open your AI assistant — Claude Code, Cursor, VS Code with Copilot Chat, Aider, Windsurf — in the project root. Then walk through these steps. The assistant does the work; you direct.</p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text"><strong>Scope the run.</strong> Pick one repo. Ideally not your largest, not your smallest — somewhere in the middle is the most informative. The audit runs on a new branch and never touches main, so risk is zero.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text"><strong>Run the audit.</strong> Paste this prompt:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use PragmaWorks to audit this project for engineering leadership. Find
+pragmaworks on npm, install what you need, run the analysis on a new branch
+(don't touch main), and generate the initial report as a PDF. Score the seven
+GS properties with evidence, evaluate structural disciplines, assess
+documentation health, and propose a prioritized remediation plan. Format
+the output for a manager-readable report.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text"><strong>Review the initial report.</strong> The PDF tells you where the codebase is today. Score per property, evidence per score, prioritized issue list. This is the document you can forward to peers — your CTO, your CEO, your board — without translation.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-text"><strong>Run the team-habit analysis.</strong> The most under-measured layer in modern engineering organizations. Paste:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Now run the team-habit analysis on the last 90 days of commit history.
+Cover: PR review density, regression test coverage of bugs introduced,
+AI-introduced bug rate (detect commits with AI-assisted authorship signals
+and correlate with subsequent bug fixes), commit-size distribution, and
+collaboration graph across team members. Output as a separate PDF with
+charts.</div>
+<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">If your team has been using AI assistance for the last few months, the AI-bug rate chart is often the most useful single image you can show a leadership audience. It quantifies what you've suspected.</p></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text"><strong>Decide whether to remediate now.</strong> The initial report includes a remediation plan. You have three options:
+<ul style="margin: 8px 0 0 22px; font-size: 15px;">
+<li><strong>Apply now</strong> — proceed to step 6 in this session.</li>
+<li><strong>Bring back to your team</strong> — share the PDF, discuss in your next planning session, return when ready.</li>
+<li><strong>Engage PragmaWorks for done-for-you remediation</strong> — for larger codebases or compliance-sensitive contexts, our concierge engagement handles the remediation for you.</li>
+</ul></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-text"><strong>Apply the remediation plan (optional, this session).</strong> Paste:
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Apply the top 5 items from the remediation plan on the same branch under
+GS discipline. For each item, generate the spec change first, then the
+code change, then the harness verification. Pause before any change that
+would touch the database schema or the public API — ask me first on those.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">07</div>
+      <div class="step-text"><strong>Get the after-report.</strong> Once remediation is done, paste:
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Generate the after-report. Same format as the initial one, but with a
+before/after comparison: coverage delta, structural discipline scores
+delta, GS rubric delta, regression tests added for past bugs, documentation
+updates. Include charts.</div>
+<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">This is the document you take to your next leadership review. It quantifies what changed, with receipts.</p></div>
+    </div>
+
+    <div class="chronicle-box">
+      <h3>Optional — install Chronicle for organizational memory</h3>
+      <p>Your team's AI sessions today are amnesiac: every new session starts from zero, re-learning what the last session figured out. Chronicle persists architectural decisions, prompt history, design rationale, and team conventions across sessions — so your team's collective discipline stops being lost between Mondays.</p>
+      <p>To install for the project:</p>
+      <div class="prompt-box"><span class="prompt-label">Paste this</span>Install Chronicle for this project so future sessions inherit the
+architectural decisions, the spec rationale, and the prompt history from
+this audit. Configure it to record team-level decisions, not just personal
+ones.</div>
+      <p style="margin-top: 14px;">For the team-wide version (Chronicle Team) that aggregates organizational memory across multiple repos and developers, that's part of the PragmaWorks Team subscription. <a href="mailto:juan@pragmaworks.dev?subject=Chronicle%20Team" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> for setup.</p>
+    </div>
+
+    <div class="judgment-note">
+      <strong>What this does not do.</strong> Domain expert review, real user testing, compliance sign-off, aesthetic and strategic decisions — the judgment layer remains yours. PragmaWorks ensures everything before the judgment layer is correct, so your team's judgment is spent only on what it alone can decide. We do the 90% you couldn't get to anyway. You still own the irreducible 10%.
+    </div>
+
+    <div class="help-box">
+      <h3>If you get stuck — or if you want a tech lead in the conversation</h3>
+      <p>For technical questions during the run, your tech lead can take the conversation forward — the prompts above work the same way regardless of who's typing them. For audit interpretation, remediation scope, or a Concierge engagement to handle the work end-to-end, email me directly.</p>
+      <p><a href="mailto:juan@pragmaworks.dev?subject=Leaders%20cookbook%20-%20question">juan@pragmaworks.dev →</a></p>
+      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">For pricing, tiers, and the longer commercial walkthrough: <a href="/teams" style="color: var(--molten); border-color: var(--molten);">pragmaworks.dev/teams</a></p>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/start">Resources</a> ·
+      <a href="/try">Developer Cookbook</a> ·
+      <a href="/teams">Pricing & Tiers</a> ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+    </div>
+
+  </div>
+</body>
+</html>
