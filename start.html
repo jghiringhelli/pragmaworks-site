@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start — PragmaWorks</title>
+<meta name="description" content="Generative Specification: read the paper, score your repo, join the next study, or get in touch.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.1;
+    color: var(--forge-dark);
+    margin-bottom: 14px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--steel);
+    font-style: italic;
+    margin-bottom: 48px;
+  }
+
+  .intro {
+    font-size: 17px;
+    margin-bottom: 56px;
+    color: var(--iron);
+  }
+
+  .intro p { margin-bottom: 14px; }
+
+  .resources { display: grid; gap: 24px; }
+
+  .resource {
+    border: 1px solid #d4cfc4;
+    background: #fff;
+    padding: 24px 28px;
+    border-radius: 4px;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .resource:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .resource h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forge-dark);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .resource h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ember);
+    font-weight: 400;
+  }
+
+  .resource p {
+    font-size: 15px;
+    color: var(--steel);
+    margin-bottom: 14px;
+  }
+
+  .resource a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ember);
+    padding-bottom: 1px;
+  }
+
+  .resource a:hover { color: var(--ember-glow); border-color: var(--ember-glow); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--forge-dark);
+    color: var(--molten);
+    padding: 8px 14px;
+    border-radius: 3px;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid #d4cfc4;
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    .container { padding: 40px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="eyebrow">PragmaWorks · Generative Specification</div>
+    <h1>AI development that doesn't drift.</h1>
+    <div class="subtitle">Four ways to start.</div>
+
+    <div class="intro">
+      <p>Generative Specification is the discipline that lets AI-assisted development run end-to-end without a human reading every generated line. Below are the entry points: read the paper, score one of your repos, join the next practitioner study, or reach me directly.</p>
+    </div>
+
+    <div class="resources">
+
+      <div class="resource">
+        <h2><span class="num">01</span> Read the white paper</h2>
+        <p>The full argument, the formal lineage from Aristotle to today, and the empirical evidence behind Generative Specification. Open access on Zenodo.</p>
+        <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">doi: 10.5281/zenodo.19637142 →</a>
+      </div>
+
+      <div class="resource">
+        <h2><span class="num">02</span> Score one of your repositories</h2>
+        <p>The same scanner used in the practitioner studies. Free, open source, runs locally. Get a 0-14 score across the seven properties on any repo in 10 minutes.</p>
+        <code>npx forgecraft-mcp verify .</code>
+      </div>
+
+      <div class="resource">
+        <h2><span class="num">03</span> Join the next practitioner study (DX2)</h2>
+        <p>If you build with AI assistance and want to participate — and see your own results before publication — enrollment is open. Remote, structured, brief.</p>
+        <a href="mailto:juan@pragmaworks.dev?subject=DX2%20enrollment">Email to enroll →</a>
+      </div>
+
+      <div class="resource">
+        <h2><span class="num">04</span> Talk to me</h2>
+        <p>Working on something specific where this might apply? Want to compare notes on AI-assisted development at your team? Direct line below.</p>
+        <a href="mailto:juan@pragmaworks.dev">juan@pragmaworks.dev →</a>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a> ·
+      <a href="https://www.linkedin.com/in/jcghiri" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</body>
+</html>
