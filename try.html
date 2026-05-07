@@ -317,10 +317,13 @@ stack yourself if I have no preference.</div></div>
 
     <div class="step">
       <div class="step-num">06</div>
-      <div class="step-text"><strong>Optional — verify the harness yourself.</strong> If you're technical and want to feel the discipline working, ask the assistant:
-<div class="prompt-box"><span class="prompt-label">Optional follow-up</span>Run the harness end-to-end. Show me the test results, take screenshots
-of the running app, and confirm everything matches the spec.</div>
-The assistant will spin up the local app, drive it through the use cases, capture screenshots, compare against the spec, and report back. If anything is off, it will tighten the spec and regenerate — not patch the code.</div>
+      <div class="step-text"><strong>Optional — verify the harness yourself.</strong> If you want to feel the discipline working, ask the assistant:
+<div class="prompt-box"><span class="prompt-label">Optional follow-up</span>Run the harness end-to-end. Drive the running app through every use case
+with Playwright, capture screenshots at each boundary, use multimodal AI
+to compare each screenshot against the use-case visual postcondition,
+diff the database state before and after each action, and verify the
+service-layer logs show the expected sequence. Report the results.</div>
+The assistant spins up the local app, drives it through the use cases, takes screenshots, has a vision model compare each screenshot to what the spec says it should look like, runs API endpoint tests via curl, and reports back. If anything is off, it tightens the spec and regenerates — not patches the code. This is what "you stop reading generated code" actually means.</div>
     </div>
 
     <div class="step">
@@ -331,7 +334,7 @@ The assistant will spin up the local app, drive it through the use cases, captur
     <h2 id="brownfield">Path B — You already have a project</h2>
     <div class="h2-sub">~2-4 hours · brownfield</div>
 
-    <p>You inherited a codebase. Or you built one over a year and you're not sure what shape it's in. Or you've been using AI assistance for a few months and you suspect things are quietly degrading. Here's the conversation:</p>
+    <p>You inherited a codebase. Or you built one over a year and you're not sure what shape it's in. Or you've been using AI assistance for a few months and you suspect things are quietly degrading. Or you're staring at a migration to a new stack and trying to figure out the safe path. The same flow handles all of these — the audit tells you where the codebase is today, the remediation plan tells you the path forward, and the after-report shows what changed.</p>
 
     <div class="step">
       <div class="step-num">01</div>
@@ -343,9 +346,19 @@ The assistant will spin up the local app, drive it through the use cases, captur
       <div class="step-text"><strong>Ask it to audit the project.</strong> One prompt:
 <div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use PragmaWorks to audit this project. Find pragmaworks on npm, install
 what you need, run the analysis on a new branch (don't touch main), and
-generate the initial report as a PDF. Cover structural disciplines, the
-GS rubric, test coverage, documentation health, and propose a remediation
-plan I can review before we apply anything.</div></div>
+generate the initial report as both HTML and PDF.
+
+Cover: (1) the seven GS properties — Self-describing, Bounded, Composable,
+Verifiable, Auditable, Defended, Executable — each scored 0-2 with evidence
+and a specific path to improve; (2) which structural disciplines apply
+to this codebase from the catalog (SOLID, TDD, hexagonal, layered, clean
+architecture, etc.) and how it scores against them; (3) test pyramid
+coverage; (4) documentation health and staleness; (5) security and logging
+baseline; (6) a prioritized remediation plan I can review before we apply
+anything.
+
+If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
+file, map your output to those locations rather than overriding them.</div></div>
     </div>
 
     <div class="step">
@@ -429,11 +442,14 @@ This is the moment most people feel what GS actually feels like — a feature ad
 
     <p class="small-note">Everything happens on a branch. Your <code>main</code> is untouched until you decide to merge. The AI does not type — you do, but only into the chat.</p>
 
+    <p class="small-note"><strong>Free for individuals.</strong> The audit and the cookbook flows above are free for personal and small-project use. Commercial use, multi-repo dashboards, team KPIs, Chronicle Team, and remediation orchestration at scale are part of the paid Team and Enterprise tiers — see <a href="/teams" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">pricing</a>.</p>
+
     <div class="help-box">
-      <h3>If you get stuck</h3>
-      <p>Email me directly. I read every message.</p>
+      <h3>If you get stuck — or want a guided run</h3>
+      <p>Email me directly. I read every message and respond personally. If you'd like a live walkthrough of the cookbook with me on a call, just ask.</p>
       <p><a href="mailto:juan@pragmaworks.dev?subject=Stuck%20on%20PragmaWorks%20cookbook">juan@pragmaworks.dev →</a></p>
-      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">If you'd rather skim the underlying tools first: <a href="https://github.com/jghiringhelli/forgecraft-mcp">ForgeCraft</a>, <a href="https://github.com/jghiringhelli/codeseeker">CodeSeeker</a>, <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle</a> — each repo's README explains it in one screen.</p>
+      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">For larger codebases, complex migrations, or teams that want done-for-you remediation: the <a href="/teams" style="color: var(--molten); border-color: var(--molten);">Concierge engagement</a> handles the run end-to-end.</p>
+      <p style="margin-top: 14px; color: var(--ash); font-size: 14px;">If you'd rather skim the underlying tools first: <a href="https://github.com/jghiringhelli/forgecraft-mcp">ForgeCraft</a>, <a href="https://github.com/jghiringhelli/codeseeker">CodeSeeker</a>, <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle</a> — each repo's README explains it in one screen.</p>
     </div>
 
     <div class="footer">
