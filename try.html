@@ -264,16 +264,26 @@
     <p class="lede">No installs. No configs. No CLI commands you have to type. <strong>Open your AI assistant, follow the prompts below, and let it do the work.</strong> An afternoon of conversation gets you something you wouldn't have built any other way — under a discipline that keeps the AI from drifting.</p>
     <p class="lede">Pick the path that fits your situation.</p>
 
-    <div class="path-picker">
+    <div class="path-picker" style="grid-template-columns: 1fr 1fr;">
       <a href="#greenfield">
-        <div class="label">Path A</div>
+        <div class="label">Path A · Greenfield</div>
         <div class="name">Starting from scratch</div>
         <div class="desc">A new idea. Empty folder. You'll have a working project by dinner.</div>
       </a>
       <a href="#brownfield">
-        <div class="label">Path B</div>
+        <div class="label">Path B · Brownfield</div>
         <div class="name">You already have a project</div>
-        <div class="desc">Existing repo. Get an audit, a remediation, and a before/after report.</div>
+        <div class="desc">Existing repo. Audit, remediation, before/after report.</div>
+      </a>
+      <a href="#onboarding">
+        <div class="label">Path C · Onboarding</div>
+        <div class="name">Joining a project</div>
+        <div class="desc">Inherited or returning to a codebase. Get a briefing in an hour.</div>
+      </a>
+      <a href="#migration">
+        <div class="label">Path D · Migration</div>
+        <div class="name">Moving to a new stack</div>
+        <div class="desc">Audit the old, refine the spec, bootstrap the new — all guided.</div>
       </a>
     </div>
 
@@ -415,6 +425,110 @@ This is the moment most people feel what GS actually feels like — a feature ad
       <div class="step-text"><strong>Verify it still works.</strong> Run the project. Click around. The harness verified the contracts; you verify the experience. This is the judgment layer — what only a human can decide. Welcome.</div>
     </div>
 
+    <h2 id="onboarding">Path C — Joining a project</h2>
+    <div class="h2-sub">~1 hour · briefing only, no code changes</div>
+
+    <p>You inherited a codebase. Or you're returning after parental leave. Or you're a consultant taking over a system someone else built. You don't need a full audit yet — you need to know what the project is, how it works, and where to start.</p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text"><strong>Open your AI assistant in the project root.</strong> Same options as paths A and B.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text"><strong>Ask for the onboarding briefing.</strong> One prompt:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim, edit your role/level</span>Use PragmaWorks to onboard me to this project. Find pragmaworks on npm,
+install what you need, run the analysis on a new branch (don't touch
+main), and produce an onboarding briefing as markdown.
+
+My role: [frontend / backend / full-stack / data / devops]
+Experience level: [junior / mid / senior / staff]
+Module I'm starting on: [optional — leave blank if you don't know yet]
+
+The briefing should cover: what this project is in three sentences, the
+architecture in one diagram, the conventions I must respect, what's
+surprising about this codebase, 2-3 first-task suggestions sized for
+my role and experience, and a cheat sheet for getting set up.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text"><strong>Read the briefing.</strong> Markdown file, 4-8 pages. Designed to be read in 20-30 minutes. Architecture diagram, conventions, what surprises new devs, where to start. Cite the files and lines that support each claim — you can verify by reading.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-text"><strong>Pick a first task.</strong> The briefing ends with 2-3 concrete options sized to your role. Pick one. Start.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text"><strong>Optional — for takeover engagements: include team-habit analysis.</strong> If you're a consultant or freelancer adopting a codebase from another team, ask:
+<div class="prompt-box"><span class="prompt-label">Optional</span>Include team-habit analysis in the briefing. Last 90 days of commit
+history: PR review density, regression coverage, AI-bug rate, who's
+been touching what. I want to know who to trust on which areas and
+where the recent fires were.</div></div>
+    </div>
+
+    <p class="small-note">Onboarding mode is <strong>read-only</strong>. It does not propose code changes. If you also want a remediation analysis (what's wrong with this project, what to fix), run Path B separately.</p>
+
+    <h2 id="migration">Path D — Moving to a new stack</h2>
+    <div class="h2-sub">~3-5 hours · existing project → new project</div>
+
+    <p>You're moving an existing system to a new stack, platform, or modernized architecture. Done naively, you reproduce every wart. Done well, you drop unused features, modernize, add NFRs that were missing. This path is the guided version — a three-stage flow: audit the source, refine through a structured conversation, bootstrap the target.</p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text"><strong>Open your AI assistant.</strong> You'll need both repos available — the existing source system and an empty target folder for the new system.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text"><strong>Start the migration.</strong> One prompt:
+<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use PragmaWorks to migrate this project to a new stack. The source
+system is the current folder. The target folder is at: [absolute path
+to empty folder]. Find pragmaworks on npm, install what you need.
+
+Run the migration in three stages: (1) audit the source and extract a
+stack-independent specification; (2) walk me through a refinement
+conversation — what features to drop, what to modernize, what NFRs to
+add, what tech stack to target; (3) bootstrap the target folder with
+the refined specification under GS discipline.
+
+Pause between stages so I can review.</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text"><strong>Stage 1 — Source audit (~30 min).</strong> The AI extracts what the source system actually does into a stack-independent spec. Behavioral contracts, data models, integration points, use cases. Framework-specific implementation notes are separate from the primary spec.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-text"><strong>Stage 2 — Refinement conversation (~1 hour).</strong> The AI walks you through five passes:
+        <ul style="margin: 8px 0 0 22px; font-size: 15px;">
+          <li><strong>Feature triage</strong> — for each feature in the source: keep, drop, modernize?</li>
+          <li><strong>Tech stack decision</strong> — bundled choice, not piecemeal</li>
+          <li><strong>NFR additions</strong> — logging, rate limits, encryption, audit trail</li>
+          <li><strong>Modernization opportunities</strong> — polling → WebSocket, homegrown queue → managed, etc.</li>
+          <li><strong>What stays the same</strong> — preserved API contracts, schemas, regulated logic</li>
+        </ul>
+        <p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">The AI proposes defaults for each. You override what you want. Don't re-confirm the defaults — keep moving.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. forgecraft sets up the cascade tailored to the chosen target stack. The AI generates code under that discipline. T1, T2, T3 done automatically.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-text"><strong>Verify parity.</strong> You now have the new system. Use the harness from Path A's step 6 to drive the new system through the source system's behavioral contracts. Anything that doesn't match is a refinement decision to revisit, not a bug to chase.</div>
+    </div>
+
+    <p class="small-note">If you want a literal port (preserve every wart, change only the stack), say so in step 2 and the AI will skip the refinement conversation entirely. If you want help during the refinement (regulated systems, complex business logic), <a href="mailto:juan@pragmaworks.dev?subject=Migration%20Concierge" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">the Concierge engagement</a> handles the refinement conversation as part of the work.</p>
+
     <h2>What you'll have at the end</h2>
     <div class="h2-sub">both paths</div>
 
@@ -437,6 +551,27 @@ This is the moment most people feel what GS actually feels like — a feature ad
         <li><strong>Optional team-habit report.</strong> A separate PDF showing how the team has been operating.</li>
         <li><strong>Optional Chronicle install.</strong> Future sessions inherit what this one learned.</li>
         <li><strong>Optional new feature.</strong> Built under the same discipline so it doesn't break what already works.</li>
+      </ul>
+    </div>
+
+    <div class="at-the-end">
+      <h3>Path C — Onboarding</h3>
+      <ul>
+        <li><strong>An onboarding briefing.</strong> 4-8 page markdown file: what this project is, the architecture in one diagram, the conventions to respect, what's surprising, where to start.</li>
+        <li><strong>2-3 concrete first-task suggestions</strong> sized to your role and experience level. Each cites the files involved and rough effort estimate.</li>
+        <li><strong>An architectural cheat sheet.</strong> File/folder map, commands, environment setup, "where do I find" answers. Quick reference for week one.</li>
+        <li><strong>Optional team-habit context</strong> if you're doing a takeover. Who to trust on which areas, where the recent fires were.</li>
+      </ul>
+    </div>
+
+    <div class="at-the-end">
+      <h3>Path D — Migration</h3>
+      <ul>
+        <li><strong>A working new system in the target folder.</strong> Generated under GS discipline from a refined version of the source spec.</li>
+        <li><strong>An ADR trail of migration decisions.</strong> What you kept, what you dropped, what you modernized, with rationale. Defensible at the next architecture review.</li>
+        <li><strong>The source system unchanged on its main branch.</strong> Migration audit lands on a separate branch in the source repo.</li>
+        <li><strong>Migration-context document.</strong> The relevant slice of source-system context the new system needs to know about (legacy data shapes, integration contracts, etc.).</li>
+        <li><strong>Optional parity verification.</strong> Run the new system through the source system's behavioral contracts using the harness.</li>
       </ul>
     </div>
 
