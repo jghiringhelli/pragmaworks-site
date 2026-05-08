@@ -182,6 +182,35 @@
     display: block;
   }
 
+  details.manual-variant { margin: 8px 0 16px; }
+  details.manual-variant summary {
+    font-size: 13px; color: var(--smoke); cursor: pointer;
+    font-style: italic; padding: 4px 0;
+  }
+  details.manual-variant summary:hover { color: var(--ember); }
+  details.manual-variant[open] summary { color: var(--steel); }
+  details.manual-variant > .manual-content {
+    margin-top: 10px; padding: 14px 18px;
+    background: #f5f0e8; border-left: 2px solid var(--ash);
+    border-radius: 0 4px 4px 0; font-size: 14px;
+  }
+  details.manual-variant .manual-content code {
+    background: transparent; color: var(--iron);
+    padding: 0; font-size: 13px;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
   .at-the-end {
     background: #fff;
     border: 1px solid var(--ash);
@@ -264,6 +293,8 @@
     <p class="lede">No installs. No configs. No CLI commands you have to type. <strong>Open your AI assistant, follow the prompts below, and let it do the work.</strong> An afternoon of conversation gets you something you wouldn't have built any other way — under a discipline that keeps the AI from drifting.</p>
     <p class="lede">Pick the path that fits your situation.</p>
 
+    <p class="pattern-note">A few steps below have a <em>"Show the pure-GS variant"</em> disclosure underneath them. <strong>Each one shows the same step using only Generative Specification — no PragmaWorks tools.</strong> If you want to see how the discipline works without our tooling, expand those. The body of the cookbook stays focused on the tool-assisted path.</p>
+
     <div class="path-picker" style="grid-template-columns: 1fr 1fr;">
       <a href="#greenfield">
         <div class="label">Path A · Greenfield</div>
@@ -312,7 +343,50 @@ work on my phone, sync across devices, and not require an account to start.</div
 on npm, install what you need, generate the specification first, set up the
 ForgeCraft cascade, then build the project under that discipline. Before you
 start, ask me 2-3 clarifying questions about scope and tech stack — pick the
-stack yourself if I have no preference.</div></div>
+stack yourself if I have no preference.</div>
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same step without our tooling. You'd tell the AI directly to set up the doc-first cascade by hand — there's no install, just a folder layout, two git hooks, and a CI step.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Set up this empty folder for Generative Specification discipline. No
+external tooling, just conventions:
+
+1. Create docs/manifest.yaml referencing the canonical schema at
+   github.com/jghiringhelli/forgecraft-mcp/blob/main/templates/docs-manifest.yaml.
+   Pin a version. Set project.name, project.type (api | library |
+   cli | app), release_phase: greenfield, cascade.feat.severity:
+   warning.
+
+2. Scaffold these directories with one-paragraph README stubs:
+     docs/specs/        what we're building (one file per feature)
+     docs/adrs/active/  decisions in force
+     docs/adrs/done/    superseded decisions, kept for history
+     docs/use-cases/    actor + action + outcome (UC-*.md)
+     docs/roadmaps/active/, docs/roadmaps/done/
+     docs/schemas/      diagrams, JSON Schema, OpenAPI, ER models
+     docs/decisions/    bug-fix one-pagers (YYYY-MM-DD-slug.md)
+     docs/contracts/    NFRs, SLOs, error semantics
+
+3. Add a commit-msg git hook (~10 lines bash) that regex-validates
+   Conventional Commits.
+
+4. Add .claude/hooks/commit-msg-cascade.sh (~30 lines):
+     feat → require any docs/specs/* file is staged
+     fix  → require any test file is staged
+
+5. Add a GitHub Actions workflow that runs the same cascade check
+   on PR diff vs base. Severity warning on day 1; flip to error
+   after a quarterly audit shows no gaps.
+
+6. Add CODEOWNERS so a human reviewer is auto-requested. Configure
+   branch protection on main: required PR + checks before merge.
+
+Then ask me my project idea and write the first spec at
+docs/specs/&lt;slug&gt;.md before any code.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">That's the whole bootstrap. The PragmaWorks tools just make this ergonomic — the discipline is the folder layout plus two hooks.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -322,7 +396,54 @@ stack yourself if I have no preference.</div></div>
 
     <div class="step">
       <div class="step-num">05</div>
-      <div class="step-text"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (specification), Tier 2 (test harness), and Tier 3 (deployment) are done automatically.</div>
+      <div class="step-text"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (specification), Tier 2 (test harness), and Tier 3 (deployment) are done automatically.
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Without our cascade gates wired in, you'd tell the AI the rule explicitly so it never gets ahead of itself. The whole rule is short:</p>
+<div class="prompt-box"><span class="prompt-label">Paste this before any work begins</span>While you build, follow this cascade strictly. The commit type drives
+which docs are required:
+
+  feat: <message>     → must touch a file in docs/specs/. Use cases
+                        in docs/use-cases/ encouraged. ADR
+                        encouraged when a non-obvious architectural
+                        choice is made.
+
+  fix: <message>      → must add or change a regression test that
+                        proves the bug, BEFORE patching the code.
+                        One-pager in docs/decisions/ named
+                        YYYY-MM-DD-slug.md encouraged for non-trivial
+                        interpretations.
+
+  refactor: <message> → ADR encouraged when boundaries move. No spec
+                        change required.
+
+  perf | docs | test | chore | ci → no doc cascade required.
+
+If you change the public API surface (exports, public types, CLI
+flags, HTTP routes, MCP tool schemas), spec OR ADR is required
+regardless of commit type.
+
+Order of operations for a feat:
+  1. Write the spec file first.
+  2. Write or update the use case.
+  3. Generate the code.
+  4. Generate the tests against the use case.
+  5. Run the tests; tighten the spec if anything is off.
+
+Order for a fix:
+  1. Write the failing regression test FIRST. Confirm it fails.
+  2. Patch the code. Confirm the test passes.
+  3. Append a one-paragraph entry to docs/decisions/.
+
+If you cannot articulate the spec, ask me before guessing. If you
+cannot reproduce the bug in a test, say so before patching. End
+every commit with a one-line summary stating which docs were
+touched and why — that line is the audit trail.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">This is what the cascade gates encode. Pasted as a rule, it works almost as well — you just don't get the "block on push" enforcement.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -333,7 +454,53 @@ with Playwright, capture screenshots at each boundary, use multimodal AI
 to compare each screenshot against the use-case visual postcondition,
 diff the database state before and after each action, and verify the
 service-layer logs show the expected sequence. Report the results.</div>
-The assistant spins up the local app, drives it through the use cases, takes screenshots, has a vision model compare each screenshot to what the spec says it should look like, runs API endpoint tests via curl, and reports back. If anything is off, it tightens the spec and regenerates — not patches the code. This is what "you stop reading generated code" actually means.</div>
+The assistant spins up the local app, drives it through the use cases, takes screenshots, has a vision model compare each screenshot to what the spec says it should look like, runs API endpoint tests via curl, and reports back. If anything is off, it tightens the spec and regenerates — not patches the code. This is what "you stop reading generated code" actually means.
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same step described in one prompt. The AI drives Playwright, takes screenshots, uses its own vision capabilities to compare each shot to the spec's visual postcondition, and inspects logs and DB state. No orchestration tool required.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Verify the harness end-to-end without external orchestration. Use only:
+Playwright (or your stack's equivalent), the running local app, your
+own vision capabilities, and direct DB / log access.
+
+For each file matching docs/use-cases/UC-*.md:
+
+  1. Read the use case. Extract: actor, preconditions, steps,
+     expected visual postcondition, expected database state
+     after each step, expected log lines.
+
+  2. Spin up the app on a known port. Reset the database to a
+     known seed.
+
+  3. Drive the steps with Playwright. Capture a full-page
+     screenshot after each step.
+
+  4. Compare each screenshot against the visual postcondition
+     described in the use case using your own vision. Produce
+     a structured comparison: matched / partially matched /
+     missing / unexpected. Cite the pixel regions you're basing
+     each claim on so I can spot-check.
+
+  5. Diff the database state before and after each action.
+     Confirm the expected rows were created / updated / deleted.
+
+  6. Tail the application log during the run. Confirm the
+     expected sequence of service-layer events appears.
+
+  7. For API-only use cases, run curl or hurl against the
+     endpoints and compare the response body to the contract.
+
+Report results as a markdown table:
+  | UC ID | visual | db | logs | overall | first failing line |
+
+For any failure, propose a SPEC TIGHTENING — not a code patch.
+Say which line of which spec or use case needs to be more precise
+so the next generation gets it right. Tightening the spec is the
+only legal fix; reaching into the code to patch a symptom is not.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">This is the multimodal-AI-as-QA pattern. The PragmaWorks harness automates the loop and persists the test corpus; the prompt gets you 80% of the value once.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -368,7 +535,60 @@ baseline; (6) a prioritized remediation plan I can review before we apply
 anything.
 
 If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
-file, map your output to those locations rather than overriding them.</div></div>
+file, map your output to those locations rather than overriding them.</div>
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same step without any tooling. You're naming the seven properties and the structural-discipline catalog explicitly so two independent runs land within ±1 — that's what makes the rubric reproducible.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Audit this project without any external tooling. Read the codebase,
+docs, tests, CI config, and git log. Produce a markdown report at
+reports/audit-initial.md covering:
+
+(1) The seven Generative Specification properties, each scored
+    0/1/2 with cited file:line evidence and one specific path to
+    improve:
+      - Self-describing  — specs and ADRs explain intent without
+                           needing the author present
+      - Bounded          — modules, files, and functions stay
+                           within size discipline
+      - Composable       — pieces compose without hidden coupling
+      - Verifiable       — tests bind specs to behavior
+      - Auditable        — commits, ADRs, and decisions trace
+                           why each change happened
+      - Defended         — security baseline, input validation,
+                           secrets handling
+      - Executable       — use cases run; specs are not just prose
+
+    Run the rubric twice on independent passes. Report any
+    divergence above 1 point — that flags a property where the
+    evidence is too thin.
+
+(2) Which structural disciplines apply from the catalog (SOLID,
+    TDD, hexagonal, layered, clean architecture, CQRS,
+    ports-and-adapters). Score applicable / partial / n-a with
+    evidence.
+
+(3) Documentation health: which docs are stale (no commit in
+    90+ days while the code beneath them changed), which are
+    missing, which are duplicated.
+
+(4) Test pyramid coverage: unit / integration / e2e ratios.
+    Identify the layer most under-served.
+
+(5) Security and logging baseline: secrets handling, input
+    validation, what's logged at the trust boundary, where the
+    boundary is.
+
+(6) Prioritized remediation plan: 8-15 items, each with effort
+    (S/M/L), risk, and ordering rationale.
+
+Do not apply any remediation in this pass. Cite files and line
+numbers liberally; the report should be reproducible by anyone
+who can read the codebase.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">The PragmaWorks audit packages this prompt with PDF rendering, sister-repo cross-checks, and continuity across runs. The prompt alone gets you the report.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -382,7 +602,46 @@ file, map your output to those locations rather than overriding them.</div></div
 <div class="prompt-box"><span class="prompt-label">Paste this</span>The plan looks right. Apply it on the same branch. Pause before any
 change that would touch the database schema or the public API — ask
 me first on those.</div>
-You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing tests for past bugs to prevent regression, and pausing where you said to pause.</div>
+You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing tests for past bugs to prevent regression, and pausing where you said to pause.
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Without our cascade gates, you'd hand the AI the rule before it changes any code. The cascade is what keeps remediation from becoming "AI patches symptoms quietly."</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Apply the remediation plan one item at a time, under this cascade
+discipline:
+
+For every commit:
+  - Use Conventional Commits (feat / fix / refactor / perf /
+    docs / test / chore / ci / revert).
+  - feat → write or update a spec in docs/specs/ BEFORE changing
+    code. Encouraged: matching use case in docs/use-cases/.
+  - fix → write a failing regression test FIRST, confirm it
+    fails, fix the code, confirm it passes. Encouraged: one-pager
+    in docs/decisions/ named YYYY-MM-DD-slug.md.
+  - refactor → if module boundaries move, write an ADR in
+    docs/adrs/active/ before changing code.
+  - Public surface change (exports, public types, CLI flags,
+    HTTP routes) → spec OR ADR required regardless of commit
+    type.
+
+Process the remediation list in priority order. Pause and ask
+me before any of:
+  - Database schema change
+  - Public API change
+  - Anything crossing more than 10 files in a single commit
+
+After each item, append a one-line entry to
+reports/remediation-log.md with: date, commit hash, which docs
+were touched, what risk you weighed, what test you added. This
+log is the audit trail; do not skip a row.
+
+If the cascade rule and the remediation plan ever conflict, the
+cascade rule wins — pause and ask me how to reshape the
+remediation step.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">PragmaWorks enforces this at commit/PR time. The prompt encodes the same rule into the AI's working context — close enough for one-shot remediation runs.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -392,7 +651,50 @@ You set the boundaries. The assistant works through the plan one item at a time,
 before/after comparison: coverage delta, structural discipline scores
 delta, GS rubric delta, regression tests added for past bugs, documentation
 updates. Include charts.</div>
-A second PDF lands. Side-by-side numbers. Charts. The receipts of what changed.</div>
+A second PDF lands. Side-by-side numbers. Charts. The receipts of what changed.
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same step in markdown rather than PDF. You spell out the delta format you want so the AI doesn't get creative with the layout.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Generate the after-report at reports/audit-final.md as a side-by-side
+delta of the initial audit. Use this exact structure so a reader can
+diff it against the initial report by eye:
+
+For each of the seven GS properties:
+  | Property | Initial | Final | Δ | Evidence of change (file:line) |
+
+For structural disciplines:
+  | Discipline | Initial | Final | Δ | What moved |
+
+Test pyramid:
+  | Layer | Initial count | Final count | Δ | Critical paths now
+                                              covered |
+
+Documentation health:
+  - Stale docs refreshed: list with file paths and the date they
+    were last touched before this round
+  - New docs added: list
+  - Docs deleted as redundant: list
+
+Regression tests added:
+  | Past bug (link or hash) | Test file | What invariant it now
+                                          protects |
+
+Render simple ASCII bar charts inline for each numeric delta
+section so a reader skimming the markdown gets the picture
+without a viewer. Example shape:
+
+  Verifiable:  initial 0 [          ] →  final 2 [██████████]
+  Bounded:     initial 1 [█████     ] →  final 2 [██████████]
+
+Keep the report under 1500 words. Cite file:line for every
+non-trivial claim. The reader should be able to verify any
+claim by clicking through to a file or running a grep — no
+appeals to authority, no "we improved this" without evidence.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">The PragmaWorks after-report renders to PDF with charts and is signed against the initial report. The prompt gets you the same content in markdown — sufficient for an internal review.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">

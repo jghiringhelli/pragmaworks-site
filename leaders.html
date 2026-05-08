@@ -150,6 +150,23 @@
     display: block;
   }
 
+  details.manual-variant { margin: 8px 0 16px; }
+  details.manual-variant summary {
+    font-size: 13px; color: var(--smoke); cursor: pointer;
+    font-style: italic; padding: 4px 0;
+  }
+  details.manual-variant summary:hover { color: var(--ember); }
+  details.manual-variant[open] summary { color: var(--steel); }
+  details.manual-variant > .manual-content {
+    margin-top: 10px; padding: 14px 18px;
+    background: #f5f0e8; border-left: 2px solid var(--ash);
+    border-radius: 0 4px 4px 0; font-size: 14px;
+  }
+  details.manual-variant .manual-content code {
+    background: transparent; color: var(--iron);
+    padding: 0; font-size: 13px;
+  }
+
   .what-you-get {
     background: #fff;
     border: 1px solid var(--ash);
@@ -312,7 +329,49 @@ apply anything.
 If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
 file, map your output to those locations rather than overriding them.
 
-Format the output for a manager-readable report.</div></div>
+Format the output for a manager-readable report.</div>
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same step without our orchestration. The leadership-grade audit is just a longer prompt — the rubric is fully nameable, which is what makes the result reproducible across two independent runs (the test for "is this an opinion or a measurement").</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Audit this project for engineering leadership. Read the codebase, docs,
+tests, CI config, and git log. Produce a manager-readable markdown
+report at reports/audit-initial.md that I could hand a CTO or a board
+member without translation. Cover:
+
+(1) The seven Generative Specification properties, each scored 0/1/2
+    with cited file:line evidence and one specific path to improve:
+    Self-describing, Bounded, Composable, Verifiable, Auditable,
+    Defended, Executable. Score each on TWO independent passes and
+    report any divergence — the rubric is reproducible only when two
+    passes land within ±1. Where they don't, name the property and
+    explain why the evidence is thin.
+
+(2) Which structural disciplines apply (SOLID, TDD, hexagonal,
+    layered, clean architecture, CQRS, ports-and-adapters). Score
+    each as applicable / partial / n-a with cited evidence.
+
+(3) Documentation health: stale (90+ days unchanged while code
+    underneath shifted), missing, duplicated.
+
+(4) Test pyramid coverage: unit / integration / e2e ratios with the
+    weakest layer flagged.
+
+(5) Security and logging baseline: secrets handling, input
+    validation, audit trail, what's logged at the trust boundary.
+
+(6) Prioritized remediation plan: 8-15 items. For each: effort
+    (S/M/L), risk (low/med/high), ordering rationale. Group as
+    "this quarter" / "next quarter" / "won't fix unless triggered."
+
+Tone: direct, quantitative, no jargon without definition. The reader
+should not need to understand the codebase to act on the report.
+Open with a one-page executive summary; put the detail behind it.
+Do not apply any remediation in this pass.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">The PragmaWorks audit packages this with PDF rendering, the structural-discipline catalog, and continuity across runs. The prompt alone gets you a manager-grade report.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -329,7 +388,54 @@ AI-introduced bug rate (detect commits with AI-assisted authorship signals
 and correlate with subsequent bug fixes), commit-size distribution, and
 collaboration graph across team members. Output as a separate PDF with
 charts.</div>
-<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">If your team has been using AI assistance for the last few months, the AI-bug rate chart is often the most useful single image you can show a leadership audience. It quantifies what you've suspected.</p></div>
+<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">If your team has been using AI assistance for the last few months, the AI-bug rate chart is often the most useful single image you can show a leadership audience. It quantifies what you've suspected.</p>
+
+<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Same analysis computed directly from <code>git log</code>. The signals are visible to anyone with read access to the repo — our analyzer just packages them. Ask the AI to compute them and cite each <code>git log</code> query so a skeptic can reproduce.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Compute team-habit signals from the last 90 days of git history.
+Produce a markdown report at reports/team-habits.md with these
+sections, each backed by the `git log` query you actually ran (cite
+the exact command in a footnote so I can reproduce):
+
+1. PR review density. Ratio of commits that landed on main via a PR
+   with at least one human reviewer comment vs commits that landed
+   directly. Per-author breakdown. Flag authors below 0.5 and authors
+   above 0.95 (no review vs over-review).
+
+2. Regression test coverage. For each `fix:` commit, was a test added
+   or modified in the same commit (look for files matching
+   test/, *.test.*, *.spec.*, __tests__/)? Report the percentage and
+   list the fix commits with no test added. This is the single best
+   leading indicator of "are we calcifying our bugs."
+
+3. AI-introduced bug rate. Identify commits authored with AI
+   assistance signals: Co-Authored-By trailers naming Claude / Copilot
+   / Cursor / Codeium, "🤖 Generated with" footers, distinctive
+   commit-message patterns. For each, check whether a `fix:` commit
+   referencing the same files landed within 14 days. Report the rate.
+   List the commits.
+
+4. Commit-size distribution. Histogram of changed lines per commit
+   (buckets: 0-50, 51-200, 201-500, 501-1000, 1000+). Flag the
+   long tail and name authors who appear in the 1000+ bucket
+   repeatedly — large commits are where AI drift hides.
+
+5. Collaboration graph. Who reviewed whom; who pairs on which
+   modules. Build it from PR review participation; render as a
+   markdown adjacency table with weights (number of PR reviews
+   between each pair).
+
+For each metric include a one-line interpretation pitched at a
+manager: "PR review density of 0.62 means 38% of commits skipped
+human review — investigate or set a policy." End with three
+concrete next-step recommendations sized to a sprint.
+
+Keep the report under 2000 words.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">PragmaWorks renders these as charts in a PDF and tracks deltas across quarters. The prompt computes them once for a single read.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="step">
@@ -370,6 +476,51 @@ architectural decisions, the spec rationale, and the prompt history from
 this audit. Configure it to record team-level decisions, not just personal
 ones.</div>
       <p style="margin-top: 14px;">For the team-wide version (Chronicle Team) that aggregates organizational memory across multiple repos and developers, that's part of the PragmaWorks Team subscription. <a href="mailto:juan@pragmaworks.dev?subject=Chronicle%20Team" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> for setup.</p>
+
+<details class="manual-variant" style="margin-top: 18px;"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<div class="manual-content">
+<p>Chronicle is a project-scoped persistent memory for AI sessions — what was decided, why, and what conventions emerged. You can self-document the same memory using only files in the repo. It's coarser than the tool, but the discipline travels.</p>
+<div class="prompt-box"><span class="prompt-label">Paste this</span>Set up a pure-prompt persistent project memory without installing any
+tooling. The goal: the next AI session in this repo should inherit the
+architectural decisions, the audit findings, and the team conventions
+from this session.
+
+Create the following files:
+
+1. .ai/memory/decisions.md — append-only log of architectural and
+   organizational decisions. One entry per decision: date, decision,
+   rationale, alternatives considered, who decided. Seed it with the
+   decisions captured during this audit and remediation.
+
+2. .ai/memory/conventions.md — team conventions extracted from the
+   codebase: naming, file layout, error handling, logging format,
+   test style, commit-message style. One section per convention,
+   with a citation to a representative file:line.
+
+3. .ai/memory/prompts.md — the prompts that drove this audit, the
+   remediation plan, and the after-report. Future sessions can replay
+   the relevant ones to re-establish context without me re-typing.
+
+4. .ai/memory/glossary.md — domain terms with definitions. One line
+   per term, anchored to where it first appears in the codebase.
+
+5. CLAUDE.md (or AGENTS.md, or whatever convention this team uses)
+   at the repo root. Short header that points future AI sessions at
+   .ai/memory/ as their first read. List the four files above and
+   what each contains. Three lines max per item.
+
+The session-end convention from now on: append any new decisions to
+decisions.md, any new conventions to conventions.md, and the
+session's notable prompts to prompts.md. Treat this as a non-negotiable
+closing step, the same way a doctor writes up rounds.
+
+Print a one-paragraph "what changed" summary so I can paste it into
+the team chat — that's the human handoff that the file convention
+on its own can't replace.</div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">Chronicle automates this loop, queries it semantically, and shares it across sessions and machines. The file convention gets you the discipline without the tool — sufficient for a single repo and a single contributor.</p>
+</div>
+</details>
+</div>
     </div>
 
     <div class="judgment-note">
