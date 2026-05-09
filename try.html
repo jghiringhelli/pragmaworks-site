@@ -396,7 +396,7 @@ docs/specs/&lt;slug&gt;.md before any code.</div>
 
     <div class="step">
       <div class="step-num">05</div>
-      <div class="step-text"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (specification), Tier 2 (test harness), and Tier 3 (deployment) are done automatically.
+      <div class="step-text"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (Development — spec, code, and the dev-time harness inside one cycle) and Tier 2 (Staging — deployment scripts derived from spec) are done automatically.
 
 <details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
 <div class="manual-content">
@@ -821,7 +821,7 @@ Pause between stages so I can review.</div></div>
 
     <div class="step">
       <div class="step-num">05</div>
-      <div class="step-text"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. forgecraft sets up the cascade tailored to the chosen target stack. The AI generates code under that discipline. T1, T2, T3 done automatically.</div>
+      <div class="step-text"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. forgecraft sets up the cascade tailored to the chosen target stack. The AI generates code under that discipline. T1 and T2 done automatically.</div>
     </div>
 
     <div class="step">
@@ -839,7 +839,7 @@ Pause between stages so I can review.</div></div>
       <ul>
         <li><strong>A working project.</strong> Code, tests, deployment scripts, all derived from a written specification.</li>
         <li><strong>A specification you can hand to anyone.</strong> Use cases, ADRs, behavioral contracts, AI behavioral rules. The next session knows what to do without you in the room.</li>
-        <li><strong>Tier 1, 2, and 3 done.</strong> Spec, test harness, deployment infrastructure — all under discipline.</li>
+        <li><strong>Tier 1 and 2 done.</strong> Spec, code, dev-time harness, and deployment infrastructure — all under discipline.</li>
         <li><strong>An optional path forward.</strong> Add features by conversation. Each one tightens the spec.</li>
       </ul>
     </div>
