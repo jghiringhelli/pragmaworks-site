@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookbook — PragmaWorks</title>
+<meta name="description" content="The PragmaWorks Cookbook. Pick the recipe that fits your situation: greenfield, brownfield audit, onboarding, migration, or team lead.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.1;
+    color: var(--forge-dark);
+    margin-bottom: 18px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--steel);
+    font-style: italic;
+    margin-bottom: 32px;
+  }
+
+  .lede {
+    font-size: 17px;
+    margin-bottom: 16px;
+    color: var(--iron);
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  .lede a {
+    color: var(--ember);
+    border-bottom: 1px solid var(--ember);
+    text-decoration: none;
+    padding-bottom: 1px;
+  }
+  .lede a:hover { color: var(--ember-glow); border-color: var(--ember-glow); }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin: 56px 0 18px;
+  }
+
+  .recipes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 12px;
+  }
+
+  .recipe {
+    display: block;
+    border: 1px solid #d4cfc4;
+    background: #fff;
+    padding: 22px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .recipe:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .recipe .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .recipe .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forge-dark);
+    margin-bottom: 6px;
+  }
+
+  .recipe .desc {
+    font-size: 14px;
+    color: var(--steel);
+    line-height: 1.5;
+  }
+
+  .deeper {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid #d4cfc4;
+  }
+
+  .deeper ul {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .deeper li {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .deeper a {
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .deeper a:hover { border-color: var(--ember); }
+
+  .deeper .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--smoke);
+    margin-left: 6px;
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid #d4cfc4;
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    .container { padding: 40px 20px 60px; }
+    .recipes { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="eyebrow">PragmaWorks · The Cookbook</div>
+    <h1>Pick the recipe.</h1>
+    <div class="subtitle">An afternoon of conversation gets you something you wouldn't have built any other way.</div>
+
+    <p class="lede">
+      <strong>Generative Specification</strong> is the discipline that lets AI-assisted development run end-to-end without drift — without someone reading every line of generated code to catch the AI's mistakes. The idea: <em>the spec is the work; the code is what derives from it</em>. State your intent precisely enough and the formal tradition that took two and a half millennia to build — type systems, contracts, lattices, session types — runs against your project automatically.
+    </p>
+
+    <p class="lede">
+      The cookbook is the practical side. <strong>You don't need to read the white paper to use it</strong> — pick the recipe that matches your situation, follow the prompts, and your AI assistant will walk you through the rest. If you want to go deeper after, the links at the bottom take you to the theory.
+    </p>
+
+    <div class="section-title">Recipes</div>
+
+    <div class="recipes">
+
+      <a href="/try#greenfield" class="recipe">
+        <div class="label">Path A · Developer</div>
+        <div class="name">Starting from scratch</div>
+        <div class="desc">A new idea, an empty folder. Have a runnable project under discipline by dinner.</div>
+      </a>
+
+      <a href="/try#brownfield" class="recipe">
+        <div class="label">Path B · Developer</div>
+        <div class="name">You have an existing project</div>
+        <div class="desc">Audit, remediation, before/after report. Find out what's drifting and close the gaps.</div>
+      </a>
+
+      <a href="/try#onboarding" class="recipe">
+        <div class="label">Path C · Developer</div>
+        <div class="name">Joining a codebase</div>
+        <div class="desc">Inherited or returning to a project. Get a structured briefing in about an hour.</div>
+      </a>
+
+      <a href="/try#migration" class="recipe">
+        <div class="label">Path D · Developer</div>
+        <div class="name">Moving to a new stack</div>
+        <div class="desc">Audit the old, refine what stays, bootstrap the new — judgment-gated.</div>
+      </a>
+
+      <a href="/leaders" class="recipe">
+        <div class="label">Path E · Team Lead</div>
+        <div class="name">You manage the team</div>
+        <div class="desc">You need the audit, the team-habit analysis, and the diff — not the implementation work.</div>
+      </a>
+
+      <a href="/teams" class="recipe">
+        <div class="label">Pricing</div>
+        <div class="name">Team licenses & concierge</div>
+        <div class="desc">Free trial, team tier, enterprise, and concierge engagement options.</div>
+      </a>
+
+    </div>
+
+    <div class="deeper">
+      <div class="section-title">Want to go deeper?</div>
+      <ul>
+        <li><a href="https://doi.org/10.5281/zenodo.19637142">The white paper</a><span class="meta">— full argument, formal lineage, empirical evidence (Zenodo)</span></li>
+        <li><a href="/start">After the talk</a><span class="meta">— if you saw a presentation and want the four follow-up actions</span></li>
+        <li><a href="https://github.com/jghiringhelli/pragmaworks">PragmaWorks on GitHub</a><span class="meta">— the source, the skills, the prompts, the manifest</span></li>
+        <li><a href="https://forgeworkshop.dev">forgeworkshop.dev</a><span class="meta">— The Forge: workshops, training, the practice</span></li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a> ·
+      <a href="https://www.linkedin.com/in/jcghiri" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+  </div>
+</body>
+</html>
