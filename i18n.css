@@ -1,0 +1,52 @@
+/* PragmaWorks bilingual styles
+ * Companion to i18n.js. Hides the inactive language via html[lang]
+ * attribute selectors. Each translatable element is wrapped:
+ *   <span lang="en">English</span><span lang="es">Español</span>
+ * Only the active-language span renders; the other is display:none.
+ */
+
+html[lang="en"] [lang="es"] { display: none; }
+html[lang="es"] [lang="en"] { display: none; }
+
+/* Language toggle button — fixed top-right, always reachable */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 4px;
+  z-index: 100;
+}
+.lang-toggle button {
+  background: transparent;
+  border: 1px solid #d4cfc4;
+  color: #8E8E93;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+.lang-toggle button:hover {
+  border-color: #C44B1A;
+  color: #C44B1A;
+}
+.lang-toggle button.active {
+  background: #C44B1A;
+  border-color: #C44B1A;
+  color: #F5F0E8;
+}
+
+@media (max-width: 600px) {
+  .lang-toggle { top: 12px; right: 12px; }
+  .lang-toggle button { padding: 4px 8px; font-size: 10px; }
+}
+
+/* Hide the toggle when printing — language is locked by the time
+ * the user prints (or saves as PDF), no reason to show the chooser */
+@media print {
+  .lang-toggle { display: none; }
+}

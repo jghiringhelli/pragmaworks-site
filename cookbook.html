@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookbook — PragmaWorks</title>
-<meta name="description" content="The PragmaWorks Cookbook. Pick the recipe that fits your situation: greenfield, brownfield audit, onboarding, migration, or team lead.">
+<title data-en="Cookbook — PragmaWorks" data-es="Recetario — PragmaWorks">Cookbook — PragmaWorks</title>
+<meta name="description"
+  data-en="The PragmaWorks Cookbook. Pick the recipe that fits your situation: greenfield, brownfield audit, onboarding, migration, or team lead."
+  data-es="El Recetario de PragmaWorks. Escoge la receta que encaja con tu situación: proyecto nuevo, auditoría de código existente, onboarding, migración, o tech lead."
+  content="The PragmaWorks Cookbook. Pick the recipe that fits your situation: greenfield, brownfield audit, onboarding, migration, or team lead.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
 <style>
   :root {
     --ember:       #C44B1A;
@@ -181,76 +189,196 @@
 
   @media (max-width: 600px) {
     h1 { font-size: 32px; }
-    .container { padding: 40px 20px 60px; }
+    .container { padding: 60px 20px 60px; }
     .recipes { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
   <div class="container">
 
-    <div class="eyebrow">PragmaWorks · The Cookbook</div>
-    <h1>Pick the recipe.</h1>
-    <div class="subtitle">An afternoon of conversation gets you something you wouldn't have built any other way.</div>
+    <div class="eyebrow">
+      <span lang="en">PragmaWorks · The Cookbook</span>
+      <span lang="es">PragmaWorks · El Recetario</span>
+    </div>
+    <h1>
+      <span lang="en">Pick the recipe.</span>
+      <span lang="es">Escoge la receta.</span>
+    </h1>
+    <div class="subtitle">
+      <span lang="en">An afternoon of conversation gets you something you wouldn't have built any other way.</span>
+      <span lang="es">Una tarde de conversación te entrega algo que no habrías construido de ninguna otra forma.</span>
+    </div>
 
     <p class="lede">
-      <strong>Generative Specification</strong> is the discipline that lets AI-assisted development run end-to-end without drift — without someone reading every line of generated code to catch the AI's mistakes. The idea: <em>the spec is the work; the code is what derives from it</em>. State your intent precisely enough and the formal tradition that took two and a half millennia to build — type systems, contracts, lattices, session types — runs against your project automatically.
+      <span lang="en"><strong>Generative Specification</strong> is the discipline that lets AI-assisted development run end-to-end without drift — without someone reading every line of generated code to catch the AI's mistakes. The idea: <em>the spec is the work; the code is what derives from it</em>. State your intent precisely enough and the formal tradition that took two and a half millennia to build — type systems, contracts, lattices, session types — runs against your project automatically.</span>
+      <span lang="es"><strong>La Especificación Generativa</strong> es la disciplina que permite que el desarrollo con IA funcione de extremo a extremo sin desviarse — sin que alguien tenga que leer cada línea generada para cazar errores. La idea: <em>la especificación es el trabajo; el código es lo que se deriva de ella</em>. Declara tu intención con suficiente precisión y la tradición formal de dos mil quinientos años — sistemas de tipos, contratos, retículos, tipos de sesión — corre automáticamente sobre tu proyecto.</span>
     </p>
 
     <p class="lede">
-      The cookbook is the practical side. <strong>You don't need to read the white paper to use it</strong> — pick the recipe that matches your situation, follow the prompts, and your AI assistant will walk you through the rest. If you want to go deeper after, the links at the bottom take you to the theory.
+      <span lang="en">The cookbook is the practical side. <strong>You don't need to read the white paper to use it</strong> — pick the recipe that matches your situation, follow the prompts, and your AI assistant will walk you through the rest. If you want to go deeper after, the links at the bottom take you to the theory.</span>
+      <span lang="es">El recetario es el lado práctico. <strong>No necesitas leer el white paper para usarlo</strong> — escoge la receta que encaja con tu situación, sigue las indicaciones, y tu asistente de IA te lleva por el resto. Si después quieres profundizar, los enlaces de abajo te llevan a la teoría.</span>
     </p>
 
-    <div class="section-title">Recipes</div>
+    <div class="section-title">
+      <span lang="en">Recipes</span>
+      <span lang="es">Recetas</span>
+    </div>
 
     <div class="recipes">
 
       <a href="/try#greenfield" class="recipe">
-        <div class="label">Path A · Developer</div>
-        <div class="name">Starting from scratch</div>
-        <div class="desc">A new idea, an empty folder. Have a runnable project under discipline by dinner.</div>
+        <div class="label">
+          <span lang="en">Path A · Developer</span>
+          <span lang="es">Camino A · Desarrollador</span>
+        </div>
+        <div class="name">
+          <span lang="en">Starting from scratch</span>
+          <span lang="es">Empezar desde cero</span>
+        </div>
+        <div class="desc">
+          <span lang="en">A new idea, an empty folder. Have a runnable project under discipline by dinner.</span>
+          <span lang="es">Una idea nueva, una carpeta vacía. Ten un proyecto funcionando bajo disciplina para la cena.</span>
+        </div>
       </a>
 
       <a href="/try#brownfield" class="recipe">
-        <div class="label">Path B · Developer</div>
-        <div class="name">You have an existing project</div>
-        <div class="desc">Audit, remediation, before/after report. Find out what's drifting and close the gaps.</div>
+        <div class="label">
+          <span lang="en">Path B · Developer</span>
+          <span lang="es">Camino B · Desarrollador</span>
+        </div>
+        <div class="name">
+          <span lang="en">You have an existing project</span>
+          <span lang="es">Ya tienes un proyecto existente</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Audit, remediation, before/after report. Find out what's drifting and close the gaps.</span>
+          <span lang="es">Auditoría, remediación, reporte antes/después. Descubre qué se está desviando y cierra las brechas.</span>
+        </div>
       </a>
 
       <a href="/try#onboarding" class="recipe">
-        <div class="label">Path C · Developer</div>
-        <div class="name">Joining a codebase</div>
-        <div class="desc">Inherited or returning to a project. Get a structured briefing in about an hour.</div>
+        <div class="label">
+          <span lang="en">Path C · Developer</span>
+          <span lang="es">Camino C · Desarrollador</span>
+        </div>
+        <div class="name">
+          <span lang="en">Joining a codebase</span>
+          <span lang="es">Llegando a una base de código</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Inherited or returning to a project. Get a structured briefing in about an hour.</span>
+          <span lang="es">Heredada o regresando a un proyecto. Obtén un briefing estructurado en cerca de una hora.</span>
+        </div>
       </a>
 
       <a href="/try#migration" class="recipe">
-        <div class="label">Path D · Developer</div>
-        <div class="name">Moving to a new stack</div>
-        <div class="desc">Audit the old, refine what stays, bootstrap the new — judgment-gated.</div>
+        <div class="label">
+          <span lang="en">Path D · Developer</span>
+          <span lang="es">Camino D · Desarrollador</span>
+        </div>
+        <div class="name">
+          <span lang="en">Moving to a new stack</span>
+          <span lang="es">Migrando a un nuevo stack</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Audit the old, refine what stays, bootstrap the new — judgment-gated.</span>
+          <span lang="es">Audita lo viejo, refina lo que queda, arranca lo nuevo — con juicio humano en cada decisión.</span>
+        </div>
       </a>
 
       <a href="/leaders" class="recipe">
-        <div class="label">Path E · Team Lead</div>
-        <div class="name">You manage the team</div>
-        <div class="desc">You need the audit, the team-habit analysis, and the diff — not the implementation work.</div>
+        <div class="label">
+          <span lang="en">Path E · Team Lead</span>
+          <span lang="es">Camino E · Tech Lead</span>
+        </div>
+        <div class="name">
+          <span lang="en">You manage the team</span>
+          <span lang="es">Diriges al equipo</span>
+        </div>
+        <div class="desc">
+          <span lang="en">You need the audit, the team-habit analysis, and the diff — not the implementation work.</span>
+          <span lang="es">Necesitas la auditoría, el análisis de hábitos del equipo, y el delta — no el trabajo de implementación.</span>
+        </div>
       </a>
 
       <a href="/teams" class="recipe">
-        <div class="label">Pricing</div>
-        <div class="name">Team licenses & concierge</div>
-        <div class="desc">Free trial, team tier, enterprise, and concierge engagement options.</div>
+        <div class="label">
+          <span lang="en">Pricing</span>
+          <span lang="es">Precios</span>
+        </div>
+        <div class="name">
+          <span lang="en">Team licenses & concierge</span>
+          <span lang="es">Licencias de equipo y concierge</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Free trial, team tier, enterprise, and concierge engagement options.</span>
+          <span lang="es">Prueba gratis, tier de equipo, enterprise, y opciones de engagement de concierge.</span>
+        </div>
       </a>
 
     </div>
 
     <div class="deeper">
-      <div class="section-title">Want to go deeper?</div>
+      <div class="section-title">
+        <span lang="en">Want to go deeper?</span>
+        <span lang="es">¿Quieres profundizar?</span>
+      </div>
       <ul>
-        <li><a href="https://doi.org/10.5281/zenodo.19637142">The white paper</a><span class="meta">— full argument, formal lineage, empirical evidence (Zenodo)</span></li>
-        <li><a href="/start">After the talk</a><span class="meta">— if you saw a presentation and want the four follow-up actions</span></li>
-        <li><a href="https://github.com/jghiringhelli/pragmaworks">PragmaWorks on GitHub</a><span class="meta">— the source, the skills, the prompts, the manifest</span></li>
-        <li><a href="https://github.com/jghiringhelli/generative-specification/blob/main/docs/repository-discipline.md">Repository Discipline</a><span class="meta">— the tool-agnostic mechanical reference; what to do without any tooling installed</span></li>
-        <li><a href="https://forgeworkshop.dev">forgeworkshop.dev</a><span class="meta">— The Forge: workshops, training, the practice</span></li>
+        <li>
+          <a href="https://doi.org/10.5281/zenodo.19637142">
+            <span lang="en">The white paper</span>
+            <span lang="es">El white paper</span>
+          </a>
+          <span class="meta">
+            <span lang="en">— full argument, formal lineage, empirical evidence (Zenodo)</span>
+            <span lang="es">— argumento completo, linaje formal, evidencia empírica (Zenodo)</span>
+          </span>
+        </li>
+        <li>
+          <a href="/start">
+            <span lang="en">After the talk</span>
+            <span lang="es">Después de la charla</span>
+          </a>
+          <span class="meta">
+            <span lang="en">— if you saw a presentation and want the four follow-up actions</span>
+            <span lang="es">— si viste una presentación y quieres las cuatro acciones de seguimiento</span>
+          </span>
+        </li>
+        <li>
+          <a href="https://github.com/jghiringhelli/pragmaworks">
+            <span lang="en">PragmaWorks on GitHub</span>
+            <span lang="es">PragmaWorks en GitHub</span>
+          </a>
+          <span class="meta">
+            <span lang="en">— the source, the skills, the prompts, the manifest</span>
+            <span lang="es">— el código fuente, las skills, los prompts, el manifest</span>
+          </span>
+        </li>
+        <li>
+          <a href="https://github.com/jghiringhelli/generative-specification/blob/main/docs/repository-discipline.md">
+            <span lang="en">Repository Discipline</span>
+            <span lang="es">Disciplina del Repositorio</span>
+          </a>
+          <span class="meta">
+            <span lang="en">— the tool-agnostic mechanical reference; what to do without any tooling installed</span>
+            <span lang="es">— la referencia mecánica agnóstica de herramientas; qué hacer sin nada instalado</span>
+          </span>
+        </li>
+        <li>
+          <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+          <span class="meta">
+            <span lang="en">— The Forge: workshops, training, the practice</span>
+            <span lang="es">— La Fragua: talleres, entrenamiento, la práctica</span>
+          </span>
+        </li>
       </ul>
     </div>
 
@@ -261,5 +389,7 @@
     </div>
 
   </div>
+
+  <script src="/i18n.js" defer></script>
 </body>
 </html>
