@@ -548,18 +548,18 @@ docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this before any work begins</span><span lang="es">Pega esto antes de cualquier trabajo</span></span><span lang="en">While you build, follow this cascade strictly. The commit type drives
 which docs are required:
 
-  feat: <message>     → must touch a file in docs/specs/. Use cases
+  feat: &lt;message&gt;     → must touch a file in docs/specs/. Use cases
                         in docs/use-cases/ encouraged. ADR
                         encouraged when a non-obvious architectural
                         choice is made.
 
-  fix: <message>      → must add or change a regression test that
+  fix: &lt;message&gt;      → must add or change a regression test that
                         proves the bug, BEFORE patching the code.
                         One-pager in docs/decisions/ named
                         YYYY-MM-DD-slug.md encouraged for non-trivial
                         interpretations.
 
-  refactor: <message> → ADR encouraged when boundaries move. No spec
+  refactor: &lt;message&gt; → ADR encouraged when boundaries move. No spec
                         change required.
 
   perf | docs | test | chore | ci → no doc cascade required.
@@ -586,18 +586,18 @@ every commit with a one-line summary stating which docs were
 touched and why — that line is the audit trail.</span><span lang="es">Mientras construyes, sigue esta cascade estrictamente. El tipo de commit
 determina qué docs son requeridas:
 
-  feat: <mensaje>     → debe tocar un archivo en docs/specs/. Casos de
+  feat: &lt;mensaje&gt;     → debe tocar un archivo en docs/specs/. Casos de
                         uso en docs/use-cases/ recomendados. ADR
                         recomendado cuando se hace una decisión
                         arquitectónica no obvia.
 
-  fix: <mensaje>      → debe agregar o cambiar una prueba de regresión
+  fix: &lt;mensaje&gt;      → debe agregar o cambiar una prueba de regresión
                         que prueba el bug, ANTES de parchear el código.
                         One-pager en docs/decisions/ con nombre
                         YYYY-MM-DD-slug.md recomendado para
                         interpretaciones no triviales.
 
-  refactor: <mensaje> → ADR recomendado cuando se mueven boundaries.
+  refactor: &lt;mensaje&gt; → ADR recomendado cuando se mueven boundaries.
                         No se requiere cambio de spec.
 
   perf | docs | test | chore | ci → no se requiere doc cascade.
@@ -1259,6 +1259,7 @@ Pausa entre etapas para que pueda revisar.</span></div>
           <span lang="en">The AI proposes defaults for each. You override what you want. Don't re-confirm the defaults — keep moving.</span>
           <span lang="es">La IA propone defaults para cada uno. Tú sobre-escribes lo que quieras. No re-confirmes los defaults — sigue avanzando.</span>
         </p>
+      </div>
     </div>
 
     <div class="step">
