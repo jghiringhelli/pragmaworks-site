@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Leaders — Try PragmaWorks on Your Team's Repo</title>
-<meta name="description" content="A guided conversation that gets your engineering manager or tech lead a real audit of one of your team's repos — including the team-habit report no static analyzer surfaces.">
+<title data-en="For Leaders — Try PragmaWorks on Your Team's Repo" data-es="Para Líderes — Prueba PragmaWorks en el Repo de tu Equipo">For Leaders — Try PragmaWorks on Your Team's Repo</title>
+<meta name="description"
+  data-en="A guided conversation that gets your engineering manager or tech lead a real audit of one of your team's repos — including the team-habit report no static analyzer surfaces."
+  data-es="Una conversación guiada que le entrega a tu engineering manager o tech lead una auditoría real de uno de los repos de tu equipo — incluyendo el reporte de hábitos de equipo que ningún analizador estático puede surfaceaer."
+  content="A guided conversation that gets your engineering manager or tech lead a real audit of one of your team's repos — including the team-habit report no static analyzer surfaces.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
 <style>
   :root {
     --ember:       #C44B1A;
@@ -267,53 +275,114 @@
   @media (max-width: 600px) {
     h1 { font-size: 28px; }
     h2 { font-size: 21px; }
-    .container { padding: 44px 20px 64px; }
+    .container { padding: 64px 20px 64px; }
   }
 </style>
 </head>
 <body>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
   <div class="container">
 
-    <div class="eyebrow">PragmaWorks · For Engineering Leaders</div>
-    <h1>Get a real audit of one of your team's repos. By dinner.</h1>
-    <p class="lede">If you're a tech lead, engineering manager, VP, or CTO and your team has been using AI assistance for code generation, your codebase is changing in ways your usual review cadence can't catch. <strong>This guide gets you a manager-grade report on one of your repos in an afternoon</strong> — including the team-habit and AI-bug analysis no static analyzer surfaces.</p>
+    <div class="eyebrow">
+      <span lang="en">PragmaWorks · For Engineering Leaders</span>
+      <span lang="es">PragmaWorks · Para Líderes de Ingeniería</span>
+    </div>
+    <h1>
+      <span lang="en">Get a real audit of one of your team's repos. By dinner.</span>
+      <span lang="es">Obtén una auditoría real de uno de los repos de tu equipo. Para la cena.</span>
+    </h1>
+    <p class="lede">
+      <span lang="en">If you're a tech lead, engineering manager, VP, or CTO and your team has been using AI assistance for code generation, your codebase is changing in ways your usual review cadence can't catch. <strong>This guide gets you a manager-grade report on one of your repos in an afternoon</strong> — including the team-habit and AI-bug analysis no static analyzer surfaces.</span>
+      <span lang="es">Si eres tech lead, engineering manager, VP, o CTO y tu equipo ha estado usando asistencia de IA para generar código, tu base de código está cambiando de formas que tu cadencia normal de revisión no puede atrapar. <strong>Esta guía te entrega un reporte de calidad gerencial sobre uno de tus repos en una tarde</strong> — incluyendo el análisis de hábitos de equipo y bugs introducidos por IA que ningún analizador estático muestra.</span>
+    </p>
 
     <div class="who-it-for">
-      <strong>Who this is for.</strong> Leaders running existing engineering teams. If you're starting a brand-new project, the <a href="/try">developer cookbook</a> covers that path. Three ways to run this:
+      <span lang="en"><strong>Who this is for.</strong> Leaders running existing engineering teams. If you're starting a brand-new project, the <a href="/try">developer cookbook</a> covers that path. Three ways to run this:</span>
+      <span lang="es"><strong>Para quién es esto.</strong> Líderes que manejan equipos de ingeniería existentes. Si estás empezando un proyecto totalmente nuevo, el <a href="/try">recetario para desarrolladores</a> cubre ese camino. Tres formas de correrlo:</span>
       <ul style="margin: 10px 0 0 22px; font-size: 15px;">
-        <li><strong>Run it yourself.</strong> If you're comfortable with an AI assistant — Claude Code, Cursor, VS Code — the prompts below are designed to be paste-ready. You don't write code; the assistant does.</li>
-        <li><strong>Run it with us.</strong> Want a guidance tour the first time through? Email <a href="mailto:juan@pragmaworks.dev?subject=Guidance%20tour%20for%20Leaders%20cookbook" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> and we'll walk a session live.</li>
-        <li><strong>Have a tech lead run it.</strong> Pass this page to whoever on your team handles AI tooling and they'll bring you the resulting reports.</li>
+        <li>
+          <span lang="en"><strong>Run it yourself.</strong> If you're comfortable with an AI assistant — Claude Code, Cursor, VS Code — the prompts below are designed to be paste-ready. You don't write code; the assistant does.</span>
+          <span lang="es"><strong>Córrelo tú mismo.</strong> Si te sientes cómodo con un asistente de IA — Claude Code, Cursor, VS Code — los prompts de abajo están diseñados para pegar directamente. Tú no escribes código; el asistente lo hace.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>Run it with us.</strong> Want a guidance tour the first time through? Email <a href="mailto:juan@pragmaworks.dev?subject=Guidance%20tour%20for%20Leaders%20cookbook" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> and we'll walk a session live.</span>
+          <span lang="es"><strong>Córrelo con nosotros.</strong> ¿Quieres un tour guiado la primera vez? Escribe a <a href="mailto:juan@pragmaworks.dev?subject=Tour%20guiado%20-%20Recetario%20para%20L%C3%ADderes" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> y hacemos una sesión en vivo.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>Have a tech lead run it.</strong> Pass this page to whoever on your team handles AI tooling and they'll bring you the resulting reports.</span>
+          <span lang="es"><strong>Que un tech lead lo corra.</strong> Pásale esta página a quien en tu equipo maneja las herramientas de IA y te traerán los reportes resultantes.</span>
+        </li>
       </ul>
     </div>
 
-    <h2>What you'll get</h2>
-    <div class="h2-sub">at the end of the afternoon</div>
+    <h2>
+      <span lang="en">What you'll get</span>
+      <span lang="es">Qué obtendrás</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">at the end of the afternoon</span>
+      <span lang="es">al final de la tarde</span>
+    </div>
 
     <div class="what-you-get">
       <ul>
-        <li><strong>An initial audit PDF.</strong> Eight sections including the seven GS properties scored 0-2 with evidence, structural-discipline assessment, test pyramid coverage, documentation health, security/logging baseline, and a prioritized remediation plan.</li>
-        <li><strong>A team-habit report (separate PDF).</strong> Last 90 days of commit history analyzed: PR review density, regression coverage of past bugs, AI-introduced bug rate, commit-size distribution, collaboration graph across team members. Charts. The organizational metrics no other tool surfaces.</li>
-        <li><strong>An after-report PDF.</strong> If you choose to apply remediations, a side-by-side comparison of initial vs. final state with deltas you can show your CEO or board.</li>
-        <li><strong>A working test harness.</strong> Spec-derived behavioral verification running against your application — the foundation that lets your team use AI assistance safely going forward.</li>
-        <li><strong>An optional Chronicle install.</strong> Persistent organizational memory so future AI sessions inherit what this audit learned.</li>
+        <li>
+          <span lang="en"><strong>An initial audit PDF.</strong> Eight sections including the seven GS properties scored 0-2 with evidence, structural-discipline assessment, test pyramid coverage, documentation health, security/logging baseline, and a prioritized remediation plan.</span>
+          <span lang="es"><strong>Un PDF de auditoría inicial.</strong> Ocho secciones incluyendo las siete propiedades de GS puntuadas 0-2 con evidencia, evaluación de disciplinas estructurales, cobertura de la pirámide de pruebas, salud de la documentación, baseline de seguridad/logging, y un plan de remediación priorizado.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>A team-habit report (separate PDF).</strong> Last 90 days of commit history analyzed: PR review density, regression coverage of past bugs, AI-introduced bug rate, commit-size distribution, collaboration graph across team members. Charts. The organizational metrics no other tool surfaces.</span>
+          <span lang="es"><strong>Un reporte de hábitos de equipo (PDF separado).</strong> Últimos 90 días de historial de commits analizados: densidad de revisión de PRs, cobertura de regresión de bugs pasados, tasa de bugs introducidos por IA, distribución de tamaño de commits, gráfico de colaboración entre miembros del equipo. Gráficas. Las métricas organizacionales que ninguna otra herramienta muestra.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>An after-report PDF.</strong> If you choose to apply remediations, a side-by-side comparison of initial vs. final state with deltas you can show your CEO or board.</span>
+          <span lang="es"><strong>Un PDF de reporte antes/después.</strong> Si decides aplicar remediaciones, una comparación lado a lado del estado inicial vs. final con deltas que puedes mostrarle a tu CEO o board.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>A working test harness.</strong> Spec-derived behavioral verification running against your application — the foundation that lets your team use AI assistance safely going forward.</span>
+          <span lang="es"><strong>Un harness de pruebas funcionando.</strong> Verificación de comportamiento derivada de la especificación corriendo contra tu aplicación — la base que le permite a tu equipo usar asistencia de IA con seguridad de aquí en adelante.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>An optional Chronicle install.</strong> Persistent organizational memory so future AI sessions inherit what this audit learned.</span>
+          <span lang="es"><strong>Una instalación opcional de Chronicle.</strong> Memoria organizacional persistente para que las futuras sesiones de IA hereden lo que esta auditoría aprendió.</span>
+        </li>
       </ul>
     </div>
 
-    <h2>The conversation</h2>
-    <div class="h2-sub">~3-4 hours · brownfield only</div>
+    <h2>
+      <span lang="en">The conversation</span>
+      <span lang="es">La conversación</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">~3-4 hours · brownfield only</span>
+      <span lang="es">~3-4 horas · solo código existente</span>
+    </div>
 
-    <p>Open your AI assistant — Claude Code, Cursor, VS Code with Copilot Chat, Aider, Windsurf — in the project root. Then walk through these steps. The assistant does the work; you direct.</p>
+    <p>
+      <span lang="en">Open your AI assistant — Claude Code, Cursor, VS Code with Copilot Chat, Aider, Windsurf — in the project root. Then walk through these steps. The assistant does the work; you direct.</span>
+      <span lang="es">Abre tu asistente de IA — Claude Code, Cursor, VS Code con Copilot Chat, Aider, Windsurf — en la raíz del proyecto. Después camina estos pasos. El asistente hace el trabajo; tú diriges.</span>
+    </p>
 
     <div class="step">
       <div class="step-num">01</div>
-      <div class="step-text"><strong>Scope the run.</strong> Pick one repo. Ideally not your largest, not your smallest — somewhere in the middle is the most informative. The audit runs on a new branch and never touches main, so risk is zero.</div>
+      <div class="step-text">
+        <span lang="en"><strong>Scope the run.</strong> Pick one repo. Ideally not your largest, not your smallest — somewhere in the middle is the most informative. The audit runs on a new branch and never touches main, so risk is zero.</span>
+        <span lang="es"><strong>Define el alcance.</strong> Escoge un repo. Idealmente no el más grande, no el más chico — algo en medio es lo más informativo. La auditoría corre en una rama nueva y nunca toca main, así que el riesgo es cero.</span>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">02</div>
-      <div class="step-text"><strong>Run the audit.</strong> Paste this prompt:
-<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Use PragmaWorks to audit this project for engineering leadership. Find
+      <div class="step-text">
+        <span lang="en"><strong>Run the audit.</strong> Paste this prompt:</span>
+        <span lang="es"><strong>Corre la auditoría.</strong> Pega este prompt:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use PragmaWorks to audit this project for engineering leadership. Find
 pragmaworks on npm, install what you need, run the analysis on a new branch
 (don't touch main), and generate the initial report as both HTML and PDF.
 
@@ -329,12 +398,33 @@ apply anything.
 If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
 file, map your output to those locations rather than overriding them.
 
-Format the output for a manager-readable report.</div>
+Format the output for a manager-readable report.</span><span lang="es">Usa PragmaWorks para auditar este proyecto para liderazgo de ingeniería.
+Busca pragmaworks en npm, instala lo que necesites, corre el análisis en
+una rama nueva (no toques main), y genera el reporte inicial como HTML
+y PDF.
 
-<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+Cubre: (1) las siete propiedades de GS — Auto-descriptivo, Acotado,
+Componible, Verificable, Auditable, Defendido, Ejecutable — cada una
+puntuada 0-2 con evidencia citada y un camino concreto para mejorar;
+(2) qué disciplinas estructurales aplican a esta base desde el catálogo
+(SOLID, TDD, hexagonal, capas, clean architecture) y cómo puntúa contra
+cada una; (3) salud y desactualización de la documentación; (4) cobertura
+de la pirámide de pruebas; (5) baseline de seguridad y logging; (6) un
+plan de remediación priorizado que pueda revisar antes de aplicar nada.
+
+Si este repo ya tiene CLAUDE.md, agents.md, o archivo similar de
+comportamiento de IA, mapea tu output a esas ubicaciones en lugar de
+sobreescribirlas.
+
+Formatea el output como un reporte legible por un manager.</span></div>
+
+<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
-<p>Same step without our orchestration. The leadership-grade audit is just a longer prompt — the rubric is fully nameable, which is what makes the result reproducible across two independent runs (the test for "is this an opinion or a measurement").</p>
-<div class="prompt-box"><span class="prompt-label">Paste this</span>Audit this project for engineering leadership. Read the codebase, docs,
+<p>
+  <span lang="en">Same step without our orchestration. The leadership-grade audit is just a longer prompt — the rubric is fully nameable, which is what makes the result reproducible across two independent runs (the test for "is this an opinion or a measurement").</span>
+  <span lang="es">El mismo paso sin nuestra orquestación. La auditoría de calidad gerencial es solo un prompt más largo — la rúbrica es totalmente nombrable, que es lo que hace el resultado reproducible entre dos corridas independientes (la prueba de "¿esto es una opinión o una medición?").</span>
+</p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Audit this project for engineering leadership. Read the codebase, docs,
 tests, CI config, and git log. Produce a manager-readable markdown
 report at reports/audit-initial.md that I could hand a CTO or a board
 member without translation. Cover:
@@ -367,33 +457,87 @@ member without translation. Cover:
 Tone: direct, quantitative, no jargon without definition. The reader
 should not need to understand the codebase to act on the report.
 Open with a one-page executive summary; put the detail behind it.
-Do not apply any remediation in this pass.</div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">The PragmaWorks audit packages this with PDF rendering, the structural-discipline catalog, and continuity across runs. The prompt alone gets you a manager-grade report.</p>
+Do not apply any remediation in this pass.</span><span lang="es">Audita este proyecto para liderazgo de ingeniería. Lee la base de código,
+docs, pruebas, config de CI, y git log. Produce un reporte markdown
+legible por un manager en reports/audit-initial.md que pudiera pasarle
+a un CTO o miembro del board sin traducción. Cubre:
+
+(1) Las siete propiedades de Especificación Generativa, cada una
+    puntuada 0/1/2 con evidencia file:line citada y un camino específico
+    para mejorar: Auto-descriptivo, Acotado, Componible, Verificable,
+    Auditable, Defendido, Ejecutable. Puntúa cada una en DOS pasadas
+    independientes y reporta cualquier divergencia — la rúbrica es
+    reproducible solo cuando dos pasadas caen dentro de ±1. Donde no,
+    nombra la propiedad y explica por qué la evidencia es delgada.
+
+(2) Qué disciplinas estructurales aplican (SOLID, TDD, hexagonal,
+    capas, clean architecture, CQRS, ports-and-adapters). Puntúa
+    cada una como aplicable / parcial / n-a con evidencia citada.
+
+(3) Salud de documentación: desactualizada (90+ días sin cambio
+    mientras el código debajo se movió), faltante, duplicada.
+
+(4) Cobertura de pirámide de pruebas: ratios unit / integration /
+    e2e con la capa más débil flageada.
+
+(5) Baseline de seguridad y logging: manejo de secretos, validación
+    de input, audit trail, qué se loggea en el trust boundary.
+
+(6) Plan de remediación priorizado: 8-15 items. Para cada uno:
+    esfuerzo (S/M/L), riesgo (bajo/med/alto), racionalidad de orden.
+    Agrupa como "este trimestre" / "siguiente trimestre" / "no se
+    arregla a menos que se dispare."
+
+Tono: directo, cuantitativo, sin jerga sin definición. El lector
+no debe necesitar entender la base de código para actuar sobre el
+reporte. Abre con un resumen ejecutivo de una página; pon el detalle
+detrás. No apliques remediación en esta pasada.</span></div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
+  <span lang="en">The PragmaWorks audit packages this with PDF rendering, the structural-discipline catalog, and continuity across runs. The prompt alone gets you a manager-grade report.</span>
+  <span lang="es">La auditoría de PragmaWorks empaqueta esto con renderizado de PDF, el catálogo de disciplinas estructurales, y continuidad entre corridas. El prompt solo te da un reporte de calidad gerencial.</span>
+</p>
 </div>
 </details>
-</div>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">03</div>
-      <div class="step-text"><strong>Review the initial report.</strong> The PDF tells you where the codebase is today. Score per property with cited evidence (so the rubric is reproducible — two independent runs land within ±1), structural-discipline assessment, the prioritized issue list. This is the document you can forward to peers — your CTO, your CEO, your board — without translation.</div>
+      <div class="step-text">
+        <span lang="en"><strong>Review the initial report.</strong> The PDF tells you where the codebase is today. Score per property with cited evidence (so the rubric is reproducible — two independent runs land within ±1), structural-discipline assessment, the prioritized issue list. This is the document you can forward to peers — your CTO, your CEO, your board — without translation.</span>
+        <span lang="es"><strong>Revisa el reporte inicial.</strong> El PDF te dice dónde está la base de código hoy. Puntaje por propiedad con evidencia citada (para que la rúbrica sea reproducible — dos corridas independientes caen dentro de ±1), evaluación de disciplinas estructurales, lista de issues priorizada. Este es el documento que puedes reenviar a tus pares — tu CTO, tu CEO, tu board — sin traducción.</span>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">04</div>
-      <div class="step-text"><strong>Run the team-habit analysis.</strong> The most under-measured layer in modern engineering organizations. Paste:
-<div class="prompt-box"><span class="prompt-label">Paste this verbatim</span>Now run the team-habit analysis on the last 90 days of commit history.
+      <div class="step-text">
+        <span lang="en"><strong>Run the team-habit analysis.</strong> The most under-measured layer in modern engineering organizations. Paste:</span>
+        <span lang="es"><strong>Corre el análisis de hábitos de equipo.</strong> La capa menos medida en organizaciones de ingeniería modernas. Pega:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Now run the team-habit analysis on the last 90 days of commit history.
 Cover: PR review density, regression test coverage of bugs introduced,
 AI-introduced bug rate (detect commits with AI-assisted authorship signals
 and correlate with subsequent bug fixes), commit-size distribution, and
 collaboration graph across team members. Output as a separate PDF with
-charts.</div>
-<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">If your team has been using AI assistance for the last few months, the AI-bug rate chart is often the most useful single image you can show a leadership audience. It quantifies what you've suspected.</p>
+charts.</span><span lang="es">Ahora corre el análisis de hábitos de equipo en los últimos 90 días de
+historial de commits. Cubre: densidad de revisión de PRs, cobertura de
+pruebas de regresión de bugs introducidos, tasa de bugs introducidos por
+IA (detecta commits con señales de autoría asistida por IA y correlaciona
+con fixes posteriores de bugs), distribución de tamaño de commits, y
+gráfico de colaboración entre miembros del equipo. Output como un PDF
+separado con gráficas.</span></div>
+        <p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">
+          <span lang="en">If your team has been using AI assistance for the last few months, the AI-bug rate chart is often the most useful single image you can show a leadership audience. It quantifies what you've suspected.</span>
+          <span lang="es">Si tu equipo ha estado usando asistencia de IA los últimos meses, la gráfica de tasa de bugs por IA suele ser la imagen individual más útil que puedes mostrar a una audiencia de liderazgo. Cuantifica lo que ya sospechabas.</span>
+        </p>
 
-<details class="manual-variant"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
-<p>Same analysis computed directly from <code>git log</code>. The signals are visible to anyone with read access to the repo — our analyzer just packages them. Ask the AI to compute them and cite each <code>git log</code> query so a skeptic can reproduce.</p>
-<div class="prompt-box"><span class="prompt-label">Paste this</span>Compute team-habit signals from the last 90 days of git history.
+<p>
+  <span lang="en">Same analysis computed directly from <code>git log</code>. The signals are visible to anyone with read access to the repo — our analyzer just packages them. Ask the AI to compute them and cite each <code>git log</code> query so a skeptic can reproduce.</span>
+  <span lang="es">El mismo análisis computado directamente desde <code>git log</code>. Las señales son visibles para cualquiera con acceso de lectura al repo — nuestro analizador solo las empaqueta. Pídele a la IA que las compute y cite cada query <code>git log</code> para que un escéptico pueda reproducir.</span>
+</p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Compute team-habit signals from the last 90 days of git history.
 Produce a markdown report at reports/team-habits.md with these
 sections, each backed by the `git log` query you actually ran (cite
 the exact command in a footnote so I can reproduce):
@@ -431,56 +575,147 @@ manager: "PR review density of 0.62 means 38% of commits skipped
 human review — investigate or set a policy." End with three
 concrete next-step recommendations sized to a sprint.
 
-Keep the report under 2000 words.</div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">PragmaWorks renders these as charts in a PDF and tracks deltas across quarters. The prompt computes them once for a single read.</p>
+Keep the report under 2000 words.</span><span lang="es">Computa señales de hábitos de equipo desde los últimos 90 días de
+historial de git. Produce un reporte markdown en reports/team-habits.md
+con estas secciones, cada una respaldada por la query `git log` que
+realmente corriste (cita el comando exacto en una nota al pie para que
+pueda reproducir):
+
+1. Densidad de revisión de PRs. Ratio de commits que aterrizaron en main
+   vía un PR con al menos un comentario de revisor humano vs commits que
+   aterrizaron directamente. Desglose por autor. Flagea autores debajo
+   de 0.5 y autores arriba de 0.95 (sin revisión vs sobre-revisión).
+
+2. Cobertura de pruebas de regresión. Para cada commit `fix:`, ¿se
+   agregó o modificó una prueba en el mismo commit (busca archivos que
+   coincidan con test/, *.test.*, *.spec.*, __tests__/)? Reporta el
+   porcentaje y lista los commits de fix sin prueba agregada. Este es
+   el mejor indicador líder de "¿estamos calcificando nuestros bugs?"
+
+3. Tasa de bugs introducidos por IA. Identifica commits autorados con
+   señales de asistencia de IA: trailers Co-Authored-By nombrando
+   Claude / Copilot / Cursor / Codeium, footers "🤖 Generated with",
+   patrones distintivos de mensaje de commit. Para cada uno, chequea
+   si un commit `fix:` referenciando los mismos archivos aterrizó
+   dentro de 14 días. Reporta la tasa. Lista los commits.
+
+4. Distribución de tamaño de commits. Histograma de líneas cambiadas
+   por commit (buckets: 0-50, 51-200, 201-500, 501-1000, 1000+). Flagea
+   la cola larga y nombra autores que aparecen en el bucket 1000+
+   repetidamente — los commits grandes son donde se esconde la deriva
+   de IA.
+
+5. Gráfico de colaboración. Quién revisó a quién; quién hace pair en
+   qué módulos. Constrúyelo desde la participación en revisión de PRs;
+   renderea como tabla de adyacencia markdown con pesos (número de
+   revisiones de PR entre cada par).
+
+Para cada métrica incluye una interpretación de una línea pitched a un
+manager: "Densidad de revisión de PRs de 0.62 significa que 38% de los
+commits se saltaron la revisión humana — investiga o pon una política."
+Termina con tres recomendaciones concretas de siguiente paso dimensionadas
+a un sprint.
+
+Mantén el reporte debajo de 2000 palabras.</span></div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
+  <span lang="en">PragmaWorks renders these as charts in a PDF and tracks deltas across quarters. The prompt computes them once for a single read.</span>
+  <span lang="es">PragmaWorks renderea estos como gráficas en un PDF y rastrea deltas entre trimestres. El prompt los computa una vez para una sola lectura.</span>
+</p>
 </div>
 </details>
-</div>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">05</div>
-      <div class="step-text"><strong>Decide whether to remediate now.</strong> The initial report includes a remediation plan. You have three options:
-<ul style="margin: 8px 0 0 22px; font-size: 15px;">
-<li><strong>Apply now</strong> — proceed to step 6 in this session.</li>
-<li><strong>Bring back to your team</strong> — share the PDF, discuss in your next planning session, return when ready.</li>
-<li><strong>Engage PragmaWorks for done-for-you remediation</strong> — for larger codebases or compliance-sensitive contexts, our concierge engagement handles the remediation for you.</li>
-</ul></div>
+      <div class="step-text">
+        <span lang="en"><strong>Decide whether to remediate now.</strong> The initial report includes a remediation plan. You have three options:</span>
+        <span lang="es"><strong>Decide si remediar ahora.</strong> El reporte inicial incluye un plan de remediación. Tienes tres opciones:</span>
+        <ul style="margin: 8px 0 0 22px; font-size: 15px;">
+          <li>
+            <span lang="en"><strong>Apply now</strong> — proceed to step 6 in this session.</span>
+            <span lang="es"><strong>Aplicar ahora</strong> — procede al paso 6 en esta sesión.</span>
+          </li>
+          <li>
+            <span lang="en"><strong>Bring back to your team</strong> — share the PDF, discuss in your next planning session, return when ready.</span>
+            <span lang="es"><strong>Llevarlo a tu equipo</strong> — comparte el PDF, discútelo en tu siguiente sesión de planeación, regresa cuando estés listo.</span>
+          </li>
+          <li>
+            <span lang="en"><strong>Engage PragmaWorks for done-for-you remediation</strong> — for larger codebases or compliance-sensitive contexts, our concierge engagement handles the remediation for you.</span>
+            <span lang="es"><strong>Contratar a PragmaWorks para remediación hecha-para-ti</strong> — para bases de código más grandes o contextos sensibles de compliance, nuestro engagement de concierge maneja la remediación por ti.</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">06</div>
-      <div class="step-text"><strong>Apply the remediation plan (optional, this session).</strong> Paste:
-<div class="prompt-box"><span class="prompt-label">Paste this</span>Apply the top 5 items from the remediation plan on the same branch under
+      <div class="step-text">
+        <span lang="en"><strong>Apply the remediation plan (optional, this session).</strong> Paste:</span>
+        <span lang="es"><strong>Aplica el plan de remediación (opcional, esta sesión).</strong> Pega:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Apply the top 5 items from the remediation plan on the same branch under
 GS discipline. For each item, generate the spec change first, then the
 code change, then the harness verification. Pause before any change that
-would touch the database schema or the public API — ask me first on those.</div></div>
+would touch the database schema or the public API — ask me first on those.</span><span lang="es">Aplica los top 5 items del plan de remediación en la misma rama bajo
+disciplina GS. Para cada item, genera el cambio de spec primero, luego
+el cambio de código, luego la verificación con el harness. Pausa antes
+de cualquier cambio que toque el schema de base de datos o la API
+pública — pregúntame primero en esos.</span></div>
+      </div>
     </div>
 
     <div class="step">
       <div class="step-num">07</div>
-      <div class="step-text"><strong>Get the after-report.</strong> Once remediation is done, paste:
-<div class="prompt-box"><span class="prompt-label">Paste this</span>Generate the after-report. Same format as the initial one, but with a
+      <div class="step-text">
+        <span lang="en"><strong>Get the after-report.</strong> Once remediation is done, paste:</span>
+        <span lang="es"><strong>Obtén el reporte antes/después.</strong> Una vez terminada la remediación, pega:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Generate the after-report. Same format as the initial one, but with a
 before/after comparison: coverage delta, structural discipline scores
 delta, GS rubric delta, regression tests added for past bugs, documentation
-updates. Include charts.</div>
-<p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">This is the document you take to your next leadership review. It quantifies what changed, with receipts.</p></div>
+updates. Include charts.</span><span lang="es">Genera el reporte final. Mismo formato que el inicial, pero con una
+comparación antes/después: delta de cobertura, delta de puntajes de
+disciplinas estructurales, delta de la rúbrica GS, pruebas de regresión
+agregadas para bugs pasados, actualizaciones de documentación. Incluye
+gráficas.</span></div>
+        <p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">
+          <span lang="en">This is the document you take to your next leadership review. It quantifies what changed, with receipts.</span>
+          <span lang="es">Este es el documento que llevas a tu siguiente revisión de liderazgo. Cuantifica qué cambió, con recibos.</span>
+        </p>
+      </div>
     </div>
 
     <div class="chronicle-box">
-      <h3>Optional — install Chronicle for organizational memory</h3>
-      <p>Your team's AI sessions today are amnesiac: every new session starts from zero, re-learning what the last session figured out. Chronicle persists architectural decisions, prompt history, design rationale, and team conventions across sessions — so your team's collective discipline stops being lost between Mondays.</p>
-      <p>To install for the project:</p>
-      <div class="prompt-box"><span class="prompt-label">Paste this</span>Install Chronicle for this project so future sessions inherit the
+      <h3>
+        <span lang="en">Optional — install Chronicle for organizational memory</span>
+        <span lang="es">Opcional — instala Chronicle para memoria organizacional</span>
+      </h3>
+      <p>
+        <span lang="en">Your team's AI sessions today are amnesiac: every new session starts from zero, re-learning what the last session figured out. Chronicle persists architectural decisions, prompt history, design rationale, and team conventions across sessions — so your team's collective discipline stops being lost between Mondays.</span>
+        <span lang="es">Las sesiones de IA de tu equipo hoy son amnésicas: cada sesión nueva empieza desde cero, re-aprendiendo lo que la anterior averiguó. Chronicle persiste decisiones arquitectónicas, historial de prompts, racionalidad de diseño, y convenciones del equipo entre sesiones — para que la disciplina colectiva de tu equipo deje de perderse entre los lunes.</span>
+      </p>
+      <p>
+        <span lang="en">To install for the project:</span>
+        <span lang="es">Para instalar en el proyecto:</span>
+      </p>
+      <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Install Chronicle for this project so future sessions inherit the
 architectural decisions, the spec rationale, and the prompt history from
 this audit. Configure it to record team-level decisions, not just personal
-ones.</div>
-      <p style="margin-top: 14px;">For the team-wide version (Chronicle Team) that aggregates organizational memory across multiple repos and developers, that's part of the PragmaWorks Team subscription. <a href="mailto:juan@pragmaworks.dev?subject=Chronicle%20Team" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> for setup.</p>
+ones.</span><span lang="es">Instala Chronicle para este proyecto para que las futuras sesiones
+hereden las decisiones arquitectónicas, la racionalidad de la spec, y
+el historial de prompts de esta auditoría. Configúralo para registrar
+decisiones a nivel de equipo, no solo personales.</span></div>
+      <p style="margin-top: 14px;">
+        <span lang="en">For the team-wide version (Chronicle Team) that aggregates organizational memory across multiple repos and developers, that's part of the PragmaWorks Team subscription. <a href="mailto:juan@pragmaworks.dev?subject=Chronicle%20Team" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> for setup.</span>
+        <span lang="es">Para la versión multi-equipo (Chronicle Team) que agrega memoria organizacional entre múltiples repos y desarrolladores, eso es parte de la suscripción PragmaWorks Team. <a href="mailto:juan@pragmaworks.dev?subject=Chronicle%20Team" style="color: var(--ember); border-bottom: 1px solid var(--ember); text-decoration: none;">juan@pragmaworks.dev</a> para configurar.</span>
+      </p>
 
-<details class="manual-variant" style="margin-top: 18px;"><summary>Show the pure-GS variant of this step (no tools)</summary>
+<details class="manual-variant" style="margin-top: 18px;"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
-<p>Chronicle is a project-scoped persistent memory for AI sessions — what was decided, why, and what conventions emerged. You can self-document the same memory using only files in the repo. It's coarser than the tool, but the discipline travels.</p>
-<div class="prompt-box"><span class="prompt-label">Paste this</span>Set up a pure-prompt persistent project memory without installing any
+<p>
+  <span lang="en">Chronicle is a project-scoped persistent memory for AI sessions — what was decided, why, and what conventions emerged. You can self-document the same memory using only files in the repo. It's coarser than the tool, but the discipline travels.</span>
+  <span lang="es">Chronicle es una memoria persistente con alcance de proyecto para sesiones de IA — qué se decidió, por qué, y qué convenciones emergieron. Puedes auto-documentar la misma memoria usando solo archivos en el repo. Es más burda que la herramienta, pero la disciplina viaja.</span>
+</p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Set up a pure-prompt persistent project memory without installing any
 tooling. The goal: the next AI session in this repo should inherit the
 architectural decisions, the audit findings, and the team conventions
 from this session.
@@ -516,34 +751,90 @@ closing step, the same way a doctor writes up rounds.
 
 Print a one-paragraph "what changed" summary so I can paste it into
 the team chat — that's the human handoff that the file convention
-on its own can't replace.</div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">Chronicle automates this loop, queries it semantically, and shares it across sessions and machines. The file convention gets you the discipline without the tool — sufficient for a single repo and a single contributor.</p>
+on its own can't replace.</span><span lang="es">Configura una memoria persistente del proyecto pura-de-prompt sin
+instalar ninguna herramienta. La meta: la siguiente sesión de IA en este
+repo debe heredar las decisiones arquitectónicas, los hallazgos de la
+auditoría, y las convenciones del equipo de esta sesión.
+
+Crea los siguientes archivos:
+
+1. .ai/memory/decisions.md — log append-only de decisiones arquitectónicas
+   y organizacionales. Una entrada por decisión: fecha, decisión,
+   racionalidad, alternativas consideradas, quién decidió. Siémbralo con
+   las decisiones capturadas durante esta auditoría y remediación.
+
+2. .ai/memory/conventions.md — convenciones del equipo extraídas de la
+   base de código: naming, layout de archivos, manejo de errores,
+   formato de logging, estilo de pruebas, estilo de mensaje de commit.
+   Una sección por convención, con una cita a un file:line representativo.
+
+3. .ai/memory/prompts.md — los prompts que manejaron esta auditoría, el
+   plan de remediación, y el reporte final. Las sesiones futuras pueden
+   reproducir los relevantes para re-establecer contexto sin que yo
+   re-teclee.
+
+4. .ai/memory/glossary.md — términos del dominio con definiciones. Una
+   línea por término, anclada a donde aparece primero en la base de
+   código.
+
+5. CLAUDE.md (o AGENTS.md, o la convención que use este equipo) en la
+   raíz del repo. Header corto que apunta a las futuras sesiones de IA
+   a .ai/memory/ como su primera lectura. Lista los cuatro archivos de
+   arriba y qué contiene cada uno. Tres líneas máximo por item.
+
+La convención de cierre de sesión de aquí en adelante: agregar
+cualquier decisión nueva a decisions.md, cualquier convención nueva a
+conventions.md, y los prompts notables de la sesión a prompts.md. Trata
+esto como un paso de cierre no-negociable, igual que un doctor escribe
+sus rounds.
+
+Imprime un resumen de un párrafo "qué cambió" para que pueda pegarlo
+en el chat del equipo — ese es el handoff humano que la convención de
+archivos por sí sola no puede reemplazar.</span></div>
+<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
+  <span lang="en">Chronicle automates this loop, queries it semantically, and shares it across sessions and machines. The file convention gets you the discipline without the tool — sufficient for a single repo and a single contributor.</span>
+  <span lang="es">Chronicle automatiza este loop, lo consulta semánticamente, y lo comparte entre sesiones y máquinas. La convención de archivos te da la disciplina sin la herramienta — suficiente para un solo repo y un solo contribuyente.</span>
+</p>
 </div>
 </details>
-</div>
     </div>
 
     <div class="judgment-note">
-      <strong>What this does not do.</strong> Domain expert review, real user testing, compliance sign-off, aesthetic and strategic decisions — the judgment layer remains yours. PragmaWorks ensures everything before the judgment layer is correct, so your team's judgment is spent only on what it alone can decide. We do the 90% you couldn't get to anyway. You still own the irreducible 10%.
+      <span lang="en"><strong>What this does not do.</strong> Domain expert review, real user testing, compliance sign-off, aesthetic and strategic decisions — the judgment layer remains yours. PragmaWorks ensures everything before the judgment layer is correct, so your team's judgment is spent only on what it alone can decide. We do the 90% you couldn't get to anyway. You still own the irreducible 10%.</span>
+      <span lang="es"><strong>Lo que esto no hace.</strong> Revisión de experto de dominio, pruebas con usuarios reales, sign-off de compliance, decisiones estéticas y estratégicas — la capa de juicio sigue siendo tuya. PragmaWorks asegura que todo antes de la capa de juicio sea correcto, para que el juicio de tu equipo se gaste solo en lo que solo él puede decidir. Hacemos el 90% al que no llegabas de todas formas. Tú sigues siendo dueño del 10% irreducible.</span>
     </div>
 
-    <p class="small-note" style="margin-top: 28px;"><strong>Free for individuals running it on one repo.</strong> The audit and team-habit reports above are free for individual use. Multi-repo organizational dashboards, Chronicle Team, ongoing governance KPIs, and managed remediation are part of the paid Team and Enterprise tiers — see <a href="/teams" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">pricing</a>.</p>
+    <p class="small-note" style="margin-top: 28px;">
+      <span lang="en"><strong>Free for individuals running it on one repo.</strong> The audit and team-habit reports above are free for individual use. Multi-repo organizational dashboards, Chronicle Team, ongoing governance KPIs, and managed remediation are part of the paid Team and Enterprise tiers — see <a href="/teams" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">pricing</a>.</span>
+      <span lang="es"><strong>Gratis para individuos corriéndolo en un repo.</strong> La auditoría y los reportes de hábitos de equipo de arriba son gratuitos para uso individual. Dashboards organizacionales multi-repo, Chronicle Team, KPIs de gobernanza continuos, y remediación gestionada son parte de los tiers Team y Enterprise de paga — ver <a href="/teams" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">precios</a>.</span>
+    </p>
 
     <div class="help-box">
-      <h3>If you get stuck — or if you want a tech lead in the conversation</h3>
-      <p>For technical questions during the run, your tech lead can take the conversation forward — the prompts above work the same way regardless of who's typing them. For audit interpretation, remediation scope, or a Concierge engagement to handle the work end-to-end, email me directly.</p>
+      <h3>
+        <span lang="en">If you get stuck — or if you want a tech lead in the conversation</span>
+        <span lang="es">Si te atoras — o si quieres un tech lead en la conversación</span>
+      </h3>
+      <p>
+        <span lang="en">For technical questions during the run, your tech lead can take the conversation forward — the prompts above work the same way regardless of who's typing them. For audit interpretation, remediation scope, or a Concierge engagement to handle the work end-to-end, email me directly.</span>
+        <span lang="es">Para preguntas técnicas durante la corrida, tu tech lead puede llevar la conversación — los prompts de arriba funcionan igual sin importar quién los teclea. Para interpretación de la auditoría, alcance de remediación, o un engagement de Concierge para manejar el trabajo end-to-end, escríbeme directamente.</span>
+      </p>
       <p><a href="mailto:juan@pragmaworks.dev?subject=Leaders%20cookbook%20-%20question">juan@pragmaworks.dev →</a></p>
-      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">For pricing, tiers, and the longer commercial walkthrough: <a href="/teams" style="color: var(--molten); border-color: var(--molten);">pragmaworks.dev/teams</a></p>
+      <p style="margin-top: 18px; color: var(--ash); font-size: 14px;">
+        <span lang="en">For pricing, tiers, and the longer commercial walkthrough: <a href="/teams" style="color: var(--molten); border-color: var(--molten);">pragmaworks.dev/teams</a></span>
+        <span lang="es">Para precios, tiers, y el walkthrough comercial más largo: <a href="/teams" style="color: var(--molten); border-color: var(--molten);">pragmaworks.dev/teams</a></span>
+      </p>
     </div>
 
     <div class="footer">
       Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
-      <a href="/start">Resources</a> ·
-      <a href="/try">Developer Cookbook</a> ·
-      <a href="/teams">Pricing & Tiers</a> ·
+      <a href="/start"><span lang="en">Resources</span><span lang="es">Recursos</span></a> ·
+      <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario para Desarrolladores</span></a> ·
+      <a href="/teams"><span lang="en">Pricing &amp; Tiers</span><span lang="es">Precios y Tiers</span></a> ·
       <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
     </div>
 
   </div>
+
+  <script src="/i18n.js" defer></script>
 </body>
 </html>
