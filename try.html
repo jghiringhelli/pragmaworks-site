@@ -207,6 +207,50 @@
     padding: 0; font-size: 13px;
   }
 
+  /* Two-option pattern (tool vs pure-GS, equally prominent, both closed) */
+  details.path-option {
+    margin: 10px 0;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    background: #fff;
+  }
+  details.path-option > summary {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--steel);
+    list-style: none;
+    user-select: none;
+  }
+  details.path-option > summary::-webkit-details-marker { display: none; }
+  details.path-option > summary::before {
+    content: "▸ ";
+    color: var(--ember);
+    margin-right: 6px;
+    display: inline-block;
+    width: 12px;
+  }
+  details.path-option[open] > summary::before { content: "▾ "; }
+  details.path-option > summary:hover { color: var(--ember); }
+  details.path-option[open] > summary {
+    color: var(--forge-dark);
+    border-bottom: 1px solid var(--ash);
+  }
+  details.path-option > .option-body {
+    padding: 14px 18px 18px;
+    font-size: 15px;
+  }
+  details.path-option > .option-body > p:first-child { margin-top: 0; }
+  details.path-option > .option-body code {
+    background: transparent;
+    color: var(--iron);
+    padding: 0;
+    font-size: 13px;
+  }
+
   .pattern-note {
     margin: 28px 0 0;
     padding: 14px 20px;
@@ -428,76 +472,66 @@ cuenta para empezar.</span></div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-text">
-        <span lang="en"><strong>Ask it to use PragmaWorks.</strong> This is the move that turns a regular AI conversation into a disciplined one:</span>
-        <span lang="es"><strong>Pídele que use PragmaWorks.</strong> Este es el movimiento que convierte una conversación de IA normal en una disciplinada:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use PragmaWorks to bootstrap this project under Generative Specification
-discipline. Find pragmaworks on npm and install what you need. Then run
-the canonical greenfield workflow:
+        <span lang="en"><strong>Set up GS discipline before any code.</strong> The move that turns a regular AI conversation into a disciplined one — every artifact gets a place, every commit gets a check. Pick a path:</span>
+        <span lang="es"><strong>Configura disciplina GS antes de escribir código.</strong> El movimiento que convierte una conversación de IA normal en una disciplinada — cada artefacto tiene su lugar, cada commit pasa por un check. Elige un camino:</span>
 
-  1. setup_project  — generate forgecraft.yaml, docs/PRD.md,
-                      docs/use-cases.md, docs/roadmap.md, .claude/,
-                      and a 3-line CLAUDE.md redirect
-  2. Ask me 2-3 clarifying questions to fill the PRD and use cases
-     (goals, non-goals, MVP scope, tech-stack preference, hosting).
-     Pick defaults yourself if I have no preference.
-  3. check_cascade  — verify spec is complete enough to implement
-                      (PRD not a stub, at least one use case with
-                      pre/post-conditions, at least one ADR)
-  4. scaffold_project — emit folder structure matching the tags,
-                        tests/ mirror of src/, CI workflow, pre-commit
-                        hooks
-  5. generate_session_prompt (loop 1) — TDD cycle for the first
-                                        slice of use cases
-  6. After loop 1: close_cycle to validate (cascade green, tests
-                   added, coverage threshold, no new stubs). Repeat
-                   for loops 2 and 3.
-  7. start_hardening before declaring the project deployable.
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Tell the assistant to use the tool. The tool sets up the cascade, the artifacts, and the gates — you don't enumerate them.</span>
+      <span lang="es">Dile al asistente que use la herramienta. La herramienta configura la cascade, los artefactos, y los gates — tú no los enumeras.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Use pragmaworks to bootstrap this project under Generative Specification
+discipline. Find pragmaworks on npm. Ask me 2-3 clarifying questions about
+scope, MVP, and tech stack first (pick defaults if I have no preference).
+Then run the canonical greenfield flow, and pause after drafting the spec
+so I can review before any code is written.</span><span lang="es">Usa pragmaworks para arrancar este proyecto bajo disciplina de
+Especificación Generativa. Busca pragmaworks en npm. Hazme 2-3 preguntas
+aclaratorias sobre alcance, MVP y stack tecnológico primero (elige
+defaults si no tengo preferencia). Después corre el flujo canónico
+greenfield, y pausa después de redactar la spec para que pueda revisar
+antes de que se escriba código.</span></div>
+  </div>
+</details>
 
-Pause after step 2 so I can review the PRD and use cases before code
-is written. That review is the only gate that matters.</span><span lang="es">Usa PragmaWorks para arrancar este proyecto bajo disciplina de
-Especificación Generativa. Busca pragmaworks en npm e instala lo que
-necesites. Después corre el flujo canónico greenfield:
-
-  1. setup_project  — genera forgecraft.yaml, docs/PRD.md,
-                      docs/use-cases.md, docs/roadmap.md, .claude/,
-                      y un CLAUDE.md de 3 líneas que redirige
-  2. Hazme 2-3 preguntas aclaratorias para llenar el PRD y los
-     casos de uso (goals, non-goals, alcance del MVP, preferencia
-     de stack, hosting). Elige defaults si no tengo preferencia.
-  3. check_cascade  — verifica que la spec esté completa para
-                      implementar (PRD no es un stub, al menos un
-                      caso de uso con pre/post-condiciones, al menos
-                      un ADR)
-  4. scaffold_project — emite estructura de carpetas según los tags,
-                        tests/ espejo de src/, workflow de CI,
-                        pre-commit hooks
-  5. generate_session_prompt (loop 1) — ciclo TDD para la primera
-                                        rebanada de casos de uso
-  6. Después del loop 1: close_cycle para validar (cascade en verde,
-                         pruebas agregadas, threshold de coverage,
-                         sin stubs nuevos). Repite para loops 2 y 3.
-  7. start_hardening antes de declarar el proyecto desplegable.
-
-Pausa después del paso 2 para que pueda revisar el PRD y los casos
-de uso antes de que se escriba código. Esa revisión es el único
-gate que importa.</span></div>
-
-<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
-<div class="manual-content">
-<p>
-  <span lang="en">Same step without our tooling. You'd tell the AI directly to set up the doc-first cascade by hand — there's no install, just a folder layout, two git hooks, and a CI step.</span>
-  <span lang="es">El mismo paso sin nuestras herramientas. Le dirías a la IA directamente que configure la cascada doc-first a mano — sin instalación, solo una estructura de carpetas, dos hooks de git, y un paso de CI.</span>
-</p>
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same step under the same discipline, by convention only. Set up the layout, the hooks, and the cascade rules yourself. No install, no dependencies — a folder layout, two git hooks, and a CI step.</span>
+      <span lang="es">El mismo paso bajo la misma disciplina, solo por convención. Configura tú la estructura, los hooks, y las reglas de cascade. Sin instalación, sin dependencias — una estructura de carpetas, dos hooks de git, y un paso de CI.</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Set up this empty folder for Generative Specification discipline. No
 external tooling, just conventions:
 
-1. Create docs/manifest.yaml referencing the canonical schema at
-   github.com/jghiringhelli/forgecraft-mcp/blob/main/templates/docs-manifest.yaml.
-   Pin a version. Set project.name, project.type (api | library |
-   cli | app), release_phase: greenfield, cascade.feat.severity:
-   warning.
+1. Create docs/manifest.yaml at the repo root. This is the typed
+   registry of the project's identity and which cascade gates apply
+   to which commit types. Minimum structure:
 
-2. Scaffold these directories with one-paragraph README stubs:
+     project:
+       name: &lt;slug&gt;
+       type: api          # one of: api | library | cli | app
+     release_phase: greenfield
+     cascade:
+       feat:
+         severity: warning   # flip to error after a quarterly audit
+         requires: [docs/specs/*]
+       fix:
+         severity: warning
+         requires: [tests/**]
+       refactor:
+         severity: warning
+         requires: [docs/adrs/active/*]
+     tags: []
+
+2. Scaffold these directories, each with a one-paragraph README stub:
      docs/specs/        what we're building (one file per feature)
      docs/adrs/active/  decisions in force
      docs/adrs/done/    superseded decisions, kept for history
@@ -508,14 +542,22 @@ external tooling, just conventions:
      docs/contracts/    NFRs, SLOs, error semantics
 
 3. Add a commit-msg git hook (~10 lines bash) that regex-validates
-   Conventional Commits.
+   Conventional Commits:
 
-4. Add .claude/hooks/commit-msg-cascade.sh (~30 lines):
-     feat → require any docs/specs/* file is staged
-     fix  → require any test file is staged
+     ^(feat|fix|docs|refactor|perf|test|chore|ci)(\(.+\))?!?: .+$
 
-5. Add a GitHub Actions workflow that runs the same cascade check
-   on PR diff vs base. Severity warning on day 1; flip to error
+4. Add .githooks/commit-msg-cascade.sh (~30 lines bash) that reads
+   the commit type and enforces the cascade rule:
+
+     feat     → require any docs/specs/* file is staged
+     fix      → require any test file is staged
+     refactor → require any docs/adrs/active/* file is staged
+
+   Then run once: git config core.hooksPath .githooks  (so hooks
+   are versioned with the repo, not buried in .git/).
+
+5. Add a GitHub Actions workflow that runs the same cascade check on
+   the PR diff vs base. Severity: warning on day 1; flip to error
    after a quarterly audit shows no gaps.
 
 6. Add CODEOWNERS so a human reviewer is auto-requested. Configure
@@ -525,13 +567,27 @@ Then ask me my project idea and write the first spec at
 docs/specs/&lt;slug&gt;.md before any code.</span><span lang="es">Configura esta carpeta vacía para disciplina de Especificación Generativa.
 Sin herramientas externas, solo convenciones:
 
-1. Crea docs/manifest.yaml referenciando el schema canónico en
-   github.com/jghiringhelli/forgecraft-mcp/blob/main/templates/docs-manifest.yaml.
-   Fija una versión. Define project.name, project.type (api |
-   library | cli | app), release_phase: greenfield,
-   cascade.feat.severity: warning.
+1. Crea docs/manifest.yaml en la raíz del repo. Es el registro
+   tipado de la identidad del proyecto y qué gates de cascade
+   aplican a qué tipos de commit. Estructura mínima:
 
-2. Crea estos directorios con stubs README de un párrafo:
+     project:
+       name: &lt;slug&gt;
+       type: api          # uno de: api | library | cli | app
+     release_phase: greenfield
+     cascade:
+       feat:
+         severity: warning   # pasa a error después de auditoría trimestral
+         requires: [docs/specs/*]
+       fix:
+         severity: warning
+         requires: [tests/**]
+       refactor:
+         severity: warning
+         requires: [docs/adrs/active/*]
+     tags: []
+
+2. Crea estos directorios, cada uno con un README stub de un párrafo:
      docs/specs/        qué construimos (un archivo por feature)
      docs/adrs/active/  decisiones vigentes
      docs/adrs/done/    decisiones superadas, guardadas como historia
@@ -541,15 +597,23 @@ Sin herramientas externas, solo convenciones:
      docs/decisions/    one-pagers de bug-fix (YYYY-MM-DD-slug.md)
      docs/contracts/    NFRs, SLOs, semántica de errores
 
-3. Agrega un hook git commit-msg (~10 líneas bash) que valida
-   por regex los Conventional Commits.
+3. Agrega un hook git commit-msg (~10 líneas bash) que valida por
+   regex los Conventional Commits:
 
-4. Agrega .claude/hooks/commit-msg-cascade.sh (~30 líneas):
-     feat → requiere que cualquier docs/specs/* esté staged
-     fix  → requiere que un archivo de pruebas esté staged
+     ^(feat|fix|docs|refactor|perf|test|chore|ci)(\(.+\))?!?: .+$
+
+4. Agrega .githooks/commit-msg-cascade.sh (~30 líneas bash) que
+   lee el tipo de commit y aplica la regla de cascade:
+
+     feat     → requiere que cualquier docs/specs/* esté staged
+     fix      → requiere que un archivo de tests esté staged
+     refactor → requiere que cualquier docs/adrs/active/* esté staged
+
+   Después corre una vez: git config core.hooksPath .githooks  (para
+   que los hooks queden versionados con el repo, no enterrados en .git/).
 
 5. Agrega un workflow de GitHub Actions que corre la misma cascade
-   check sobre el diff del PR vs base. Severity warning el día 1;
+   check sobre el diff del PR vs base. Severity: warning el día 1;
    pasa a error después de una auditoría trimestral sin gaps.
 
 6. Agrega CODEOWNERS para que un revisor humano sea auto-solicitado.
@@ -558,11 +622,7 @@ Sin herramientas externas, solo convenciones:
 
 Luego pregúntame mi idea de proyecto y escribe la primera spec en
 docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
-  <span lang="en">That's the whole bootstrap. The PragmaWorks tools just make this ergonomic — the discipline is the folder layout plus two hooks.</span>
-  <span lang="es">Ese es todo el bootstrap. Las herramientas PragmaWorks solo hacen esto ergonómico — la disciplina es la estructura de carpetas más dos hooks.</span>
-</p>
-</div>
+  </div>
 </details>
       </div>
     </div>
@@ -578,8 +638,8 @@ docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
     <div class="step">
       <div class="step-num">05</div>
       <div class="step-text">
-        <span lang="en"><strong>Sit back. The assistant works.</strong> It fills <code>docs/PRD.md</code> (goals, non-goals, constraints), <code>docs/use-cases.md</code> (UC-NNN with precondition / actor / action / postcondition), ADRs in <code>docs/adrs/active/</code> for non-obvious decisions, and the CLAUDE.md AI-behavior file. It runs <code>check_cascade</code> between artifacts to surface gaps. Then it opens the loop-1 session prompt and runs the TDD cycle — RED commit, GREEN commit, refactor, next behavior — calling <code>close_cycle</code> at the end to validate (cascade green, tests added, coverage threshold, no new stubs). Loops 2 and 3 follow the same pattern. Coverage, lint, mutation testing, and structural-discipline gates run continuously. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (Development — spec, code, dev-time harness) and Tier 2 (Staging — deployment scripts derived from spec) get produced automatically.</span>
-        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Llena <code>docs/PRD.md</code> (goals, non-goals, constraints), <code>docs/use-cases.md</code> (UC-NNN con precondición / actor / acción / postcondición), ADRs en <code>docs/adrs/active/</code> para decisiones no obvias, y el archivo de comportamiento de IA CLAUDE.md. Corre <code>check_cascade</code> entre artefactos para surfaceaer huecos. Después abre el session prompt del loop 1 y corre el ciclo TDD — commit RED, commit GREEN, refactor, siguiente comportamiento — llamando <code>close_cycle</code> al final para validar (cascade en verde, pruebas agregadas, threshold de coverage, sin stubs nuevos). Los loops 2 y 3 siguen el mismo patrón. Coverage, lint, mutation testing, y gates de disciplina estructural corren continuamente. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em> Tier 1 (Desarrollo — spec, código, harness de dev-time) y Tier 2 (Staging — scripts de despliegue derivados de la spec) se producen automáticamente.</span>
+        <span lang="en"><strong>Sit back. The assistant works.</strong> It builds the project under the discipline — spec, code, tests, deployment scripts, in that order, with the cascade gates running continuously. <em>You don't write code. You don't type CLI commands.</em> Tier 1 (Development) and Tier 2 (Staging) come out automatically.</span>
+        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Construye el proyecto bajo la disciplina — spec, código, tests, scripts de despliegue, en ese orden, con los gates de cascade corriendo continuamente. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em> Tier 1 (Desarrollo) y Tier 2 (Staging) salen automáticamente.</span>
 
 <details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
@@ -788,8 +848,8 @@ un síntoma no lo es.</span></div>
     <div class="step">
       <div class="step-num">07</div>
       <div class="step-text">
-        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. Before pushing to production, ask the assistant to <code>start_hardening</code> — it runs the pre-release gates (security, edge cases, NFR validation) on top of the loop gates. From here you can ask for new features the same way: <em>"Add a leaderboard for players' favorite games."</em> The next conversation extends <code>docs/use-cases.md</code> with new UCs, the cascade catches any drift, and the discipline keeps the second feature from breaking the first.</span>
-        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Todo vino de una conversación. Antes de empujar a producción, pídele al asistente que corra <code>start_hardening</code> — corre los gates pre-release (seguridad, edge cases, validación de NFR) encima de los gates del loop. Desde aquí puedes pedir features nuevas de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La siguiente conversación extiende <code>docs/use-cases.md</code> con UCs nuevos, la cascade atrapa cualquier desvío, y la disciplina mantiene la segunda feature sin romper la primera.</span>
+        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. When you're ready to push to production, tell the assistant — it runs the pre-release hardening pass on top of the per-loop gates. From here you can add features the same way: <em>"Add a leaderboard for players' favorite games."</em> The discipline keeps the second feature from breaking the first.</span>
+        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Todo vino de una conversación. Cuando estés listo para empujar a producción, dile al asistente — corre la pasada de hardening pre-release encima de los gates por loop. Desde aquí puedes agregar features de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La disciplina mantiene la segunda feature sin romper la primera.</span>
       </div>
     </div>
 
