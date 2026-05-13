@@ -430,15 +430,57 @@ cuenta para empezar.</span></div>
       <div class="step-text">
         <span lang="en"><strong>Ask it to use PragmaWorks.</strong> This is the move that turns a regular AI conversation into a disciplined one:</span>
         <span lang="es"><strong>Pídele que use PragmaWorks.</strong> Este es el movimiento que convierte una conversación de IA normal en una disciplinada:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use the PragmaWorks methodology to bootstrap this project. Find pragmaworks
-on npm, install what you need, generate the specification first, set up the
-ForgeCraft cascade, then build the project under that discipline. Before you
-start, ask me 2-3 clarifying questions about scope and tech stack — pick the
-stack yourself if I have no preference.</span><span lang="es">Usa la metodología PragmaWorks para arrancar este proyecto. Busca pragmaworks
-en npm, instala lo que necesites, genera la especificación primero, configura
-la cascada de ForgeCraft, y luego construye el proyecto bajo esa disciplina.
-Antes de empezar, hazme 2-3 preguntas aclaratorias sobre alcance y stack
-tecnológico — escoge el stack tú mismo si no tengo preferencia.</span></div>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use PragmaWorks to bootstrap this project under Generative Specification
+discipline. Find pragmaworks on npm and install what you need. Then run
+the canonical greenfield workflow:
+
+  1. setup_project  — generate forgecraft.yaml, docs/PRD.md,
+                      docs/use-cases.md, docs/roadmap.md, .claude/,
+                      and a 3-line CLAUDE.md redirect
+  2. Ask me 2-3 clarifying questions to fill the PRD and use cases
+     (goals, non-goals, MVP scope, tech-stack preference, hosting).
+     Pick defaults yourself if I have no preference.
+  3. check_cascade  — verify spec is complete enough to implement
+                      (PRD not a stub, at least one use case with
+                      pre/post-conditions, at least one ADR)
+  4. scaffold_project — emit folder structure matching the tags,
+                        tests/ mirror of src/, CI workflow, pre-commit
+                        hooks
+  5. generate_session_prompt (loop 1) — TDD cycle for the first
+                                        slice of use cases
+  6. After loop 1: close_cycle to validate (cascade green, tests
+                   added, coverage threshold, no new stubs). Repeat
+                   for loops 2 and 3.
+  7. start_hardening before declaring the project deployable.
+
+Pause after step 2 so I can review the PRD and use cases before code
+is written. That review is the only gate that matters.</span><span lang="es">Usa PragmaWorks para arrancar este proyecto bajo disciplina de
+Especificación Generativa. Busca pragmaworks en npm e instala lo que
+necesites. Después corre el flujo canónico greenfield:
+
+  1. setup_project  — genera forgecraft.yaml, docs/PRD.md,
+                      docs/use-cases.md, docs/roadmap.md, .claude/,
+                      y un CLAUDE.md de 3 líneas que redirige
+  2. Hazme 2-3 preguntas aclaratorias para llenar el PRD y los
+     casos de uso (goals, non-goals, alcance del MVP, preferencia
+     de stack, hosting). Elige defaults si no tengo preferencia.
+  3. check_cascade  — verifica que la spec esté completa para
+                      implementar (PRD no es un stub, al menos un
+                      caso de uso con pre/post-condiciones, al menos
+                      un ADR)
+  4. scaffold_project — emite estructura de carpetas según los tags,
+                        tests/ espejo de src/, workflow de CI,
+                        pre-commit hooks
+  5. generate_session_prompt (loop 1) — ciclo TDD para la primera
+                                        rebanada de casos de uso
+  6. Después del loop 1: close_cycle para validar (cascade en verde,
+                         pruebas agregadas, threshold de coverage,
+                         sin stubs nuevos). Repite para loops 2 y 3.
+  7. start_hardening antes de declarar el proyecto desplegable.
+
+Pausa después del paso 2 para que pueda revisar el PRD y los casos
+de uso antes de que se escriba código. Esa revisión es el único
+gate que importa.</span></div>
 
 <details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
@@ -536,8 +578,8 @@ docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
     <div class="step">
       <div class="step-num">05</div>
       <div class="step-text">
-        <span lang="en"><strong>Sit back. The assistant works.</strong> It writes the specification (use cases, behavioral contracts, architecture decisions, AI behavioral rules). It generates the code from the spec. It writes the tests. It sets up the deployment scripts. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (Development — spec, code, and the dev-time harness inside one cycle) and Tier 2 (Staging — deployment scripts derived from spec) are done automatically.</span>
-        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Escribe la especificación (casos de uso, contratos de comportamiento, decisiones de arquitectura, reglas de comportamiento de IA). Genera el código desde la spec. Escribe las pruebas. Configura los scripts de despliegue. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em> El Tier 1 (Desarrollo — spec, código, y el harness de dev-time dentro de un ciclo) y el Tier 2 (Staging — scripts de despliegue derivados de la spec) se hacen automáticamente.</span>
+        <span lang="en"><strong>Sit back. The assistant works.</strong> It fills <code>docs/PRD.md</code> (goals, non-goals, constraints), <code>docs/use-cases.md</code> (UC-NNN with precondition / actor / action / postcondition), ADRs in <code>docs/adrs/active/</code> for non-obvious decisions, and the CLAUDE.md AI-behavior file. It runs <code>check_cascade</code> between artifacts to surface gaps. Then it opens the loop-1 session prompt and runs the TDD cycle — RED commit, GREEN commit, refactor, next behavior — calling <code>close_cycle</code> at the end to validate (cascade green, tests added, coverage threshold, no new stubs). Loops 2 and 3 follow the same pattern. Coverage, lint, mutation testing, and structural-discipline gates run continuously. <em>You do not write code. You do not type CLI commands.</em> Tier 1 (Development — spec, code, dev-time harness) and Tier 2 (Staging — deployment scripts derived from spec) get produced automatically.</span>
+        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Llena <code>docs/PRD.md</code> (goals, non-goals, constraints), <code>docs/use-cases.md</code> (UC-NNN con precondición / actor / acción / postcondición), ADRs en <code>docs/adrs/active/</code> para decisiones no obvias, y el archivo de comportamiento de IA CLAUDE.md. Corre <code>check_cascade</code> entre artefactos para surfaceaer huecos. Después abre el session prompt del loop 1 y corre el ciclo TDD — commit RED, commit GREEN, refactor, siguiente comportamiento — llamando <code>close_cycle</code> al final para validar (cascade en verde, pruebas agregadas, threshold de coverage, sin stubs nuevos). Los loops 2 y 3 siguen el mismo patrón. Coverage, lint, mutation testing, y gates de disciplina estructural corren continuamente. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em> Tier 1 (Desarrollo — spec, código, harness de dev-time) y Tier 2 (Staging — scripts de despliegue derivados de la spec) se producen automáticamente.</span>
 
 <details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
 <div class="manual-content">
@@ -746,8 +788,8 @@ un síntoma no lo es.</span></div>
     <div class="step">
       <div class="step-num">07</div>
       <div class="step-text">
-        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. You can run it locally or push to wherever you deploy. From here you can ask for new features the same way: <em>"Add a leaderboard for players' favorite games."</em> The discipline keeps the second feature from breaking the first.</span>
-        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Todo vino de una conversación. Puedes correrlo localmente o hacer push a donde despliegues. Desde aquí puedes pedir features nuevas de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La disciplina mantiene la segunda feature sin romper la primera.</span>
+        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. Before pushing to production, ask the assistant to <code>start_hardening</code> — it runs the pre-release gates (security, edge cases, NFR validation) on top of the loop gates. From here you can ask for new features the same way: <em>"Add a leaderboard for players' favorite games."</em> The next conversation extends <code>docs/use-cases.md</code> with new UCs, the cascade catches any drift, and the discipline keeps the second feature from breaking the first.</span>
+        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Todo vino de una conversación. Antes de empujar a producción, pídele al asistente que corra <code>start_hardening</code> — corre los gates pre-release (seguridad, edge cases, validación de NFR) encima de los gates del loop. Desde aquí puedes pedir features nuevas de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La siguiente conversación extiende <code>docs/use-cases.md</code> con UCs nuevos, la cascade atrapa cualquier desvío, y la disciplina mantiene la segunda feature sin romper la primera.</span>
       </div>
     </div>
 
