@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Engineering Leaders — PragmaWorks</title>
-<meta name="description" content="AI Readiness Audit + Remediation for engineering teams. Measure what your codebase can withstand under AI-assisted development. PragmaWorks Labs.">
+<title data-en="For Engineering Leaders — PragmaWorks" data-es="Para Líderes de Ingeniería — PragmaWorks">For Engineering Leaders — PragmaWorks</title>
+<meta name="description"
+  data-en="AI Readiness Audit + Remediation for engineering teams. Measure what your codebase can withstand under AI-assisted development. PragmaWorks Labs."
+  data-es="Auditoría de Preparación para IA + Remediación para equipos de ingeniería. Mide qué puede soportar tu base de código bajo desarrollo asistido por IA. PragmaWorks Labs."
+  content="AI Readiness Audit + Remediation for engineering teams. Measure what your codebase can withstand under AI-assisted development. PragmaWorks Labs.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
 <style>
   :root {
     --ember:       #C44B1A;
@@ -261,136 +269,308 @@
 </style>
 </head>
 <body>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
   <div class="container">
 
-    <div class="eyebrow">PragmaWorks · For Engineering Leaders</div>
-    <h1>How much AI assistance can your codebase actually withstand?</h1>
-    <p class="lede">If your team is generating code with Claude, Cursor, Copilot, or any other AI assistant, the codebase is changing faster than your review can catch. PragmaWorks audits what's drifting, scores what your team can measure today, and remediates what needs to be fixed — so AI assistance compounds your engineering, instead of slowly eroding it.</p>
+    <div class="eyebrow">
+      <span lang="en">PragmaWorks · For Engineering Leaders</span>
+      <span lang="es">PragmaWorks · Para Líderes de Ingeniería</span>
+    </div>
+    <h1>
+      <span lang="en">How much AI assistance can your codebase actually withstand?</span>
+      <span lang="es">¿Cuánta asistencia de IA puede realmente soportar tu base de código?</span>
+    </h1>
+    <p class="lede">
+      <span lang="en">If your team is generating code with Claude, Cursor, Copilot, or any other AI assistant, the codebase is changing faster than your review can catch. PragmaWorks audits what's drifting, scores what your team can measure today, and remediates what needs to be fixed — so AI assistance compounds your engineering, instead of slowly eroding it.</span>
+      <span lang="es">Si tu equipo está generando código con Claude, Cursor, Copilot, o cualquier otro asistente de IA, la base de código está cambiando más rápido de lo que tu revisión puede atrapar. PragmaWorks audita qué se está desviando, puntúa lo que tu equipo puede medir hoy, y remedia lo que necesita arreglarse — para que la asistencia de IA capitalice tu ingeniería, en lugar de erosionarla lentamente.</span>
+    </p>
 
-    <h2>The four things every CTO and VP Engineering wants to know</h2>
+    <h2>
+      <span lang="en">The four things every CTO and VP Engineering wants to know</span>
+      <span lang="es">Las cuatro cosas que todo CTO y VP de Ingeniería quiere saber</span>
+    </h2>
 
-    <p>Existing tools (SonarQube, CodeClimate, Snyk) measure code metrics. PragmaWorks measures the metrics that determine whether AI assistance helps or hurts your organization over time:</p>
+    <p>
+      <span lang="en">Existing tools (SonarQube, CodeClimate, Snyk) measure code metrics. PragmaWorks measures the metrics that determine whether AI assistance helps or hurts your organization over time:</span>
+      <span lang="es">Las herramientas existentes (SonarQube, CodeClimate, Snyk) miden métricas de código. PragmaWorks mide las métricas que determinan si la asistencia de IA ayuda o lastima a tu organización con el tiempo:</span>
+    </p>
 
     <div class="problem-grid">
 
       <div class="problem">
-        <strong>Drift from intent.</strong>
-        <p>How far has your codebase moved from its architectural intent in the last quarter? AI sessions don't preserve invariants the way humans do. We measure structural drift commit by commit.</p>
+        <strong>
+          <span lang="en">Drift from intent.</span>
+          <span lang="es">Desvío del intento.</span>
+        </strong>
+        <p>
+          <span lang="en">How far has your codebase moved from its architectural intent in the last quarter? AI sessions don't preserve invariants the way humans do. We measure structural drift commit by commit.</span>
+          <span lang="es">¿Qué tan lejos se ha movido tu base de código de su intento arquitectónico en el último trimestre? Las sesiones de IA no preservan invariantes como lo hacen los humanos. Medimos el desvío estructural commit por commit.</span>
+        </p>
       </div>
 
       <div class="problem">
-        <strong>AI-introduced bug rate.</strong>
-        <p>What percentage of bugs introduced in the last 90 days came from AI-assisted commits? We detect the signal in commit history — message patterns, branch naming, change size, time of day — and report it.</p>
+        <strong>
+          <span lang="en">AI-introduced bug rate.</span>
+          <span lang="es">Tasa de bugs introducidos por IA.</span>
+        </strong>
+        <p>
+          <span lang="en">What percentage of bugs introduced in the last 90 days came from AI-assisted commits? We detect the signal in commit history — message patterns, branch naming, change size, time of day — and report it.</span>
+          <span lang="es">¿Qué porcentaje de bugs introducidos en los últimos 90 días vinieron de commits asistidos por IA? Detectamos la señal en el historial de commits — patrones de mensaje, nombrado de ramas, tamaño del cambio, hora del día — y lo reportamos.</span>
+        </p>
       </div>
 
       <div class="problem">
-        <strong>Team habit health.</strong>
-        <p>PR review density, regression coverage of past bugs, collaboration distribution across members, commit-size distribution. The organizational metrics no static analyzer surfaces.</p>
+        <strong>
+          <span lang="en">Team habit health.</span>
+          <span lang="es">Salud de hábitos del equipo.</span>
+        </strong>
+        <p>
+          <span lang="en">PR review density, regression coverage of past bugs, collaboration distribution across members, commit-size distribution. The organizational metrics no static analyzer surfaces.</span>
+          <span lang="es">Densidad de revisión de PRs, cobertura de regresión de bugs pasados, distribución de colaboración entre miembros, distribución de tamaño de commits. Las métricas organizacionales que ningún analizador estático muestra.</span>
+        </p>
       </div>
 
       <div class="problem">
-        <strong>AI readiness score.</strong>
-        <p>0-14 across seven properties: Self-describing, Bounded, Composable, Verifiable, Auditable, Defended, Executable. Each scored with evidence and a specific path to improve. Reproducible across runs, defensible at the next CTO meeting.</p>
+        <strong>
+          <span lang="en">AI readiness score.</span>
+          <span lang="es">Puntaje de preparación para IA.</span>
+        </strong>
+        <p>
+          <span lang="en">0-14 across seven properties: Self-describing, Bounded, Composable, Verifiable, Auditable, Defended, Executable. Each scored with evidence and a specific path to improve. Reproducible across runs, defensible at the next CTO meeting.</span>
+          <span lang="es">0-14 entre siete propiedades: Auto-descriptivo, Acotado, Componible, Verificable, Auditable, Defendido, Ejecutable. Cada una puntuada con evidencia y un camino específico para mejorar. Reproducible entre corridas, defendible en la siguiente reunión de CTO.</span>
+        </p>
       </div>
 
     </div>
 
-    <h2>What you get</h2>
+    <h2>
+      <span lang="en">What you get</span>
+      <span lang="es">Qué obtienes</span>
+    </h2>
 
-    <p>An HTML and PDF report, on a branch, never touching your main. Eight sections, designed to be forwarded by the developer who ran it to the manager who didn't:</p>
+    <p>
+      <span lang="en">An HTML and PDF report, on a branch, never touching your main. Eight sections, designed to be forwarded by the developer who ran it to the manager who didn't:</span>
+      <span lang="es">Un reporte HTML y PDF, en una rama, sin tocar nunca tu main. Ocho secciones, diseñadas para ser reenviadas por el desarrollador que lo corrió al manager que no lo hizo:</span>
+    </p>
 
     <ul>
-      <li>Cover summary — one-page AI readiness score with overall grade and top three risks</li>
-      <li>Structural disciplines — SOLID, TDD, hexagonal/clean architecture adherence</li>
-      <li>Documentation health — existence, staleness, alignment to current code</li>
-      <li>Test pyramid coverage — unit, integration, e2e — gaps and skew</li>
-      <li>Seven GS rubric scores — each with "why this score" and "how to improve"</li>
-      <li>Security and logging baseline — gaps, sensitive data handling, observability</li>
-      <li>Team-habit analysis — commit history patterns, AI bug rate, collaboration graph</li>
-      <li>Roadmap to remediation — prioritized action list, scoped to your architecture</li>
+      <li>
+        <span lang="en">Cover summary — one-page AI readiness score with overall grade and top three risks</span>
+        <span lang="es">Resumen de portada — puntaje de preparación para IA de una página con calificación general y top tres riesgos</span>
+      </li>
+      <li>
+        <span lang="en">Structural disciplines — SOLID, TDD, hexagonal/clean architecture adherence</span>
+        <span lang="es">Disciplinas estructurales — adherencia a SOLID, TDD, arquitectura hexagonal/clean</span>
+      </li>
+      <li>
+        <span lang="en">Documentation health — existence, staleness, alignment to current code</span>
+        <span lang="es">Salud de documentación — existencia, desactualización, alineación con el código actual</span>
+      </li>
+      <li>
+        <span lang="en">Test pyramid coverage — unit, integration, e2e — gaps and skew</span>
+        <span lang="es">Cobertura de la pirámide de pruebas — unit, integration, e2e — huecos y sesgo</span>
+      </li>
+      <li>
+        <span lang="en">Seven GS rubric scores — each with "why this score" and "how to improve"</span>
+        <span lang="es">Siete puntajes de la rúbrica GS — cada uno con "por qué este puntaje" y "cómo mejorar"</span>
+      </li>
+      <li>
+        <span lang="en">Security and logging baseline — gaps, sensitive data handling, observability</span>
+        <span lang="es">Baseline de seguridad y logging — huecos, manejo de datos sensibles, observabilidad</span>
+      </li>
+      <li>
+        <span lang="en">Team-habit analysis — commit history patterns, AI bug rate, collaboration graph</span>
+        <span lang="es">Análisis de hábitos de equipo — patrones del historial de commits, tasa de bugs por IA, gráfico de colaboración</span>
+      </li>
+      <li>
+        <span lang="en">Roadmap to remediation — prioritized action list, scoped to your architecture</span>
+        <span lang="es">Roadmap a remediación — lista de acciones priorizada, dimensionada a tu arquitectura</span>
+      </li>
     </ul>
 
-    <h2>How it works</h2>
+    <h2>
+      <span lang="en">How it works</span>
+      <span lang="es">Cómo funciona</span>
+    </h2>
 
     <div class="step-flow">
 
       <div class="step">
         <div class="step-num">01</div>
-        <div class="step-text"><strong>Audit.</strong> A developer or tech lead runs one command on any repo. The audit uses your existing AI assistant — Claude Code, Cursor, Copilot — and produces the report on a new branch. No infrastructure changes, no code changes to main.<br><span class="code-block">npx pragmaworks audit</span></div>
+        <div class="step-text">
+          <strong>
+            <span lang="en">Audit.</span>
+            <span lang="es">Auditar.</span>
+          </strong>
+          <span lang="en">A developer or tech lead runs one command on any repo. The audit uses your existing AI assistant — Claude Code, Cursor, Copilot — and produces the report on a new branch. No infrastructure changes, no code changes to main.</span>
+          <span lang="es">Un desarrollador o tech lead corre un comando en cualquier repo. La auditoría usa tu asistente de IA existente — Claude Code, Cursor, Copilot — y produce el reporte en una rama nueva. Sin cambios de infraestructura, sin cambios de código a main.</span>
+          <br><span class="code-block">npx pragmaworks audit</span>
+        </div>
       </div>
 
       <div class="step">
         <div class="step-num">02</div>
-        <div class="step-text"><strong>Remediate.</strong> The same flow runs the AI through a prioritized remediation under specification governance — generating use cases, ADRs, the test harness, the deployment scaffolding, and the corrected code. All on the branch. You review, you merge what passes.<br><span class="code-block">npx pragmaworks remediate</span></div>
+        <div class="step-text">
+          <strong>
+            <span lang="en">Remediate.</span>
+            <span lang="es">Remediar.</span>
+          </strong>
+          <span lang="en">The same flow runs the AI through a prioritized remediation under specification governance — generating use cases, ADRs, the test harness, the deployment scaffolding, and the corrected code. All on the branch. You review, you merge what passes.</span>
+          <span lang="es">El mismo flujo corre la IA a través de una remediación priorizada bajo gobernanza de especificación — generando casos de uso, ADRs, el harness de pruebas, el scaffolding de despliegue, y el código corregido. Todo en la rama. Tú revisas, tú mergeas lo que pasa.</span>
+          <br><span class="code-block">npx pragmaworks remediate</span>
+        </div>
       </div>
 
       <div class="step">
         <div class="step-num">03</div>
-        <div class="step-text"><strong>Govern.</strong> The team subscription adds multi-repo dashboards, ongoing drift monitoring, Chronicle Team for shared organizational memory, KPI tracking across the org, and licensing for commercial use.</div>
+        <div class="step-text">
+          <strong>
+            <span lang="en">Govern.</span>
+            <span lang="es">Gobernar.</span>
+          </strong>
+          <span lang="en">The team subscription adds multi-repo dashboards, ongoing drift monitoring, Chronicle Team for shared organizational memory, KPI tracking across the org, and licensing for commercial use.</span>
+          <span lang="es">La suscripción de equipo agrega dashboards multi-repo, monitoreo continuo de desvío, Chronicle Team para memoria organizacional compartida, tracking de KPIs entre la organización, y licenciamiento para uso comercial.</span>
+        </div>
       </div>
 
     </div>
 
-    <h2>Pricing</h2>
+    <h2>
+      <span lang="en">Pricing</span>
+      <span lang="es">Precios</span>
+    </h2>
 
     <table class="pricing-table">
       <thead>
         <tr>
-          <th>Tier</th>
-          <th>Who it's for</th>
-          <th>What's included</th>
-          <th>Price</th>
+          <th>
+            <span lang="en">Tier</span>
+            <span lang="es">Tier</span>
+          </th>
+          <th>
+            <span lang="en">Who it's for</span>
+            <span lang="es">Para quién</span>
+          </th>
+          <th>
+            <span lang="en">What's included</span>
+            <span lang="es">Qué incluye</span>
+          </th>
+          <th>
+            <span lang="en">Price</span>
+            <span lang="es">Precio</span>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="tier-name">Individual</td>
-          <td>Solo devs, OSS maintainers, anyone evaluating</td>
-          <td>One-repo audit, no remediation orchestration, no team features</td>
-          <td class="tier-price">Free</td>
+          <td class="tier-name">
+            <span lang="en">Individual</span>
+            <span lang="es">Individual</span>
+          </td>
+          <td>
+            <span lang="en">Solo devs, OSS maintainers, anyone evaluating</span>
+            <span lang="es">Devs individuales, maintainers de OSS, quien esté evaluando</span>
+          </td>
+          <td>
+            <span lang="en">One-repo audit, no remediation orchestration, no team features</span>
+            <span lang="es">Auditoría de un repo, sin orquestación de remediación, sin features de equipo</span>
+          </td>
+          <td class="tier-price">
+            <span lang="en">Free</span>
+            <span lang="es">Gratis</span>
+          </td>
         </tr>
         <tr>
           <td class="tier-name">Team</td>
-          <td>Engineering teams up to ~30 devs</td>
-          <td>Multi-repo audit + remediation + Chronicle Team + manager dashboard</td>
-          <td class="tier-price">From $25/seat/mo</td>
+          <td>
+            <span lang="en">Engineering teams up to ~30 devs</span>
+            <span lang="es">Equipos de ingeniería de hasta ~30 devs</span>
+          </td>
+          <td>
+            <span lang="en">Multi-repo audit + remediation + Chronicle Team + manager dashboard</span>
+            <span lang="es">Auditoría multi-repo + remediación + Chronicle Team + dashboard de manager</span>
+          </td>
+          <td class="tier-price">
+            <span lang="en">From $25/seat/mo</span>
+            <span lang="es">Desde $25/asiento/mes</span>
+          </td>
         </tr>
         <tr>
           <td class="tier-name">Enterprise</td>
-          <td>Larger orgs, regulated industries</td>
-          <td>Custom rubric, dedicated remediation, compliance trails, SSO, training, certification</td>
-          <td class="tier-price">Custom</td>
+          <td>
+            <span lang="en">Larger orgs, regulated industries</span>
+            <span lang="es">Organizaciones grandes, industrias reguladas</span>
+          </td>
+          <td>
+            <span lang="en">Custom rubric, dedicated remediation, compliance trails, SSO, training, certification</span>
+            <span lang="es">Rúbrica personalizada, remediación dedicada, audit trails de compliance, SSO, capacitación, certificación</span>
+          </td>
+          <td class="tier-price">
+            <span lang="en">Custom</span>
+            <span lang="es">A medida</span>
+          </td>
         </tr>
         <tr>
           <td class="tier-name">Concierge</td>
-          <td>Complex migrations, takeovers, or teams that want done-for-you</td>
-          <td>White-glove audit + remediation, dedicated PragmaWorks engineer for the engagement</td>
-          <td class="tier-price">From $20k</td>
+          <td>
+            <span lang="en">Complex migrations, takeovers, or teams that want done-for-you</span>
+            <span lang="es">Migraciones complejas, takeovers, o equipos que quieren hecho-para-ti</span>
+          </td>
+          <td>
+            <span lang="en">White-glove audit + remediation, dedicated PragmaWorks engineer for the engagement</span>
+            <span lang="es">Auditoría + remediación white-glove, ingeniero de PragmaWorks dedicado para el engagement</span>
+          </td>
+          <td class="tier-price">
+            <span lang="en">From $20k</span>
+            <span lang="es">Desde USD 20k</span>
+          </td>
         </tr>
       </tbody>
     </table>
 
     <div class="judgment-note">
-      <strong>The judgment layer.</strong> PragmaWorks does not replace human judgment. Domain expert review, real user testing, compliance sign-off, aesthetic and strategic decisions — those remain yours. We ensure everything before the judgment layer is correct, so judgment is spent only on what it alone can decide. AI does the 90% you couldn't get to anyway. You still own the irreducible 10%.
+      <strong>
+        <span lang="en">The judgment layer.</span>
+        <span lang="es">La capa de juicio.</span>
+      </strong>
+      <span lang="en">PragmaWorks does not replace human judgment. Domain expert review, real user testing, compliance sign-off, aesthetic and strategic decisions — those remain yours. We ensure everything before the judgment layer is correct, so judgment is spent only on what it alone can decide. AI does the 90% you couldn't get to anyway. You still own the irreducible 10%.</span>
+      <span lang="es">PragmaWorks no reemplaza el juicio humano. Revisión de experto de dominio, pruebas con usuarios reales, sign-off de compliance, decisiones estéticas y estratégicas — esas siguen siendo tuyas. Aseguramos que todo antes de la capa de juicio sea correcto, para que el juicio se gaste solo en lo que solo él puede decidir. La IA hace el 90% al que no llegabas de todas formas. Tú sigues siendo dueño del 10% irreducible.</span>
     </div>
 
     <div class="cta-box">
-      <h3>Run it on one of your repos this week</h3>
-      <p>The individual audit is free, runs locally, takes ten minutes. Read the report. If it's useful, talk to us about a Team engagement.</p>
+      <h3>
+        <span lang="en">Run it on one of your repos this week</span>
+        <span lang="es">Córrelo en uno de tus repos esta semana</span>
+      </h3>
+      <p>
+        <span lang="en">The individual audit is free, runs locally, takes ten minutes. Read the report. If it's useful, talk to us about a Team engagement.</span>
+        <span lang="es">La auditoría individual es gratis, corre localmente, toma diez minutos. Lee el reporte. Si es útil, habla con nosotros sobre un engagement de Team.</span>
+      </p>
       <span class="code-block">npx pragmaworks audit</span>
-      <p style="margin-top: 14px;">Or schedule a 30-min call to walk through the methodology, the report sample, and what a remediation engagement looks like for your team.</p>
+      <p style="margin-top: 14px;">
+        <span lang="en">Or schedule a 30-min call to walk through the methodology, the report sample, and what a remediation engagement looks like for your team.</span>
+        <span lang="es">O agenda una llamada de 30 minutos para caminar la metodología, un reporte de ejemplo, y cómo se ve un engagement de remediación para tu equipo.</span>
+      </p>
       <p><a href="mailto:juan@pragmaworks.dev?subject=PragmaWorks%20Team%20engagement">juan@pragmaworks.dev →</a></p>
     </div>
 
     <div class="footer">
       Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
-      <a href="/start">Resources</a> ·
-      <a href="/try">Developer Cookbook</a> ·
-      <a href="/leaders">Leaders Cookbook</a> ·
+      <a href="/start"><span lang="en">Resources</span><span lang="es">Recursos</span></a> ·
+      <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario para Desarrolladores</span></a> ·
+      <a href="/leaders"><span lang="en">Leaders Cookbook</span><span lang="es">Recetario para Líderes</span></a> ·
       <a href="https://forgeworkshop.dev">forgeworkshop.dev</a> ·
       <a href="https://www.linkedin.com/in/jcghiri" target="_blank" rel="noopener">LinkedIn</a>
     </div>
 
   </div>
+
+  <script src="/i18n.js" defer></script>
 </body>
 </html>
