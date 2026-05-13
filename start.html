@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start — PragmaWorks</title>
-<meta name="description" content="Generative Specification: read the paper, score your repo, join the next study, or get in touch.">
+<title data-en="Start — PragmaWorks" data-es="Empezar — PragmaWorks">Start — PragmaWorks</title>
+<meta name="description"
+  data-en="Generative Specification: read the paper, score your repo, join the next study, or get in touch."
+  data-es="Especificación Generativa: lee el paper, puntúa tu repo, únete al siguiente estudio, o contáctanos."
+  content="Generative Specification: read the paper, score your repo, join the next study, or get in touch.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
 <style>
   :root {
     --ember:       #C44B1A;
@@ -154,38 +162,88 @@
 </style>
 </head>
 <body>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
   <div class="container">
-    <div class="eyebrow">PragmaWorks · Generative Specification</div>
-    <h1>AI development that doesn't drift.</h1>
-    <div class="subtitle">Four ways to start.</div>
+    <div class="eyebrow">
+      <span lang="en">PragmaWorks · Generative Specification</span>
+      <span lang="es">PragmaWorks · Especificación Generativa</span>
+    </div>
+    <h1>
+      <span lang="en">AI development that doesn't drift.</span>
+      <span lang="es">Desarrollo con IA que no se desvía.</span>
+    </h1>
+    <div class="subtitle">
+      <span lang="en">Four ways to start.</span>
+      <span lang="es">Cuatro formas de empezar.</span>
+    </div>
 
     <div class="intro">
-      <p>Generative Specification is the discipline that lets AI-assisted development run end-to-end without a human reading every generated line. Below are the entry points: read the paper, score one of your repos, join the next practitioner study, or reach me directly.</p>
+      <p>
+        <span lang="en">Generative Specification is the discipline that lets AI-assisted development run end-to-end without a human reading every generated line. Below are the entry points: read the paper, score one of your repos, join the next practitioner study, or reach me directly.</span>
+        <span lang="es">Especificación Generativa es la disciplina que permite al desarrollo asistido por IA correr de punta a punta sin que un humano lea cada línea generada. Abajo están los puntos de entrada: lee el paper, puntúa uno de tus repos, únete al siguiente estudio con practicantes, o contáctame directamente.</span>
+      </p>
     </div>
 
     <div class="resources">
 
       <div class="resource">
-        <h2><span class="num">01</span> Read the white paper</h2>
-        <p>The full argument, the formal lineage from Aristotle to today, and the empirical evidence behind Generative Specification. Open access on Zenodo.</p>
+        <h2>
+          <span class="num">01</span>
+          <span lang="en">Read the white paper</span>
+          <span lang="es">Lee el white paper</span>
+        </h2>
+        <p>
+          <span lang="en">The full argument, the formal lineage from Aristotle to today, and the empirical evidence behind Generative Specification. Open access on Zenodo.</span>
+          <span lang="es">El argumento completo, el linaje formal desde Aristóteles hasta hoy, y la evidencia empírica detrás de Especificación Generativa. Acceso abierto en Zenodo.</span>
+        </p>
         <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">doi: 10.5281/zenodo.19637142 →</a>
       </div>
 
       <div class="resource">
-        <h2><span class="num">02</span> Score one of your repositories</h2>
-        <p>The same scanner used in the practitioner studies. Free, open source, runs locally. Get a 0-14 score across the seven properties on any repo in 10 minutes.</p>
+        <h2>
+          <span class="num">02</span>
+          <span lang="en">Score one of your repositories</span>
+          <span lang="es">Puntúa uno de tus repositorios</span>
+        </h2>
+        <p>
+          <span lang="en">The same scanner used in the practitioner studies. Free, open source, runs locally. Get a 0-14 score across the seven properties on any repo in 10 minutes.</span>
+          <span lang="es">El mismo escáner usado en los estudios con practicantes. Gratis, open source, corre localmente. Obtén un puntaje 0-14 entre las siete propiedades en cualquier repo en 10 minutos.</span>
+        </p>
         <code>npx forgecraft-mcp verify .</code>
       </div>
 
       <div class="resource">
-        <h2><span class="num">03</span> Join the next practitioner study (DX2)</h2>
-        <p>If you build with AI assistance and want to participate — and see your own results before publication — enrollment is open. Remote, structured, brief.</p>
-        <a href="mailto:juan@pragmaworks.dev?subject=DX2%20enrollment">Email to enroll →</a>
+        <h2>
+          <span class="num">03</span>
+          <span lang="en">Join the next practitioner study (DX2)</span>
+          <span lang="es">Únete al siguiente estudio con practicantes (DX2)</span>
+        </h2>
+        <p>
+          <span lang="en">If you build with AI assistance and want to participate — and see your own results before publication — enrollment is open. Remote, structured, brief.</span>
+          <span lang="es">Si construyes con asistencia de IA y quieres participar — y ver tus propios resultados antes de la publicación — la inscripción está abierta. Remoto, estructurado, breve.</span>
+        </p>
+        <a href="mailto:juan@pragmaworks.dev?subject=DX2%20enrollment">
+          <span lang="en">Email to enroll →</span>
+          <span lang="es">Escríbeme para inscribirte →</span>
+        </a>
       </div>
 
       <div class="resource">
-        <h2><span class="num">04</span> Talk to me</h2>
-        <p>Working on something specific where this might apply? Want to compare notes on AI-assisted development at your team? Direct line below.</p>
+        <h2>
+          <span class="num">04</span>
+          <span lang="en">Talk to me</span>
+          <span lang="es">Háblame</span>
+        </h2>
+        <p>
+          <span lang="en">Working on something specific where this might apply? Want to compare notes on AI-assisted development at your team? Direct line below.</span>
+          <span lang="es">¿Trabajando en algo específico donde esto podría aplicar? ¿Quieres comparar notas sobre desarrollo asistido por IA en tu equipo? Línea directa abajo.</span>
+        </p>
         <a href="mailto:juan@pragmaworks.dev">juan@pragmaworks.dev →</a>
       </div>
 
@@ -197,5 +255,7 @@
       <a href="https://www.linkedin.com/in/jcghiri" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
+
+  <script src="/i18n.js" defer></script>
 </body>
 </html>
