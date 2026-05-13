@@ -630,23 +630,66 @@ docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
     <div class="step">
       <div class="step-num">04</div>
       <div class="step-text">
-        <span lang="en"><strong>Answer its questions briefly.</strong> The assistant will ask things like: "What's the smallest version that's useful (the MVP)?" "Any tech stack preference, or should I choose?" "Local-only or hosted?" Answer in one or two sentences each. Don't overthink it — the spec it builds will absorb your answers and ask follow-ups if anything is unclear.</span>
-        <span lang="es"><strong>Responde brevemente a sus preguntas.</strong> El asistente preguntará cosas como: "¿Cuál es la versión más pequeña que es útil (el MVP)?" "¿Tienes preferencia de stack tecnológico, o escojo yo?" "¿Solo local o desplegado?" Responde en una o dos oraciones cada una. No lo sobrepienses — la spec que construya absorberá tus respuestas y hará follow-ups si algo no queda claro.</span>
+        <span lang="en"><strong>Answer its questions briefly.</strong> One or two sentences each. Don't overthink — the spec absorbs your answers and asks follow-ups if anything is unclear.</span>
+        <span lang="es"><strong>Responde brevemente a sus preguntas.</strong> Una o dos oraciones cada una. No lo sobrepienses — la spec absorbe tus respuestas y pregunta follow-ups si algo no queda claro.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The tool's flow asks tight canonical questions because it knows which fields it needs to fill: MVP scope, tech stack preference, hosting model, any regulatory constraints. Typical sequence: <em>"What's the smallest version that's useful?"</em> · <em>"Any stack preference, or should I choose?"</em> · <em>"Local-only or hosted?"</em></span>
+      <span lang="es">El flujo de la herramienta hace preguntas canónicas y precisas porque sabe qué campos necesita llenar: alcance del MVP, preferencia de stack, modelo de hosting, restricciones regulatorias. Secuencia típica: <em>"¿Cuál es la versión más pequeña que sirve?"</em> · <em>"¿Preferencia de stack, o escojo yo?"</em> · <em>"¿Solo local o desplegado?"</em></span>
+    </p>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The assistant has no schema to fall back on, so the questions cover broader ground: scope, surface, audience, architecture style, NFR constraints. Same instruction — answer briefly. Your answers go into <code>docs/specs/&lt;slug&gt;.md</code> and shape the first use cases in <code>docs/use-cases/</code>. Where the AI proposes a default, accept it unless you have a real reason to override — the cascade catches gaps later.</span>
+      <span lang="es">El asistente no tiene schema al cual recurrir, así que las preguntas cubren terreno más amplio: alcance, superficie, audiencia, estilo arquitectónico, restricciones de NFR. Mismo principio — responde corto. Tus respuestas van en <code>docs/specs/&lt;slug&gt;.md</code> y dan forma a los primeros casos de uso en <code>docs/use-cases/</code>. Donde la IA proponga un default, acéptalo a menos que tengas razón real para sobreescribir — la cascade atrapa huecos después.</span>
+    </p>
+  </div>
+</details>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">05</div>
       <div class="step-text">
-        <span lang="en"><strong>Sit back. The assistant works.</strong> It builds the project under the discipline — spec, code, tests, deployment scripts, in that order, with the cascade gates running continuously. <em>You don't write code. You don't type CLI commands.</em> Tier 1 (Development) and Tier 2 (Staging) come out automatically.</span>
-        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Construye el proyecto bajo la disciplina — spec, código, tests, scripts de despliegue, en ese orden, con los gates de cascade corriendo continuamente. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em> Tier 1 (Desarrollo) y Tier 2 (Staging) salen automáticamente.</span>
+        <span lang="en"><strong>Sit back. The assistant works.</strong> It builds the project under the discipline — spec, code, tests, deployment scripts, in that order. <em>You don't write code. You don't type CLI commands.</em></span>
+        <span lang="es"><strong>Recuéstate. El asistente trabaja.</strong> Construye el proyecto bajo la disciplina — spec, código, tests, scripts de despliegue, en ese orden. <em>Tú no escribes código. Tú no tecleas comandos de CLI.</em></span>
 
-<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
-<div class="manual-content">
-<p>
-  <span lang="en">Without our cascade gates wired in, you'd tell the AI the rule explicitly so it never gets ahead of itself. The whole rule is short:</span>
-  <span lang="es">Sin nuestros gates de cascade conectados, le dirías a la IA la regla explícitamente para que nunca se adelante. La regla completa es corta:</span>
-</p>
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Nothing more to paste. The cascade gates set up in step 3 run on every commit and PR — the tool blocks any commit that violates the discipline before it lands. Tier 1 (Development — spec, code, dev-time harness) and Tier 2 (Staging — deployment scripts derived from spec) come out automatically.</span>
+      <span lang="es">No hay nada más que pegar. Los gates de cascade configurados en el paso 3 corren en cada commit y PR — la herramienta bloquea cualquier commit que viole la disciplina antes de que aterrice. Tier 1 (Desarrollo — spec, código, harness de dev-time) y Tier 2 (Staging — scripts de despliegue derivados de la spec) salen automáticamente.</span>
+    </p>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">No gates wired in yet, so tell the AI the cascade rule explicitly before any work begins. The rule is short — paste it once and the assistant respects it through the rest of the session:</span>
+      <span lang="es">Sin gates conectados todavía, así que dile al asistente la regla de cascade explícitamente antes de cualquier trabajo. La regla es corta — pégala una vez y el asistente la respeta durante el resto de la sesión:</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this before any work begins</span><span lang="es">Pega esto antes de cualquier trabajo</span></span><span lang="en">While you build, follow this cascade strictly. The commit type drives
 which docs are required:
 
@@ -725,11 +768,7 @@ Si no puedes articular la spec, pregúntame antes de adivinar. Si
 no puedes reproducir el bug en una prueba, dilo antes de parchear.
 Termina cada commit con un resumen de una línea declarando qué docs
 se tocaron y por qué — esa línea es el audit trail.</span></div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
-  <span lang="en">This is what the cascade gates encode. Pasted as a rule, it works almost as well — you just don't get the "block on push" enforcement.</span>
-  <span lang="es">Esto es lo que los cascade gates codifican. Pegado como regla, funciona casi tan bien — solo que no obtienes el enforcement de "block on push".</span>
-</p>
-</div>
+  </div>
 </details>
       </div>
     </div>
@@ -737,9 +776,20 @@ se tocaron y por qué — esa línea es el audit trail.</span></div>
     <div class="step">
       <div class="step-num">06</div>
       <div class="step-text">
-        <span lang="en"><strong>Optional — verify the harness yourself.</strong> If you want to feel the discipline working, ask the assistant:</span>
-        <span lang="es"><strong>Opcional — verifica el harness tú mismo.</strong> Si quieres sentir la disciplina funcionando, pídele al asistente:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional follow-up</span><span lang="es">Follow-up opcional</span></span><span lang="en">Run the harness end-to-end. Drive the running app through every use case
+        <span lang="en"><strong>Optional — verify the harness yourself.</strong> If you want to feel the discipline working: drive the running app through every use case, compare visuals against the spec, diff DB state, verify log sequences. This is what "you stop reading generated code" actually means.</span>
+        <span lang="es"><strong>Opcional — verifica el harness tú mismo.</strong> Si quieres sentir la disciplina funcionando: maneja la app a través de cada caso de uso, compara visuales contra la spec, diff del estado de DB, verifica secuencias de log. Esto es lo que "dejas de leer código generado" realmente significa.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">One short prompt. The tool's harness handles Playwright orchestration, screenshot capture, multimodal comparison, DB diff, and log inspection — it knows where the use cases live and how the app starts.</span>
+      <span lang="es">Un prompt corto. El harness de la herramienta maneja la orquestación de Playwright, captura de screenshots, comparación multimodal, diff de DB e inspección de logs — sabe dónde viven los casos de uso y cómo arranca la app.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Run the harness end-to-end. Drive the running app through every use case
 with Playwright, capture screenshots at each boundary, use multimodal AI
 to compare each screenshot against the use-case visual postcondition,
 diff the database state before and after each action, and verify the
@@ -749,15 +799,19 @@ multimodal para comparar cada screenshot contra la postcondición visual del
 caso de uso, hace diff del estado de la base de datos antes y después de
 cada acción, y verifica que los logs de la capa de servicio muestren la
 secuencia esperada. Reporta los resultados.</span></div>
-        <span lang="en">The assistant spins up the local app, drives it through the use cases, takes screenshots, has a vision model compare each screenshot to what the spec says it should look like, runs API endpoint tests via curl, and reports back. If anything is off, it tightens the spec and regenerates — not patches the code. This is what "you stop reading generated code" actually means.</span>
-        <span lang="es">El asistente levanta la app local, la maneja a través de los casos de uso, toma screenshots, hace que un modelo de visión compare cada screenshot contra lo que la spec dice que debe verse, corre pruebas de endpoints de API vía curl, y reporta. Si algo está mal, ajusta la spec y regenera — no parchea el código. Esto es lo que "dejas de leer código generado" realmente significa.</span>
+  </div>
+</details>
 
-<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
-<div class="manual-content">
-<p>
-  <span lang="en">Same step described in one prompt. The AI drives Playwright, takes screenshots, uses its own vision capabilities to compare each shot to the spec's visual postcondition, and inspects logs and DB state. No orchestration tool required.</span>
-  <span lang="es">El mismo paso descrito en un prompt. La IA maneja Playwright, toma screenshots, usa sus propias capacidades de visión para comparar cada shot contra la postcondición visual de la spec, e inspecciona logs y estado de DB. No requiere herramienta de orquestación.</span>
-</p>
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same step in one prompt. The AI drives Playwright, takes screenshots, uses its own vision to compare each shot to the spec's visual postcondition, and inspects logs and DB state. No orchestration tool — the AI handles the loop itself, you just describe what to do for each use case:</span>
+      <span lang="es">El mismo paso en un prompt. La IA maneja Playwright, toma screenshots, usa su propia visión para comparar cada shot contra la postcondición visual de la spec, e inspecciona logs y estado de DB. Sin herramienta de orquestación — la IA maneja el loop, tú solo describes qué hacer para cada caso de uso:</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Verify the harness end-to-end without external orchestration. Use only:
 Playwright (or your stack's equivalent), the running local app, your
 own vision capabilities, and direct DB / log access.
@@ -836,11 +890,7 @@ código. Di qué línea de qué spec o caso de uso necesita ser más
 precisa para que la siguiente generación lo haga bien. Ajustar la
 spec es el único arreglo legal; meter mano al código para parchear
 un síntoma no lo es.</span></div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
-  <span lang="en">This is the multimodal-AI-as-QA pattern. The PragmaWorks harness automates the loop and persists the test corpus; the prompt gets you 80% of the value once.</span>
-  <span lang="es">Este es el patrón de IA-multimodal-como-QA. El harness de PragmaWorks automatiza el loop y persiste el corpus de pruebas; el prompt te da el 80% del valor en una pasada.</span>
-</p>
-</div>
+  </div>
 </details>
       </div>
     </div>
@@ -848,8 +898,90 @@ un síntoma no lo es.</span></div>
     <div class="step">
       <div class="step-num">07</div>
       <div class="step-text">
-        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. The whole thing came from a conversation. When you're ready to push to production, tell the assistant — it runs the pre-release hardening pass on top of the per-loop gates. From here you can add features the same way: <em>"Add a leaderboard for players' favorite games."</em> The discipline keeps the second feature from breaking the first.</span>
-        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Todo vino de una conversación. Cuando estés listo para empujar a producción, dile al asistente — corre la pasada de hardening pre-release encima de los gates por loop. Desde aquí puedes agregar features de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La disciplina mantiene la segunda feature sin romper la primera.</span>
+        <span lang="en"><strong>You have a real project.</strong> Working code, tests passing, deployable. Before pushing to production, run a pre-release hardening pass. From here you can add features the same way: <em>"Add a leaderboard for players' favorite games."</em> The discipline keeps the second feature from breaking the first.</span>
+        <span lang="es"><strong>Tienes un proyecto real.</strong> Código funcionando, pruebas pasando, deployable. Antes de empujar a producción, corre una pasada de hardening pre-release. Desde aquí puedes agregar features de la misma forma: <em>"Agrega un leaderboard para los juegos favoritos de los jugadores."</em> La disciplina mantiene la segunda feature sin romper la primera.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Tell the assistant you're ready for production. The tool runs the pre-release hardening pass (security, edge cases, NFR validation, dependency audit) on top of the per-loop gates and reports findings.</span>
+      <span lang="es">Dile al asistente que estás listo para producción. La herramienta corre la pasada de hardening pre-release (seguridad, edge cases, validación de NFR, audit de dependencias) encima de los gates por loop y reporta los hallazgos.</span>
+    </p>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Paste a hardening prompt — it walks the AI through the pre-release checks the tool would otherwise orchestrate:</span>
+      <span lang="es">Pega un prompt de hardening — guía al asistente a través de los checks pre-release que la herramienta orquestaría:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Run a pre-release hardening pass before this code goes to production.
+Audit the codebase across these categories and report findings as a
+markdown table with one row per finding (category, severity, file:line,
+proposed fix):
+
+1. Security. Secrets in source, input validation gaps, auth boundary
+   checks, the OWASP categories applicable to this stack.
+
+2. Edge cases. For each docs/use-cases/UC-*.md, propose 3-5 edge
+   inputs (null, empty, max length, boundary, malformed, concurrent)
+   and verify each is handled. Write the missing regression tests.
+
+3. NFR validation. For each docs/contracts/* (performance, latency,
+   throughput, error budgets, SLOs), verify the code meets it.
+   Where there is no contract for a load-bearing path, propose one.
+
+4. Dependency audit. Outdated packages, known CVEs, license issues,
+   transitive risks.
+
+5. Production readiness. Logging coverage at every trust boundary,
+   structured error handling, graceful degradation paths, the
+   observability hooks needed for the harness to run in production.
+
+For each finding propose a SPEC TIGHTENING or a regression test
+addition. Reach into the code to patch only purely defensive,
+uncontroversial issues (e.g., adding input bounds check on a hot
+path). End with a one-paragraph go / no-go recommendation.</span><span lang="es">Corre una pasada de hardening pre-release antes de que este código vaya
+a producción. Audita la base de código en estas categorías y reporta
+hallazgos como tabla markdown con un row por hallazgo (categoría,
+severidad, file:line, fix propuesto):
+
+1. Seguridad. Secretos en el source, huecos de validación de input,
+   checks de auth boundary, las categorías OWASP aplicables al stack.
+
+2. Edge cases. Para cada docs/use-cases/UC-*.md, propón 3-5 inputs
+   borde (null, vacío, longitud máxima, frontera, mal formado,
+   concurrente) y verifica que cada uno esté manejado. Escribe las
+   pruebas de regresión faltantes.
+
+3. Validación de NFR. Para cada docs/contracts/* (performance,
+   latencia, throughput, error budgets, SLOs), verifica que el
+   código cumpla. Donde no haya contrato para un camino crítico,
+   propón uno.
+
+4. Audit de dependencias. Paquetes desactualizados, CVEs conocidos,
+   issues de licencia, riesgos transitivos.
+
+5. Production readiness. Cobertura de logging en cada trust boundary,
+   manejo de errores estructurado, caminos de graceful degradation,
+   los hooks de observabilidad que el harness necesita para correr
+   en producción.
+
+Para cada hallazgo, propón un AJUSTE DE SPEC o agregar una prueba de
+regresión. Mete mano al código solo en issues puramente defensivos y
+no controversiales (p.ej., agregar check de bounds en un hot path).
+Termina con una recomendación go / no-go de un párrafo.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
