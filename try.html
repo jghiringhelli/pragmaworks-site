@@ -1010,25 +1010,96 @@ Termina con una recomendación go / no-go de un párrafo.</span></div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-text">
-        <span lang="en"><strong>Ask it to audit the project.</strong> One prompt:</span>
-        <span lang="es"><strong>Pídele que audite el proyecto.</strong> Un prompt:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use PragmaWorks to audit this project. Find pragmaworks on npm, install
-what you need, run the analysis on a new branch (don't touch main), and
-generate the initial report as both HTML and PDF.
+        <span lang="en"><strong>Create a working branch — before anything else.</strong> No work touches <code>main</code>. The AI can run <code>git checkout -b</code> for you; you stay in control of when it merges back.</span>
+        <span lang="es"><strong>Crea una rama de trabajo — antes de cualquier otra cosa.</strong> Nada toca <code>main</code>. La IA puede correr <code>git checkout -b</code> por ti; tú mantienes el control de cuándo mergea de regreso.</span>
 
-Cover: (1) the seven GS properties — Self-describing, Bounded, Composable,
-Verifiable, Auditable, Defended, Executable — each scored 0-2 with evidence
-and a specific path to improve; (2) which structural disciplines apply
-to this codebase from the catalog (SOLID, TDD, hexagonal, layered, clean
-architecture, etc.) and how it scores against them; (3) test pyramid
-coverage; (4) documentation health and staleness; (5) security and logging
-baseline; (6) a prioritized remediation plan I can review before we apply
-anything.
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The audit prompt in step 3 instructs the tool to branch automatically. If you want to confirm before any change, paste this first:</span>
+      <span lang="es">El prompt de auditoría en el paso 3 le indica a la herramienta que cree la rama automáticamente. Si quieres confirmar antes de cualquier cambio, pega esto primero:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional confirmation</span><span lang="es">Confirmación opcional</span></span><span lang="en">Before any analysis, create a branch named pragmaworks-audit and switch
+to it using git CLI. Confirm the branch is active before doing anything
+else. Do not touch main during this session.</span><span lang="es">Antes de cualquier análisis, crea una rama llamada pragmaworks-audit y
+cambia a ella usando git CLI. Confirma que la rama esté activa antes de
+hacer cualquier otra cosa. No toques main durante esta sesión.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same idea, more explicit since no tool is enforcing it. Paste this so the AI commits to staying off main for the entire session:</span>
+      <span lang="es">Misma idea, más explícita porque ninguna herramienta lo está forzando. Pega esto para que la IA se comprometa a quedarse fuera de main por toda la sesión:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this first</span><span lang="es">Pega esto primero</span></span><span lang="en">Before any analysis, use git CLI to:
+
+  1. Confirm the working tree is clean (git status). If not, stop
+     and tell me so I can stash or commit first.
+  2. Create a new branch: git checkout -b gs-audit-YYYY-MM-DD
+     (substitute today's date).
+  3. Confirm you are on the new branch (git branch --show-current).
+
+For the rest of this session: do not commit to main, do not push to
+main, do not delete the new branch. If you ever need to merge back,
+ask me first.</span><span lang="es">Antes de cualquier análisis, usa git CLI para:
+
+  1. Confirmar que el working tree está limpio (git status). Si no,
+     detente y dímelo para hacer stash o commit primero.
+  2. Crear una rama nueva: git checkout -b gs-audit-YYYY-MM-DD
+     (sustituye la fecha de hoy).
+  3. Confirmar que estás en la rama nueva (git branch --show-current).
+
+Para el resto de la sesión: no hagas commit a main, no hagas push a
+main, no borres la rama nueva. Si alguna vez necesitas mergear de
+regreso, pregúntame primero.</span></div>
+  </div>
+</details>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <span lang="en"><strong>Audit the project.</strong> The codebase as it stands today: GS rubric, structural disciplines, test pyramid, doc health, security baseline, prioritized remediation plan. Everything on the branch you just created. <code>main</code> stays untouched.</span>
+        <span lang="es"><strong>Audita el proyecto.</strong> La base de código como está hoy: rúbrica GS, disciplinas estructurales, pirámide de pruebas, salud de docs, baseline de seguridad, plan de remediación priorizado. Todo en la rama que acabas de crear. <code>main</code> queda intacto.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">One prompt. The tool runs the analysis, renders the HTML + PDF, and respects any existing CLAUDE.md / agents.md conventions in the repo.</span>
+      <span lang="es">Un prompt. La herramienta corre el análisis, renderea el HTML + PDF, y respeta cualquier convención existente CLAUDE.md / agents.md en el repo.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Use pragmaworks to audit this project on the current branch. Find
+pragmaworks on npm, install what you need, and generate the initial
+report as both HTML and PDF.
+
+Cover: (1) the seven GS properties — Self-describing, Bounded,
+Composable, Verifiable, Auditable, Defended, Executable — each scored
+0-2 with evidence and a specific path to improve; (2) which structural
+disciplines apply to this codebase from the catalog (SOLID, TDD,
+hexagonal, layered, clean architecture, etc.) and how it scores against
+them; (3) test pyramid coverage; (4) documentation health and staleness;
+(5) security and logging baseline; (6) a prioritized remediation plan I
+can review before we apply anything.
 
 If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
-file, map your output to those locations rather than overriding them.</span><span lang="es">Usa PragmaWorks para auditar este proyecto. Busca pragmaworks en npm,
-instala lo que necesites, corre el análisis en una rama nueva (no toques
-main), y genera el reporte inicial como HTML y PDF.
+file, map your output to those locations rather than overriding them.</span><span lang="es">Usa pragmaworks para auditar este proyecto en la rama actual. Busca
+pragmaworks en npm, instala lo que necesites, y genera el reporte
+inicial como HTML y PDF.
 
 Cubre: (1) las siete propiedades de GS — Auto-descriptivo, Acotado,
 Componible, Verificable, Auditable, Defendido, Ejecutable — cada una
@@ -1042,13 +1113,19 @@ remediación priorizado que pueda revisar antes de aplicar nada.
 Si este repo ya tiene CLAUDE.md, agents.md, o archivo similar de
 comportamiento de IA, mapea tu output a esas ubicaciones en lugar de
 sobreescribirlas.</span></div>
+  </div>
+</details>
 
-<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
-<div class="manual-content">
-<p>
-  <span lang="en">Same step without any tooling. You're naming the seven properties and the structural-discipline catalog explicitly so two independent runs land within ±1 — that's what makes the rubric reproducible.</span>
-  <span lang="es">El mismo paso sin ninguna herramienta. Estás nombrando las siete propiedades y el catálogo de disciplinas estructurales explícitamente para que dos corridas independientes caigan dentro de ±1 — eso es lo que hace reproducible la rúbrica.</span>
-</p>
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Naming the seven properties and the structural-discipline catalog explicitly so two independent runs land within ±1 — that's what makes the rubric reproducible. You're asking for the same report; just without our renderer.</span>
+      <span lang="es">Nombras las siete propiedades y el catálogo de disciplinas estructurales explícitamente para que dos corridas independientes caigan dentro de ±1 — eso es lo que hace reproducible la rúbrica. Pides el mismo reporte; solo sin nuestro renderer.</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Audit this project without any external tooling. Read the codebase,
 docs, tests, CI config, and git log. Produce a markdown report at
 reports/audit-initial.md covering:
@@ -1139,42 +1216,53 @@ markdown en reports/audit-initial.md cubriendo:
 No apliques remediación en esta pasada. Cita archivos y números de
 línea liberalmente; el reporte debe ser reproducible por cualquiera
 que pueda leer la base de código.</span></div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
-  <span lang="en">The PragmaWorks audit packages this prompt with PDF rendering, sister-repo cross-checks, and continuity across runs. The prompt alone gets you the report.</span>
-  <span lang="es">La auditoría de PragmaWorks empaqueta este prompt con renderizado de PDF, cross-checks con repos hermanos, y continuidad entre corridas. El prompt solo te da el reporte.</span>
-</p>
-</div>
+  </div>
 </details>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-text">
-        <span lang="en"><strong>Read the initial report.</strong> The assistant generates a PDF. It tells you what your codebase looks like today: which structural disciplines apply (it picks from the standard catalog — SOLID, TDD, hexagonal, layered, clean architecture, etc.), what scores it gets on each, the seven GS properties scored 0-2 with evidence, where documentation has rotted, what the test pyramid actually looks like, and where the AI sees the most leverage for improvement.</span>
-        <span lang="es"><strong>Lee el reporte inicial.</strong> El asistente genera un PDF. Te dice cómo se ve tu base de código hoy: qué disciplinas estructurales aplican (escoge del catálogo estándar — SOLID, TDD, hexagonal, capas, clean architecture, etc.), qué puntajes obtiene en cada una, las siete propiedades de GS puntuadas 0-2 con evidencia, dónde la documentación se ha podrido, cómo se ve realmente la pirámide de pruebas, y dónde la IA ve más leverage para mejorar.</span>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">04</div>
       <div class="step-text">
-        <span lang="en"><strong>Approve the plan, or modify it.</strong> The remediation plan is in the report. Say something like:</span>
-        <span lang="es"><strong>Aprueba el plan, o modifícalo.</strong> El plan de remediación está en el reporte. Di algo como:</span>
+        <span lang="en"><strong>Read the initial report.</strong> The PDF (or markdown, if you went pure-GS) tells you what your codebase looks like today: which structural disciplines apply, what scores it gets on each, the seven GS properties scored 0-2 with evidence, where documentation has rotted, what the test pyramid actually looks like, and where the AI sees the most leverage for improvement.</span>
+        <span lang="es"><strong>Lee el reporte inicial.</strong> El PDF (o markdown, si fuiste por la ruta GS puro) te dice cómo se ve tu base de código hoy: qué disciplinas estructurales aplican, qué puntajes obtiene en cada una, las siete propiedades de GS puntuadas 0-2 con evidencia, dónde la documentación se ha podrido, cómo se ve realmente la pirámide de pruebas, y dónde la IA ve más leverage para mejorar.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-text">
+        <span lang="en"><strong>Approve the plan, or modify it.</strong> The remediation plan is in the report. You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing regression tests for past bugs, and pausing where you said to pause.</span>
+        <span lang="es"><strong>Aprueba el plan, o modifícalo.</strong> El plan de remediación está en el reporte. Tú pones los límites. El asistente trabaja a través del plan un item a la vez, generando cambios de spec, aplicando remediaciones bajo disciplina GS, escribiendo pruebas de regresión para bugs pasados, y pausando donde dijiste que pausara.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The cascade gates from the audit step enforce the discipline automatically. You just authorize and set the pause-before-this boundaries:</span>
+      <span lang="es">Los gates de cascade del paso de auditoría aplican la disciplina automáticamente. Tú solo autorizas y pones los límites de "pausa antes de esto":</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">The plan looks right. Apply it on the same branch. Pause before any
 change that would touch the database schema or the public API — ask
 me first on those.</span><span lang="es">El plan se ve bien. Aplícalo en la misma rama. Pausa antes de cualquier
 cambio que toque el schema de la base de datos o la API pública —
 pregúntame primero en esos.</span></div>
-        <span lang="en">You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing tests for past bugs to prevent regression, and pausing where you said to pause.</span>
-        <span lang="es">Tú pones los límites. El asistente trabaja a través del plan un item a la vez, generando cambios de spec, aplicando remediaciones bajo disciplina GS, escribiendo pruebas para bugs pasados para prevenir regresión, y pausando donde dijiste que pausara.</span>
+  </div>
+</details>
 
-<details class="manual-variant"><summary><span lang="en">Show the pure-GS variant of this step (no tools)</span><span lang="es">Mostrar la variante pura de GS de este paso (sin herramientas)</span></summary>
-<div class="manual-content">
-<p>
-  <span lang="en">Without our cascade gates, you'd hand the AI the rule before it changes any code. The cascade is what keeps remediation from becoming "AI patches symptoms quietly."</span>
-  <span lang="es">Sin nuestros cascade gates, le pasarías la regla a la IA antes de que cambie cualquier código. La cascade es lo que mantiene a la remediación de convertirse en "la IA parchea síntomas silenciosamente."</span>
-</p>
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Without cascade gates wired in, hand the AI the rule before it changes any code. The cascade is what keeps remediation from becoming "AI patches symptoms quietly":</span>
+      <span lang="es">Sin gates de cascade conectados, pásale la regla a la IA antes de que cambie cualquier código. La cascade es lo que mantiene a la remediación de convertirse en "la IA parchea síntomas silenciosamente":</span>
+    </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Apply the remediation plan one item at a time, under this cascade
 discipline:
 
@@ -1237,20 +1325,23 @@ es el audit trail; no saltes un renglón.
 Si la regla de cascade y el plan de remediación alguna vez chocan,
 la regla de cascade gana — pausa y pregúntame cómo reformar el
 paso de remediación.</span></div>
-<p style="margin-top: 10px; color: var(--smoke); font-size: 13px;">
-  <span lang="en">PragmaWorks enforces this at commit/PR time. The prompt encodes the same rule into the AI's working context — close enough for one-shot remediation runs.</span>
-  <span lang="es">PragmaWorks fuerza esto en tiempo de commit/PR. El prompt codifica la misma regla en el contexto de trabajo de la IA — suficientemente cercano para corridas de remediación de una sola vez.</span>
-</p>
-</div>
+  </div>
 </details>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">05</div>
+      <div class="step-num">06</div>
       <div class="step-text">
-        <span lang="en"><strong>Get the after-report.</strong> Once the work is done, ask:</span>
-        <span lang="es"><strong>Obtén el reporte antes/después.</strong> Una vez terminado el trabajo, pide:</span>
+        <span lang="en"><strong>Get the after-report.</strong> Once the work is done, a second PDF (or markdown) lands. Side-by-side numbers. Charts. The receipts of what changed.</span>
+        <span lang="es"><strong>Obtén el reporte antes/después.</strong> Una vez terminado el trabajo, aterriza un segundo PDF (o markdown). Números lado a lado. Gráficas. Los recibos de qué cambió.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Generate the after-report. Same format as the initial one, but with a
 before/after comparison: coverage delta, structural discipline scores
 delta, GS rubric delta, regression tests added for past bugs, documentation
@@ -1259,54 +1350,196 @@ comparación antes/después: delta de cobertura, delta de puntajes de
 disciplinas estructurales, delta de la rúbrica GS, pruebas de regresión
 agregadas para bugs pasados, actualizaciones de documentación. Incluye
 gráficas.</span></div>
-        <span lang="en">A second PDF lands. Side-by-side numbers. Charts. The receipts of what changed.</span>
-        <span lang="es">Aterriza un segundo PDF. Números lado a lado. Gráficas. Los recibos de qué cambió.</span>
-      </div>
-    </div>
+  </div>
+</details>
 
-    <div class="step">
-      <div class="step-num">06</div>
-      <div class="step-text">
-        <span lang="en"><strong>Optional — commit history study.</strong> If you want to know how your team has been operating (PR review density, commit-size distribution, AI-introduced bug signal, who collaborates with whom), ask:</span>
-        <span lang="es"><strong>Opcional — estudio del historial de commits.</strong> Si quieres saber cómo ha estado operando tu equipo (densidad de revisión de PRs, distribución de tamaño de commits, señal de bugs introducidos por IA, quién colabora con quién), pide:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Run the team-habit analysis on the last 90 days of commit history.
-Output as a separate PDF with charts.</span><span lang="es">Corre el análisis de hábitos de equipo en los últimos 90 días de historial
-de commits. Output como un PDF separado con gráficas.</span></div>
-        <span lang="en">Useful at the team level. Optional at the individual level.</span>
-        <span lang="es">Útil a nivel de equipo. Opcional a nivel individual.</span>
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same idea — ask the AI to re-run the rubric and the structural-discipline pass on the new state and produce a delta report at <code>reports/audit-final.md</code>. Anchor the rubric scoring against the initial report so the delta is reproducible:</span>
+      <span lang="es">Misma idea — pídele a la IA que vuelva a correr la rúbrica y la pasada de disciplinas estructurales sobre el estado nuevo y produzca un reporte delta en <code>reports/audit-final.md</code>. Ancla el scoring de la rúbrica contra el reporte inicial para que el delta sea reproducible:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Generate reports/audit-final.md. Re-run the rubric and the
+structural-discipline pass on the current branch state. Anchor the
+scoring against reports/audit-initial.md — for each of the seven
+GS properties, show before / after / delta with the file:line
+evidence that drove each score. Include: coverage delta, regression
+tests added (linked to past bug commits), documentation updates,
+structural-discipline scores delta. End with a one-paragraph summary
+of what actually shifted vs what was already passing.</span><span lang="es">Genera reports/audit-final.md. Vuelve a correr la rúbrica y la pasada
+de disciplinas estructurales sobre el estado actual de la rama. Ancla
+el scoring contra reports/audit-initial.md — para cada una de las
+siete propiedades GS, muestra antes / después / delta con la evidencia
+file:line que llevó a cada puntaje. Incluye: delta de coverage, pruebas
+de regresión agregadas (ligadas a commits de bugs pasados), updates de
+documentación, delta de puntajes de disciplinas estructurales. Termina
+con un resumen de un párrafo de qué realmente cambió vs qué ya pasaba.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">07</div>
       <div class="step-text">
-        <span lang="en"><strong>Optional — install Chronicle for living documentation.</strong> If you want the project to keep a memory of decisions, prompts, and architectural choices across future AI sessions:</span>
-        <span lang="es"><strong>Opcional — instala Chronicle para documentación viva.</strong> Si quieres que el proyecto mantenga una memoria de decisiones, prompts, y decisiones arquitectónicas a través de futuras sesiones de IA:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Install Chronicle for this project so future sessions inherit
-the architectural decisions, the spec rationale, and the prompt
-history we just built.</span><span lang="es">Instala Chronicle para este proyecto para que las futuras sesiones
-hereden las decisiones arquitectónicas, la racionalidad de la spec,
-y el historial de prompts que acabamos de construir.</span></div>
-        <span lang="en">Particularly worth it if you're going to keep working on this codebase with AI assistance over months. Read more in the <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle README</a> if you want detail before deciding.</span>
-        <span lang="es">Particularmente vale la pena si vas a seguir trabajando en esta base de código con asistencia de IA durante meses. Lee más en el <a href="https://github.com/jghiringhelli/chronicle-mcp">README de Chronicle</a> si quieres detalle antes de decidir.</span>
+        <span lang="en"><strong>Optional — commit history study.</strong> If you want to know how your team has been operating: PR review density, commit-size distribution, AI-introduced bug signal, who collaborates with whom. Useful at the team level. Optional at the individual level.</span>
+        <span lang="es"><strong>Opcional — estudio del historial de commits.</strong> Si quieres saber cómo ha estado operando tu equipo: densidad de revisión de PRs, distribución de tamaño de commits, señal de bugs introducidos por IA, quién colabora con quién. Útil a nivel de equipo. Opcional a nivel individual.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Run the team-habit analysis on the last 90 days of commit history.
+Output as a separate PDF with charts.</span><span lang="es">Corre el análisis de hábitos de equipo en los últimos 90 días de historial
+de commits. Output como un PDF separado con gráficas.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same signals, computed directly from <code>git log</code>. Cite the exact queries so a skeptic can reproduce:</span>
+      <span lang="es">Las mismas señales, computadas directamente desde <code>git log</code>. Cita las queries exactas para que un escéptico pueda reproducir:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Compute team-habit signals from the last 90 days of git history.
+Produce reports/team-habits.md with these sections, each citing the
+git log query used (in a footnote so I can reproduce):
+
+  1. PR review density. Ratio of merged-via-PR-with-review vs
+     merged-direct. Per author. Flag below 0.5 and above 0.95.
+  2. Regression test coverage. For each fix: commit, did a test
+     get added or modified in the same commit? Percent + list.
+  3. AI-introduced bug rate. Detect AI-assisted commits via
+     trailers (Co-Authored-By: Claude/Copilot/Cursor/Codeium),
+     "🤖 Generated with" footers, distinctive patterns. For each,
+     check whether a fix: commit referencing the same files
+     landed within 14 days.
+  4. Commit-size distribution. Histogram (0-50, 51-200, 201-500,
+     501-1000, 1000+ LoC). Flag authors with repeated 1000+
+     commits — that's where AI drift hides.
+  5. Collaboration graph. Markdown adjacency table built from
+     PR review participation.
+
+Include a one-line manager-readable interpretation per metric.</span><span lang="es">Computa señales de hábitos de equipo desde los últimos 90 días del git
+history. Produce reports/team-habits.md con estas secciones, cada una
+citando la query git log usada (en footnote para que yo pueda reproducir):
+
+  1. Densidad de revisión de PRs. Ratio de merged-via-PR-con-review vs
+     merged-directo. Por autor. Flagea debajo de 0.5 y arriba de 0.95.
+  2. Cobertura de pruebas de regresión. Para cada commit fix:, ¿se
+     agregó o modificó una prueba en el mismo commit? Porcentaje + lista.
+  3. Tasa de bugs introducidos por IA. Detecta commits asistidos por IA
+     vía trailers (Co-Authored-By: Claude/Copilot/Cursor/Codeium),
+     footers "🤖 Generated with", patrones distintivos. Para cada uno,
+     chequea si un commit fix: referenciando los mismos archivos
+     aterrizó dentro de 14 días.
+  4. Distribución de tamaño de commits. Histograma (0-50, 51-200,
+     201-500, 501-1000, 1000+ LoC). Flagea autores con commits
+     repetidos de 1000+ — ahí se esconde el desvío de IA.
+  5. Gráfico de colaboración. Tabla de adyacencia markdown construida
+     desde la participación en revisión de PRs.
+
+Incluye una interpretación de una línea legible por un manager por métrica.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">08</div>
       <div class="step-text">
-        <span lang="en"><strong>Optional — add a new feature under the same discipline.</strong> Now that the spec exists and the harness is wired, adding a feature is conversational:</span>
-        <span lang="es"><strong>Opcional — agrega una nueva feature bajo la misma disciplina.</strong> Ahora que la spec existe y el harness está conectado, agregar una feature es conversacional:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Add [your feature]. Update the spec first, regenerate what needs
-to change, run the harness, and report back.</span><span lang="es">Agrega [tu feature]. Actualiza la spec primero, regenera lo que necesita
-cambiar, corre el harness, y reporta.</span></div>
-        <span lang="en">This is the moment most people feel what GS actually feels like — a feature added without breaking the existing tests, without ad-hoc patches, without the AI silently creating coupling.</span>
-        <span lang="es">Este es el momento en que la mayoría de la gente siente cómo se siente GS realmente — una feature agregada sin romper las pruebas existentes, sin parches ad-hoc, sin que la IA cree coupling silenciosamente.</span>
+        <span lang="en"><strong>Optional — persist what this session learned.</strong> So future AI sessions inherit the architectural decisions, the spec rationale, and the prompt history from this audit instead of re-deriving them.</span>
+        <span lang="es"><strong>Opcional — persiste lo que esta sesión aprendió.</strong> Para que las sesiones futuras hereden las decisiones arquitectónicas, la racionalidad de la spec, y el historial de prompts de esta auditoría en lugar de re-derivarlas.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Install <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle</a> — persistent tiered memory MCP. Future sessions query it semantically. Read more in the Chronicle README if you want detail before deciding.</span>
+      <span lang="es">Instala <a href="https://github.com/jghiringhelli/chronicle-mcp">Chronicle</a> — MCP de memoria persistente y por tiers. Las sesiones futuras lo consultan semánticamente. Lee más en el README de Chronicle si quieres detalle antes de decidir.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Install Chronicle for this project so future sessions inherit
+the architectural decisions, the spec rationale, and the prompt
+history we just built.</span><span lang="es">Instala Chronicle para este proyecto para que las futuras sesiones
+hereden las decisiones arquitectónicas, la racionalidad de la spec,
+y el historial de prompts que acabamos de construir.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same outcome by file convention only — no MCP install. Future sessions read the convention before doing anything:</span>
+      <span lang="es">Mismo resultado solo por convención de archivos — sin instalar MCP. Las sesiones futuras leen la convención antes de hacer cualquier cosa:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Set up a project-scoped memory by convention. Create:
+
+  .ai/memory/decisions.md   — append-only log of architectural decisions
+                              (date, decision, why, alternatives, who)
+  .ai/memory/conventions.md — team conventions extracted from this
+                              codebase, each cited to a representative
+                              file:line
+  .ai/memory/prompts.md     — the notable prompts from this session
+  .ai/memory/glossary.md    — domain terms, anchored to file:line of
+                              first appearance
+
+Then add a 3-line CLAUDE.md (or AGENTS.md, whichever this repo
+uses) at the root pointing future sessions at .ai/memory/ as their
+first read.
+
+Append to decisions.md / conventions.md / prompts.md on every
+session close from now on. Print a one-paragraph "what changed"
+summary I can paste into the team chat.</span><span lang="es">Configura una memoria de proyecto por convención. Crea:
+
+  .ai/memory/decisions.md   — log append-only de decisiones
+                              arquitectónicas (fecha, decisión, por qué,
+                              alternativas, quién)
+  .ai/memory/conventions.md — convenciones del equipo extraídas de esta
+                              base, cada una citada a un file:line
+                              representativo
+  .ai/memory/prompts.md     — los prompts notables de esta sesión
+  .ai/memory/glossary.md    — términos del dominio, anclados al
+                              file:line de primera aparición
+
+Luego agrega un CLAUDE.md de 3 líneas (o AGENTS.md, lo que use este
+repo) en la raíz apuntando a las sesiones futuras a .ai/memory/ como
+su primera lectura.
+
+Agrega a decisions.md / conventions.md / prompts.md en cada cierre de
+sesión de ahora en adelante. Imprime un resumen de un párrafo "qué
+cambió" que pueda pegar en el chat del equipo.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">09</div>
+      <div class="step-text">
+        <span lang="en"><strong>Optional — add a new feature under the same discipline.</strong> Now that the spec exists and the harness is wired, adding a feature is conversational: <em>"Add [your feature]. Update the spec first, regenerate what needs to change, run the harness, and report back."</em> The discipline keeps the new feature from breaking what already works.</span>
+        <span lang="es"><strong>Opcional — agrega una nueva feature bajo la misma disciplina.</strong> Ahora que la spec existe y el harness está conectado, agregar una feature es conversacional: <em>"Agrega [tu feature]. Actualiza la spec primero, regenera lo que necesita cambiar, corre el harness, y reporta."</em> La disciplina mantiene la feature nueva sin romper lo que ya funciona.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">10</div>
       <div class="step-text">
         <span lang="en"><strong>Verify it still works.</strong> Run the project. Click around. The harness verified the contracts; you verify the experience. This is the judgment layer — what only a human can decide. Welcome.</span>
         <span lang="es"><strong>Verifica que sigue funcionando.</strong> Corre el proyecto. Haz clicks. El harness verificó los contratos; tú verificas la experiencia. Esta es la capa de juicio — lo que solo un humano puede decidir. Bienvenido.</span>
@@ -1338,11 +1571,18 @@ cambiar, corre el harness, y reporta.</span></div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-text">
-        <span lang="en"><strong>Ask for the onboarding briefing.</strong> One prompt:</span>
-        <span lang="es"><strong>Pide el briefing de onboarding.</strong> Un prompt:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim, edit your role/level</span><span lang="es">Pega esto literalmente, edita tu rol/nivel</span></span><span lang="en">Use PragmaWorks to onboard me to this project. Find pragmaworks on npm,
-install what you need, run the analysis on a new branch (don't touch
-main), and produce an onboarding briefing as markdown.
+        <span lang="en"><strong>Ask for the onboarding briefing.</strong> Onboarding is read-only — it doesn't change code. Even so, it's safer to do exploration on a branch in case the AI ends up writing notes or memory files into the repo.</span>
+        <span lang="es"><strong>Pide el briefing de onboarding.</strong> El onboarding es solo lectura — no cambia código. Aun así, es más seguro hacer la exploración en una rama por si la IA termina escribiendo notas o archivos de memoria en el repo.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this, edit your role/level</span><span lang="es">Pega esto, edita tu rol/nivel</span></span><span lang="en">Use pragmaworks to onboard me to this project. Find pragmaworks on npm,
+install what you need, create a working branch first (don't touch main),
+and produce an onboarding briefing as markdown.
 
 My role: [frontend / backend / full-stack / data / devops]
 Experience level: [junior / mid / senior / staff]
@@ -1351,9 +1591,9 @@ Module I'm starting on: [optional — leave blank if you don't know yet]
 The briefing should cover: what this project is in three sentences, the
 architecture in one diagram, the conventions I must respect, what's
 surprising about this codebase, 2-3 first-task suggestions sized for
-my role and experience, and a cheat sheet for getting set up.</span><span lang="es">Usa PragmaWorks para hacer mi onboarding a este proyecto. Busca pragmaworks
-en npm, instala lo que necesites, corre el análisis en una rama nueva
-(no toques main), y produce un briefing de onboarding como markdown.
+my role and experience, and a cheat sheet for getting set up.</span><span lang="es">Usa pragmaworks para hacer mi onboarding a este proyecto. Busca pragmaworks
+en npm, instala lo que necesites, crea una rama de trabajo primero (no
+toques main), y produce un briefing de onboarding como markdown.
 
 Mi rol: [frontend / backend / full-stack / data / devops]
 Nivel de experiencia: [junior / mid / senior / staff]
@@ -1364,6 +1604,76 @@ arquitectura en un diagrama, las convenciones que debo respetar, qué
 es sorprendente de esta base de código, 2-3 sugerencias de primera tarea
 dimensionadas para mi rol y experiencia, y una cheat sheet para
 configurarme.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same output (markdown briefing), generated by walking the code conventionally. The discipline here is naming what the briefing must contain so two AI sessions land on the same shape:</span>
+      <span lang="es">El mismo output (briefing markdown), generado caminando el código convencionalmente. La disciplina aquí es nombrar qué debe contener el briefing para que dos sesiones de IA aterricen en la misma forma:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this, edit your role/level</span><span lang="es">Pega esto, edita tu rol/nivel</span></span><span lang="en">Onboard me to this project. Use git CLI to create a branch first
+(onboarding-YYYY-MM-DD); do not touch main. Then produce an onboarding
+briefing at reports/onboarding.md covering:
+
+  My role: [frontend / backend / full-stack / data / devops]
+  Experience level: [junior / mid / senior / staff]
+  Module I'm starting on: [optional]
+
+  1. WHAT — three sentences naming the project, its users, and the
+     business outcome it produces.
+  2. ARCHITECTURE — one ASCII or mermaid diagram showing the major
+     components and the data flow between them. Cite file:line for
+     each component.
+  3. CONVENTIONS — naming, file layout, error handling, logging
+     format, test style, commit-message style. Each one cited to a
+     representative file:line.
+  4. WHAT SURPRISES NEW DEVS — the 3-5 things in this codebase that
+     look idiomatic but aren't, or that look weird but are
+     load-bearing. Cite file:line.
+  5. FIRST TASKS — 2-3 concrete suggestions sized to my role and
+     level. For each: the files involved, what to read first, rough
+     effort estimate.
+  6. CHEAT SHEET — environment setup commands, where to find what,
+     useful greps. Concrete enough to act on without rereading
+     this document.
+
+Cite files and lines liberally. The briefing should be reproducible
+by anyone who can read the code; that's the test.</span><span lang="es">Hazme onboarding a este proyecto. Usa git CLI para crear una rama
+primero (onboarding-YYYY-MM-DD); no toques main. Después produce un
+briefing de onboarding en reports/onboarding.md cubriendo:
+
+  Mi rol: [frontend / backend / full-stack / data / devops]
+  Nivel de experiencia: [junior / mid / senior / staff]
+  Módulo donde empiezo: [opcional]
+
+  1. QUÉ — tres oraciones nombrando el proyecto, sus usuarios, y el
+     outcome de negocio que produce.
+  2. ARQUITECTURA — un diagrama ASCII o mermaid mostrando los
+     componentes mayores y el flujo de datos entre ellos. Cita
+     file:line para cada componente.
+  3. CONVENCIONES — naming, layout de archivos, manejo de errores,
+     formato de logging, estilo de pruebas, estilo de mensaje de
+     commit. Cada una citada a un file:line representativo.
+  4. QUÉ SORPRENDE A DEVS NUEVOS — las 3-5 cosas en esta base de
+     código que se ven idiomáticas pero no lo son, o que se ven
+     raras pero son críticas. Cita file:line.
+  5. PRIMERAS TAREAS — 2-3 sugerencias concretas dimensionadas a
+     mi rol y nivel. Para cada una: archivos involucrados, qué
+     leer primero, estimación rough de esfuerzo.
+  6. CHEAT SHEET — comandos de setup de entorno, dónde encontrar
+     qué, greps útiles. Concreto al punto de poder actuar sin
+     re-leer este documento.
+
+Cita archivos y líneas liberalmente. El briefing debe ser reproducible
+por cualquiera que pueda leer el código; esa es la prueba.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
@@ -1386,15 +1696,49 @@ configurarme.</span></div>
     <div class="step">
       <div class="step-num">05</div>
       <div class="step-text">
-        <span lang="en"><strong>Optional — for takeover engagements: include team-habit analysis.</strong> If you're a consultant or freelancer adopting a codebase from another team, ask:</span>
-        <span lang="es"><strong>Opcional — para engagements de takeover: incluye el análisis de hábitos del equipo.</strong> Si eres consultor o freelancer adoptando una base de código de otro equipo, pide:</span>
+        <span lang="en"><strong>Optional — for takeover engagements: include team-habit analysis.</strong> If you're a consultant or freelancer adopting a codebase from another team, you want to know who to trust on which areas and where the recent fires were.</span>
+        <span lang="es"><strong>Opcional — para engagements de takeover: incluye el análisis de hábitos del equipo.</strong> Si eres consultor o freelancer adoptando una base de código de otro equipo, quieres saber en quién confiar en qué áreas y dónde estuvieron los incendios recientes.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Include team-habit analysis in the briefing. Last 90 days of commit
 history: PR review density, regression coverage, AI-bug rate, who's
-been touching what. I want to know who to trust on which areas and
-where the recent fires were.</span><span lang="es">Incluye el análisis de hábitos del equipo en el briefing. Últimos 90
+been touching what.</span><span lang="es">Incluye el análisis de hábitos del equipo en el briefing. Últimos 90
 días de historial de commits: densidad de revisión de PRs, cobertura de
-regresión, tasa de bugs de IA, quién ha estado tocando qué. Quiero saber
-en quién confiar en qué áreas y dónde estuvieron los incendios recientes.</span></div>
+regresión, tasa de bugs de IA, quién ha estado tocando qué.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same signals from <code>git log</code> directly. Same prompt as Path B step 7 — see there for the full version.</span>
+      <span lang="es">Las mismas señales desde <code>git log</code> directamente. El mismo prompt que el paso 7 del Camino B — ver ahí la versión completa.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Append a team-habit section to the onboarding briefing. Compute from
+git log of the last 90 days: PR review density per author, regression
+test coverage of fix: commits, AI-introduced bug rate (detect AI
+co-authorship signals, correlate with subsequent fix: commits within
+14 days), commit-size distribution, collaboration adjacency table.
+For each metric, one-line interpretation pitched at "who do I trust
+on what" decisions. Cite the git log queries used.</span><span lang="es">Agrega una sección de hábitos del equipo al briefing de onboarding.
+Computa desde git log de los últimos 90 días: densidad de revisión de
+PRs por autor, cobertura de regresión de commits fix:, tasa de bugs
+introducidos por IA (detecta señales de co-autoría de IA, correlaciona
+con commits fix: posteriores dentro de 14 días), distribución de tamaño
+de commits, tabla de adyacencia de colaboración. Para cada métrica,
+interpretación de una línea pitched a decisiones de "en quién confío
+para qué". Cita las queries git log usadas.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
@@ -1413,8 +1757,8 @@ en quién confiar en qué áreas y dónde estuvieron los incendios recientes.</s
     </div>
 
     <p>
-      <span lang="en">You're moving an existing system to a new stack, platform, or modernized architecture. Done naively, you reproduce every wart. Done well, you drop unused features, modernize, add NFRs that were missing. This path is the guided version — a three-stage flow: audit the source, refine through a structured conversation, bootstrap the target.</span>
-      <span lang="es">Estás moviendo un sistema existente a un nuevo stack, plataforma, o arquitectura modernizada. Hecho ingenuamente, reproduces cada verruga. Hecho bien, descartas features no usadas, modernizas, agregas NFRs que faltaban. Este camino es la versión guiada — un flujo de tres etapas: auditar el origen, refinar a través de una conversación estructurada, arrancar el destino.</span>
+      <span lang="en">You're moving an existing system to a new stack, platform, or modernized architecture. Done naively, you reproduce every wart. Done well, you drop unused features, modernize, add NFRs that were missing. This path is the guided version — a three-stage flow: audit the source, refine through a structured conversation, bootstrap the target. <em>(For in-place dependency or framework-version upgrades — same repo, same architecture, just newer versions — use Path B's audit + remediation flow instead. This path is for cross-stack moves where the target is a separate codebase.)</em></span>
+      <span lang="es">Estás moviendo un sistema existente a un nuevo stack, plataforma, o arquitectura modernizada. Hecho ingenuamente, reproduces cada verruga. Hecho bien, descartas features no usadas, modernizas, agregas NFRs que faltaban. Este camino es la versión guiada — un flujo de tres etapas: auditar el origen, refinar a través de una conversación estructurada, arrancar el destino. <em>(Para upgrades in-place de dependencias o versión de framework — mismo repo, misma arquitectura, solo versiones más nuevas — usa el flujo de auditoría + remediación del Camino B. Este camino es para moves entre stacks donde el destino es una base de código separada.)</em></span>
     </p>
 
     <div class="step">
@@ -1428,21 +1772,69 @@ en quién confiar en qué áreas y dónde estuvieron los incendios recientes.</s
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-text">
-        <span lang="en"><strong>Start the migration.</strong> One prompt:</span>
-        <span lang="es"><strong>Inicia la migración.</strong> Un prompt:</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this verbatim</span><span lang="es">Pega esto literalmente</span></span><span lang="en">Use PragmaWorks to migrate this project to a new stack. The source
-system is the current folder. The target folder is at: [absolute path
-to empty folder]. Find pragmaworks on npm, install what you need.
+        <span lang="en"><strong>Branch the source repo — before any audit.</strong> The migration audit lands in the source repo as artifacts (specs, ADRs, decisions). Even though no source code is being modified, those artifacts go on a branch so they can be reviewed before merging back.</span>
+        <span lang="es"><strong>Crea rama en el repo origen — antes de cualquier auditoría.</strong> La auditoría de migración aterriza en el repo origen como artefactos (specs, ADRs, decisiones). Aunque no se modifique código fuente, esos artefactos van en una rama para poder revisarse antes de mergear de regreso.</span>
 
-Run the migration in three stages: (1) audit the source and extract a
-stack-independent specification; (2) walk me through a refinement
-conversation — what features to drop, what to modernize, what NFRs to
-add, what tech stack to target; (3) bootstrap the target folder with
-the refined specification under GS discipline.
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The migration tool branches automatically. If you want to confirm before any change:</span>
+      <span lang="es">La herramienta de migración crea la rama automáticamente. Si quieres confirmar antes de cualquier cambio:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Before any analysis, create a branch named migration-audit in the
+source repo using git CLI. Confirm the branch is active. Do not touch
+main in the source repo during this session.</span><span lang="es">Antes de cualquier análisis, crea una rama llamada migration-audit en
+el repo origen usando git CLI. Confirma que la rama esté activa. No
+toques main en el repo origen durante esta sesión.</span></div>
+  </div>
+</details>
 
-Pause between stages so I can review.</span><span lang="es">Usa PragmaWorks para migrar este proyecto a un nuevo stack. El sistema
-origen es la carpeta actual. La carpeta destino está en: [ruta absoluta
-a carpeta vacía]. Busca pragmaworks en npm, instala lo que necesites.
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same as Path B step 2 — paste a branch-and-stay-off-main commitment before any analysis starts. See there for the full template.</span>
+      <span lang="es">Igual que el paso 2 del Camino B — pega un compromiso de crear rama y quedarse fuera de main antes de que empiece cualquier análisis. Ver ahí la plantilla completa.</span>
+    </p>
+  </div>
+</details>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <span lang="en"><strong>Start the migration.</strong> Three stages: (1) audit the source and extract a stack-independent specification; (2) refinement conversation; (3) bootstrap the target folder with the refined spec under GS discipline.</span>
+        <span lang="es"><strong>Inicia la migración.</strong> Tres etapas: (1) audita el origen y extrae una especificación independiente de stack; (2) conversación de refinamiento; (3) arranca la carpeta destino con la spec refinada bajo disciplina GS.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Use pragmaworks to migrate this project to a new stack. The source
+system is the current folder (on the migration-audit branch). The
+target folder is at: [absolute path to empty folder]. Find pragmaworks
+on npm, install what you need.
+
+Run the migration in three stages: (1) audit the source and extract
+a stack-independent specification; (2) walk me through a refinement
+conversation — what features to drop, what to modernize, what NFRs
+to add, what tech stack to target; (3) bootstrap the target folder
+with the refined specification under GS discipline.
+
+Pause between stages so I can review.</span><span lang="es">Usa pragmaworks para migrar este proyecto a un nuevo stack. El sistema
+origen es la carpeta actual (en la rama migration-audit). La carpeta
+destino está en: [ruta absoluta a carpeta vacía]. Busca pragmaworks en
+npm, instala lo que necesites.
 
 Corre la migración en tres etapas: (1) audita el origen y extrae una
 especificación independiente de stack; (2) llévame por una conversación
@@ -1451,11 +1843,97 @@ agregar, a qué stack tecnológico apuntar; (3) arranca la carpeta destino
 con la especificación refinada bajo disciplina GS.
 
 Pausa entre etapas para que pueda revisar.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same three-stage flow, more explicit. The pure-GS version names the artifacts because no tool is producing them by default:</span>
+      <span lang="es">El mismo flujo de tres etapas, más explícito. La versión GS puro nombra los artefactos porque ninguna herramienta los produce por default:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Migrate this project to a new stack. The source system is the
+current folder (on the migration-audit branch). The target folder is
+at: [absolute path to empty folder].
+
+Run in three stages, pausing between each so I can review:
+
+STAGE 1 — Source audit (~30 min)
+  Read the source codebase. Produce a stack-independent specification at
+  source/reports/migration-spec.md. Cover: behavioral contracts (what
+  each endpoint / use case does), data model (entities, relationships),
+  integration points (external systems, APIs, queues), use cases in
+  UC-NNN form with pre/post-conditions, NFRs (performance, security,
+  regulatory). Keep framework-specific notes separate in
+  migration-spec-impl-notes.md — the primary spec should be portable.
+
+STAGE 2 — Refinement (~1 hour, conversational)
+  Walk me through five passes:
+    1. Feature triage — for each feature: keep / drop / modernize.
+    2. Tech stack decision — bundled (language + framework + DB +
+       deployment), not piecemeal.
+    3. NFR additions — logging, rate limits, encryption, audit
+       trail, anything missing in the source.
+    4. Modernization opportunities — polling → WebSocket, homegrown
+       queue → managed, etc.
+    5. What stays the same — API contracts, schemas, regulated
+       business logic that cannot drift.
+  Propose defaults; I override what I want. Write the refined spec
+  to source/reports/migration-spec-refined.md.
+
+STAGE 3 — Bootstrap target (~1-3 hours)
+  In the target folder, set up GS discipline from scratch (see
+  Path A's pure-GS step 3 for the layout: docs/manifest.yaml, the
+  doc directories, the hooks, the CI workflow). Then generate code
+  from the refined spec under that discipline. Pause and ask before
+  any decision that contradicts the refined spec.</span><span lang="es">Migra este proyecto a un nuevo stack. El sistema origen es la carpeta
+actual (en la rama migration-audit). La carpeta destino está en:
+[ruta absoluta a carpeta vacía].
+
+Corre en tres etapas, pausando entre cada una para que pueda revisar:
+
+ETAPA 1 — Auditoría de origen (~30 min)
+  Lee la base de código origen. Produce una especificación independiente
+  de stack en source/reports/migration-spec.md. Cubre: contratos de
+  comportamiento (qué hace cada endpoint / caso de uso), modelo de
+  datos (entidades, relaciones), puntos de integración (sistemas
+  externos, APIs, queues), casos de uso en forma UC-NNN con
+  pre/post-condiciones, NFRs (performance, seguridad, regulatorios).
+  Mantén las notas específicas del framework separadas en
+  migration-spec-impl-notes.md — la spec primaria debe ser portable.
+
+ETAPA 2 — Refinamiento (~1 hora, conversacional)
+  Llévame por cinco pasadas:
+    1. Triage de features — para cada feature: mantener / descartar /
+       modernizar.
+    2. Decisión de stack — integral (lenguaje + framework + DB +
+       deployment), no por piezas.
+    3. Adiciones de NFR — logging, rate limits, encriptación, audit
+       trail, lo que falte en el origen.
+    4. Oportunidades de modernización — polling → WebSocket, queue
+       casero → managed, etc.
+    5. Qué se queda igual — contratos de API, schemas, lógica de
+       negocio regulada que no puede derivar.
+  Propón defaults; yo sobreescribo lo que quiera. Escribe la spec
+  refinada a source/reports/migration-spec-refined.md.
+
+ETAPA 3 — Arranque del destino (~1-3 horas)
+  En la carpeta destino, configura disciplina GS desde cero (ver el
+  paso 3 GS puro del Camino A para el layout: docs/manifest.yaml,
+  los directorios de docs, los hooks, el workflow de CI). Después
+  genera código desde la spec refinada bajo esa disciplina. Pausa y
+  pregunta antes de cualquier decisión que contradiga la spec refinada.</span></div>
+  </div>
+</details>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">03</div>
+      <div class="step-num">04</div>
       <div class="step-text">
         <span lang="en"><strong>Stage 1 — Source audit (~30 min).</strong> The AI extracts what the source system actually does into a stack-independent spec. Behavioral contracts, data models, integration points, use cases. Framework-specific implementation notes are separate from the primary spec.</span>
         <span lang="es"><strong>Etapa 1 — Auditoría de origen (~30 min).</strong> La IA extrae lo que el sistema origen realmente hace en una spec independiente de stack. Contratos de comportamiento, modelos de datos, puntos de integración, casos de uso. Las notas de implementación específicas del framework están separadas de la spec primaria.</span>
@@ -1463,7 +1941,7 @@ Pausa entre etapas para que pueda revisar.</span></div>
     </div>
 
     <div class="step">
-      <div class="step-num">04</div>
+      <div class="step-num">05</div>
       <div class="step-text">
         <span lang="en"><strong>Stage 2 — Refinement conversation (~1 hour).</strong> The AI walks you through five passes:</span>
         <span lang="es"><strong>Etapa 2 — Conversación de refinamiento (~1 hora).</strong> La IA te lleva por cinco pasadas:</span>
@@ -1497,15 +1975,15 @@ Pausa entre etapas para que pueda revisar.</span></div>
     </div>
 
     <div class="step">
-      <div class="step-num">05</div>
+      <div class="step-num">06</div>
       <div class="step-text">
-        <span lang="en"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. forgecraft sets up the cascade tailored to the chosen target stack. The AI generates code under that discipline. T1 and T2 done automatically.</span>
-        <span lang="es"><strong>Etapa 3 — Arranque del destino (~1-3 horas).</strong> La spec refinada aterriza en la carpeta destino. forgecraft configura la cascade ajustada al stack destino elegido. La IA genera código bajo esa disciplina. T1 y T2 se hacen automáticamente.</span>
+        <span lang="en"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. Cascade is set up tailored to the chosen target stack (or set up by convention if pure-GS). The AI generates code under that discipline.</span>
+        <span lang="es"><strong>Etapa 3 — Arranque del destino (~1-3 horas).</strong> La spec refinada aterriza en la carpeta destino. La cascade se configura ajustada al stack destino elegido (o por convención si es GS puro). La IA genera código bajo esa disciplina.</span>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">06</div>
+      <div class="step-num">07</div>
       <div class="step-text">
         <span lang="en"><strong>Verify parity.</strong> You now have the new system. Use the harness from Path A's step 6 to drive the new system through the source system's behavioral contracts. Anything that doesn't match is a refinement decision to revisit, not a bug to chase.</span>
         <span lang="es"><strong>Verifica paridad.</strong> Ahora tienes el sistema nuevo. Usa el harness del paso 6 del Camino A para manejar el sistema nuevo a través de los contratos de comportamiento del sistema origen. Cualquier cosa que no coincida es una decisión de refinamiento para revisitar, no un bug para perseguir.</span>
