@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico — PragmaWorks</title>
+<meta name="description" content="25 capacidades estructurales que gana una base de código disciplinada con GS — y las 25 patologías que las mismas propiedades previenen. Auditoría gratuita: npx pragmaworks audit">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:      #C44B1A;
+    --ember-glow: #E8652E;
+    --molten:     #F4A623;
+    --iron:       #2C2C2E;
+    --steel:      #48484A;
+    --smoke:      #8E8E93;
+    --ash:        #D1D1D6;
+    --parchment:  #F5F0E8;
+    --forge-dark: #1A1611;
+    --blue-steel: #4A6580;
+    --tempered:   #6B8F71;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--parchment); font-family: 'Source Serif 4', Georgia, serif; line-height: 1.55; color: var(--iron); }
+  a { color: var(--ember); text-decoration: none; }
+  a:hover { color: var(--ember-glow); }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); }
+  .nav-brand span { color: var(--ember); }
+  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-right a { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke); }
+  .nav-right a:hover { color: var(--ember); }
+  .lang-link { border: 1px solid rgba(196,75,26,0.35); padding: 0.25rem 0.55rem; border-radius: 2px; color: var(--ember) !important; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 64px 32px 100px; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 18px; }
+  h1 { font-family: 'Cinzel', serif; font-weight: 700; font-size: clamp(26px, 5vw, 40px); line-height: 1.15; color: var(--forge-dark); margin-bottom: 28px; }
+
+  .hero-bullets { list-style: none; margin-bottom: 28px; }
+  .hero-bullets li { padding: 9px 0 9px 1.4rem; position: relative; font-size: 16px; color: var(--steel); border-bottom: 1px solid rgba(44,44,46,0.07); }
+  .hero-bullets li:last-child { border-bottom: none; }
+  .hero-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--ember); font-family: 'JetBrains Mono', monospace; }
+
+  .hero-note { font-size: 15px; color: var(--steel); font-style: italic; margin-bottom: 32px; padding: 16px 20px; border-left: 3px solid var(--ember); background: rgba(196,75,26,0.04); line-height: 1.65; }
+  .hero-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; align-items: center; }
+  .btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 20px; border-radius: 2px; display: inline-block; }
+  .btn-primary { background: var(--ember); color: var(--parchment); }
+  .btn-primary:hover { background: var(--ember-glow); color: var(--parchment); }
+  .btn-secondary { border: 1px solid var(--ember); color: var(--ember); background: transparent; }
+  .btn-secondary:hover { background: rgba(196,75,26,0.05); }
+  .audit-cmd { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--forge-dark); color: var(--molten); padding: 10px 16px; border-radius: 2px; display: inline-block; }
+
+  section { margin-top: 72px; }
+  h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; color: var(--forge-dark); border-top: 2px solid var(--ember); padding-top: 24px; margin-bottom: 6px; }
+  .section-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 20px; }
+  p.intro { font-size: 16px; color: var(--steel); margin-bottom: 28px; }
+
+  .tier-header { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 14px; margin: 32px 0 0; display: flex; align-items: center; gap: 8px; border-radius: 2px 2px 0 0; }
+  .tier-header small { font-size: 11px; opacity: 0.8; text-transform: none; letter-spacing: 0; font-style: italic; margin-left: 4px; }
+  .tier-transformative { background: rgba(74,101,128,0.12); color: var(--blue-steel); border-left: 3px solid var(--blue-steel); }
+  .tier-amplifying { background: rgba(244,166,35,0.10); color: #8B6914; border-left: 3px solid var(--molten); }
+  .tier-structural { background: rgba(107,143,113,0.10); color: var(--tempered); border-left: 3px solid var(--tempered); }
+  .sev-critical { background: rgba(196,75,26,0.08); color: var(--ember); border-left: 3px solid var(--ember); }
+  .sev-high { background: rgba(232,101,46,0.08); color: #A0441A; border-left: 3px solid var(--ember-glow); }
+  .sev-medium { background: rgba(244,166,35,0.08); color: #8B6914; border-left: 3px solid var(--molten); }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--forge-dark); color: var(--ash); padding: 9px 14px; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; }
+  td { padding: 12px 14px; border-bottom: 1px solid rgba(44,44,46,0.08); font-size: 15px; vertical-align: top; }
+  td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ember); width: 32px; white-space: nowrap; }
+  td strong { color: var(--forge-dark); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(196,75,26,0.02); }
+
+  .prop-table td:first-child { color: var(--iron); font-size: 14px; font-weight: 400; white-space: normal; width: 16%; }
+  .prop-table td { font-size: 14px; }
+
+  .checklist { list-style: none; border: 1px solid rgba(44,44,46,0.12); border-radius: 4px; overflow: hidden; margin: 20px 0; }
+  .checklist li { padding: 12px 16px; font-size: 15px; border-bottom: 1px solid rgba(44,44,46,0.07); display: flex; align-items: flex-start; gap: 12px; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '☐'; font-size: 17px; color: var(--smoke); flex-shrink: 0; line-height: 1.4; }
+
+  .score-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .score-card { padding: 14px 16px; border-radius: 3px; border: 1px solid; }
+  .score-card .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .score-card .lbl { font-size: 13px; color: var(--steel); }
+  .score-critical { border-color: var(--ember); background: rgba(196,75,26,0.04); }
+  .score-critical .num { color: var(--ember); }
+  .score-early { border-color: var(--molten); background: rgba(244,166,35,0.04); }
+  .score-early .num { color: #8B6914; }
+  .score-ok { border-color: var(--tempered); background: rgba(107,143,113,0.04); }
+  .score-ok .num { color: var(--tempered); }
+
+  .next-cards { display: grid; gap: 16px; margin-top: 24px; }
+  .next-card { padding: 22px 24px; background: #fff; border: 1px solid rgba(44,44,46,0.12); border-radius: 4px; }
+  .next-card .nc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ember); margin-bottom: 6px; display: block; }
+  .next-card .nc-title { font-family: 'Cinzel', serif; font-size: 17px; color: var(--forge-dark); margin-bottom: 8px; }
+  .next-card p { font-size: 14px; color: var(--steel); margin-bottom: 14px; }
+
+  footer { max-width: 800px; margin: 0 auto; padding: 28px 32px 48px; border-top: 1px solid rgba(44,44,46,0.1); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--smoke); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  footer a { color: var(--smoke); }
+  footer a:hover { color: var(--ember); }
+
+  @media (max-width: 600px) {
+    .container { padding: 40px 20px 80px; }
+    nav { padding: 0.75rem 1.2rem; }
+    .nav-right a:not(.lang-link) { display: none; }
+    .score-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+  <div class="nav-right">
+    <a href="#capacidades">Capacidades</a>
+    <a href="#autodiagnostico">Autodiagnóstico</a>
+    <a href="#patologias">Patologías</a>
+    <a href="/diagnose" class="lang-link">EN</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <span class="eyebrow">Especificación Generativa · Diagnóstico</span>
+  <h1>¿Cómo se ve una base de código disciplinada con GS?</h1>
+
+  <ul class="hero-bullets">
+    <li>Nuevas sesiones de IA comienzan a producir output correcto en 30 segundos, no en 30 minutos</li>
+    <li>Las decisiones arquitectónicas de hace 6 meses son visibles y se aplican hoy</li>
+    <li>Un ingeniero nuevo contribuye de forma significativa el día 1, no en la semana 3</li>
+    <li>Los incidentes de producción por suposiciones implícitas entre sistemas son estructuralmente prevenidos</li>
+    <li>La IA genera código que coincide con el estilo arquitectónico de tu base de código en el primer intento</li>
+    <li>Cuando un desarrollador senior se va, sus decisiones se quedan — en artefactos auditables, no en la memoria</li>
+  </ul>
+
+  <p class="hero-note">Eso no es ficción aspiracional. Es lo que producen siete propiedades de especificación cuando se aplican. La metodología está publicada, es reproducible y está respaldada por un estudio controlado con 58 desarrolladores.<br><br>A continuación están las <strong>25 capacidades estructurales</strong> que tu base de código gana cuando se aplica GS — y las 25 modos de falla que las mismas propiedades previenen.</p>
+
+  <div class="cta-row">
+    <a href="mailto:juan@pragmaworks.dev?subject=Llamada%20de%20diagnóstico%20GS" class="btn btn-primary">Agenda una llamada gratuita de 30 min →</a>
+    <a href="#autodiagnostico" class="btn btn-secondary">Autodiagnóstico de 30 segundos ↓</a>
+  </div>
+  <code class="audit-cmd">npx pragmaworks audit</code>
+
+  <!-- 25 CAPACIDADES -->
+  <section id="capacidades">
+    <h2>Las 25 capacidades que GS construye</h2>
+    <span class="section-sub">Adquisiciones estructurales — permanentes, no mantenidas</span>
+    <p class="intro">Cada capacidad es una adquisición estructural — algo que tu base de código gana de forma permanente, no un proceso que tienes que mantener.</p>
+
+    <div class="tier-header tier-transformative">💎 Transformativas <small>— altera la categoría de trabajo que tu equipo puede asumir</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capacidad</th><th>Qué significa en la práctica</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Coherencia Arquitectónica entre Sesiones</strong> <em style="color:var(--smoke);font-size:13px;">(Cross-Session Architectural Coherence)</em></td><td>El código generado en cualquier sesión de IA es estructuralmente consistente con todas las sesiones anteriores. La especificación es el árbitro persistente.</td></tr>
+        <tr><td>2</td><td><strong>Derivabilidad Sin Estado</strong> <em style="color:var(--smoke);font-size:13px;">(Stateless Derivability)</em></td><td>Una nueva sesión de IA — o un nuevo ingeniero — deriva la implementación correcta únicamente desde los artefactos. No se necesita traspaso verbal.</td></tr>
+        <tr><td>4</td><td><strong>Contratos Explícitos entre Sistemas</strong> <em style="color:var(--smoke);font-size:13px;">(Explicit Inter-System Contracts)</em></td><td>Cada interfaz entre sistemas está escrita y es ejecutable. El modo de falla del Mars Climate Orbiter es estructuralmente eliminado.</td></tr>
+        <tr><td>12</td><td><strong>Verificación Ligada a la Especificación</strong> <em style="color:var(--smoke);font-size:13px;">(Specification-Bound Verification)</em></td><td>El conjunto de pruebas verifica contratos de comportamiento contra ejecución real — no solo que el código compila.</td></tr>
+        <tr><td>14</td><td><strong>Transferencia de Conocimiento Sin Estado</strong> <em style="color:var(--smoke);font-size:13px;">(Stateless Knowledge Transfer)</em></td><td>Rotaciones de equipo, reinicios de sesión de IA, incorporaciones — todo gestionado por la especificación. La tradición oral se convierte en artefacto.</td></tr>
+        <tr><td>18</td><td><strong>Disciplina Formal Sostenible</strong> <em style="color:var(--smoke);font-size:13px;">(Sustainable Formal Discipline)</em></td><td>El sistema aplica SOLID, TDD y arquitectura limpia de forma automática — no a través de presión cultural.</td></tr>
+        <tr><td>22</td><td><strong>Seguridad a Nivel de Especificación</strong> <em style="color:var(--smoke);font-size:13px;">(Spec-Level Security)</em></td><td>La clasificación de consecuencias está escrita. Las operaciones irreversibles tienen puertas de confirmación. Estructural, no procedimental.</td></tr>
+        <tr><td>24</td><td><strong>Dependencia de IA Invertida</strong> <em style="color:var(--smoke);font-size:13px;">(Inverted AI Dependency)</em></td><td>La IA ejecuta contra tu especificación, no contra su distribución previa. Tú diriges al modelo; el modelo no te dirige a ti.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header tier-amplifying">🚀 Amplificadoras <small>— multiplica la capacidad del trabajo existente</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capacidad</th><th>Qué significa en la práctica</th></tr></thead>
+      <tbody>
+        <tr><td>5</td><td><strong>Conocimiento de Proyecto Derivable</strong> <em style="color:var(--smoke);font-size:13px;">(Derivable Project Knowledge)</em></td><td>Cualquier ingeniero o sesión de IA puede reconstruir el contexto completo del proyecto solo desde artefactos.</td></tr>
+        <tr><td>6</td><td><strong>Memoria de Sesión Persistente</strong> <em style="color:var(--smoke);font-size:13px;">(Persistent Session Memory)</em></td><td>El contexto establecido en una sesión está disponible en todas las sesiones posteriores — sin re-narración.</td></tr>
+        <tr><td>9</td><td><strong>Verificación Conductual</strong> <em style="color:var(--smoke);font-size:13px;">(Behavioral Verification)</em></td><td>Las pruebas demuestran lo que el sistema hace bajo condiciones reales, no solo que compila.</td></tr>
+        <tr><td>15</td><td><strong>Deuda Técnica Visible</strong> <em style="color:var(--smoke);font-size:13px;">(Visible Technical Debt)</em></td><td>La deuda se registra en artefactos auditables. La IA sabe que existe. La remediación es planificada, no descubierta.</td></tr>
+        <tr><td>21</td><td><strong>Prompting Estructurado</strong> <em style="color:var(--smoke);font-size:13px;">(Structured Prompting)</em></td><td>La especificación es el prompt. Agnóstico al modelo, estable por versión, reproducible en cualquier ejecutor de IA.</td></tr>
+        <tr><td>25</td><td><strong>Automatización del Ciclo de Vida Completo</strong> <em style="color:var(--smoke);font-size:13px;">(End-to-End Lifecycle Automation)</em></td><td>Desde la especificación hasta staging y el monitoreo en producción — cada nivel del ciclo de vida gobernado por el mismo conjunto de artefactos.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header tier-structural">⚙️ Estructurales <small>— elimina un impuesto recurrente en el tiempo del equipo</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capacidad</th><th>Qué significa en la práctica</th></tr></thead>
+      <tbody>
+        <tr><td>3</td><td><strong>Aplicación de Restricciones Arquitectónicas</strong> <em style="color:var(--smoke);font-size:13px;">(Architectural Constraint Enforcement)</em></td><td>Reglas de capas, patrones prohibidos, convenciones de nomenclatura aplicadas en tiempo de generación — no en revisión de código.</td></tr>
+        <tr><td>7</td><td><strong>Fuente Única de Verdad</strong> <em style="color:var(--smoke);font-size:13px;">(Single Source of Truth)</em></td><td>Una especificación canónica. El código, las pruebas y los docs derivan de ella. La divergencia es un error de build, no un problema de personas.</td></tr>
+        <tr><td>8</td><td><strong>Constitución Acotada</strong> <em style="color:var(--smoke);font-size:13px;">(Bounded Constitution)</em></td><td>Cada artefacto de especificación cabe dentro de la ventana de contexto utilizable de la IA. Sin truncación silenciosa. Sin puntos ciegos.</td></tr>
+        <tr><td>10</td><td><strong>Integridad de Fase TDD</strong> <em style="color:var(--smoke);font-size:13px;">(TDD Phase Integrity)</em></td><td>La fase RED no puede ser omitida. Las puertas estructurales aplican test-antes-de-código a nivel de commit.</td></tr>
+        <tr><td>11</td><td><strong>Discriminación de Fallos Fantasma</strong> <em style="color:var(--smoke);font-size:13px;">(Ghost Failure Discrimination)</em></td><td>Los fallos de prueba te dicen qué requiere el contrato, no qué hace la implementación actual.</td></tr>
+        <tr><td>13</td><td><strong>Output de IA Determinístico</strong> <em style="color:var(--smoke);font-size:13px;">(Deterministic AI Output)</em></td><td>Dada la misma especificación y el mismo requerimiento, las sesiones de IA convergen en el mismo output. Reproducibilidad por diseño.</td></tr>
+        <tr><td>16</td><td><strong>Linaje de Decisiones Arquitectónicas</strong> <em style="color:var(--smoke);font-size:13px;">(Architectural Decision Lineage)</em></td><td>Cada decisión no obvia tiene una justificación registrada. La IA no puede "corregir" silenciosamente lo que no sabe que fue intencional.</td></tr>
+        <tr><td>17</td><td><strong>Historial de Cambios Tipado</strong> <em style="color:var(--smoke);font-size:13px;">(Typed Change History)</em></td><td>Cada commit tiene tipo, alcance e intención. El git log es un registro de auditoría legible por máquina.</td></tr>
+        <tr><td>19</td><td><strong>Documentación Viva</strong> <em style="color:var(--smoke);font-size:13px;">(Living Documentation)</em></td><td>Los docs se derivan de la especificación — se actualizan cuando la especificación se actualiza. No pueden quedar desincronizados.</td></tr>
+        <tr><td>20</td><td><strong>Consistencia de Contratos entre Lenguajes</strong> <em style="color:var(--smoke);font-size:13px;">(Cross-Language Contract Consistency)</em></td><td>Los contratos de interfaz se mantienen a través de los límites del servicio independientemente del lenguaje de implementación.</td></tr>
+        <tr><td>23</td><td><strong>Superficie de IA Gobernada</strong> <em style="color:var(--smoke);font-size:13px;">(Governed AI Surface)</em></td><td>La autoridad de la IA está acotada. Lo que puede y no puede hacer está escrito, no inferido.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- AUTODIAGNÓSTICO -->
+  <section id="autodiagnostico">
+    <h2>¿Dónde está tu equipo hoy?</h2>
+    <span class="section-sub">Autodiagnóstico de 30 segundos</span>
+    <p class="intro">Marca las que apliquen:</p>
+    <ul class="checklist">
+      <li>Dos sesiones de IA sobre el mismo código producen output estructuralmente diferente</li>
+      <li>Un ingeniero nuevo necesita 30+ minutos de contexto de un colega para poder empezar</li>
+      <li>Las pruebas pasan, pero la funcionalidad no funciona como se esperaba</li>
+      <li>Una decisión arquitectónica de hace 3 meses es invisible para los contribuidores actuales</li>
+      <li>Han tenido un incidente en producción causado por un supuesto implícito entre dos sistemas</li>
+      <li>La IA genera código que "parece correcto" pero introduce acoplamiento o violaciones de capas que descubren después</li>
+      <li>Cuando un desarrollador senior sale del equipo, el equipo pierde el entendimiento de <em>por qué</em> el sistema es como es</li>
+    </ul>
+    <div class="score-cards">
+      <div class="score-card score-critical">
+        <div class="num">3 o más</div>
+        <div class="lbl">Múltiples patologías activas. La auditoría las nombra.</div>
+      </div>
+      <div class="score-card score-early">
+        <div class="num">1–2</div>
+        <div class="lbl">Etapa temprana — prevenibles antes de que se combinen.</div>
+      </div>
+      <div class="score-card score-ok">
+        <div class="num">0</div>
+        <div class="lbl">Proyecto muy inicial o bien especificado. Verifícalo con la auditoría.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25 PATOLOGÍAS -->
+  <section id="patologias">
+    <h2>Las 25 patologías que GS previene</h2>
+    <span class="section-sub">Cada una es estructuralmente prevenida por una o más de las siete propiedades</span>
+    <p class="intro">Reconocer las tuyas es el primer paso para resolverlas.</p>
+
+    <div class="tier-header sev-critical">🔴 Críticas — daño estructural activo</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Patología</th><th>Qué observas</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Deriva Arquitectónica</strong> <em style="color:var(--smoke);font-size:13px;">(Architectural Drift)</em></td><td>El output de IA es estructuralmente incoherente entre sesiones. Cada sesión es localmente válida; el sistema diverge con el tiempo.</td></tr>
+        <tr><td>2</td><td><strong>Ausencia de Especificación</strong> <em style="color:var(--smoke);font-size:13px;">(Specification Absence)</em></td><td>No existe una especificación derivable. Cada sesión reconstruye la intención desde el código — de manera incorrecta y diferente cada vez.</td></tr>
+        <tr><td>3</td><td><strong>Arquitectura Implícita</strong> <em style="color:var(--smoke);font-size:13px;">(Implicit Architecture)</em></td><td>Las reglas arquitectónicas existen en la memoria de las personas, no en artefactos. La IA viola fronteras que nunca le fueron comunicadas.</td></tr>
+        <tr><td>4</td><td><strong>Síndrome del Contrato Implícito</strong> <em style="color:var(--smoke);font-size:13px;">(Implicit Contract Syndrome)</em></td><td>Dos sistemas coinciden en comportamiento por suposición, no por contrato escrito. El modo de falla del Mars Climate Orbiter: USD 327 millones perdidos por una especificación de unidades que nunca se escribió.</td></tr>
+        <tr><td>5</td><td><strong>Punto Ciego de Seguridad IA</strong> <em style="color:var(--smoke);font-size:13px;">(AI Security Blindspot)</em></td><td>Sin clasificación de consecuencias. La IA ejecuta operaciones irreversibles — eliminaciones, transacciones financieras — sin una puerta de confirmación humana.</td></tr>
+        <tr><td>6</td><td><strong>Amnesia de Sesión</strong> <em style="color:var(--smoke);font-size:13px;">(Session Amnesia)</em></td><td>El contexto se reinicia en cada límite de sesión. Decisiones anteriores, restricciones y razonamiento desaparecen. La IA recomienda lo que ya descartaste.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header sev-high">🟠 Alta severidad — se agravan silenciosamente</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Patología</th><th>Qué observas</th></tr></thead>
+      <tbody>
+        <tr><td>7</td><td><strong>Teatro de Pruebas</strong> <em style="color:var(--smoke);font-size:13px;">(Test Theater)</em></td><td>Las pruebas pasan. Los contratos de comportamiento no se verifican. CI verde sobre funcionalidades rotas.</td></tr>
+        <tr><td>8</td><td><strong>Deuda de ADRs</strong> <em style="color:var(--smoke);font-size:13px;">(ADR Debt)</em></td><td>Las decisiones arquitectónicas se toman y se pierden. La misma decisión se vuelve a debatir en cada sesión.</td></tr>
+        <tr><td>9</td><td><strong>Expansión de Alcance</strong> <em style="color:var(--smoke);font-size:13px;">(Scope Creep)</em></td><td>Cada sesión de IA expande ligeramente el alcance más allá de la tarea. Las fronteras nunca se hacen cumplir.</td></tr>
+        <tr><td>10</td><td><strong>Dependencia del Copiloto</strong> <em style="color:var(--smoke);font-size:13px;">(Copilot Dependency)</em></td><td>Solo la IA sabe qué hace el código. Los humanos no pueden revisar ni auditar output que no pueden seguir.</td></tr>
+        <tr><td>11</td><td><strong>Desbordamiento de Ventana de Contexto</strong> <em style="color:var(--smoke);font-size:13px;">(Context Window Overflow)</em></td><td>Las sesiones colapsan bajo su propio peso. La calidad se degrada; el modelo atiende las señales incorrectas.</td></tr>
+        <tr><td>12</td><td><strong>Factor de Autobús</strong> <em style="color:var(--smoke);font-size:13px;">(Bus Factor)</em></td><td>Una sola persona entiende el sistema. Si la IA o esa persona se va, el conocimiento se pierde.</td></tr>
+        <tr><td>13</td><td><strong>Entropía de Nomenclatura</strong> <em style="color:var(--smoke);font-size:13px;">(Naming Entropy)</em></td><td>Nomenclatura inconsistente entre sesiones. La IA inventa sinónimos. La búsqueda falla.</td></tr>
+        <tr><td>14</td><td><strong>Caos de Commits</strong> <em style="color:var(--smoke);font-size:13px;">(Commit Chaos)</em></td><td>Los commits son sin tipo, demasiado grandes o sin trazabilidad. El log de git es inútil como registro de auditoría.</td></tr>
+        <tr><td>15</td><td><strong>Documentación Obsoleta</strong> <em style="color:var(--smoke);font-size:13px;">(Documentation Decay)</em></td><td>Documentación escrita al inicio del proyecto. El código siguió adelante. Los docs engañan activamente a la IA.</td></tr>
+        <tr><td>16</td><td><strong>Ceguera en Cascada</strong> <em style="color:var(--smoke);font-size:13px;">(Cascade Blindness)</em></td><td>Un cambio en la especificación se propaga hacia abajo sin que nadie lo sepa. Las pruebas pasan sobre el contrato viejo.</td></tr>
+        <tr><td>17</td><td><strong>Violación de Capas</strong> <em style="color:var(--smoke);font-size:13px;">(Layer Violation)</em></td><td>Lógica de dominio en controladores. Consultas a base de datos en vistas. La IA agrega a la capa más cercana, no a la correcta.</td></tr>
+        <tr><td>18</td><td><strong>Dependencia Fantasma</strong> <em style="color:var(--smoke);font-size:13px;">(Phantom Dependency)</em></td><td>Componentes dependen entre sí de formas no declaradas. La refactorización rompe cosas que no deberían estar conectadas.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header sev-medium">🟡 Severidad media — detectables antes de ser críticas</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Patología</th><th>Qué observas</th></tr></thead>
+      <tbody>
+        <tr><td>19</td><td><strong>Fricción de Incorporación</strong> <em style="color:var(--smoke);font-size:13px;">(Onboarding Friction)</em></td><td>Los desarrolladores nuevos necesitan semanas de acompañamiento. Las sesiones de IA nuevas necesitan el mismo acompañamiento cada vez.</td></tr>
+        <tr><td>20</td><td><strong>Dependencia de Prompt Engineering</strong> <em style="color:var(--smoke);font-size:13px;">(Prompt Engineering Dependency)</em></td><td>Los prompts son la especificación. Cambia el modelo, pierde el output. Funciona hasta que deja de funcionar.</td></tr>
+        <tr><td>21</td><td><strong>Optimización Prematura</strong> <em style="color:var(--smoke);font-size:13px;">(Premature Optimization)</em></td><td>La IA optimiza para la métrica más cercana, no para las restricciones reales del sistema.</td></tr>
+        <tr><td>22</td><td><strong>Sobreingeniería</strong> <em style="color:var(--smoke);font-size:13px;">(Over-Engineering)</em></td><td>La IA añade capas de abstracción que la especificación nunca pidió. La complejidad se acumula entre sesiones.</td></tr>
+        <tr><td>23</td><td><strong>Deuda Técnica Invisible</strong> <em style="color:var(--smoke);font-size:13px;">(Tech Debt Invisibility)</em></td><td>La deuda es conocida pero no está registrada en artefactos. La IA no sabe que existe.</td></tr>
+        <tr><td>24</td><td><strong>Brecha de Cumplimiento</strong> <em style="color:var(--smoke);font-size:13px;">(Compliance Gap)</em></td><td>Los requisitos regulatorios o de seguridad existen en la cabeza de alguien. La IA nunca los tuvo.</td></tr>
+        <tr><td>25</td><td><strong>Desajuste de Herramientas</strong> <em style="color:var(--smoke);font-size:13px;">(Tooling Mismatch)</em></td><td>La IA usa la herramienta incorrecta para la tarea. No porque sea incorrecta — sino porque la especificación nunca dijo qué herramienta usar y cuándo.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- PROPERTY MAPPING -->
+  <section id="propiedades">
+    <h2>Cómo las siete propiedades mapean a ambas</h2>
+    <span class="section-sub">Cada propiedad previene patologías y construye capacidades</span>
+    <div class="table-wrap"><table class="prop-table">
+      <thead><tr><th>Propiedad GS</th><th>Patologías que previene</th><th>Capacidades que construye</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Auto-descriptiva</strong></td><td>Deriva Arquitectónica, Amnesia de Sesión, Arquitectura Implícita, Fricción de Incorporación, Deuda de ADRs</td><td>Coherencia Arquitectónica entre Sesiones, Derivabilidad Sin Estado, Conocimiento de Proyecto Derivable</td></tr>
+        <tr><td><strong>Acotada</strong></td><td>Desbordamiento de Ventana de Contexto, Expansión de Alcance, Violación de Capas, Desajuste de Herramientas</td><td>Constitución Acotada, Aplicación de Restricciones Arquitectónicas</td></tr>
+        <tr><td><strong>Verificable</strong></td><td>Teatro de Pruebas, Ceguera en Cascada, Brecha de Cumplimiento</td><td>Verificación Conductual, Verificación Ligada a la Especificación</td></tr>
+        <tr><td><strong>Defendida</strong></td><td>Punto Ciego de Seguridad IA, Ceguera en Cascada, Optimización Prematura</td><td>Seguridad a Nivel de Especificación, Integridad de Fase TDD, Superficie de IA Gobernada</td></tr>
+        <tr><td><strong>Auditable</strong></td><td>Deuda de ADRs, Caos de Commits, Documentación Obsoleta, Deuda Técnica Invisible</td><td>Linaje de Decisiones Arquitectónicas, Historial de Cambios Tipado, Documentación Viva</td></tr>
+        <tr><td><strong>Componible</strong></td><td>Dependencia Fantasma, Violación de Capas, Sobreingeniería</td><td>Consistencia de Contratos entre Lenguajes, Fuente Única de Verdad</td></tr>
+        <tr><td><strong>Ejecutable</strong></td><td>Teatro de Pruebas, Brecha de Cumplimiento, Desajuste de Herramientas</td><td>Discriminación de Fallos Fantasma, Output de IA Determinístico</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:13px;color:var(--smoke);margin-top:12px;">Las siete propiedades y su rúbrica (puntuación 0–14) están publicadas en el <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">GS White Paper v4.0</a>.</p>
+  </section>
+
+  <!-- QUÉ HACER -->
+  <section id="siguiente">
+    <h2>Qué hacer ahora</h2>
+    <span class="section-sub">Tres caminos hacia adelante</span>
+    <div class="next-cards">
+      <div class="next-card">
+        <span class="nc-label">Gratuito · Inmediato</span>
+        <div class="nc-title">Ejecuta la auditoría de tu repositorio</div>
+        <p>Cualquier repositorio. Produce una puntuación de 0–14 con las patologías nombradas y una lista priorizada de remediación. Gratuito para individuos.</p>
+        <code class="audit-cmd">npx pragmaworks audit</code>
+      </div>
+      <div class="next-card">
+        <span class="nc-label">Taller · $6–25K</span>
+        <div class="nc-title">La Fragua</div>
+        <p>Taller de cuatro mañanas que entrega las siete propiedades de forma operativa. Los equipos salen con un diagnóstico personalizado de su propio repositorio, recetas de aplicación ForgeCraft y 90 días de acceso a herramientas.</p>
+        <a href="https://forgeworkshop.dev" class="btn btn-secondary" target="_blank" rel="noopener">Conoce La Fragua →</a>
+      </div>
+      <div class="next-card">
+        <span class="nc-label">Concierge · $20–50K</span>
+        <div class="nc-title">Remediación guiada</div>
+        <p>Remediación en sistemas productivos. Comienza con una llamada de diagnóstico gratuita.</p>
+        <a href="mailto:juan@pragmaworks.dev?subject=Consulta%20Concierge" class="btn btn-primary">Agenda una llamada de 30 min →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>© 2026 PragmaWorks LLC · <a href="mailto:juan@pragmaworks.dev">juan@pragmaworks.dev</a></span>
+  <span>
+    <a href="/">pragmaworks.dev</a> ·
+    <a href="https://forgeworkshop.dev" target="_blank" rel="noopener">forgeworkshop.dev</a> ·
+    <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">White Paper</a> ·
+    <a href="/diagnose">English version</a>
+  </span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnose — PragmaWorks</title>
+<meta name="description" content="25 structural capabilities a GS-disciplined codebase gains — and the 25 failure modes the same properties prevent. Free audit: npx pragmaworks audit">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember:      #C44B1A;
+    --ember-glow: #E8652E;
+    --molten:     #F4A623;
+    --iron:       #2C2C2E;
+    --steel:      #48484A;
+    --smoke:      #8E8E93;
+    --ash:        #D1D1D6;
+    --parchment:  #F5F0E8;
+    --forge-dark: #1A1611;
+    --blue-steel: #4A6580;
+    --tempered:   #6B8F71;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--parchment); font-family: 'Source Serif 4', Georgia, serif; line-height: 1.55; color: var(--iron); }
+  a { color: var(--ember); text-decoration: none; }
+  a:hover { color: var(--ember-glow); }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); }
+  .nav-brand span { color: var(--ember); }
+  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-right a { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke); }
+  .nav-right a:hover { color: var(--ember); }
+  .lang-link { border: 1px solid rgba(196,75,26,0.35); padding: 0.25rem 0.55rem; border-radius: 2px; color: var(--ember) !important; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 64px 32px 100px; }
+
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 18px; }
+  h1 { font-family: 'Cinzel', serif; font-weight: 700; font-size: clamp(26px, 5vw, 40px); line-height: 1.15; color: var(--forge-dark); margin-bottom: 28px; }
+
+  .hero-bullets { list-style: none; margin-bottom: 28px; }
+  .hero-bullets li { padding: 9px 0 9px 1.4rem; position: relative; font-size: 16px; color: var(--steel); border-bottom: 1px solid rgba(44,44,46,0.07); }
+  .hero-bullets li:last-child { border-bottom: none; }
+  .hero-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--ember); font-family: 'JetBrains Mono', monospace; }
+
+  .hero-note { font-size: 15px; color: var(--steel); font-style: italic; margin-bottom: 32px; padding: 16px 20px; border-left: 3px solid var(--ember); background: rgba(196,75,26,0.04); line-height: 1.65; }
+  .hero-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; align-items: center; }
+  .btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 20px; border-radius: 2px; display: inline-block; }
+  .btn-primary { background: var(--ember); color: var(--parchment); }
+  .btn-primary:hover { background: var(--ember-glow); color: var(--parchment); }
+  .btn-secondary { border: 1px solid var(--ember); color: var(--ember); background: transparent; }
+  .btn-secondary:hover { background: rgba(196,75,26,0.05); }
+  .audit-cmd { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--forge-dark); color: var(--molten); padding: 10px 16px; border-radius: 2px; display: inline-block; }
+
+  section { margin-top: 72px; }
+  h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; color: var(--forge-dark); border-top: 2px solid var(--ember); padding-top: 24px; margin-bottom: 6px; }
+  .section-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 20px; }
+  p.intro { font-size: 16px; color: var(--steel); margin-bottom: 28px; }
+
+  .tier-header { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 14px; margin: 32px 0 0; display: flex; align-items: center; gap: 8px; border-radius: 2px 2px 0 0; }
+  .tier-header small { font-size: 11px; opacity: 0.8; text-transform: none; letter-spacing: 0; font-style: italic; margin-left: 4px; }
+  .tier-transformative { background: rgba(74,101,128,0.12); color: var(--blue-steel); border-left: 3px solid var(--blue-steel); }
+  .tier-amplifying { background: rgba(244,166,35,0.10); color: #8B6914; border-left: 3px solid var(--molten); }
+  .tier-structural { background: rgba(107,143,113,0.10); color: var(--tempered); border-left: 3px solid var(--tempered); }
+  .sev-critical { background: rgba(196,75,26,0.08); color: var(--ember); border-left: 3px solid var(--ember); }
+  .sev-high { background: rgba(232,101,46,0.08); color: #A0441A; border-left: 3px solid var(--ember-glow); }
+  .sev-medium { background: rgba(244,166,35,0.08); color: #8B6914; border-left: 3px solid var(--molten); }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--forge-dark); color: var(--ash); padding: 9px 14px; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; }
+  td { padding: 12px 14px; border-bottom: 1px solid rgba(44,44,46,0.08); font-size: 15px; vertical-align: top; }
+  td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ember); width: 32px; white-space: nowrap; }
+  td strong { color: var(--forge-dark); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(196,75,26,0.02); }
+
+  .prop-table td:first-child { color: var(--iron); font-size: 14px; font-weight: 400; white-space: normal; width: 14%; }
+  .prop-table td { font-size: 14px; }
+  .prop-table th:nth-child(1) { width: 14%; }
+
+  .checklist { list-style: none; border: 1px solid rgba(44,44,46,0.12); border-radius: 4px; overflow: hidden; margin: 20px 0; }
+  .checklist li { padding: 12px 16px; font-size: 15px; border-bottom: 1px solid rgba(44,44,46,0.07); display: flex; align-items: flex-start; gap: 12px; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '☐'; font-size: 17px; color: var(--smoke); flex-shrink: 0; line-height: 1.4; }
+
+  .score-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .score-card { padding: 14px 16px; border-radius: 3px; border: 1px solid; }
+  .score-card .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .score-card .lbl { font-size: 13px; color: var(--steel); }
+  .score-critical { border-color: var(--ember); background: rgba(196,75,26,0.04); }
+  .score-critical .num { color: var(--ember); }
+  .score-early { border-color: var(--molten); background: rgba(244,166,35,0.04); }
+  .score-early .num { color: #8B6914; }
+  .score-ok { border-color: var(--tempered); background: rgba(107,143,113,0.04); }
+  .score-ok .num { color: var(--tempered); }
+
+  .next-cards { display: grid; gap: 16px; margin-top: 24px; }
+  .next-card { padding: 22px 24px; background: #fff; border: 1px solid rgba(44,44,46,0.12); border-radius: 4px; }
+  .next-card .nc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ember); margin-bottom: 6px; display: block; }
+  .next-card .nc-title { font-family: 'Cinzel', serif; font-size: 17px; color: var(--forge-dark); margin-bottom: 8px; }
+  .next-card p { font-size: 14px; color: var(--steel); margin-bottom: 14px; }
+
+  footer { max-width: 800px; margin: 0 auto; padding: 28px 32px 48px; border-top: 1px solid rgba(44,44,46,0.1); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--smoke); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  footer a { color: var(--smoke); }
+  footer a:hover { color: var(--ember); }
+
+  @media (max-width: 600px) {
+    .container { padding: 40px 20px 80px; }
+    nav { padding: 0.75rem 1.2rem; }
+    .nav-right a:not(.lang-link) { display: none; }
+    .score-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+  <div class="nav-right">
+    <a href="#capabilities">Capabilities</a>
+    <a href="#self-test">Self-test</a>
+    <a href="#pathologies">Pathologies</a>
+    <a href="/diagnostico" class="lang-link">ES</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <span class="eyebrow">Generative Specification · Diagnostic</span>
+  <h1>What does a GS-disciplined codebase look like?</h1>
+
+  <ul class="hero-bullets">
+    <li>New AI sessions start producing correct output in 30 seconds, not 30 minutes</li>
+    <li>Architectural decisions from 6 months ago are visible and enforced today</li>
+    <li>A new engineer contributes meaningfully on day 1, not week 3</li>
+    <li>Production incidents from implicit inter-system assumptions are structurally prevented</li>
+    <li>AI generates code that matches your codebase's architectural style on the first attempt</li>
+    <li>When a senior developer leaves, their decisions stay — in auditable artifacts, not in memory</li>
+  </ul>
+
+  <p class="hero-note">That's not aspirational fiction. It's what seven specification properties produce when applied. The methodology is published, reproducible, and backed by a 58-developer controlled study.<br><br>Below are the <strong>25 structural capabilities</strong> your codebase gains when GS is applied — and the 25 failure modes the same properties prevent.</p>
+
+  <div class="cta-row">
+    <a href="mailto:juan@pragmaworks.dev?subject=GS%20Discovery%20Call" class="btn btn-primary">Book a free 30-min discovery call →</a>
+    <a href="#self-test" class="btn btn-secondary">30-second self-test ↓</a>
+  </div>
+  <code class="audit-cmd">npx pragmaworks audit</code>
+
+  <!-- 25 CAPABILITIES -->
+  <section id="capabilities">
+    <h2>The 25 capabilities GS builds</h2>
+    <span class="section-sub">Structural acquisitions — permanent, not maintained</span>
+    <p class="intro">Each capability is a structural acquisition — something your codebase gains permanently, not a process you have to maintain.</p>
+
+    <div class="tier-header tier-transformative">💎 Transformative <small>— alters the category of work your team can take on</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capability</th><th>What it means in practice</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Cross-Session Architectural Coherence</strong></td><td>Code generated in any AI session is structurally consistent with all previous sessions. The specification is the persistent referee.</td></tr>
+        <tr><td>2</td><td><strong>Stateless Derivability</strong></td><td>A new AI session — or a new engineer — derives the correct implementation from artifacts alone. No verbal handoff needed.</td></tr>
+        <tr><td>4</td><td><strong>Explicit Inter-System Contracts</strong></td><td>Every interface between systems is written and enforced. The Mars Climate Orbiter failure mode is structurally eliminated.</td></tr>
+        <tr><td>12</td><td><strong>Specification-Bound Verification</strong></td><td>The test suite verifies behavioral contracts against real execution — not just that code compiles.</td></tr>
+        <tr><td>14</td><td><strong>Stateless Knowledge Transfer</strong></td><td>Team rotations, AI session resets, onboarding — all handled by the spec. Oral tradition becomes an artifact.</td></tr>
+        <tr><td>18</td><td><strong>Sustainable Formal Discipline</strong></td><td>The system enforces SOLID, TDD, and clean architecture automatically — not through cultural pressure.</td></tr>
+        <tr><td>22</td><td><strong>Spec-Level Security</strong></td><td>Consequence classification is written. Irreversible operations have confirmation gates. Structural, not procedural.</td></tr>
+        <tr><td>24</td><td><strong>Inverted AI Dependency</strong></td><td>AI executes against your specification, not against its prior distribution. You direct the model; the model doesn't direct you.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header tier-amplifying">🚀 Amplifying <small>— multiplies the capacity of existing work</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capability</th><th>What it means in practice</th></tr></thead>
+      <tbody>
+        <tr><td>5</td><td><strong>Derivable Project Knowledge</strong></td><td>Any engineer or AI session can reconstruct the full project context from artifacts alone.</td></tr>
+        <tr><td>6</td><td><strong>Persistent Session Memory</strong></td><td>Context established in one session is available in every subsequent session — without re-narration.</td></tr>
+        <tr><td>9</td><td><strong>Behavioral Verification</strong></td><td>Tests prove what the system does under real conditions, not just that it compiles.</td></tr>
+        <tr><td>15</td><td><strong>Visible Technical Debt</strong></td><td>Debt is tracked in auditable artifacts. The AI knows it exists. Remediation is planned, not discovered.</td></tr>
+        <tr><td>21</td><td><strong>Structured Prompting</strong></td><td>The specification is the prompt. Model-agnostic, version-stable, reproducible across any AI executor.</td></tr>
+        <tr><td>25</td><td><strong>End-to-End Lifecycle Automation</strong></td><td>From spec to staging to production monitoring — every tier of the lifecycle governed by the same artifact set.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header tier-structural">⚙️ Structural <small>— removes a recurring tax on the team's time</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Capability</th><th>What it means in practice</th></tr></thead>
+      <tbody>
+        <tr><td>3</td><td><strong>Architectural Constraint Enforcement</strong></td><td>Layer rules, forbidden patterns, naming conventions enforced at generation time — not at code review time.</td></tr>
+        <tr><td>7</td><td><strong>Single Source of Truth</strong></td><td>One canonical spec. Code, tests, and docs derive from it. Divergence is a build error, not a people problem.</td></tr>
+        <tr><td>8</td><td><strong>Bounded Constitution</strong></td><td>Every specification artifact fits within the AI's usable context window. No silent truncation. No blind spots.</td></tr>
+        <tr><td>10</td><td><strong>TDD Phase Integrity</strong></td><td>The RED phase cannot be bypassed. Structural gates enforce test-before-code at the commit level.</td></tr>
+        <tr><td>11</td><td><strong>Ghost Failure Discrimination</strong></td><td>Test failures tell you what the contract requires, not what the current implementation does.</td></tr>
+        <tr><td>13</td><td><strong>Deterministic AI Output</strong></td><td>Given the same spec and the same requirement, AI sessions converge on the same output. Reproducibility by design.</td></tr>
+        <tr><td>16</td><td><strong>Architectural Decision Lineage</strong></td><td>Every non-obvious decision has a recorded rationale. The AI cannot silently "correct" what it wasn't told was intentional.</td></tr>
+        <tr><td>17</td><td><strong>Typed Change History</strong></td><td>Every commit has type, scope, and intent. The git log is a machine-readable audit trail.</td></tr>
+        <tr><td>19</td><td><strong>Living Documentation</strong></td><td>Docs are derived from the spec — they update when the spec updates. They cannot drift.</td></tr>
+        <tr><td>20</td><td><strong>Cross-Language Contract Consistency</strong></td><td>Interface contracts hold across service boundaries regardless of implementation language.</td></tr>
+        <tr><td>23</td><td><strong>Governed AI Surface</strong></td><td>The AI's authority is bounded. What it may and may not do is written, not inferred.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- SELF-TEST -->
+  <section id="self-test">
+    <h2>Where is your team today?</h2>
+    <span class="section-sub">30-second self-test</span>
+    <p class="intro">Check any that apply:</p>
+    <ul class="checklist">
+      <li>Two AI sessions on the same codebase produce structurally different output</li>
+      <li>A new engineer needs 30+ minutes of colleague context before they can start</li>
+      <li>Tests pass but the feature doesn't work the way you intended</li>
+      <li>An architectural decision from 3 months ago is invisible to new contributors</li>
+      <li>You've had a production incident caused by an implicit assumption between two systems</li>
+      <li>AI generates code that "looks right" but introduces coupling or layer violations you find later</li>
+      <li>When a senior developer leaves, the team loses the understanding of <em>why</em> the system is the way it is</li>
+    </ul>
+    <div class="score-cards">
+      <div class="score-card score-critical">
+        <div class="num">3 or more</div>
+        <div class="lbl">Multiple active pathologies. The audit names them.</div>
+      </div>
+      <div class="score-card score-early">
+        <div class="num">1–2</div>
+        <div class="lbl">Early stage — preventable before they compound.</div>
+      </div>
+      <div class="score-card score-ok">
+        <div class="num">0</div>
+        <div class="lbl">Well-specified or very early project. Verify with the free audit.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25 PATHOLOGIES -->
+  <section id="pathologies">
+    <h2>The 25 pathologies GS prevents</h2>
+    <span class="section-sub">Each is structurally prevented by one or more of the seven properties</span>
+    <p class="intro">Recognizing yours is the first step to resolving them.</p>
+
+    <div class="tier-header sev-critical">🔴 Critical — active structural damage</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Pathology</th><th>What you observe</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Architectural Drift</strong></td><td>AI output structurally incoherent across sessions. Each session locally valid; system diverges over time.</td></tr>
+        <tr><td>2</td><td><strong>Specification Absence</strong></td><td>No derivable spec. Every new session reconstructs intent from code — incorrectly and differently each time.</td></tr>
+        <tr><td>3</td><td><strong>Implicit Architecture</strong></td><td>Architectural rules live in heads, not artifacts. AI violates boundaries it was never told about.</td></tr>
+        <tr><td>4</td><td><strong>Implicit Contract Syndrome</strong></td><td>Two systems agree by assumption, not contract. The Mars Climate Orbiter failure mode. $327M demonstrated cost.</td></tr>
+        <tr><td>5</td><td><strong>AI Security Blindspot</strong></td><td>No consequence classification. AI executes irreversible operations without a confirmation gate.</td></tr>
+        <tr><td>6</td><td><strong>Session Amnesia</strong></td><td>Context resets at every session boundary. Prior decisions and constraints evaporate.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header sev-high">🟠 High — compounding silently</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Pathology</th><th>What you observe</th></tr></thead>
+      <tbody>
+        <tr><td>7</td><td><strong>Test Theater</strong></td><td>Tests pass. Behavioral contracts aren't tested. Green CI on broken features.</td></tr>
+        <tr><td>8</td><td><strong>ADR Debt</strong></td><td>Decisions made and lost. Same decision relitigated in every session.</td></tr>
+        <tr><td>9</td><td><strong>Scope Creep</strong></td><td>Each AI session expands scope slightly. Boundaries never enforced.</td></tr>
+        <tr><td>10</td><td><strong>Copilot Dependency</strong></td><td>Only the AI knows what the code does. Humans can't audit output they can't follow.</td></tr>
+        <tr><td>11</td><td><strong>Context Window Overflow</strong></td><td>Sessions collapse under their own weight. Quality degrades; model attends to wrong signals.</td></tr>
+        <tr><td>12</td><td><strong>Bus Factor</strong></td><td>One person understands the system. AI or human departure = knowledge loss.</td></tr>
+        <tr><td>13</td><td><strong>Naming Entropy</strong></td><td>Inconsistent naming across sessions. AI invents synonyms. Search fails.</td></tr>
+        <tr><td>14</td><td><strong>Commit Chaos</strong></td><td>Commits untyped, oversized, untraceable. Git log useless as audit trail.</td></tr>
+        <tr><td>15</td><td><strong>Documentation Decay</strong></td><td>Docs written at project start. Code moved on. Docs actively mislead the AI.</td></tr>
+        <tr><td>16</td><td><strong>Cascade Blindness</strong></td><td>Spec change cascades downstream without anyone knowing. Tests pass on the old contract.</td></tr>
+        <tr><td>17</td><td><strong>Layer Violation</strong></td><td>AI adds to the nearest layer, not the right one. Domain logic in controllers.</td></tr>
+        <tr><td>18</td><td><strong>Phantom Dependency</strong></td><td>Components depend on each other in ways not declared. Refactoring breaks unexpected things.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tier-header sev-medium">🟡 Medium — detectable before critical</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Pathology</th><th>What you observe</th></tr></thead>
+      <tbody>
+        <tr><td>19</td><td><strong>Onboarding Friction</strong></td><td>New developers need weeks of handholding. New AI sessions need the same every time.</td></tr>
+        <tr><td>20</td><td><strong>Prompt Engineering Dependency</strong></td><td>Prompts are the spec. Change the model, lose the output.</td></tr>
+        <tr><td>21</td><td><strong>Premature Optimization</strong></td><td>AI optimizes for the nearest metric, not the system's actual constraints.</td></tr>
+        <tr><td>22</td><td><strong>Over-Engineering</strong></td><td>AI adds abstraction layers the spec never requested. Complexity compounds.</td></tr>
+        <tr><td>23</td><td><strong>Tech Debt Invisibility</strong></td><td>Debt known but untracked. Doesn't appear in audit trail. AI doesn't know it exists.</td></tr>
+        <tr><td>24</td><td><strong>Compliance Gap</strong></td><td>Regulatory requirements exist in someone's head. The AI never had them.</td></tr>
+        <tr><td>25</td><td><strong>Tooling Mismatch</strong></td><td>AI uses the wrong tool. Not because it's wrong — because the spec never said which tool to use when.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- PROPERTY MAPPING -->
+  <section id="properties">
+    <h2>How the seven properties map to both</h2>
+    <span class="section-sub">Each property prevents pathologies and builds capabilities</span>
+    <div class="table-wrap"><table class="prop-table">
+      <thead><tr><th>GS Property</th><th>Pathologies it prevents</th><th>Capabilities it builds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Self-describing</strong></td><td>Architectural Drift, Session Amnesia, Implicit Architecture, Onboarding Friction, ADR Debt</td><td>Cross-Session Coherence, Stateless Derivability, Derivable Project Knowledge</td></tr>
+        <tr><td><strong>Bounded</strong></td><td>Context Window Overflow, Scope Creep, Layer Violation, Tooling Mismatch</td><td>Bounded Constitution, Architectural Constraint Enforcement</td></tr>
+        <tr><td><strong>Verifiable</strong></td><td>Test Theater, Cascade Blindness, Compliance Gap</td><td>Behavioral Verification, Specification-Bound Verification</td></tr>
+        <tr><td><strong>Defended</strong></td><td>AI Security Blindspot, Cascade Blindness, Premature Optimization</td><td>Spec-Level Security, TDD Phase Integrity, Governed AI Surface</td></tr>
+        <tr><td><strong>Auditable</strong></td><td>ADR Debt, Commit Chaos, Documentation Decay, Tech Debt Invisibility</td><td>Architectural Decision Lineage, Typed Change History, Living Documentation</td></tr>
+        <tr><td><strong>Composable</strong></td><td>Phantom Dependency, Layer Violation, Over-Engineering</td><td>Cross-Language Contract Consistency, Single Source of Truth</td></tr>
+        <tr><td><strong>Executable</strong></td><td>Test Theater, Compliance Gap, Tooling Mismatch</td><td>Ghost Failure Discrimination, Deterministic AI Output</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:13px;color:var(--smoke);margin-top:12px;">Seven properties and rubric (0–14 score) published in the <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">GS White Paper v4.0</a>.</p>
+  </section>
+
+  <!-- NEXT STEPS -->
+  <section id="next">
+    <h2>What to do next</h2>
+    <span class="section-sub">Three paths forward</span>
+    <div class="next-cards">
+      <div class="next-card">
+        <span class="nc-label">Free · Immediate</span>
+        <div class="nc-title">Run the codebase audit</div>
+        <p>Any repo. Produces a 0–14 score with named pathologies and a remediation priority list. Free for individuals.</p>
+        <code class="audit-cmd">npx pragmaworks audit</code>
+      </div>
+      <div class="next-card">
+        <span class="nc-label">Workshop · $6–25K</span>
+        <div class="nc-title">La Fragua</div>
+        <p>Four-morning hands-on workshop delivering the seven properties operationally. Teams leave with a personalized diagnostic, ForgeCraft enforcement recipes for their top pathologies, and 90 days of tooling access.</p>
+        <a href="https://forgeworkshop.dev" class="btn btn-secondary" target="_blank" rel="noopener">Learn about La Fragua →</a>
+      </div>
+      <div class="next-card">
+        <span class="nc-label">Concierge · $20–50K</span>
+        <div class="nc-title">Done-for-you remediation</div>
+        <p>Guided remediation on production systems. Start with a free discovery call.</p>
+        <a href="mailto:juan@pragmaworks.dev?subject=Concierge%20Inquiry" class="btn btn-primary">Book a 30-min call →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>© 2026 PragmaWorks LLC · <a href="mailto:juan@pragmaworks.dev">juan@pragmaworks.dev</a></span>
+  <span>
+    <a href="/">pragmaworks.dev</a> ·
+    <a href="https://forgeworkshop.dev" target="_blank" rel="noopener">forgeworkshop.dev</a> ·
+    <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">White Paper</a> ·
+    <a href="/diagnostico">Versión en español</a>
+  </span>
+</footer>
+
+</body>
+</html>
