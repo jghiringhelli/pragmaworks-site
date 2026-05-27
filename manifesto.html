@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Generative Specification Manifesto — PragmaWorks</title>
+<title>The Harness Manifesto — PragmaWorks</title>
 <meta name="description" content="A discipline for teams building with AI. Four values. Twelve principles. Published 2026.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..144,300;0,8..144,400;0,8..144,600;1,8..144,300;1,8..144,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -106,6 +106,11 @@
   .sig-table tr:last-child td { border-bottom: none; }
   .sig-cohort td { color: var(--smoke) !important; font-style: italic; }
 
+  .prop-table { width: 100%; border-collapse: collapse; margin: 24px 0 4px; }
+  .prop-table td { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; line-height: 1.6; vertical-align: top; color: var(--ash); }
+  .prop-table td:first-child { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; color: var(--ember); padding-right: 20px; white-space: nowrap; width: 120px; }
+  .prop-table tr:last-child td { border-bottom: none; }
+
   .sign-cta {
     margin-top: 28px; padding: 20px 24px;
     border: 1px solid rgba(196,75,26,0.3);
@@ -151,7 +156,7 @@
 <div class="container">
 
   <span class="eyebrow">Generative Specification · 2026</span>
-  <h1>The Generative Specification Manifesto</h1>
+  <h1>The Harness Manifesto</h1>
 
   <p class="preamble">We are uncovering better ways of developing software by building with AI and helping others do it. Through this work we have come to value:</p>
 
@@ -188,11 +193,21 @@
     </li>
     <li class="principle">
       <span class="p-num">2</span>
-      <span class="p-text">Seven properties make a specification GS-disciplined: <strong>self-describing, bounded, composable, verifiable, auditable, defended, executable.</strong> Not tools. Not frameworks. Not process overhead. Properties.</span>
+      <div class="p-text">Seven properties make a specification GS-disciplined: <strong>self-describing, bounded, composable, verifiable, auditable, defended, executable.</strong> Not tools. Not frameworks. Not process overhead. Properties.
+        <table class="prop-table">
+          <tr><td>Self-describing</td><td>A stateless reader — AI or human — derives correct work from the spec alone, without external context or tribal knowledge.</td></tr>
+          <tr><td>Bounded</td><td>Every session receives only what is relevant to its task. Irrelevant context, even when it fits, forces silent prioritization — and the model prioritizes wrong.</td></tr>
+          <tr><td>Composable</td><td>The spec assembles from independent parts. Each part is coherent alone; the whole is derivable without losing intent.</td></tr>
+          <tr><td>Verifiable</td><td>Outputs can be tested against the spec. Correctness is measurable, not assumed.</td></tr>
+          <tr><td>Auditable</td><td>Every decision, constraint, and rationale is recorded. The AI sees what was intentional and cannot accidentally overwrite it.</td></tr>
+          <tr><td>Defended</td><td>Irreversible operations require explicit human gates. Consequences are classified in the spec before runtime.</td></tr>
+          <tr><td>Executable</td><td>The spec drives AI output directly. It is the source from which code, tests, and documentation are derived.</td></tr>
+        </table>
+      </div>
     </li>
     <li class="principle">
       <span class="p-num">3</span>
-      <span class="p-text">A specification that does not fit in the AI's usable context window is not bounded. If the model must silently truncate, you have already lost architectural control.</span>
+      <span class="p-text">A bounded specification delivers only what is relevant to the current task. Size is a symptom; irrelevance is the disease. A context window full of unrelated instructions forces the model to prioritize silently — and it will deprioritize tests, architectural rules, and constraints that feel distant from the immediate request. <strong>Bounded is not a length limit. It is a relevance contract.</strong></span>
     </li>
     <li class="principle">
       <span class="p-num">4</span>
@@ -220,11 +235,11 @@
     </li>
     <li class="principle">
       <span class="p-num">10</span>
-      <span class="p-text">Every interface between systems is a written contract, not an implicit agreement. Two systems that agree by assumption have recreated the Mars Climate Orbiter. <strong>$327 million is the documented cost of an unwritten unit specification.</strong></span>
+      <span class="p-text">Every interface between systems is a written contract, not an implicit agreement. Two systems that agree by assumption have agreed about nothing. The contract must exist in an artifact — not in the memory of the engineer who built both sides.</span>
     </li>
     <li class="principle">
       <span class="p-num">11</span>
-      <span class="p-text">Documentation derives from specification. When the specification updates, documentation updates. A document that can drift from the codebase is not documentation — it is a liability.</span>
+      <span class="p-text">Code and specification are mirrors of each other. When either changes, the other must follow. A document that can drift from the codebase is not documentation — it is a liability. A codebase that has diverged from its specification is not a product — it is an accumulation of unrecorded decisions.</span>
     </li>
     <li class="principle">
       <span class="p-num">12</span>
@@ -251,13 +266,14 @@
     </table>
 
     <div class="sign-cta">
-      Have you applied GS discipline in production? Add your name. Email <a href="mailto:juan@pragmaworks.dev?subject=GS%20Manifesto%20%E2%80%94%20Signatory">juan@pragmaworks.dev</a> with your name, organization, and a sentence about your experience.
+      Have you applied GS discipline in production? Add your name. Email <a href="mailto:juan@pragmaworks.dev?subject=Harness%20Manifesto%20%E2%80%94%20Signatory">juan@pragmaworks.dev</a> with your name, organization, and a sentence about your experience.
     </div>
   </div>
 
   <div class="white-paper-note">
     The seven properties and the empirical basis for this discipline — including a controlled study with 58 developers across six production projects — are published in the <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">Generative Specification White Paper v4.0</a> (2026).<br><br>
     The 25 structural capabilities a GS-disciplined codebase gains, and the 25 failure modes the same properties prevent, are cataloged at <a href="/diagnose">pragmaworks.dev/diagnose</a>.<br><br>
+    On Principle 10: the $327 million cost of the Mars Climate Orbiter failure — traced to a single unwritten unit contract between two engineering teams — is documented in NASA's Mission Failure Investigation Board report (1999) and analyzed in the White Paper as a canonical case of Implicit Contract Syndrome.<br><br>
     © 2026 PragmaWorks LLC. This manifesto is free to reproduce, translate, and share with attribution.
   </div>
 
