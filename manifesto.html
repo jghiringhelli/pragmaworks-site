@@ -158,7 +158,7 @@
   <span class="eyebrow">Generative Specification · 2026</span>
   <h1>The Harness Manifesto</h1>
 
-  <p class="preamble">We are uncovering better ways of developing software by building with AI and helping others do it. Through this work we have come to value:</p>
+  <p class="preamble">We are uncovering better ways of developing software by building with AI and helping others do it. We have learned that without discipline, AI amplifies whatever preceded the session, including every prior mistake. A harness channels force. Through this work we have come to value:</p>
 
   <div class="values">
     <div class="value-item">
@@ -167,7 +167,7 @@
       <div class="value-right">prompt engineering</div>
     </div>
     <div class="value-item">
-      <div class="value-left"><strong>Derivable artifacts</strong></div>
+      <div class="value-left"><strong>Written artifacts</strong></div>
       <div class="value-over">over</div>
       <div class="value-right">verbal handoffs</div>
     </div>
@@ -177,7 +177,7 @@
       <div class="value-right">cultural pressure</div>
     </div>
     <div class="value-item">
-      <div class="value-left"><strong>Governed AI output</strong></div>
+      <div class="value-left"><strong>Directed output</strong></div>
       <div class="value-over">over</div>
       <div class="value-right">unconstrained generation</div>
     </div>
@@ -193,7 +193,7 @@
     <tr><td>Verifiable</td><td>Outputs can be tested against the spec. Correctness is measurable, not assumed.</td></tr>
     <tr><td>Auditable</td><td>Every decision, constraint, and rationale is recorded. The AI sees what was intentional and cannot accidentally overwrite it.</td></tr>
     <tr><td>Defended</td><td>Irreversible operations require explicit human gates. Consequences are classified in the spec before runtime.</td></tr>
-    <tr><td>Executable</td><td>The spec drives AI output directly. It is the source from which code, tests, and documentation are derived.</td></tr>
+    <tr><td>Executable</td><td>The spec drives AI output directly. It is the source from which code, tests, and documentation are derived. Together with Verifiable, this closes the specification loop: the same artifact that directs generation also provides the standard for evaluation.</td></tr>
   </table>
 
   <h2>Twelve Principles</h2>
@@ -205,7 +205,7 @@
     </li>
     <li class="principle">
       <span class="p-num">2</span>
-      <span class="p-text">Seven properties make a specification GS-disciplined: <strong>self-describing, bounded, composable, verifiable, auditable, defended, executable.</strong> Not tools. Not frameworks. Not process overhead. Properties.</span>
+      <span class="p-text">The specification is written before the code it governs. A spec written to describe existing behavior is documentation. <strong>A spec written to direct behavior not yet built is discipline.</strong></span>
     </li>
     <li class="principle">
       <span class="p-num">3</span>
@@ -229,7 +229,7 @@
     </li>
     <li class="principle">
       <span class="p-num">8</span>
-      <span class="p-text">Given the same specification, the same requirement, and the same executor: the output converges. <strong>Reproducibility is a structural property, not a hope.</strong> When sessions diverge, the specification is incomplete.</span>
+      <span class="p-text">Given the same specification and the same requirement: the output converges. <strong>Reproducibility is a structural property, not a hope.</strong> When sessions diverge, the specification is incomplete.</span>
     </li>
     <li class="principle">
       <span class="p-num">9</span>
