@@ -106,7 +106,7 @@
   .sig-table tr:last-child td { border-bottom: none; }
   .sig-cohort td { color: var(--smoke) !important; font-style: italic; }
 
-  .prop-table { width: 100%; border-collapse: collapse; margin: 24px 0 4px; }
+  .prop-table { width: 100%; border-collapse: collapse; margin: 24px 0 48px; }
   .prop-table td { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; line-height: 1.6; vertical-align: top; color: var(--ash); }
   .prop-table td:first-child { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; color: var(--ember); padding-right: 20px; white-space: nowrap; width: 120px; }
   .prop-table tr:last-child td { border-bottom: none; }
@@ -184,6 +184,18 @@
     <p class="values-footnote">That is, while there is value in the items on the right, we value the items on the left more.</p>
   </div>
 
+  <h2>The Seven Properties</h2>
+
+  <table class="prop-table">
+    <tr><td>Self-describing</td><td>A stateless reader — AI or human — derives correct work from the spec alone, without external context or tribal knowledge.</td></tr>
+    <tr><td>Bounded</td><td>Every session receives only what is relevant to its task. Irrelevant context, even when it fits, forces silent prioritization — and the model prioritizes wrong.</td></tr>
+    <tr><td>Composable</td><td>The spec assembles from independent parts. Each part is coherent alone; the whole is derivable without losing intent.</td></tr>
+    <tr><td>Verifiable</td><td>Outputs can be tested against the spec. Correctness is measurable, not assumed.</td></tr>
+    <tr><td>Auditable</td><td>Every decision, constraint, and rationale is recorded. The AI sees what was intentional and cannot accidentally overwrite it.</td></tr>
+    <tr><td>Defended</td><td>Irreversible operations require explicit human gates. Consequences are classified in the spec before runtime.</td></tr>
+    <tr><td>Executable</td><td>The spec drives AI output directly. It is the source from which code, tests, and documentation are derived.</td></tr>
+  </table>
+
   <h2>Twelve Principles</h2>
 
   <ol class="principles">
@@ -193,17 +205,7 @@
     </li>
     <li class="principle">
       <span class="p-num">2</span>
-      <div class="p-text">Seven properties make a specification GS-disciplined: <strong>self-describing, bounded, composable, verifiable, auditable, defended, executable.</strong> Not tools. Not frameworks. Not process overhead. Properties.
-        <table class="prop-table">
-          <tr><td>Self-describing</td><td>A stateless reader — AI or human — derives correct work from the spec alone, without external context or tribal knowledge.</td></tr>
-          <tr><td>Bounded</td><td>Every session receives only what is relevant to its task. Irrelevant context, even when it fits, forces silent prioritization — and the model prioritizes wrong.</td></tr>
-          <tr><td>Composable</td><td>The spec assembles from independent parts. Each part is coherent alone; the whole is derivable without losing intent.</td></tr>
-          <tr><td>Verifiable</td><td>Outputs can be tested against the spec. Correctness is measurable, not assumed.</td></tr>
-          <tr><td>Auditable</td><td>Every decision, constraint, and rationale is recorded. The AI sees what was intentional and cannot accidentally overwrite it.</td></tr>
-          <tr><td>Defended</td><td>Irreversible operations require explicit human gates. Consequences are classified in the spec before runtime.</td></tr>
-          <tr><td>Executable</td><td>The spec drives AI output directly. It is the source from which code, tests, and documentation are derived.</td></tr>
-        </table>
-      </div>
+      <span class="p-text">Seven properties make a specification GS-disciplined: <strong>self-describing, bounded, composable, verifiable, auditable, defended, executable.</strong> Not tools. Not frameworks. Not process overhead. Properties.</span>
     </li>
     <li class="principle">
       <span class="p-num">3</span>
