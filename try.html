@@ -563,111 +563,52 @@ external tooling, just conventions:
 6. Add CODEOWNERS so a human reviewer is auto-requested. Configure
    branch protection on main: required PR + checks before merge.
 
-7. Add .githooks/pre-commit-secrets.sh that scans staged files for
-   probable credentials before they land. This hook applies to every
-   project — credential leaks are never acceptable:
+7. Add a pre-commit hook that scans staged files for probable
+   credentials (AWS/GCP/OpenAI API keys, RSA/EC private keys,
+   hardcoded passwords) and blocks the commit if any are found.
+   Wire it through a .githooks/pre-commit dispatcher so future
+   hooks can be added as separate files without editing existing
+   ones. Mark all hooks executable. Only add hooks for checks
+   that apply to this project — add a coverage gate once the
+   test runner is confirmed, not before.
 
-     #!/usr/bin/env bash
-     PATTERNS=(
-       "AKIA[0-9A-Z]{16}"
-       "AIza[0-9A-Za-z_-]{35}"
-       "sk-[a-zA-Z0-9]{32,}"
-       "-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----"
-     )
-     for f in $(git diff --cached --name-only --diff-filter=ACM); do
-       for p in "${PATTERNS[@]}"; do
-         if git show ":$f" 2&gt;/dev/null | grep -qE "$p"; then
-           echo "BLOCKED: possible credential in $f"; exit 1
-         fi
-       done
-     done; exit 0
+8. Create CLAUDE.md at the repo root — the architectural
+   constitution that every AI session reads before any work.
+   Required sections, populated from the project idea and stack:
 
-   Create .githooks/pre-commit as a dispatcher so future hooks are
-   added as new files rather than edits to existing ones:
+   Architectural Identity — project purpose, tech stack, and
+   the physical folder layout: declare each directory (domain,
+   application, infrastructure, shared, tests) with a one-line
+   purpose. The physical layout is required; sessions navigate
+   by declared location, not by grepping.
 
-     #!/usr/bin/env bash
-     for hook in "$(dirname "$0")"/pre-commit-*.sh; do
-       [ -x "$hook" ] &amp;&amp; "$hook" || exit $?
-     done
+   Standards — SOLID (interfaces as contracts; no concrete-to-
+   concrete dependencies), hexagonal architecture (domain has
+   zero framework imports), TDD (failing test before every
+   production change), Conventional Commits, doc-cascade rules.
 
-   Mark all hooks executable:
-     chmod +x .githooks/pre-commit .githooks/pre-commit-secrets.sh
-     chmod +x .githooks/commit-msg .githooks/commit-msg-cascade.sh
+   Constraints — the forbidden patterns for this project: which
+   layers cannot call which, what must not appear in production
+   paths, what must never be hardcoded. List only what applies.
 
-   Note: add further pre-commit-*.sh files (coverage threshold,
-   typecheck, import-cycle detection) once the tech stack is
-   confirmed and each check is applicable to this project. Do not
-   add hooks for checks the project does not yet have.
+   Tool Sequencing — ordered: install → typecheck → test →
+   coverage gate (add as a hook once the runner is configured)
+   → git commit (runs the hook chain). Use the actual commands.
 
-8. Create CLAUDE.md at the repo root. This is the architectural
-   constitution — the grammar every AI session reads before any
-   work begins. Use the project idea to fill in Architectural
-   Identity now. Fill in &lt;placeholders&gt; as the spec firms up.
+   Routing — which document answers which class of question:
+   docs/specs/ for what to build, tests/ for behavioral
+   contracts, docs/adrs/ for decisions, docs/use-cases/ for
+   actor + outcome, docs/contracts/ for NFRs.
 
-   # &lt;Project Name&gt; — Architectural Constitution
+   Navigation Mode — on this codebase, contracts replace
+   implementation reads: read interfaces and test signatures
+   for behavior; use layer membership for dependency constraints;
+   read an implementation only when modifying it or debugging a
+   confirmed contract violation; named patterns in specs are
+   complete specifications.
 
-   ## Architectural Identity
-   Project: &lt;slug&gt;
-   Type: &lt;api | library | cli | app&gt;
-   Purpose: &lt;one sentence, from the project idea&gt;
-   Stack: &lt;language · framework · DB · hosting — propose a sensible default&gt;
-   Physical layout:
-     src/domain/         — entities, value objects, interfaces (no framework imports)
-     src/application/    — use cases, service orchestration
-     src/infrastructure/ — adapters: DB, HTTP handlers, external APIs
-     src/shared/         — cross-cutting: errors, logging, config
-     tests/              — mirrors src/ layer structure
-
-   ## Standards
-   - SOLID: interfaces as behavioral contracts; no concrete-to-concrete dependencies
-   - Hexagonal architecture: domain layer imports nothing from the framework
-   - TDD: failing test before every production change
-   - Conventional Commits: feat/fix/refactor/docs/test/chore/ci/perf
-   - Doc-cascade: feat → spec required · fix → regression test required · refactor → ADR required
-
-   ## Constraints
-   - No direct DB calls outside src/infrastructure/
-   - No framework imports inside src/domain/
-   - No console.log in production paths — use the structured logger
-   - No hardcoded secrets, URLs, or environment-specific values
-   - No mutation of function arguments
-   - No class with more than one reason to change (SRP)
-
-   ## Tool Sequencing
-   1. &lt;install command&gt;        — install dependencies
-   2. &lt;typecheck command&gt;      — must exit 0 before any commit
-   3. &lt;test command&gt;           — full suite must pass before any commit
-   4. &lt;coverage command&gt;       — add as a pre-commit-coverage.sh hook once
-                                  the test runner is configured; gate at 80%
-   5. git commit               — runs .githooks/pre-commit dispatcher, then
-                                  commit-msg and cascade hooks
-
-   ## Routing
-   - What to build: docs/specs/ (one file per feature)
-   - Behavioral contracts: tests/ (TDD signatures are the spec)
-   - Architecture decisions: docs/adrs/active/
-   - Use cases: docs/use-cases/UC-*.md
-   - NFRs and SLOs: docs/contracts/
-   - Bug decisions: docs/decisions/YYYY-MM-DD-slug.md
-
-   ## Navigation Mode
-   On this codebase, contracts replace implementation reads.
-   - To understand behavior: read interfaces and abstract class definitions only.
-     Implementations derive from contracts — do not read them for understanding.
-   - To understand behavioral contracts: read TDD test signatures.
-     The test suite is the complete behavioral specification.
-   - To understand layer constraints: use layer membership (domain / application /
-     infrastructure). Do not read imports to discover dependency rules.
-   - Read an implementation only when modifying it or debugging a confirmed
-     contract violation.
-   - Named patterns in specs (Repository, Strategy, Observer) fully specify the
-     implementation — do not read implementations for named patterns.
-
-   ## Corrections Log
-   When I correct your output, record the pattern here so future sessions
-   don't repeat the same mistake.
-   ### Learned Corrections
-   &lt;!-- append: YYYY-MM-DD — what was wrong — correct pattern --&gt;
+   Corrections Log — append-only section; record each
+   correction pattern when the practitioner corrects output.
 
 Then ask me my project idea and write the first spec at
 docs/specs/&lt;slug&gt;.md before any code.</span><span lang="es">Configura esta carpeta vacía para disciplina de Especificación Generativa.
@@ -726,112 +667,57 @@ Sin herramientas externas, solo convenciones:
    Configura branch protection en main: PR + checks requeridos
    antes de merge.
 
-7. Agrega .githooks/pre-commit-secrets.sh que escanea archivos
-   staged en busca de credenciales probables antes de que aterricen.
-   Este hook aplica a todos los proyectos:
+7. Agrega un hook pre-commit que escanee archivos staged en busca
+   de credenciales probables (claves de API de AWS/GCP/OpenAI,
+   claves privadas RSA/EC, contraseñas hardcodeadas) y bloquee el
+   commit si alguna es detectada. Conéctalo a través de un
+   dispatcher .githooks/pre-commit para que hooks futuros se
+   agreguen como archivos separados sin editar los existentes.
+   Marca todos los hooks como ejecutables. Agrega solo los hooks
+   que aplican a este proyecto — el gate de cobertura va cuando
+   el test runner esté configurado, no antes.
 
-     #!/usr/bin/env bash
-     PATTERNS=(
-       "AKIA[0-9A-Z]{16}"
-       "AIza[0-9A-Za-z_-]{35}"
-       "sk-[a-zA-Z0-9]{32,}"
-       "-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----"
-     )
-     for f in $(git diff --cached --name-only --diff-filter=ACM); do
-       for p in "${PATTERNS[@]}"; do
-         if git show ":$f" 2&gt;/dev/null | grep -qE "$p"; then
-           echo "BLOQUEADO: posible credencial en $f"; exit 1
-         fi
-       done
-     done; exit 0
+8. Crea CLAUDE.md en la raíz del repo — la constitución
+   arquitectónica que cada sesión de IA lee antes de cualquier
+   trabajo. Secciones requeridas, pobladas desde la idea del
+   proyecto y el stack:
 
-   Crea .githooks/pre-commit como dispatcher para que los hooks
-   futuros se agreguen como archivos nuevos sin editar este:
+   Architectural Identity — propósito del proyecto, stack, y el
+   layout físico de carpetas: declara cada directorio (domain,
+   application, infrastructure, shared, tests) con propósito en
+   una línea. El layout físico es obligatorio; las sesiones
+   navegan por ubicación declarada, no por grepping.
 
-     #!/usr/bin/env bash
-     for hook in "$(dirname "$0")"/pre-commit-*.sh; do
-       [ -x "$hook" ] &amp;&amp; "$hook" || exit $?
-     done
+   Standards — SOLID (interfaces como contratos; sin dependencias
+   concretas directas), arquitectura hexagonal (domain no importa
+   nada del framework), TDD (prueba fallida antes de cada cambio
+   de producción), Conventional Commits, reglas de doc-cascade.
 
-   Marca todos los hooks como ejecutables:
-     chmod +x .githooks/pre-commit .githooks/pre-commit-secrets.sh
-     chmod +x .githooks/commit-msg .githooks/commit-msg-cascade.sh
+   Constraints — los patrones prohibidos de este proyecto: qué
+   capas no pueden llamar a cuáles, qué no puede aparecer en
+   rutas de producción, qué no puede estar hardcodeado. Solo
+   lista lo que aplica.
 
-   Nota: agrega archivos pre-commit-*.sh adicionales (cobertura,
-   typecheck, ciclos de imports) una vez que el stack esté
-   confirmado y cada check aplique a este proyecto. No agregues
-   hooks para checks que el proyecto aún no tiene.
+   Tool Sequencing — ordenado: install → typecheck → test →
+   gate de cobertura (agregar como hook cuando el runner esté
+   configurado) → git commit (corre la cadena de hooks). Usa
+   los comandos reales del stack.
 
-8. Crea CLAUDE.md en la raíz del repo. Es la constitución
-   arquitectónica — la gramática que cada sesión de IA lee antes
-   de cualquier trabajo. Usa la idea del proyecto para llenar
-   Identidad Arquitectónica ahora. Completa los &lt;placeholders&gt;
-   a medida que la spec tome forma.
+   Routing — qué documento responde qué clase de pregunta:
+   docs/specs/ para qué construir, tests/ para contratos de
+   comportamiento, docs/adrs/ para decisiones, docs/use-cases/
+   para actor + resultado, docs/contracts/ para NFRs.
 
-   # &lt;Nombre del Proyecto&gt; — Constitución Arquitectónica
+   Navigation Mode — en esta base, los contratos reemplazan
+   las lecturas de implementación: lee interfaces y firmas de
+   pruebas para entender comportamiento; usa pertenencia a capa
+   para restricciones de dependencia; lee una implementación
+   solo cuando la modificas o depuras una violación de contrato
+   confirmada; patrones nombrados en specs son especificaciones
+   completas.
 
-   ## Architectural Identity
-   Project: &lt;slug&gt;
-   Type: &lt;api | library | cli | app&gt;
-   Purpose: &lt;una oración, de la idea del proyecto&gt;
-   Stack: &lt;lenguaje · framework · DB · hosting — propón un default razonable&gt;
-   Physical layout:
-     src/domain/         — entidades, value objects, interfaces (sin imports de framework)
-     src/application/    — casos de uso, orquestación de servicios
-     src/infrastructure/ — adaptadores: DB, HTTP handlers, APIs externas
-     src/shared/         — transversal: errores, logging, config
-     tests/              — espeja la estructura de capas de src/
-
-   ## Standards
-   - SOLID: interfaces como contratos de comportamiento; sin dependencias concretas directas
-   - Arquitectura hexagonal: la capa de dominio no importa nada del framework
-   - TDD: prueba fallida antes de cada cambio de producción
-   - Conventional Commits: feat/fix/refactor/docs/test/chore/ci/perf
-   - Doc-cascade: feat → spec requerida · fix → prueba de regresión requerida · refactor → ADR requerido
-
-   ## Constraints
-   - Sin llamadas directas a DB fuera de src/infrastructure/
-   - Sin imports de framework dentro de src/domain/
-   - Sin console.log en rutas de producción — usa el logger estructurado
-   - Sin secretos, URLs, ni valores específicos de entorno hardcodeados
-   - Sin mutación de argumentos de funciones
-   - Sin clase con más de una razón para cambiar (SRP)
-
-   ## Tool Sequencing
-   1. &lt;comando de install&gt;    — instalar dependencias
-   2. &lt;comando de typecheck&gt;  — debe salir 0 antes de cualquier commit
-   3. &lt;comando de tests&gt;      — suite completa debe pasar antes de cualquier commit
-   4. &lt;comando de coverage&gt;   — agregar como pre-commit-coverage.sh una vez que
-                                  el test runner esté configurado; gate en 80%
-   5. git commit              — corre el dispatcher .githooks/pre-commit, luego
-                                  hooks commit-msg y cascade
-
-   ## Routing
-   - Qué construir: docs/specs/ (un archivo por feature)
-   - Contratos de comportamiento: tests/ (las firmas TDD son la spec)
-   - Decisiones de arquitectura: docs/adrs/active/
-   - Casos de uso: docs/use-cases/UC-*.md
-   - NFRs y SLOs: docs/contracts/
-   - Decisiones de bugs: docs/decisions/YYYY-MM-DD-slug.md
-
-   ## Navigation Mode
-   En esta base de código, los contratos reemplazan las lecturas de implementación.
-   - Para entender comportamiento: lee interfaces y clases abstractas únicamente.
-     Las implementaciones derivan de contratos — no las leas para entender.
-   - Para entender contratos de comportamiento: lee las firmas de pruebas TDD.
-     La suite de pruebas es la especificación de comportamiento completa.
-   - Para entender restricciones de capas: usa la pertenencia a capa (domain /
-     application / infrastructure). No leas imports para descubrir reglas.
-   - Lee una implementación solo cuando la estás modificando o depurando una
-     violación de contrato confirmada.
-   - Los nombres de patrones en specs (Repository, Strategy, Observer) especifican
-     la implementación completamente — no leas implementaciones para patrones nombrados.
-
-   ## Corrections Log
-   Cuando corrija tu output, registra el patrón aquí para que sesiones futuras
-   no repitan el mismo error.
-   ### Learned Corrections
-   &lt;!-- agregar: YYYY-MM-DD — qué estuvo mal — patrón correcto --&gt;
+   Corrections Log — sección append-only; registrar cada patrón
+   de corrección cuando el practicante corrija el output.
 
 Luego pregúntame mi idea de proyecto y escribe la primera spec en
 docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
@@ -1056,15 +942,12 @@ For each file matching docs/use-cases/UC-*.md:
   7. For API-only use cases, run curl or hurl against the
      endpoints and compare the response body to the contract.
 
-  8. After all use cases pass, run mutation testing on every module
-     written so far. Use the tool that matches the stack:
-       npx stryker run         (Node / TypeScript)
-       python -m mutmut run    (Python)
-       cargo mutants           (Rust)
-     List every surviving mutant — each is a missing assertion, not
-     a code bug. Add the missing assertions before proceeding.
-     Gate: MSI ≥ 65% overall; any single module below 70% needs
-     targeted additions before this step is considered done.
+  8. Run mutation testing on every module written so far using
+     the appropriate tool for this stack. List every surviving
+     mutant — each is a missing assertion, not a code bug. Add
+     the missing assertions before proceeding to production.
+     Gate: MSI ≥ 65% overall; any module below 70% needs
+     targeted additions first.
 
 Report results as a markdown table:
   | UC ID | visual | db | logs | mutation MSI | overall | first failing line |
@@ -1105,16 +988,13 @@ Para cada archivo que coincida con docs/use-cases/UC-*.md:
   7. Para casos de uso solo de API, corre curl o hurl contra los
      endpoints y compara el response body contra el contrato.
 
-  8. Una vez que todos los casos de uso pasen, corre mutation testing
-     sobre cada módulo escrito hasta ahora. Usa la herramienta
-     que corresponde al stack:
-       npx stryker run         (Node / TypeScript)
-       python -m mutmut run    (Python)
-       cargo mutants           (Rust)
-     Lista cada mutante sobreviviente — cada uno es una aserción
-     faltante, no un bug de código. Agrega las aserciones faltantes
-     antes de continuar. Gate: MSI ≥ 65% en general; cualquier
-     módulo por debajo del 70% necesita adiciones específicas.
+  8. Corre mutation testing sobre cada módulo escrito hasta ahora
+     usando la herramienta apropiada para este stack. Lista cada
+     mutante sobreviviente — cada uno es una aserción faltante,
+     no un bug de código. Agrega las aserciones faltantes antes
+     de continuar a producción. Gate: MSI ≥ 65% en general;
+     cualquier módulo por debajo del 70% necesita adiciones
+     específicas primero.
 
 Reporta resultados como tabla markdown:
   | UC ID | visual | db | logs | mutation MSI | overall | primera línea fallida |
