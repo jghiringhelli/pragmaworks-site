@@ -563,6 +563,112 @@ external tooling, just conventions:
 6. Add CODEOWNERS so a human reviewer is auto-requested. Configure
    branch protection on main: required PR + checks before merge.
 
+7. Add .githooks/pre-commit-secrets.sh that scans staged files for
+   probable credentials before they land. This hook applies to every
+   project — credential leaks are never acceptable:
+
+     #!/usr/bin/env bash
+     PATTERNS=(
+       "AKIA[0-9A-Z]{16}"
+       "AIza[0-9A-Za-z_-]{35}"
+       "sk-[a-zA-Z0-9]{32,}"
+       "-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----"
+     )
+     for f in $(git diff --cached --name-only --diff-filter=ACM); do
+       for p in "${PATTERNS[@]}"; do
+         if git show ":$f" 2&gt;/dev/null | grep -qE "$p"; then
+           echo "BLOCKED: possible credential in $f"; exit 1
+         fi
+       done
+     done; exit 0
+
+   Create .githooks/pre-commit as a dispatcher so future hooks are
+   added as new files rather than edits to existing ones:
+
+     #!/usr/bin/env bash
+     for hook in "$(dirname "$0")"/pre-commit-*.sh; do
+       [ -x "$hook" ] &amp;&amp; "$hook" || exit $?
+     done
+
+   Mark all hooks executable:
+     chmod +x .githooks/pre-commit .githooks/pre-commit-secrets.sh
+     chmod +x .githooks/commit-msg .githooks/commit-msg-cascade.sh
+
+   Note: add further pre-commit-*.sh files (coverage threshold,
+   typecheck, import-cycle detection) once the tech stack is
+   confirmed and each check is applicable to this project. Do not
+   add hooks for checks the project does not yet have.
+
+8. Create CLAUDE.md at the repo root. This is the architectural
+   constitution — the grammar every AI session reads before any
+   work begins. Use the project idea to fill in Architectural
+   Identity now. Fill in &lt;placeholders&gt; as the spec firms up.
+
+   # &lt;Project Name&gt; — Architectural Constitution
+
+   ## Architectural Identity
+   Project: &lt;slug&gt;
+   Type: &lt;api | library | cli | app&gt;
+   Purpose: &lt;one sentence, from the project idea&gt;
+   Stack: &lt;language · framework · DB · hosting — propose a sensible default&gt;
+   Physical layout:
+     src/domain/         — entities, value objects, interfaces (no framework imports)
+     src/application/    — use cases, service orchestration
+     src/infrastructure/ — adapters: DB, HTTP handlers, external APIs
+     src/shared/         — cross-cutting: errors, logging, config
+     tests/              — mirrors src/ layer structure
+
+   ## Standards
+   - SOLID: interfaces as behavioral contracts; no concrete-to-concrete dependencies
+   - Hexagonal architecture: domain layer imports nothing from the framework
+   - TDD: failing test before every production change
+   - Conventional Commits: feat/fix/refactor/docs/test/chore/ci/perf
+   - Doc-cascade: feat → spec required · fix → regression test required · refactor → ADR required
+
+   ## Constraints
+   - No direct DB calls outside src/infrastructure/
+   - No framework imports inside src/domain/
+   - No console.log in production paths — use the structured logger
+   - No hardcoded secrets, URLs, or environment-specific values
+   - No mutation of function arguments
+   - No class with more than one reason to change (SRP)
+
+   ## Tool Sequencing
+   1. &lt;install command&gt;        — install dependencies
+   2. &lt;typecheck command&gt;      — must exit 0 before any commit
+   3. &lt;test command&gt;           — full suite must pass before any commit
+   4. &lt;coverage command&gt;       — add as a pre-commit-coverage.sh hook once
+                                  the test runner is configured; gate at 80%
+   5. git commit               — runs .githooks/pre-commit dispatcher, then
+                                  commit-msg and cascade hooks
+
+   ## Routing
+   - What to build: docs/specs/ (one file per feature)
+   - Behavioral contracts: tests/ (TDD signatures are the spec)
+   - Architecture decisions: docs/adrs/active/
+   - Use cases: docs/use-cases/UC-*.md
+   - NFRs and SLOs: docs/contracts/
+   - Bug decisions: docs/decisions/YYYY-MM-DD-slug.md
+
+   ## Navigation Mode
+   On this codebase, contracts replace implementation reads.
+   - To understand behavior: read interfaces and abstract class definitions only.
+     Implementations derive from contracts — do not read them for understanding.
+   - To understand behavioral contracts: read TDD test signatures.
+     The test suite is the complete behavioral specification.
+   - To understand layer constraints: use layer membership (domain / application /
+     infrastructure). Do not read imports to discover dependency rules.
+   - Read an implementation only when modifying it or debugging a confirmed
+     contract violation.
+   - Named patterns in specs (Repository, Strategy, Observer) fully specify the
+     implementation — do not read implementations for named patterns.
+
+   ## Corrections Log
+   When I correct your output, record the pattern here so future sessions
+   don't repeat the same mistake.
+   ### Learned Corrections
+   &lt;!-- append: YYYY-MM-DD — what was wrong — correct pattern --&gt;
+
 Then ask me my project idea and write the first spec at
 docs/specs/&lt;slug&gt;.md before any code.</span><span lang="es">Configura esta carpeta vacía para disciplina de Especificación Generativa.
 Sin herramientas externas, solo convenciones:
@@ -619,6 +725,113 @@ Sin herramientas externas, solo convenciones:
 6. Agrega CODEOWNERS para que un revisor humano sea auto-solicitado.
    Configura branch protection en main: PR + checks requeridos
    antes de merge.
+
+7. Agrega .githooks/pre-commit-secrets.sh que escanea archivos
+   staged en busca de credenciales probables antes de que aterricen.
+   Este hook aplica a todos los proyectos:
+
+     #!/usr/bin/env bash
+     PATTERNS=(
+       "AKIA[0-9A-Z]{16}"
+       "AIza[0-9A-Za-z_-]{35}"
+       "sk-[a-zA-Z0-9]{32,}"
+       "-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----"
+     )
+     for f in $(git diff --cached --name-only --diff-filter=ACM); do
+       for p in "${PATTERNS[@]}"; do
+         if git show ":$f" 2&gt;/dev/null | grep -qE "$p"; then
+           echo "BLOQUEADO: posible credencial en $f"; exit 1
+         fi
+       done
+     done; exit 0
+
+   Crea .githooks/pre-commit como dispatcher para que los hooks
+   futuros se agreguen como archivos nuevos sin editar este:
+
+     #!/usr/bin/env bash
+     for hook in "$(dirname "$0")"/pre-commit-*.sh; do
+       [ -x "$hook" ] &amp;&amp; "$hook" || exit $?
+     done
+
+   Marca todos los hooks como ejecutables:
+     chmod +x .githooks/pre-commit .githooks/pre-commit-secrets.sh
+     chmod +x .githooks/commit-msg .githooks/commit-msg-cascade.sh
+
+   Nota: agrega archivos pre-commit-*.sh adicionales (cobertura,
+   typecheck, ciclos de imports) una vez que el stack esté
+   confirmado y cada check aplique a este proyecto. No agregues
+   hooks para checks que el proyecto aún no tiene.
+
+8. Crea CLAUDE.md en la raíz del repo. Es la constitución
+   arquitectónica — la gramática que cada sesión de IA lee antes
+   de cualquier trabajo. Usa la idea del proyecto para llenar
+   Identidad Arquitectónica ahora. Completa los &lt;placeholders&gt;
+   a medida que la spec tome forma.
+
+   # &lt;Nombre del Proyecto&gt; — Constitución Arquitectónica
+
+   ## Architectural Identity
+   Project: &lt;slug&gt;
+   Type: &lt;api | library | cli | app&gt;
+   Purpose: &lt;una oración, de la idea del proyecto&gt;
+   Stack: &lt;lenguaje · framework · DB · hosting — propón un default razonable&gt;
+   Physical layout:
+     src/domain/         — entidades, value objects, interfaces (sin imports de framework)
+     src/application/    — casos de uso, orquestación de servicios
+     src/infrastructure/ — adaptadores: DB, HTTP handlers, APIs externas
+     src/shared/         — transversal: errores, logging, config
+     tests/              — espeja la estructura de capas de src/
+
+   ## Standards
+   - SOLID: interfaces como contratos de comportamiento; sin dependencias concretas directas
+   - Arquitectura hexagonal: la capa de dominio no importa nada del framework
+   - TDD: prueba fallida antes de cada cambio de producción
+   - Conventional Commits: feat/fix/refactor/docs/test/chore/ci/perf
+   - Doc-cascade: feat → spec requerida · fix → prueba de regresión requerida · refactor → ADR requerido
+
+   ## Constraints
+   - Sin llamadas directas a DB fuera de src/infrastructure/
+   - Sin imports de framework dentro de src/domain/
+   - Sin console.log en rutas de producción — usa el logger estructurado
+   - Sin secretos, URLs, ni valores específicos de entorno hardcodeados
+   - Sin mutación de argumentos de funciones
+   - Sin clase con más de una razón para cambiar (SRP)
+
+   ## Tool Sequencing
+   1. &lt;comando de install&gt;    — instalar dependencias
+   2. &lt;comando de typecheck&gt;  — debe salir 0 antes de cualquier commit
+   3. &lt;comando de tests&gt;      — suite completa debe pasar antes de cualquier commit
+   4. &lt;comando de coverage&gt;   — agregar como pre-commit-coverage.sh una vez que
+                                  el test runner esté configurado; gate en 80%
+   5. git commit              — corre el dispatcher .githooks/pre-commit, luego
+                                  hooks commit-msg y cascade
+
+   ## Routing
+   - Qué construir: docs/specs/ (un archivo por feature)
+   - Contratos de comportamiento: tests/ (las firmas TDD son la spec)
+   - Decisiones de arquitectura: docs/adrs/active/
+   - Casos de uso: docs/use-cases/UC-*.md
+   - NFRs y SLOs: docs/contracts/
+   - Decisiones de bugs: docs/decisions/YYYY-MM-DD-slug.md
+
+   ## Navigation Mode
+   En esta base de código, los contratos reemplazan las lecturas de implementación.
+   - Para entender comportamiento: lee interfaces y clases abstractas únicamente.
+     Las implementaciones derivan de contratos — no las leas para entender.
+   - Para entender contratos de comportamiento: lee las firmas de pruebas TDD.
+     La suite de pruebas es la especificación de comportamiento completa.
+   - Para entender restricciones de capas: usa la pertenencia a capa (domain /
+     application / infrastructure). No leas imports para descubrir reglas.
+   - Lee una implementación solo cuando la estás modificando o depurando una
+     violación de contrato confirmada.
+   - Los nombres de patrones en specs (Repository, Strategy, Observer) especifican
+     la implementación completamente — no leas implementaciones para patrones nombrados.
+
+   ## Corrections Log
+   Cuando corrija tu output, registra el patrón aquí para que sesiones futuras
+   no repitan el mismo error.
+   ### Learned Corrections
+   &lt;!-- agregar: YYYY-MM-DD — qué estuvo mal — patrón correcto --&gt;
 
 Luego pregúntame mi idea de proyecto y escribe la primera spec en
 docs/specs/&lt;slug&gt;.md antes de cualquier código.</span></div>
@@ -843,8 +1056,18 @@ For each file matching docs/use-cases/UC-*.md:
   7. For API-only use cases, run curl or hurl against the
      endpoints and compare the response body to the contract.
 
+  8. After all use cases pass, run mutation testing on every module
+     written so far. Use the tool that matches the stack:
+       npx stryker run         (Node / TypeScript)
+       python -m mutmut run    (Python)
+       cargo mutants           (Rust)
+     List every surviving mutant — each is a missing assertion, not
+     a code bug. Add the missing assertions before proceeding.
+     Gate: MSI ≥ 65% overall; any single module below 70% needs
+     targeted additions before this step is considered done.
+
 Report results as a markdown table:
-  | UC ID | visual | db | logs | overall | first failing line |
+  | UC ID | visual | db | logs | mutation MSI | overall | first failing line |
 
 For any failure, propose a SPEC TIGHTENING — not a code patch.
 Say which line of which spec or use case needs to be more precise
@@ -882,8 +1105,19 @@ Para cada archivo que coincida con docs/use-cases/UC-*.md:
   7. Para casos de uso solo de API, corre curl o hurl contra los
      endpoints y compara el response body contra el contrato.
 
+  8. Una vez que todos los casos de uso pasen, corre mutation testing
+     sobre cada módulo escrito hasta ahora. Usa la herramienta
+     que corresponde al stack:
+       npx stryker run         (Node / TypeScript)
+       python -m mutmut run    (Python)
+       cargo mutants           (Rust)
+     Lista cada mutante sobreviviente — cada uno es una aserción
+     faltante, no un bug de código. Agrega las aserciones faltantes
+     antes de continuar. Gate: MSI ≥ 65% en general; cualquier
+     módulo por debajo del 70% necesita adiciones específicas.
+
 Reporta resultados como tabla markdown:
-  | UC ID | visual | db | logs | overall | primera línea fallida |
+  | UC ID | visual | db | logs | mutation MSI | overall | primera línea fallida |
 
 Para cualquier falla, propón un AJUSTE DE SPEC — no un parche de
 código. Di qué línea de qué spec o caso de uso necesita ser más
@@ -1232,8 +1466,8 @@ que pueda leer la base de código.</span></div>
     <div class="step">
       <div class="step-num">05</div>
       <div class="step-text">
-        <span lang="en"><strong>Approve the plan, or modify it.</strong> The remediation plan is in the report. You set the boundaries. The assistant works through the plan one item at a time, generating spec changes, applying remediations under GS discipline, writing regression tests for past bugs, and pausing where you said to pause.</span>
-        <span lang="es"><strong>Aprueba el plan, o modifícalo.</strong> El plan de remediación está en el reporte. Tú pones los límites. El asistente trabaja a través del plan un item a la vez, generando cambios de spec, aplicando remediaciones bajo disciplina GS, escribiendo pruebas de regresión para bugs pasados, y pausando donde dijiste que pausara.</span>
+        <span lang="en"><strong>Approve the plan, then apply it — in two phases.</strong> Phase one: install oracle tests at every system boundary before touching any structural code. Phase two: apply the remediation plan under cascade discipline. The oracle tests are your regression safety net — without them, structural changes are blind.</span>
+        <span lang="es"><strong>Aprueba el plan, luego aplícalo — en dos fases.</strong> Fase uno: instala oracle tests en cada boundary del sistema antes de tocar cualquier código estructural. Fase dos: aplica el plan de remediación bajo disciplina de cascade. Los oracle tests son tu red de seguridad contra regresiones — sin ellos, los cambios estructurales son a ciegas.</span>
 
 <details class="path-option">
   <summary>
@@ -1260,10 +1494,66 @@ pregúntame primero en esos.</span></div>
   </summary>
   <div class="option-body">
     <p>
-      <span lang="en">Without cascade gates wired in, hand the AI the rule before it changes any code. The cascade is what keeps remediation from becoming "AI patches symptoms quietly":</span>
-      <span lang="es">Sin gates de cascade conectados, pásale la regla a la IA antes de que cambie cualquier código. La cascade es lo que mantiene a la remediación de convertirse en "la IA parchea síntomas silenciosamente":</span>
+      <span lang="en"><strong>Phase 1 — Install oracle tests before any structural change.</strong> Oracle tests document what the system does today, at the HTTP or CLI boundary. They are not permanent — they are retired as proper unit/integration tests cover the same behavior. But nothing in the remediation plan modifies a module that is not covered by an oracle test first.</span>
+      <span lang="es"><strong>Fase 1 — Instala oracle tests antes de cualquier cambio estructural.</strong> Los oracle tests documentan lo que el sistema hace hoy, en el boundary HTTP o CLI. No son permanentes — se retiran cuando pruebas unitarias/de integración apropiadas cubren el mismo comportamiento. Pero nada del plan de remediación modifica un módulo que no esté cubierto por un oracle test primero.</span>
     </p>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Apply the remediation plan one item at a time, under this cascade
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this first (Phase 1)</span><span lang="es">Pega esto primero (Fase 1)</span></span><span lang="en">Before applying any item from the remediation plan, install oracle
+tests at the system boundary. These record what the system does today —
+not what it should do — so any structural change that introduces a
+regression is caught immediately.
+
+For each HTTP endpoint or CLI entry point in the system:
+
+  1. Write an integration test that calls the endpoint with valid
+     input and records: status code, response body shape, key DB
+     state after the call. Keep assertions minimal — record the
+     current behavior, not an ideal.
+
+  2. Write one test for the primary error path (invalid input or
+     missing resource) and record the error response shape.
+
+  3. Name each file oracle-&lt;endpoint-slug&gt;.test.ts (or equivalent)
+     and keep them in tests/oracle/ so they can be identified and
+     retired separately from the permanent test suite.
+
+  4. Confirm ALL oracle tests pass on the current code — before any
+     change. Commit them:
+       test(oracle): install boundary tests before remediation
+
+Do not begin any remediation item until this commit exists and all
+oracle tests are green. A module with no oracle coverage does not
+get touched until coverage is added.</span><span lang="es">Antes de aplicar cualquier item del plan de remediación, instala oracle
+tests en el boundary del sistema. Estos registran lo que el sistema hace
+hoy — no lo que debería hacer — para que cualquier cambio estructural que
+introduzca una regresión sea detectado inmediatamente.
+
+Para cada endpoint HTTP o punto de entrada CLI del sistema:
+
+  1. Escribe una prueba de integración que llama al endpoint con input
+     válido y registra: código de estado, forma del response body, estado
+     clave de DB después de la llamada. Mantén las aserciones mínimas —
+     registra el comportamiento actual, no el ideal.
+
+  2. Escribe una prueba para el camino de error primario (input inválido
+     o recurso faltante) y registra la forma del error response.
+
+  3. Nombra cada archivo oracle-&lt;endpoint-slug&gt;.test.ts (o equivalente)
+     y guárdalos en tests/oracle/ para poder identificarlos y retirarlos
+     por separado de la suite de pruebas permanente.
+
+  4. Confirma que TODAS las oracle tests pasan sobre el código actual —
+     antes de cualquier cambio. Haz commit:
+       test(oracle): instalar boundary tests antes de remediación
+
+No comiences ningún item de remediación hasta que este commit exista y
+todas las oracle tests estén en verde. Un módulo sin cobertura de oracle
+no se toca hasta agregar cobertura.</span></div>
+
+    <p style="margin-top:20px;">
+      <span lang="en"><strong>Phase 2 — Apply the plan under cascade discipline.</strong> Now the oracle tests are the floor. If any change breaks one, stop, diagnose, and fix before continuing.</span>
+      <span lang="es"><strong>Fase 2 — Aplica el plan bajo disciplina de cascade.</strong> Ahora los oracle tests son el piso. Si cualquier cambio rompe uno, detente, diagnostica y arregla antes de continuar.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this (Phase 2)</span><span lang="es">Pega esto (Fase 2)</span></span><span lang="en">Apply the remediation plan one item at a time, under this cascade
 discipline:
 
 For every commit:
@@ -1500,9 +1790,14 @@ y el historial de prompts que acabamos de construir.</span></div>
   .ai/memory/glossary.md    — domain terms, anchored to file:line of
                               first appearance
 
-Then add a 3-line CLAUDE.md (or AGENTS.md, whichever this repo
-uses) at the root pointing future sessions at .ai/memory/ as their
-first read.
+Then add a Routing entry to the existing CLAUDE.md pointing future
+sessions at .ai/memory/ as a session-start resource:
+
+  ## Routing
+  (add to existing Routing section)
+  - Session memory: .ai/memory/ — read decisions.md and
+    conventions.md at the start of every session before any work.
+    Append to them at session close.
 
 Append to decisions.md / conventions.md / prompts.md on every
 session close from now on. Print a one-paragraph "what changed"
@@ -1518,9 +1813,14 @@ summary I can paste into the team chat.</span><span lang="es">Configura una memo
   .ai/memory/glossary.md    — términos del dominio, anclados al
                               file:line de primera aparición
 
-Luego agrega un CLAUDE.md de 3 líneas (o AGENTS.md, lo que use este
-repo) en la raíz apuntando a las sesiones futuras a .ai/memory/ como
-su primera lectura.
+Luego agrega una entrada de Routing al CLAUDE.md existente apuntando
+a .ai/memory/ como recurso de inicio de sesión:
+
+  ## Routing
+  (agregar a la sección Routing existente)
+  - Session memory: .ai/memory/ — leer decisions.md y
+    conventions.md al inicio de cada sesión antes de cualquier
+    trabajo. Agregar a ellos al cerrar la sesión.
 
 Agrega a decisions.md / conventions.md / prompts.md en cada cierre de
 sesión de ahora en adelante. Imprime un resumen de un párrafo "qué
