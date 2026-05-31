@@ -374,6 +374,11 @@
       <span lang="es">Algunos pasos abajo tienen un disclosure <em>"Mostrar variante pura de GS"</em>. <strong>Cada uno muestra el mismo paso usando solo Especificación Generativa — sin las herramientas de PragmaWorks.</strong> Si quieres ver cómo la disciplina funciona sin nuestras herramientas, expande esos. El cuerpo del recetario se mantiene enfocado en el camino asistido por herramientas.</span>
     </p>
 
+    <p class="pattern-note">
+      <span lang="en"><strong>Agent-agnostic note.</strong> Every AI coding agent reads a project instruction file at session start. This cookbook calls it the <strong>architectural constitution</strong>. Name it for your tool: <code>CLAUDE.md</code> (Claude Code), <code>AGENTS.md</code> (Cursor, Windsurf, Codex, most tools), <code>.github/copilot-instructions.md</code> (GitHub Copilot). The name is a detail. The content — what this cookbook specifies — is the same regardless of tool.</span>
+      <span lang="es"><strong>Nota sobre independencia de agente.</strong> Todo agente de IA lee un archivo de instrucciones del proyecto al inicio de cada sesión. Este recetario lo llama la <strong>constitución arquitectónica</strong>. Nómbralo según tu herramienta: <code>CLAUDE.md</code> (Claude Code), <code>AGENTS.md</code> (Cursor, Windsurf, Codex, la mayoría de herramientas), <code>.github/copilot-instructions.md</code> (GitHub Copilot). El nombre es un detalle. El contenido — lo que especifica este recetario — es el mismo independientemente de la herramienta.</span>
+    </p>
+
     <div class="path-picker" style="grid-template-columns: 1fr 1fr;">
       <a href="#greenfield">
         <div class="label">
@@ -572,8 +577,8 @@ external tooling, just conventions:
    that apply to this project — add a coverage gate once the
    test runner is confirmed, not before.
 
-8. Create CLAUDE.md at the repo root — the architectural
-   constitution that every AI session reads before any work.
+8. Create the architectural constitution at the repo root —
+   the file every AI session reads before any work begins.
    Required sections, populated from the project idea and stack:
 
    Architectural Identity — project purpose, tech stack, and
@@ -677,8 +682,8 @@ Sin herramientas externas, solo convenciones:
    que aplican a este proyecto — el gate de cobertura va cuando
    el test runner esté configurado, no antes.
 
-8. Crea CLAUDE.md en la raíz del repo — la constitución
-   arquitectónica que cada sesión de IA lee antes de cualquier
+8. Crea la constitución arquitectónica en la raíz del repo —
+   el archivo que cada sesión de IA lee antes de cualquier
    trabajo. Secciones requeridas, pobladas desde la idea del
    proyecto y el stack:
 
@@ -1194,8 +1199,8 @@ regreso, pregúntame primero.</span></div>
   </summary>
   <div class="option-body">
     <p>
-      <span lang="en">One prompt. The tool runs the analysis, renders the HTML + PDF, and respects any existing CLAUDE.md / agents.md conventions in the repo.</span>
-      <span lang="es">Un prompt. La herramienta corre el análisis, renderea el HTML + PDF, y respeta cualquier convención existente CLAUDE.md / agents.md en el repo.</span>
+      <span lang="en">One prompt. The tool runs the analysis, renders the HTML + PDF, and respects any existing architectural constitution in the repo.</span>
+      <span lang="es">Un prompt. La herramienta corre el análisis, renderea el HTML + PDF, y respeta cualquier constitución arquitectónica existente en el repo.</span>
     </p>
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Use pragmaworks to audit this project on the current branch. Find
 pragmaworks on npm, install what you need, and generate the initial
@@ -1210,8 +1215,9 @@ them; (3) test pyramid coverage; (4) documentation health and staleness;
 (5) security and logging baseline; (6) a prioritized remediation plan I
 can review before we apply anything.
 
-If this repo already has a CLAUDE.md, agents.md, or similar AI behavioral
-file, map your output to those locations rather than overriding them.</span><span lang="es">Usa pragmaworks para auditar este proyecto en la rama actual. Busca
+If this repo already has an architectural constitution (CLAUDE.md,
+AGENTS.md, or equivalent), map your output to that file rather than
+overriding it.</span><span lang="es">Usa pragmaworks para auditar este proyecto en la rama actual. Busca
 pragmaworks en npm, instala lo que necesites, y genera el reporte
 inicial como HTML y PDF.
 
@@ -1224,9 +1230,9 @@ ellas; (3) cobertura de pirámide de pruebas; (4) salud y desactualización
 de la documentación; (5) baseline de seguridad y logging; (6) un plan de
 remediación priorizado que pueda revisar antes de aplicar nada.
 
-Si este repo ya tiene CLAUDE.md, agents.md, o archivo similar de
-comportamiento de IA, mapea tu output a esas ubicaciones en lugar de
-sobreescribirlas.</span></div>
+Si este repo ya tiene una constitución arquitectónica (CLAUDE.md,
+AGENTS.md, o equivalente), mapea tu output a ese archivo en lugar de
+sobreescribirlo.</span></div>
   </div>
 </details>
 
@@ -1670,7 +1676,7 @@ y el historial de prompts que acabamos de construir.</span></div>
   .ai/memory/glossary.md    — domain terms, anchored to file:line of
                               first appearance
 
-Then add a Routing entry to the existing CLAUDE.md pointing future
+Then add a Routing entry to the existing architectural constitution pointing future
 sessions at .ai/memory/ as a session-start resource:
 
   ## Routing
@@ -1693,7 +1699,7 @@ summary I can paste into the team chat.</span><span lang="es">Configura una memo
   .ai/memory/glossary.md    — términos del dominio, anclados al
                               file:line de primera aparición
 
-Luego agrega una entrada de Routing al CLAUDE.md existente apuntando
+Luego agrega una entrada de Routing a la constitución arquitectónica existente apuntando
 a .ai/memory/ como recurso de inicio de sesión:
 
   ## Routing
