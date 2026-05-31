@@ -265,10 +265,24 @@
     h1 { font-size: 30px; }
     h2 { font-size: 21px; }
     .container { padding: 44px 20px 64px; }
+    nav { padding: 0.75rem 1.2rem; }
   }
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
 
   <!-- Language toggle (fixed top-right of viewport) -->
   <div class="lang-toggle" aria-label="Language toggle">
