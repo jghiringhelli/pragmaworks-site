@@ -2316,6 +2316,326 @@ ETAPA 3 — Arranque del destino (~1-3 horas)
       </ul>
     </div>
 
+    <h2 id="gs-report">
+      <span lang="en">Workshop — GS Audit Report</span>
+      <span lang="es">Taller — Reporte de Auditoría GS</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">~30 min · no tools required · one prompt</span>
+      <span lang="es">~30 min · sin herramientas · un solo prompt</span>
+    </div>
+
+    <p>
+      <span lang="en">You don't need the PragmaWorks CLI to get the audit report. Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. The AI reads the codebase, scores the seven GS properties, identifies which structural disciplines apply, and produces a prioritized remediation plan as markdown. Nothing is changed. The report is the contract for the remediation session that follows.</span>
+      <span lang="es">No necesitas el CLI de PragmaWorks para obtener el reporte de auditoría. Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. La IA lee la base de código, puntúa las siete propiedades GS, identifica qué disciplinas estructurales aplican, y produce un plan de remediación priorizado como markdown. No se cambia nada. El reporte es el contrato para la sesión de remediación que sigue.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <span lang="en"><strong>Paste the full template below.</strong> Edit the bracketed lines to match your project if needed. The rest runs without customization.</span>
+        <span lang="es"><strong>Pega la plantilla completa de abajo.</strong> Edita las líneas entre corchetes para que coincidan con tu proyecto si es necesario. El resto corre sin personalización.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — GS Audit Report template</span><span lang="es">Pega esto — plantilla de Reporte de Auditoría GS</span></span><span lang="en">You are about to produce a GS Audit Report for this codebase. Read the
+code, tests, documentation, CI config, and last 90 days of git log. Write
+the report to reports/gs-audit-[YYYY-MM-DD].md. Do not modify any
+application code in this session.
+
+──────────────────────────────────────
+SECTION 1 — GS PROPERTY SCORECARD (0–14)
+──────────────────────────────────────
+Score each property 0, 1, or 2.
+  0 = absent or severely deficient
+  1 = intent present, implementation incomplete
+  2 = solid — evidence is clear and reproducible
+
+For each property: score · one-sentence finding · file:line citation ·
+one specific next step to raise it by 1.
+
+SELF-DESCRIBING
+Does the codebase explain its own intent without the original author present?
+Look for: SPEC.md or equivalent, ADRs, README that states purpose not just
+setup, architectural constitution (CLAUDE.md / AGENTS.md / .cursor/rules).
+  Score 0 — "Empty Map": all intent lives in heads; codebase cannot
+             explain itself.
+  Score 1 — some docs exist; intent must still be inferred from code.
+  Score 2 — spec + ADRs + architectural constitution present and current.
+
+BOUNDED
+Do files, functions, and modules stay within size discipline?
+Look for: files over 400 lines, functions over 50 lines, modules with
+multiple responsibilities.
+  Score 0 — "Spreading Boundary": no size discipline; modules grow
+             unchecked.
+  Score 1 — most modules bounded; notable outliers exist.
+  Score 2 — explicit size limits configured or documented; consistently
+             respected.
+
+COMPOSABLE
+Do pieces compose without hidden coupling?
+Look for: circular dependencies, wide import fan-out (one file imports from
+3+ layers), direct cross-module writes, feature flags that span modules.
+  Score 0 — "Tangled Web": changing one module triggers cascading effects.
+  Score 1 — some coupling present but modules are isolatable with effort.
+  Score 2 — clear interface boundaries; no circular deps; coupling explicit.
+
+VERIFIABLE
+Do tests bind specification to behavior?
+Look for: test files, coverage %, whether tests describe behavior vs.
+internals, integration and e2e tests alongside unit tests.
+  Score 0 — "Unbound Spec": no structural link between spec and running
+             code.
+  Score 1 — unit tests present; minimal behavior-level coverage.
+  Score 2 — tests at multiple layers that verify use-case behavior.
+
+AUDITABLE
+Can decisions and changes be traced back to why they happened?
+Look for: commit message quality, ADRs present and current, changelog, PR
+descriptions with context.
+  Score 0 — "Amnesia Stack": changes happened; reasons are unknowable.
+  Score 1 — some ADRs or meaningful commits; traceability has gaps.
+  Score 2 — clear ADR coverage; meaningful commits; decisions traceable.
+
+DEFENDED
+Is the security and error-handling baseline in place?
+Look for: input validation at trust boundaries, secrets in env files not
+hardcoded, error handling that does not leak internals, what is logged at
+the trust boundary.
+  Score 0 — "Open Gates": system accepts and leaks without enforcement.
+  Score 1 — some validation; trust boundary is unclear or inconsistent.
+  Score 2 — trust boundary defined; input validated; secrets managed.
+
+EXECUTABLE
+Do the use cases actually run? Is the spec operationally alive?
+Look for: can you run the project from a clean clone? Does CI run? Are
+there scripts that build, test, and start the project without tribal
+knowledge?
+  Score 0 — "Frozen Spec": specification is prose that nothing executes.
+  Score 1 — runnable but requires manual steps or tribal knowledge.
+  Score 2 — clean clone → running in one command; CI enforces it.
+
+──────────────────────────────────────
+SECTION 2 — TOTAL SCORE AND BAND
+──────────────────────────────────────
+Total = sum of 7 scores (0–14).
+
+  0–4   Critical — foundational properties absent; start with oracle
+        tests + Self-describing before anything else
+  5–8   Developing — partial discipline; one focused sprint can move
+        3–4 properties
+  9–11  Functional — solid base; targeted improvement per weak property
+  12–14 Strong — publish the approach; document what is working as
+        methodology
+
+State: total score · band · one sentence on the single highest-leverage
+property to improve first and why.
+
+──────────────────────────────────────
+SECTION 3 — STRUCTURAL DISCIPLINES
+──────────────────────────────────────
+For each discipline: Implemented / Partial / Not applicable — one citation.
+For "not applicable": one sentence on why it does not fit this codebase.
+
+  SOLID principles · TDD presence · Hexagonal architecture ·
+  Layered design · Clean architecture · DDD vocabulary ·
+  CQRS · Ports-and-adapters
+
+──────────────────────────────────────
+SECTION 4 — TEST PYRAMID
+──────────────────────────────────────
+Count test files by layer: unit · integration · e2e. State the ratio.
+Identify the most under-served layer. Flag any test that mocks all
+dependencies without a corresponding behavior-level test — label these
+"test theater."
+
+──────────────────────────────────────
+SECTION 5 — DOCUMENTATION HEALTH
+──────────────────────────────────────
+Use git log --follow -- &lt;file&gt; to find last-touched date for each doc.
+Flag: any doc not updated in 90+ days where the code beneath it changed.
+List: missing docs (README with purpose, SPEC, ADR for major decisions,
+CHANGELOG).
+
+──────────────────────────────────────
+SECTION 6 — REMEDIATION PLAN
+──────────────────────────────────────
+10–15 items in priority order:
+  1. Oracle tests first — before any structural change
+  2. Lowest-scoring properties first
+  3. Within a property: smallest effort, biggest score lift
+
+Format each item:
+  [N] [S/M/L] [property affected]
+  What: one sentence describing the change
+  Why now: one sentence on ordering rationale
+
+──────────────────────────────────────
+
+Cite files and line numbers liberally. Do not apply any change in this
+pass. This report is the contract for the remediation session that
+follows.</span><span lang="es">Vas a producir un Reporte de Auditoría GS para esta base de código. Lee
+el código, pruebas, documentación, config de CI, y los últimos 90 días
+de git log. Escribe el reporte en reports/gs-audit-[YYYY-MM-DD].md. No
+modifiques ningún código de la aplicación en esta sesión.
+
+──────────────────────────────────────
+SECCIÓN 1 — SCORECARD DE PROPIEDADES GS (0–14)
+──────────────────────────────────────
+Puntúa cada propiedad 0, 1, o 2.
+  0 = ausente o severamente deficiente
+  1 = intención presente, implementación incompleta
+  2 = sólido — evidencia clara y reproducible
+
+Para cada propiedad: puntaje · hallazgo en una oración · citación file:line ·
+un siguiente paso específico para subirlo 1 punto.
+
+AUTO-DESCRIPTIVO
+¿La base de código explica su propia intención sin que el autor original
+esté presente?
+Busca: SPEC.md o equivalente, ADRs, README que explique propósito no solo
+setup, constitución arquitectónica (CLAUDE.md / AGENTS.md / .cursor/rules).
+  Puntaje 0 — "Mapa Vacío": toda la intención vive en cabezas; la base
+               no puede explicarse sola.
+  Puntaje 1 — existen algunos docs; la intención aún debe inferirse del
+               código.
+  Puntaje 2 — spec + ADRs + constitución arquitectónica presentes y
+               actuales.
+
+ACOTADO
+¿Los archivos, funciones y módulos se mantienen dentro de la disciplina
+de tamaño?
+Busca: archivos de más de 400 líneas, funciones de más de 50 líneas,
+módulos con múltiples responsabilidades.
+  Puntaje 0 — "Límite Expandido": sin disciplina de tamaño; módulos
+               crecen sin control.
+  Puntaje 1 — la mayoría de módulos acotados; existen excepciones
+               notables.
+  Puntaje 2 — límites de tamaño explícitos configurados o documentados;
+               respetados consistentemente.
+
+COMPONIBLE
+¿Las piezas componen sin acoplamiento oculto?
+Busca: dependencias circulares, import fan-out amplio (un archivo importa
+de 3+ capas), escrituras directas entre módulos, feature flags que
+cruzan módulos.
+  Puntaje 0 — "Red Enredada": cambiar un módulo desencadena efectos en
+               cascada.
+  Puntaje 1 — algo de acoplamiento presente pero módulos son aislables
+               con esfuerzo.
+  Puntaje 2 — límites de interfaz claros; sin deps circulares; acoplamiento
+               explícito.
+
+VERIFICABLE
+¿Las pruebas conectan la especificación al comportamiento?
+Busca: archivos de pruebas, % de cobertura, si las pruebas describen
+comportamiento vs. internos, pruebas de integración y e2e junto a las
+unitarias.
+  Puntaje 0 — "Spec Desvinculada": sin conexión estructural entre spec
+               y código en ejecución.
+  Puntaje 1 — pruebas unitarias presentes; cobertura de comportamiento
+               mínima.
+  Puntaje 2 — pruebas en múltiples capas que verifican comportamiento
+               de casos de uso.
+
+AUDITABLE
+¿Las decisiones y cambios pueden trazarse de regreso a por qué
+sucedieron?
+Busca: calidad de mensajes de commit, ADRs presentes y actuales,
+changelog, descripciones de PR con contexto.
+  Puntaje 0 — "Pila Amnésica": los cambios sucedieron; las razones
+               son incognoscibles.
+  Puntaje 1 — algunos ADRs o commits con significado; la trazabilidad
+               tiene brechas.
+  Puntaje 2 — cobertura clara de ADRs; commits con significado;
+               decisiones trazables.
+
+DEFENDIDO
+¿El baseline de seguridad y manejo de errores está en su lugar?
+Busca: validación de input en trust boundaries, secretos en archivos
+env no hardcodeados, manejo de errores que no filtra internos, qué se
+loggea en el trust boundary.
+  Puntaje 0 — "Puertas Abiertas": el sistema acepta y filtra sin
+               enforcement.
+  Puntaje 1 — algo de validación; el trust boundary es difuso o
+               inconsistente.
+  Puntaje 2 — trust boundary definido; input validado; secretos
+               manejados.
+
+EJECUTABLE
+¿Los casos de uso realmente corren? ¿La spec está operacionalmente viva?
+Busca: ¿puedes correr el proyecto desde un clon limpio? ¿Corre CI?
+¿Hay scripts para construir, probar e iniciar el proyecto sin
+conocimiento tribal?
+  Puntaje 0 — "Spec Congelada": la especificación es prosa que nada
+               ejecuta.
+  Puntaje 1 — funciona pero requiere pasos manuales o conocimiento
+               tribal.
+  Puntaje 2 — clon limpio → en ejecución en un comando; CI lo
+               aplica.
+
+──────────────────────────────────────
+SECCIÓN 2 — PUNTAJE TOTAL Y BANDA
+──────────────────────────────────────
+Total = suma de 7 puntajes (0–14).
+
+  0–4   Crítico — propiedades fundacionales ausentes; empezar con
+        oracle tests + Auto-descriptivo antes de cualquier otra cosa
+  5–8   En desarrollo — disciplina parcial; un sprint enfocado puede
+        mover 3–4 propiedades
+  9–11  Funcional — base sólida; mejoras específicas por propiedad
+        débil
+  12–14 Sólido — publica el enfoque; documenta lo que funciona como
+        metodología
+
+Indica: puntaje total · banda · una oración sobre la propiedad de mayor
+apalancamiento para mejorar primero y por qué.
+
+──────────────────────────────────────
+SECCIÓN 3 — DISCIPLINAS ESTRUCTURALES
+──────────────────────────────────────
+Para cada disciplina: Implementada / Parcial / No aplica — una citación.
+Para "no aplica": una oración sobre por qué no encaja en esta base.
+
+  Principios SOLID · Presencia de TDD · Arquitectura hexagonal ·
+  Diseño en capas · Clean architecture · Vocabulario DDD ·
+  CQRS · Ports-and-adapters
+
+──────────────────────────────────────
+SECCIÓN 4 — PIRÁMIDE DE PRUEBAS
+──────────────────────────────────────
+Cuenta archivos de prueba por capa: unit · integration · e2e. Indica el
+ratio. Identifica la capa más sub-servida. Flagea cualquier prueba que
+mockea todas las dependencias sin una prueba de nivel de comportamiento
+correspondiente — etiquétalas "teatro de pruebas".
+
+──────────────────────────────────────
+SECCIÓN 5 — SALUD DE DOCUMENTACIÓN
+──────────────────────────────────────
+Usa git log --follow -- &lt;archivo&gt; para encontrar la última fecha
+de modificación de cada doc. Flagea: cualquier doc no actualizado en
+90+ días donde el código debajo cambió. Lista: docs faltantes (README
+con propósito, SPEC, ADR para decisiones mayores, CHANGELOG).
+
+──────────────────────────────────────
+SECCIÓN 6 — PLAN DE REMEDIACIÓN
+──────────────────────────────────────
+10–15 items en orden de prioridad:
+  1. Oracle tests primero — antes de cualquier cambio estructural
+  2. Propiedades con puntaje más bajo primero
+  3. Dentro de una propiedad: menor esfuerzo, mayor lift de puntaje
+
+Formato por item:
+  [N] [S/M/L] [propiedad afectada]
+  Qué: una oración describiendo el cambio
+  Por qué ahora: una oración sobre la racionalidad de orden
+
+──────────────────────────────────────
+
+Cita archivos y números de línea liberalmente. No apliques ningún
+cambio en esta pasada. Este reporte es el contrato para la sesión de
+remediación que sigue.</span></div>
+      </div>
+    </div>
+
     <p class="small-note">
       <span lang="en">Everything happens on a branch. Your <code>main</code> is untouched until you decide to merge. The AI does not type — you do, but only into the chat.</span>
       <span lang="es">Todo sucede en una rama. Tu <code>main</code> está intacto hasta que decidas mergear. La IA no teclea — tú lo haces, pero solo en el chat.</span>
