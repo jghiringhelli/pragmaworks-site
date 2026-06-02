@@ -24,6 +24,7 @@
     '      </button>',
     '      <div class="pw-nav-section-items">',
     '        <a href="/forge" class="pw-nav-item">The Forge Cycle</a>',
+    '        <a href="/properties" class="pw-nav-item">7 Properties</a>',
     '        <a href="/diseases" class="pw-nav-item">7 Disease Cards</a>',
     '        <a href="/sentinel" class="pw-nav-item">Sentinel Tree</a>',
     '      </div>',
@@ -96,7 +97,7 @@
   // Path → section key
   var SECTIONS = {
     '/try': 'try', '/audit': 'try', '/cookbook': 'try', '/start': 'try',
-    '/forge': 'reference', '/diseases': 'reference', '/sentinel': 'reference',
+    '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference', '/sentinel': 'reference',
     '/teams': 'workshops', '/leaders': 'workshops',
     '/manifesto': 'writing',
     '/diagnose': 'tools', '/diagnostico': 'tools'
