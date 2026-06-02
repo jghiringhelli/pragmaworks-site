@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="GS Disease Reference — PragmaWorks" data-es="Referencia de Enfermedades GS — PragmaWorks">GS Disease Reference — PragmaWorks</title>
+<meta name="description"
+  data-en="The seven GS failure modes at score 0 — named, diagnosed, and cured. Empty Map, Spreading Boundary, Tangled Web, Unbound Spec, Amnesia Stack, Open Gates, Frozen Spec."
+  data-es="Los siete modos de falla GS en puntaje 0 — nombrados, diagnosticados y curados. Mapa Vacío, Frontera Expansiva, Red Enmarañada, Spec Sin Límites, Pila Amnésica, Puertas Abiertas, Spec Congelada."
+  content="The seven GS failure modes at score 0 — named, diagnosed, and cured.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 24px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 32px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  ul { margin: 0 0 16px 20px; }
+  ul li { font-size: 15px; margin-bottom: 6px; color: var(--steel); }
+
+  /* Disease cards */
+  .disease-card {
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    scroll-margin-top: 24px;
+  }
+
+  .disease-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .disease-card h2 {
+    border: none;
+    padding: 0;
+    margin: 0 0 16px;
+    font-size: 22px;
+  }
+
+  .disease-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin: 18px 0 6px;
+  }
+
+  .disease-cure {
+    background: var(--parchment);
+    border-left: 3px solid var(--ember);
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 15px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .disease-cure a {
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196,75,26,0.3);
+  }
+
+  .disease-cure a:hover { border-color: var(--ember); }
+
+  .disease-audit-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ember);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+  }
+
+  .disease-audit-link:hover { color: var(--ember-glow); }
+
+  /* Reference table section */
+  .ref-section {
+    margin: 64px 0 0;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .ref-section h2 {
+    border: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  thead tr {
+    background: var(--forge-dark);
+    color: var(--parchment);
+  }
+
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--ash);
+  }
+
+  tbody tr:hover { background: #fff; }
+
+  tbody td {
+    padding: 10px 14px;
+    color: var(--steel);
+    vertical-align: middle;
+  }
+
+  tbody td:first-child {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--forge-dark);
+  }
+
+  tbody td a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ember);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  tbody td a:hover { color: var(--ember-glow); }
+
+  .score-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ember);
+    background: rgba(196,75,26,0.08);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  /* Footer */
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 48px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    .container { padding: 64px 20px 64px; }
+    .disease-card { padding: 20px; }
+    .path-picker { grid-template-columns: 1fr; }
+    nav { padding: 0.75rem 1.2rem; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 8px 10px; }
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
+  <div class="container">
+
+    <div class="eyebrow">
+      <span lang="en">Diagnostic reference · 7 properties · 7 failure modes</span>
+      <span lang="es">Referencia diagnóstica · 7 propiedades · 7 modos de falla</span>
+    </div>
+    <h1>
+      <span lang="en">The Seven GS Diseases</span>
+      <span lang="es">Las Siete Enfermedades GS</span>
+    </h1>
+    <p class="lede">
+      <span lang="en">Each GS property has a named failure mode at score 0. These names exist to make the failure <strong>recognizable</strong> — the same way medicine names diseases to enable diagnosis and treatment. The names are not criticism; they are categories. Knowing which disease a codebase has tells you exactly which cure to apply.</span>
+      <span lang="es">Cada propiedad GS tiene un modo de falla nombrado en puntaje 0. Estos nombres existen para hacer que la falla sea <strong>reconocible</strong> — de la misma manera que la medicina nombra enfermedades para habilitar diagnóstico y tratamiento. Los nombres no son crítica; son categorías. Saber qué enfermedad tiene una base de código te dice exactamente qué cura aplicar.</span>
+    </p>
+
+    <!-- ─── Disease 1: Empty Map ─── -->
+    <div class="disease-card" id="empty-map">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Self-describing</span>
+        <span lang="es">Puntaje 0 · Auto-descriptivo</span>
+      </div>
+      <h2>
+        <span lang="en">Empty Map</span>
+        <span lang="es">Mapa Vacío</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">No README with purpose (only setup instructions).</span><span lang="es">Sin README con propósito (solo instrucciones de setup).</span></li>
+        <li><span lang="en">No SPEC.md or equivalent — no single document that says what the system is supposed to do.</span><span lang="es">Sin SPEC.md o equivalente — ningún documento que diga qué se supone que hace el sistema.</span></li>
+        <li><span lang="en">No architectural constitution — nothing tells the AI what it must never do.</span><span lang="es">Sin constitución arquitectónica — nada le dice a la IA qué nunca debe hacer.</span></li>
+        <li><span lang="en">Intent lives in the original author's head. A new developer (or AI) reading the codebase cannot determine what it is supposed to do or why it is structured as it is.</span><span lang="es">La intención vive en la cabeza del autor original. Un nuevo desarrollador (o IA) que lee el código no puede determinar qué se supone que debe hacer ni por qué está estructurado así.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">Every session begins with a clean slate. The AI reconstructs intent from code shape alone — which produces a reconstruction, not a memory. It will correctly infer what the code <em>does</em> but not <em>why</em> constraints exist, which means it will "optimize" them away. The drift is silent and consistent: each session erodes a little more of the original intent, and no one notices until behavior changes in production.</span>
+        <span lang="es">Cada sesión comienza desde cero. La IA reconstruye la intención solo desde la forma del código — lo que produce una reconstrucción, no una memoria. Inferirá correctamente qué <em>hace</em> el código, pero no <em>por qué</em> existen las restricciones, lo que significa que las "optimizará" eliminándolas. La deriva es silenciosa y consistente: cada sesión erosiona un poco más de la intención original, y nadie lo nota hasta que el comportamiento cambia en producción.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Write SPEC.md (overview + vision + constraints). The sentinel tree recipe at <a href="/sentinel">/sentinel</a> produces it in one session — 90 minutes, new or existing project.</span>
+        <span lang="es"><strong>Cura:</strong> Escribe SPEC.md (resumen + visión + restricciones). La receta del árbol sentinel en <a href="/sentinel">/sentinel</a> lo produce en una sesión — 90 minutos, proyecto nuevo o existente.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 2: Spreading Boundary ─── -->
+    <div class="disease-card" id="spreading-boundary">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Bounded</span>
+        <span lang="es">Puntaje 0 · Acotado</span>
+      </div>
+      <h2>
+        <span lang="en">Spreading Boundary</span>
+        <span lang="es">Frontera Expansiva</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">Files over 400–500 lines — common in AI-accelerated codebases where one prompt adds to an existing file rather than creating a new one.</span><span lang="es">Archivos de más de 400–500 líneas — comunes en bases de código aceleradas por IA donde un prompt agrega a un archivo existente en lugar de crear uno nuevo.</span></li>
+        <li><span lang="en">Functions that do multiple things; no single declared responsibility per function.</span><span lang="es">Funciones que hacen múltiples cosas; sin responsabilidad única declarada por función.</span></li>
+        <li><span lang="en">Modules without a single declared responsibility — a service layer that reaches directly into the database; controllers with business logic.</span><span lang="es">Módulos sin responsabilidad única declarada — una capa de servicio que accede directamente a la base de datos; controladores con lógica de negocio.</span></li>
+        <li><span lang="en">Boundaries that were clear at the start but have crept outward with each AI-generated addition.</span><span lang="es">Fronteras que eran claras al inicio pero que se han expandido con cada adición generada por IA.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">The AI's tool read window is capped. A file that exceeds the read budget is silently truncated — the AI edits against an incomplete view of the file. It adds code that contradicts what it couldn't see. Large files also produce large prompts, which increases token cost and reduces generation quality for every session that touches them. The pattern compounds: the more you add, the less the AI can see, the worse the additions get.</span>
+        <span lang="es">La ventana de lectura de herramientas de la IA tiene un límite. Un archivo que excede el presupuesto de lectura es truncado silenciosamente — la IA edita contra una vista incompleta del archivo. Agrega código que contradice lo que no pudo ver. Los archivos grandes también producen prompts grandes, lo que aumenta el costo en tokens y reduce la calidad de generación para cada sesión que los toca. El patrón se compone: mientras más agregas, menos puede ver la IA, peores son las adiciones.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Declare explicit size limits in the architectural constitution. Set <code>max_file_length: 400</code> and <code>max_function_length: 50</code> as enforced quality gates. Add them to SPEC.md's Quality Gates section — the sentinel tree recipe at <a href="/sentinel">/sentinel</a> includes them by default.</span>
+        <span lang="es"><strong>Cura:</strong> Declara límites de tamaño explícitos en la constitución arquitectónica. Establece <code>max_file_length: 400</code> y <code>max_function_length: 50</code> como gates de calidad aplicados. Agrégalos a la sección de Gates de Calidad de SPEC.md — la receta del árbol sentinel en <a href="/sentinel">/sentinel</a> los incluye por defecto.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 3: Tangled Web ─── -->
+    <div class="disease-card" id="tangled-web">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Composable</span>
+        <span lang="es">Puntaje 0 · Componible</span>
+      </div>
+      <h2>
+        <span lang="en">Tangled Web</span>
+        <span lang="es">Red Enmarañada</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">Circular imports — module A imports from module B which imports from module A.</span><span lang="es">Importaciones circulares — el módulo A importa del módulo B que importa del módulo A.</span></li>
+        <li><span lang="en">A single change in one module requires changes in five others.</span><span lang="es">Un solo cambio en un módulo requiere cambios en otros cinco.</span></li>
+        <li><span lang="en">Feature flags that span module boundaries; direct writes from one module into another's internal state.</span><span lang="es">Feature flags que cruzan fronteras de módulos; escrituras directas de un módulo al estado interno de otro.</span></li>
+        <li><span lang="en">No declared dependency direction — any layer can call any other layer freely.</span><span lang="es">Sin dirección de dependencias declarada — cualquier capa puede llamar a cualquier otra libremente.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">The AI cannot model the full blast radius of a change without reading every transitively dependent file. Without clean boundaries, every task requires a large context window to be safe. Hallucinated side effects proliferate — the AI assumes a boundary exists and acts as if it does, generating changes that are safe in isolation but break dependencies it couldn't see. Each session adds new entanglement at the speed of generation.</span>
+        <span lang="es">La IA no puede modelar el radio de explosión completo de un cambio sin leer cada archivo transitivamente dependiente. Sin fronteras limpias, cada tarea requiere una ventana de contexto grande para ser segura. Los efectos secundarios alucinados proliferan — la IA asume que existe una frontera y actúa como si así fuera, generando cambios que son seguros en aislamiento pero rompen dependencias que no pudo ver. Cada sesión agrega nuevo enmarañamiento a velocidad de generación.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Declare module interfaces in SPEC.md. Enforce no-circular-deps in CI. Name the allowed dependency directions in the architectural constitution: <em>"domain → application → infrastructure, never reversed."</em> The sentinel tree recipe at <a href="/sentinel">/sentinel</a> generates this architecture section automatically from your interview answers.</span>
+        <span lang="es"><strong>Cura:</strong> Declara las interfaces de módulos en SPEC.md. Aplica no-circular-deps en CI. Nombra las direcciones de dependencias permitidas en la constitución arquitectónica: <em>"dominio → aplicación → infraestructura, nunca invertido."</em> La receta del árbol sentinel en <a href="/sentinel">/sentinel</a> genera esta sección de arquitectura automáticamente desde las respuestas de tu entrevista.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 4: Unbound Spec ─── -->
+    <div class="disease-card" id="unbound-spec">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Verifiable</span>
+        <span lang="es">Puntaje 0 · Verificable</span>
+      </div>
+      <h2>
+        <span lang="en">Unbound Spec</span>
+        <span lang="es">Spec Sin Límites</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">No test files, or tests that only test internal implementation details — not user-visible behavior.</span><span lang="es">Sin archivos de prueba, o pruebas que solo verifican detalles de implementación interna — no comportamiento visible para el usuario.</span></li>
+        <li><span lang="en">No integration or end-to-end tests; the system has never been run from end to end in a test harness.</span><span lang="es">Sin pruebas de integración o end-to-end; el sistema nunca ha sido ejecutado de extremo a extremo en un harness de pruebas.</span></li>
+        <li><span lang="en">Coverage reports that look healthy but test nothing behavioral — 80% coverage, 0% behavioral confidence.</span><span lang="es">Reportes de cobertura que parecen saludables pero no prueban nada de comportamiento — 80% de cobertura, 0% de confianza conductual.</span></li>
+        <li><span lang="en">The spec describes behavior that cannot be run to verify.</span><span lang="es">La spec describe comportamiento que no puede ejecutarse para verificar.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">Without executable tests, the AI has no way to verify whether what it generated is correct. It generates, the generation looks plausible, and the session closes. The defect is discovered in production or not at all. Coverage statistics become meaningless because coverage measures execution, not correctness. The AI will also generate new tests to match its new code — ensuring they pass — rather than writing tests that bind the spec to behavior.</span>
+        <span lang="es">Sin pruebas ejecutables, la IA no tiene forma de verificar si lo que generó es correcto. Genera, la generación parece plausible, y la sesión cierra. El defecto se descubre en producción o no se descubre. Las estadísticas de cobertura se vuelven sin sentido porque la cobertura mide ejecución, no corrección. La IA también generará nuevas pruebas para que coincidan con su nuevo código — asegurándose de que pasen — en lugar de escribir pruebas que vinculen la spec al comportamiento.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Add behavioral tests before structural refactoring (oracle tests first rule). Declare the test pyramid in SPEC.md: unit at function boundaries, integration at module boundaries, end-to-end at use case boundaries. Each feature in SPEC.md should have at least one acceptance criterion that maps to a runnable test.</span>
+        <span lang="es"><strong>Cura:</strong> Agrega pruebas de comportamiento antes de refactorización estructural (regla oracle tests primero). Declara la pirámide de pruebas en SPEC.md: unitarias en fronteras de función, integración en fronteras de módulo, end-to-end en fronteras de caso de uso. Cada feature en SPEC.md debe tener al menos un criterio de aceptación que mapee a una prueba ejecutable.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 5: Amnesia Stack ─── -->
+    <div class="disease-card" id="amnesia-stack">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Auditable</span>
+        <span lang="es">Puntaje 0 · Auditable</span>
+      </div>
+      <h2>
+        <span lang="en">Amnesia Stack</span>
+        <span lang="es">Pila Amnésica</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">Commit messages like "fix" or "update" or "wip" — no Conventional Commits, no context, no traceability.</span><span lang="es">Mensajes de commit como "fix" o "update" o "wip" — sin Conventional Commits, sin contexto, sin trazabilidad.</span></li>
+        <li><span lang="en">No ADR directory — architectural decisions that cannot be traced to any document.</span><span lang="es">Sin directorio de ADRs — decisiones arquitectónicas que no pueden rastrearse a ningún documento.</span></li>
+        <li><span lang="en">A codebase that reflects many past decisions whose rationale is unknown and now lost.</span><span lang="es">Una base de código que refleja muchas decisiones pasadas cuya racionalidad es desconocida y ahora está perdida.</span></li>
+        <li><span lang="en">No way to answer: "Why is this constraint here?" or "Who decided to use this pattern, and when?"</span><span lang="es">Sin forma de responder: "¿Por qué está aquí esta restricción?" o "¿Quién decidió usar este patrón, y cuándo?"</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">The AI encounters a decision that looks suboptimal — an unusual data model, a non-standard pattern, a constraint that seems arbitrary — and "corrects" it. The constraint was intentional. The ADR that would have explained why it exists does not exist. The AI has no way to distinguish intentional tradeoffs from bugs. Over many sessions, every unusual-but-correct decision gets gradually normalized away. The codebase becomes consistent, conventional, and wrong in exactly the ways that matter.</span>
+        <span lang="es">La IA encuentra una decisión que parece subóptima — un modelo de datos inusual, un patrón no estándar, una restricción que parece arbitraria — y la "corrige". La restricción era intencional. El ADR que habría explicado por qué existe no existe. La IA no tiene forma de distinguir entre tradeoffs intencionales y bugs. A lo largo de muchas sesiones, cada decisión inusual-pero-correcta se va normalizando gradualmente. La base de código se vuelve consistente, convencional, y equivocada exactamente en las formas que importan.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Write ADR-000 for the foundational architecture. Declare Conventional Commits enforcement in the architectural constitution. An ADR-000 takes 20 minutes; recovering from months of undocumented AI drift takes much longer. The sentinel tree recipe at <a href="/sentinel">/sentinel</a> generates ADR-000 automatically.</span>
+        <span lang="es"><strong>Cura:</strong> Escribe ADR-000 para la arquitectura fundacional. Declara el cumplimiento de Conventional Commits en la constitución arquitectónica. Un ADR-000 tarda 20 minutos; recuperarse de meses de deriva de IA no documentada tarda mucho más. La receta del árbol sentinel en <a href="/sentinel">/sentinel</a> genera ADR-000 automáticamente.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 6: Open Gates ─── -->
+    <div class="disease-card" id="open-gates">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Defended</span>
+        <span lang="es">Puntaje 0 · Defendido</span>
+      </div>
+      <h2>
+        <span lang="en">Open Gates</span>
+        <span lang="es">Puertas Abiertas</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">No input validation at API boundaries — user-supplied data flows directly into queries or business logic.</span><span lang="es">Sin validación de input en los boundaries de API — los datos del usuario fluyen directamente a queries o lógica de negocio.</span></li>
+        <li><span lang="en">Secrets hardcoded in source files — API keys, passwords, connection strings in committed code.</span><span lang="es">Secretos codificados en archivos fuente — API keys, contraseñas, cadenas de conexión en código commiteado.</span></li>
+        <li><span lang="en">Error messages that expose internal stack traces or database structure to end users.</span><span lang="es">Mensajes de error que exponen stack traces internos o estructura de base de datos a usuarios finales.</span></li>
+        <li><span lang="en">No distinction between authenticated and unauthenticated routes in the codebase or the spec.</span><span lang="es">Sin distinción entre rutas autenticadas y no autenticadas en la base de código ni en la spec.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">The AI generates code that reflects the patterns in the existing codebase. If the existing code has no input validation, the AI adds new endpoints without validation — because that is the pattern it observes. If secrets are in source files, new secrets land in source files. If error responses leak internals, new error responses leak internals. The failure mode is not AI malice; it is AI pattern replication at speed. Every new endpoint is a new attack surface, generated in the style of the existing undefended codebase.</span>
+        <span lang="es">La IA genera código que refleja los patrones en la base de código existente. Si el código existente no tiene validación de input, la IA agrega nuevos endpoints sin validación — porque ese es el patrón que observa. Si los secretos están en archivos fuente, los nuevos secretos aterrizan en archivos fuente. Si las respuestas de error filtran internos, las nuevas respuestas de error filtran internos. El modo de falla no es malicia de la IA; es replicación de patrones de IA a velocidad. Cada nuevo endpoint es una nueva superficie de ataque, generada en el estilo de la base de código existente no defendida.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> Declare the trust boundary in SPEC.md. Add a Defended section to the architectural constitution: validation required at every API boundary, secrets in environment files only, error responses never leak internals. Once declared, the AI will generate defensive code by default — because the pattern it observes is the defended one.</span>
+        <span lang="es"><strong>Cura:</strong> Declara el trust boundary en SPEC.md. Agrega una sección de Defendido a la constitución arquitectónica: validación requerida en cada boundary de API, secretos solo en archivos de entorno, las respuestas de error nunca filtran internos. Una vez declarado, la IA generará código defensivo por defecto — porque el patrón que observa es el defendido.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Disease 7: Frozen Spec ─── -->
+    <div class="disease-card" id="frozen-spec">
+      <div class="disease-score">
+        <span lang="en">Score 0 · Executable</span>
+        <span lang="es">Puntaje 0 · Ejecutable</span>
+      </div>
+      <h2>
+        <span lang="en">Frozen Spec</span>
+        <span lang="es">Spec Congelada</span>
+      </h2>
+
+      <div class="disease-section-label">
+        <span lang="en">What it looks like</span>
+        <span lang="es">Cómo se ve</span>
+      </div>
+      <ul>
+        <li><span lang="en">A SPEC.md or README that describes behavior the system does not actually exhibit.</span><span lang="es">Un SPEC.md o README que describe comportamiento que el sistema no exhibe realmente.</span></li>
+        <li><span lang="en">Features documented as complete that do not pass tests — or for which no tests exist.</span><span lang="es">Features documentadas como completas que no pasan pruebas — o para las que no existen pruebas.</span></li>
+        <li><span lang="en">A CI pipeline that does not exist or is not enforced on the main branch.</span><span lang="es">Un pipeline de CI que no existe o no se aplica en la rama main.</span></li>
+        <li><span lang="en">A project that cannot be run from a clean clone without tribal knowledge — missing env vars, undocumented setup steps, dependencies that aren't in the manifest.</span><span lang="es">Un proyecto que no puede ejecutarse desde un clone limpio sin conocimiento tribal — variables de entorno faltantes, pasos de setup no documentados, dependencias que no están en el manifiesto.</span></li>
+      </ul>
+
+      <div class="disease-section-label">
+        <span lang="en">How AI makes it worse</span>
+        <span lang="es">Cómo la IA lo empeora</span>
+      </div>
+      <p>
+        <span lang="en">The AI reads the spec and believes it. It generates code consistent with the documented (but non-executable) state, not the actual (running but different) state. The spec and the system diverge further with each session. The AI confidently produces correct code for a spec that does not match reality — and because the code looks right, the divergence is hard to detect until a critical feature fails in production. The spec becomes a fiction that the AI maintains with increasing confidence.</span>
+        <span lang="es">La IA lee la spec y la cree. Genera código consistente con el estado documentado (pero no ejecutable), no con el estado real (en ejecución pero diferente). La spec y el sistema divergen más con cada sesión. La IA produce con confianza código correcto para una spec que no coincide con la realidad — y porque el código parece correcto, la divergencia es difícil de detectar hasta que una feature crítica falla en producción. La spec se convierte en una ficción que la IA mantiene con creciente confianza.</span>
+      </p>
+
+      <div class="disease-cure">
+        <span lang="en"><strong>Cure:</strong> The spec must be executable — every claim in it must be verified by a running test. Run the test suite as the first thing in every AI session. If tests fail, fix them before writing new features. A frozen spec that doesn't match a passing test suite is not a spec; it is documentation debt that will cost more to resolve with each session that passes.</span>
+        <span lang="es"><strong>Cura:</strong> La spec debe ser ejecutable — toda afirmación en ella debe ser verificada por una prueba en ejecución. Corre la suite de pruebas como lo primero en cada sesión de IA. Si las pruebas fallan, arréglales antes de escribir nuevas features. Una spec congelada que no coincide con una suite de pruebas pasando no es una spec; es deuda de documentación que costará más resolver con cada sesión que pase.</span>
+      </div>
+      <a class="disease-audit-link" href="/audit">
+        <span lang="en">→ Run the full audit</span>
+        <span lang="es">→ Corre la auditoría completa</span>
+      </a>
+    </div>
+
+    <!-- ─── Reference table ─── -->
+    <div class="ref-section">
+      <h2 style="border: none; padding: 0; margin: 0 0 24px; font-size: 22px;">
+        <span lang="en">Quick Reference</span>
+        <span lang="es">Referencia Rápida</span>
+      </h2>
+      <table>
+        <thead>
+          <tr>
+            <th><span lang="en">Disease</span><span lang="es">Enfermedad</span></th>
+            <th><span lang="en">Property</span><span lang="es">Propiedad</span></th>
+            <th><span lang="en">Score</span><span lang="es">Puntaje</span></th>
+            <th><span lang="en">Link</span><span lang="es">Enlace</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span lang="en">Empty Map</span><span lang="es">Mapa Vacío</span></td>
+            <td><span lang="en">Self-describing</span><span lang="es">Auto-descriptivo</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#empty-map">/diseases#empty-map</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Spreading Boundary</span><span lang="es">Frontera Expansiva</span></td>
+            <td><span lang="en">Bounded</span><span lang="es">Acotado</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#spreading-boundary">/diseases#spreading-boundary</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Tangled Web</span><span lang="es">Red Enmarañada</span></td>
+            <td><span lang="en">Composable</span><span lang="es">Componible</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#tangled-web">/diseases#tangled-web</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Unbound Spec</span><span lang="es">Spec Sin Límites</span></td>
+            <td><span lang="en">Verifiable</span><span lang="es">Verificable</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#unbound-spec">/diseases#unbound-spec</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Amnesia Stack</span><span lang="es">Pila Amnésica</span></td>
+            <td><span lang="en">Auditable</span><span lang="es">Auditable</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#amnesia-stack">/diseases#amnesia-stack</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Open Gates</span><span lang="es">Puertas Abiertas</span></td>
+            <td><span lang="en">Defended</span><span lang="es">Defendido</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#open-gates">/diseases#open-gates</a></td>
+          </tr>
+          <tr>
+            <td><span lang="en">Frozen Spec</span><span lang="es">Spec Congelada</span></td>
+            <td><span lang="en">Executable</span><span lang="es">Ejecutable</span></td>
+            <td><span class="score-badge">0</span></td>
+            <td><a href="/diseases#frozen-spec">/diseases#frozen-spec</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="path-picker">
+      <a href="/audit">
+        <div class="label">
+          <span lang="en">Workshop · 30 min</span>
+          <span lang="es">Taller · 30 min</span>
+        </div>
+        <div class="name">
+          <span lang="en">Run the Full Audit →</span>
+          <span lang="es">Corre la Auditoría Completa →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Score all seven properties. One prompt, no tools required.</span>
+          <span lang="es">Puntúa las siete propiedades. Un prompt, sin herramientas.</span>
+        </div>
+      </a>
+      <a href="/sentinel">
+        <div class="label">
+          <span lang="en">Foundation · 90 min</span>
+          <span lang="es">Fundación · 90 min</span>
+        </div>
+        <div class="name">
+          <span lang="en">Generate Your Specification →</span>
+          <span lang="es">Genera tu Especificación →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Full sentinel tree: SPEC.md, constitutions, STATUS.md, ADR-000.</span>
+          <span lang="es">Árbol sentinel completo: SPEC.md, constituciones, STATUS.md, ADR-000.</span>
+        </div>
+      </a>
+      <a href="/cookbook">
+        <div class="label">
+          <span lang="en">Recipes</span>
+          <span lang="es">Recetas</span>
+        </div>
+        <div class="name">
+          <span lang="en">Recipe Cards →</span>
+          <span lang="es">Tarjetas de Receta →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Focused recipes for specific situations and use cases.</span>
+          <span lang="es">Recetas enfocadas para situaciones y casos de uso específicos.</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/audit"><span lang="en">GS Audit Report</span><span lang="es">Auditoría GS</span></a> ·
+      <a href="/sentinel"><span lang="en">Generate Specification</span><span lang="es">Genera Especificación</span></a> ·
+      <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+    </div>
+
+  </div>
+
+  <script src="/i18n.js" defer></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

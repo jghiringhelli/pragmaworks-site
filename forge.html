@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="The Forge Cycle — PragmaWorks" data-es="El Ciclo de La Fragua — PragmaWorks">The Forge Cycle — PragmaWorks</title>
+<meta name="description"
+  data-en="Six stages from raw steel to production artifact — and what GS does at each stage. Plus: the mechanical AI advantage of structural disciplines."
+  data-es="Seis etapas desde acero bruto hasta artefacto de producción — y lo que GS hace en cada etapa. Más: la ventaja mecánica para la IA de las disciplinas estructurales."
+  content="Six stages from raw steel to production artifact — and what GS does at each stage.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 40px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+    scroll-margin-top: 24px;
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 20px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 8px 0 24px;
+    line-height: 1.45;
+  }
+
+  thead tr { background: var(--forge-dark); color: var(--parchment); }
+
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  tbody tr { border-bottom: 1px solid var(--ash); }
+  tbody tr:hover { background: #fff; }
+
+  tbody td {
+    padding: 12px 14px;
+    color: var(--steel);
+    vertical-align: top;
+  }
+
+  .stage-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ember);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .stage-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--forge-dark);
+    display: block;
+  }
+
+  .stage-sub {
+    font-size: 11px;
+    color: var(--smoke);
+    font-style: italic;
+  }
+
+  .star-row td:first-child { border-left: 3px solid var(--molten); }
+
+  .discipline-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--forge-dark);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(196,75,26,0.08);
+    color: var(--ember);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .callout {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 24px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .callout strong { color: var(--molten); }
+
+  .crosscutting {
+    margin: 0 0 32px;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--molten);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .crosscutting strong { color: var(--forge-dark); }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 48px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc { font-size: 14px; color: var(--steel); }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 8px 10px; }
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Reference · 6 stages · SDLC mapping</span>
+    <span lang="es">Referencia · 6 etapas · mapeo al SDLC</span>
+  </div>
+  <h1>
+    <span lang="en">The Forge Cycle</span>
+    <span lang="es">El Ciclo de La Fragua</span>
+  </h1>
+  <p class="lede">
+    <span lang="en">Software development follows the same arc as steel: raw material becomes a working artifact through heating, shaping, quenching, and tempering. Each metallurgical stage maps to a software lifecycle stage — and <strong>GS has a defined obligation at every gate.</strong></span>
+    <span lang="es">El desarrollo de software sigue el mismo arco que el acero: la materia prima se convierte en un artefacto funcional a través del calentamiento, el moldeado, el temple y el revenido. Cada etapa metalúrgica mapea a una etapa del ciclo de vida del software — y <strong>GS tiene una obligación definida en cada gate.</strong></span>
+  </p>
+
+  <!-- ─── Section 1: The Six Stages ─── -->
+  <h2 id="forge-cycle">
+    <span lang="en">The Six Stages</span>
+    <span lang="es">Las Seis Etapas</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">From raw material to production artifact</span>
+    <span lang="es">De materia prima a artefacto de producción</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Stage</span><span lang="es">Etapa</span></th>
+        <th><span lang="en">In the forge</span><span lang="es">En la fragua</span></th>
+        <th><span lang="en">SDLC</span><span lang="es">SDLC</span></th>
+        <th><span lang="en">GS does</span><span lang="es">GS hace</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="stage-num">01</span>
+          <span class="stage-name">Calentamiento</span>
+          <span class="stage-sub"><span lang="en">Heating</span><span lang="es">Calentamiento</span></span>
+        </td>
+        <td><span lang="en">Steel heated to 1000 °C+ — rigid metal goes plastic, workable, ready to receive form.</span><span lang="es">Acero calentado a más de 1000 °C — el metal rígido se vuelve plástico, maleable, listo para recibir forma.</span></td>
+        <td><span lang="en">Problem understanding</span><span lang="es">Entendimiento del problema</span></td>
+        <td><span lang="en">AI activated; reads requirements and the existing codebase before generating anything.</span><span lang="es">IA activada; lee requerimientos y la base de código existente antes de generar cualquier cosa.</span></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="stage-num">02</span>
+          <span class="stage-name">Moldeado</span>
+          <span class="stage-sub"><span lang="en">Molding</span><span lang="es">Moldeado</span></span>
+        </td>
+        <td><span lang="en">Hot metal shaped by hammer or press into the mold — form is imposed while malleable.</span><span lang="es">El metal caliente es moldeado por martillo o prensa — la forma se impone mientras está maleable.</span></td>
+        <td><span lang="en">Spec + design</span><span lang="es">Spec + diseño</span></td>
+        <td><span lang="en"><strong>The spec is the mold.</strong> AI stamps from it. Code derives. The mold determines all future shape.</span><span lang="es"><strong>La spec es el molde.</strong> La IA estampa desde ella. El código deriva. El molde determina toda forma futura.</span></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="stage-num">03</span>
+          <span class="stage-name">Temple</span>
+          <span class="stage-sub"><span lang="en">Quenching</span><span lang="es">Temple</span></span>
+        </td>
+        <td><span lang="en">Rapid plunge into water or oil — shape locks, martensite forms, steel hardens instantly.</span><span lang="es">Inmersión rápida en agua o aceite — la forma se fija, se forma martensita, el acero se endurece al instante.</span></td>
+        <td><span lang="en">CI / commit</span><span lang="es">CI / commit</span></td>
+        <td><span lang="en">Cascade gates lock the shape: mutation testing + coverage + commit discipline fire on every commit.</span><span lang="es">Los gates de cascada bloquean la forma: mutation testing + cobertura + disciplina de commits se activan en cada commit.</span></td>
+      </tr>
+      <tr class="star-row">
+        <td>
+          <span class="stage-num">04 ⭐</span>
+          <span class="stage-name">Revenido</span>
+          <span class="stage-sub"><span lang="en">Tempering</span><span lang="es">Revenido</span></span>
+        </td>
+        <td><span lang="en">Reheated to 150–700 °C, cooled slowly — relieves brittleness, tunes the hardness/toughness balance.</span><span lang="es">Recalentado a 150–700 °C, enfriado lentamente — alivia la fragilidad, ajusta el equilibrio dureza/tenacidad.</span></td>
+        <td><span lang="en">Maintainability</span><span lang="es">Mantenibilidad</span></td>
+        <td><span lang="en"><strong>Structural disciplines always-on:</strong> SOLID, hexagonal, layered, TDD, ADRs. The same bridge that serves human readers serves the AI reader.</span><span lang="es"><strong>Disciplinas estructurales siempre activas:</strong> SOLID, hexagonal, capas, TDD, ADRs. El mismo puente que sirve al lector humano sirve al lector IA.</span></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="stage-num">05</span>
+          <span class="stage-name">Endurecido</span>
+          <span class="stage-sub"><span lang="en">Hardening</span><span lang="es">Endurecimiento</span></span>
+        </td>
+        <td><span lang="en">Case hardening or nitriding — surface resists wear and load; core stays tough.</span><span lang="es">Endurecimiento superficial o nitrurado — la superficie resiste el desgaste y la carga; el núcleo permanece tenaz.</span></td>
+        <td><span lang="en">CD / staging</span><span lang="es">CD / staging</span></td>
+        <td><span lang="en">NFR enforcement + chaos testing + circuit-breaker patterns on every pre-production build.</span><span lang="es">Aplicación de NFRs + chaos testing + patrones circuit-breaker en cada build pre-producción.</span></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="stage-num">06</span>
+          <span class="stage-name">Recocido</span>
+          <span class="stage-sub"><span lang="en">Annealing</span><span lang="es">Recocido</span></span>
+        </td>
+        <td><span lang="en">Slow furnace cool — relieves internal stress, restores ductility, readies the piece for re-shaping.</span><span lang="es">Enfriamiento lento en horno — alivia el estrés interno, restaura la ductilidad, prepara la pieza para ser re-moldeada.</span></td>
+        <td><span lang="en">Brownfield / migration</span><span lang="es">Brownfield / migración</span></td>
+        <td><span lang="en">Spec re-analyzed → refined → fed back into Calentamiento. The cycle restarts with updated intent.</span><span lang="es">Spec re-analizada → refinada → realimentada a Calentamiento. El ciclo reinicia con intención actualizada.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="crosscutting">
+    <span lang="en"><strong>Cross-cutting:</strong> The test pyramid fires at every gate — it is not its own stage. <strong>Inspección</strong> (human judgment) is the mandatory gate at critical points: spec sign-off, staging promotion, release.</span>
+    <span lang="es"><strong>Transversal:</strong> La pirámide de pruebas se activa en cada gate — no es su propia etapa. <strong>Inspección</strong> (juicio humano) es el gate obligatorio en puntos críticos: aprobación de spec, promoción a staging, release.</span>
+  </div>
+
+  <!-- ─── Section 2: Why-for-AI ─── -->
+  <h2 id="why-for-ai">
+    <span lang="en">Why Structural Disciplines Help the AI</span>
+    <span lang="es">Por Qué las Disciplinas Estructurales Ayudan a la IA</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Mechanical advantages — not aesthetic ones</span>
+    <span lang="es">Ventajas mecánicas — no estéticas</span>
+  </div>
+
+  <p>
+    <span lang="en">SOLID, hexagonal architecture, TDD, ADRs, intentional naming — these were invented to make intent legible to the next human reader. A stateless AI reader has the same problem as that human: it arrives knowing nothing about what you meant. The disciplines reduce the token cost of understanding code, eliminate the need to read implementations when contracts suffice, and make the AI's first search deterministic.</span>
+    <span lang="es">SOLID, arquitectura hexagonal, TDD, ADRs, naming intencional — estas prácticas fueron inventadas para hacer legible la intención al siguiente lector humano. Un lector IA sin estado tiene el mismo problema que ese humano: llega sin saber nada sobre lo que quisiste decir. Las disciplinas reducen el costo en tokens de entender el código, eliminan la necesidad de leer implementaciones cuando los contratos son suficientes, y hacen que la primera búsqueda de la IA sea determinista.</span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical AI advantage</span><span lang="es">Ventaja mecánica para el lector IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">SOLID — interfaces + DI</span><span lang="es">SOLID — interfaces + DI</span></span></td>
+        <td><span lang="en">The AI reads the contract (N lines), not the implementation (N×10). Hallucinations about private state = impossible.</span><span lang="es">El AI lee el contrato (N líneas), no la implementación (N×10). Alucinaciones sobre estado privado = imposibles.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">Single Responsibility</span><span lang="es">Responsabilidad Única</span></span></td>
+        <td><span lang="en">The AI acts on the class without exploring the call graph. The class is its own complete spec.</span><span lang="es">El AI actúa sobre la clase sin explorar el call graph. La clase es su propia spec completa.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">Hexagonal + consistent structure</span><span lang="es">Hexagonal + estructura consistente</span></span></td>
+        <td><span lang="en"><code>controllers/</code> always has controllers. The first search hits. No discovery traversals.</span><span lang="es"><code>controllers/</code> siempre tiene controllers. La primera búsqueda acierta. Sin traversals de descubrimiento.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">DDD — ubiquitous language</span><span lang="es">DDD — lenguaje ubicuo</span></span></td>
+        <td><span lang="en">Names in code map to the AI's training data on the same domain. Higher generation quality.</span><span lang="es">Nombres en código mapean al training data del AI sobre el mismo dominio. Calidad de generación más alta.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">Conventional Commits</span><span lang="es">Conventional Commits</span></span></td>
+        <td><span lang="en">The git log is queryable by type and scope. Cascade triggers fire from parseable types.</span><span lang="es">El git log es consultable por tipo y scope. Cascade triggers se activan desde tipos parseables.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">TDD — tests as spec</span><span lang="es">TDD — tests como spec</span></span></td>
+        <td><span lang="en">Each test is a behavior statement the AI reads before the implementation. The harness verifies output against intent, not just syntax.</span><span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación. El harness verifica el output contra la intención, no solo la sintaxis.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name">ADRs</span></td>
+        <td><span lang="en">The AI reads the <em>why</em> behind decisions. It cannot "optimize" intentional tradeoffs that merely look suboptimal.</span><span lang="es">El AI lee el <em>por qué</em> de las decisiones. No puede "optimizar" tradeoffs intencionales que parecen subóptimos.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">Doc-first cascade</span><span lang="es">Cascada doc-first</span></span></td>
+        <td><span lang="en">The AI receives intent before implementation. Generating from spec is execution; generating from code without spec is reverse engineering.</span><span lang="es">El AI recibe la intención antes que la implementación. Generar desde spec es ejecución; desde código sin spec es ingeniería inversa.</span></td>
+      </tr>
+      <tr>
+        <td><span class="discipline-name"><span lang="en">Intentional naming</span><span lang="es">Naming intencional</span></span></td>
+        <td><span lang="en"><code>calcularCostoMensual(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, error contract, all in the signature. Zero implementation reads.</span><span lang="es"><code>calcularCostoMensual(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output, contrato de error, todo en la firma. Cero lectura de implementación.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span lang="en"><strong>The key insight:</strong> These disciplines existed for 30 years and were never fully adopted — because humans couldn't sustain them under pressure. The AI reader that benefits from them is also the executor that enforces them. The adoption friction disappeared. The benefit doubled.</span>
+    <span lang="es"><strong>La idea clave:</strong> Estas disciplinas existieron 30 años y nunca se adoptaron completamente — porque los humanos no podían sostenerlas bajo presión. El lector IA que se beneficia de ellas es también el ejecutor que las hace cumplir. La fricción de adopción desapareció. El beneficio se duplicó.</span>
+  </div>
+
+  <!-- ─── Footer cards ─── -->
+  <div class="path-picker">
+    <a href="/diseases">
+      <div class="label">
+        <span lang="en">Reference</span>
+        <span lang="es">Referencia</span>
+      </div>
+      <div class="name">
+        <span lang="en">7 Disease Cards →</span>
+        <span lang="es">7 Tarjetas de Enfermedad →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">What score 0 looks like for each property — and the cure.</span>
+        <span lang="es">Cómo se ve el puntaje 0 en cada propiedad — y la cura.</span>
+      </div>
+    </a>
+    <a href="/audit">
+      <div class="label">
+        <span lang="en">Workshop · 30 min</span>
+        <span lang="es">Taller · 30 min</span>
+      </div>
+      <div class="name">
+        <span lang="en">Run the Audit →</span>
+        <span lang="es">Corre la Auditoría →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Score your codebase on all seven GS properties. No tools required.</span>
+        <span lang="es">Puntúa tu base de código en las siete propiedades GS. Sin herramientas.</span>
+      </div>
+    </a>
+    <a href="/sentinel">
+      <div class="label">
+        <span lang="en">Foundation · 90 min</span>
+        <span lang="es">Fundación · 90 min</span>
+      </div>
+      <div class="name">
+        <span lang="en">Generate Your Specification →</span>
+        <span lang="es">Genera tu Especificación →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Full sentinel tree: SPEC.md, constitutions, STATUS.md, ADR-000.</span>
+        <span lang="es">Árbol sentinel completo: SPEC.md, constituciones, STATUS.md, ADR-000.</span>
+      </div>
+    </a>
+    <a href="/cookbook">
+      <div class="label">
+        <span lang="en">Recipes</span>
+        <span lang="es">Recetas</span>
+      </div>
+      <div class="name">
+        <span lang="en">Recipe Cards →</span>
+        <span lang="es">Tarjetas de Receta →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Focused recipes for specific situations and use cases.</span>
+        <span lang="es">Recetas enfocadas para situaciones y casos de uso específicos.</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/diseases"><span lang="en">Disease Reference</span><span lang="es">Referencia de Enfermedades</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/sentinel"><span lang="en">Generate Specification</span><span lang="es">Genera Especificación</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

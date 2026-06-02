@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Full Sentinel Tree — PragmaWorks" data-es="Árbol Sentinel Completo — PragmaWorks">Full Sentinel Tree — PragmaWorks</title>
+<meta name="description"
+  data-en="Generate your complete GS sentinel tree in one session: SPEC.md, architectural constitutions for all major AI assistants, STATUS.md, and an initial ADR."
+  data-es="Genera tu árbol sentinel GS completo en una sesión: SPEC.md, constituciones arquitectónicas para todos los asistentes de IA principales, STATUS.md y un ADR inicial."
+  content="Generate your complete GS sentinel tree in one session: SPEC.md, architectural constitutions for all major AI assistants, STATUS.md, and an initial ADR.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 32px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .help-box {
+    margin: 64px 0 0;
+    padding: 28px 32px;
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+  }
+
+  .help-box h3 {
+    color: var(--molten);
+    margin: 0 0 10px;
+  }
+
+  .help-box p {
+    color: var(--ash);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .help-box a {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--molten);
+    text-decoration: none;
+    border-bottom: 1px solid var(--molten);
+  }
+
+  .help-box a:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  .small-note {
+    font-size: 13px;
+    color: var(--smoke);
+    font-style: italic;
+    margin-top: -8px;
+    margin-bottom: 20px;
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    nav { padding: 0.75rem 1.2rem; }
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
+  <div class="container">
+
+    <div class="eyebrow">
+      <span lang="en">Foundation · 90 min · new or existing project</span>
+      <span lang="es">Fundación · 90 min · proyecto nuevo o existente</span>
+    </div>
+    <h1>
+      <span lang="en">Generate Your Full Specification</span>
+      <span lang="es">Genera tu Especificación Completa</span>
+    </h1>
+    <p class="lede">
+      <span lang="en">This recipe produces the complete GS sentinel tree: a <strong>SPEC.md</strong> with overview, vision, phases, functional features, NFRs, tech stack, and module map — plus <strong>assistant-agnostic architectural constitutions</strong> (CLAUDE.md for Claude Code, AGENTS.md for OpenAI Codex and most other tools, .cursor/rules/ for Cursor, .github/copilot-instructions.md for GitHub Copilot) — plus <strong>STATUS.md</strong> and an initial ADR. Everything the AI reader needs to derive correct behavior across all lifecycle stages without external context.</span>
+      <span lang="es">Esta receta produce el árbol sentinel GS completo: un <strong>SPEC.md</strong> con visión general, visión, fases, funcionalidades, NFRs, stack tecnológico y mapa de módulos — más <strong>constituciones arquitectónicas independientes del asistente</strong> (CLAUDE.md para Claude Code, AGENTS.md para OpenAI Codex y la mayoría de herramientas, .cursor/rules/ para Cursor, .github/copilot-instructions.md para GitHub Copilot) — más <strong>STATUS.md</strong> y un ADR inicial. Todo lo que el lector de IA necesita para derivar comportamiento correcto a través de todos los estadios del ciclo de vida sin contexto externo.</span>
+    </p>
+
+    <h2>
+      <span lang="en">Step 01 — Interview</span>
+      <span lang="es">Paso 01 — Entrevista</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">For new projects</span>
+      <span lang="es">Para proyectos nuevos</span>
+    </div>
+
+    <p>
+      <span lang="en">Before writing any files, the AI asks you ten questions — one at a time, waiting for your answer before asking the next. No guessing, no defaults filled in silently. The answers become the raw material for the spec.</span>
+      <span lang="es">Antes de escribir archivos, la IA te hace diez preguntas — una a la vez, esperando tu respuesta antes de hacer la siguiente. Sin adivinar, sin defaults llenados silenciosamente. Las respuestas se convierten en la materia prima de la especificación.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <span lang="en"><strong>Open a new AI session</strong> in your project folder (empty folder for a new project). Paste the interview prompt below.</span>
+        <span lang="es"><strong>Abre una nueva sesión de IA</strong> en tu carpeta de proyecto (carpeta vacía para un proyecto nuevo). Pega el prompt de entrevista abajo.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Interview</span><span lang="es">Pega esto — Entrevista</span></span><span lang="en">Before writing any files, ask me the following questions one at a time.
+Wait for my answer before asking the next. Do not guess or fill in defaults.
+
+1. What is this project? One sentence: what it does and who uses it.
+2. What does "done" look like in 6–12 months? What would a successful
+   first public version mean?
+3. What phase are we in right now?
+   0 = idea only, 1 = early development, 2 = working prototype,
+   3 = production / real users
+4. What are the 3–5 most important features in scope for the current phase?
+5. What should this system never do? Name explicit non-goals.
+6. Tech stack: language, runtime, framework, database, deployment target.
+7. Module structure: the main areas of the codebase, even if not yet built.
+   Name them and describe their responsibility in one sentence each.
+8. Which AI assistant(s) will work with this project?
+   (Claude Code / Cursor / Copilot / OpenAI / all)
+9. Performance requirements: acceptable response latency, expected concurrent
+   users, any throughput SLA.
+10. What must the AI never do? Examples: never delete records without
+    confirmation, never bypass authentication, never run migrations
+    automatically.
+
+When I have answered all ten questions, tell me "Ready to generate" and wait
+for my go-ahead before writing any files.</span><span lang="es">Antes de escribir archivos, hazme las siguientes preguntas una a la vez.
+Espera mi respuesta antes de hacer la siguiente. No adivines ni llenes defaults.
+
+1. ¿Qué es este proyecto? Una oración: qué hace y quién lo usa.
+2. ¿Cómo se ve "listo" en 6–12 meses? ¿Qué significaría una primera
+   versión pública exitosa?
+3. ¿En qué fase estamos ahora mismo?
+   0 = solo idea, 1 = desarrollo temprano, 2 = prototipo funcionando,
+   3 = producción / usuarios reales
+4. ¿Cuáles son las 3–5 funcionalidades más importantes en alcance para
+   la fase actual?
+5. ¿Qué nunca debe hacer este sistema? Nombra no-objetivos explícitos.
+6. Stack tecnológico: lenguaje, runtime, framework, base de datos,
+   destino de despliegue.
+7. Estructura de módulos: las áreas principales del código, incluso si
+   aún no están construidas. Nómbralas y describe su responsabilidad
+   en una oración cada una.
+8. ¿Qué asistente(s) de IA trabajarán con este proyecto?
+   (Claude Code / Cursor / Copilot / OpenAI / todos)
+9. Requerimientos de performance: latencia de respuesta aceptable,
+   usuarios concurrentes esperados, cualquier SLA de throughput.
+10. ¿Qué nunca debe hacer la IA? Ejemplos: nunca eliminar registros sin
+    confirmación, nunca saltarse la autenticación, nunca correr
+    migraciones automáticamente.
+
+Cuando haya respondido las diez preguntas, dime "Listo para generar"
+y espera mi visto bueno antes de escribir archivos.</span></div>
+      </div>
+    </div>
+
+    <div class="pattern-note">
+      <span lang="en">For an existing project, skip the interview. Use Step 02 directly — the AI will read the codebase first and fill in what it finds.</span>
+      <span lang="es">Para un proyecto existente, salta la entrevista. Usa el Paso 02 directamente — la IA leerá la base de código primero y completará lo que encuentre.</span>
+    </div>
+
+    <h2>
+      <span lang="en">Step 02 — Generate the full sentinel tree</span>
+      <span lang="es">Paso 02 — Genera el árbol sentinel completo</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">After the interview — or directly, for existing projects</span>
+      <span lang="es">Después de la entrevista — o directamente, para proyectos existentes</span>
+    </div>
+
+    <p>
+      <span lang="en">Once the interview is complete, paste this generation prompt. The AI writes all five files — the canonical specification, two architectural constitutions (CLAUDE.md and AGENTS.md), STATUS.md, and an initial ADR. One prompt, no further questions.</span>
+      <span lang="es">Una vez completada la entrevista, pega este prompt de generación. La IA escribe los cinco archivos — la especificación canónica, dos constituciones arquitectónicas (CLAUDE.md y AGENTS.md), STATUS.md y un ADR inicial. Un prompt, sin más preguntas.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — after the interview</span><span lang="es">Pega esto — después de la entrevista</span></span><span lang="en">Generate the complete Generative Specification sentinel tree for this project.
+Write all files listed below. Do not ask further questions — use the answers
+from our interview. If something is ambiguous, state your assumption in a
+comment inside the relevant file.
+
+────────────────────────────────────────────────
+FILE 1: SPEC.md  (the canonical specification)
+────────────────────────────────────────────────
+# [Project Name] Specification
+
+## Overview
+[One paragraph: what it is, what it does, who uses it]
+
+## Vision
+[What "done" looks like in 6–12 months — concrete, not aspirational]
+
+## Current Phase: Phase [N] — [Phase Name]
+
+**In scope:**
+- [Feature 1]
+- [Feature 2]
+- ...
+
+**Explicitly out of scope (this phase):**
+- [Non-goal 1]
+- [Non-goal 2]
+
+## Functional Features
+
+### F-001: [Feature Name]
+Actor: [who triggers this]
+Precondition: [what must be true before]
+Flow:
+  1. [step]
+  2. [step]
+Postcondition: [observable result]
+Acceptance criteria:
+  - [ ] [testable criterion 1]
+  - [ ] [testable criterion 2]
+
+[Repeat F-002, F-003... for each feature in scope]
+
+## Non-Functional Requirements
+
+### Performance
+- P-001: [Primary endpoint] responds within [X ms] at [Y] concurrent users
+- P-002: [Secondary endpoint] responds within [X ms]
+
+### Reliability
+- R-001: Error rate below [X]% over any 24-hour window
+- R-002: Recovery from crash in under [X] minutes
+
+### Security
+- S-001: All routes require authentication except [list public routes]
+- S-002: All user input validated at the trust boundary
+- S-003: Secrets in environment variables, never in code or logs
+
+### Scalability
+- SC-001: Must support [X] concurrent users without horizontal scaling changes
+
+## Tech Stack
+- Language: [language + version]
+- Runtime: [runtime]
+- Framework: [framework]
+- Database: [database + version]
+- Deployment: [platform]
+- Test framework: [framework]
+- CI: [platform]
+
+## Module Map
+
+| Module | Responsibility | Key interfaces |
+|--------|---------------|----------------|
+| [name] | [one sentence] | [in/out contracts] |
+
+## Quality Gates
+- Test coverage minimum: 80%
+- Max file length: 400 lines
+- Max function length: 50 lines
+- Commit format: Conventional Commits (feat/fix/chore/refactor/test/docs)
+- Pre-commit: lint + type check
+- CI: full test suite on every PR
+
+## Constraints — The AI Must Never
+- [Constraint 1 from interview answers]
+- [Constraint 2]
+- Never delete records without an explicit confirmation step in the prompt
+- Never run database migrations without human review
+- Never bypass authentication for convenience
+
+────────────────────────────────────────────────
+FILE 2: CLAUDE.md  (Claude Code architectural constitution)
+────────────────────────────────────────────────
+# [Project Name] — Architectural Constitution
+
+> Read SPEC.md before every session. This file is the grammar.
+> SPEC.md is the source of truth. When in conflict, SPEC.md wins.
+
+## Project
+[One sentence from SPEC.md Overview]
+
+## Architecture
+[Key architectural decisions — derived from module map and tech stack]
+- Layered: [describe the layers]
+- Dependency direction: [e.g., domain → application → infrastructure, never reversed]
+- [Other key constraints]
+
+## Standards
+- Language: [language], runtime: [runtime]
+- Framework: [framework], database: [database]
+- Test framework: [test framework]
+- Coverage minimum: 80%
+- Max file length: 400 lines, max function length: 50 lines
+- Commit format: Conventional Commits
+
+## Module Structure
+[Mirror the module map from SPEC.md — one line per module]
+
+## The AI Must Never
+[Mirror the constraints from SPEC.md]
+
+## Session Closing Checklist
+- [ ] Tests pass
+- [ ] No linting errors
+- [ ] STATUS.md updated
+- [ ] Commit follows Conventional Commits format
+
+────────────────────────────────────────────────
+FILE 3: AGENTS.md  (OpenAI agents / any other assistant)
+────────────────────────────────────────────────
+[Same content as CLAUDE.md — identical constitution, different filename.
+ This ensures the project works with Claude Code, OpenAI agents, and
+ any assistant that reads a root-level AGENTS.md]
+
+────────────────────────────────────────────────
+FILE 4: STATUS.md  (session continuity)
+────────────────────────────────────────────────
+# [Project Name] — Status
+
+> Updated: [today's date]
+
+## Current Phase
+Phase [N]: [Phase Name]
+
+## Last Session
+[To be filled after first development session]
+
+## In Progress
+[To be filled when work begins]
+
+## Completed
+[Empty at project start]
+
+## Next Session Entry Point
+Read SPEC.md → read CLAUDE.md → begin at [first feature].
+
+────────────────────────────────────────────────
+FILE 5: docs/adrs/ADR-000-initial-architecture.md
+────────────────────────────────────────────────
+# ADR-000: Initial Architecture
+
+Date: [today's date]
+Status: Accepted
+
+## Context
+[Why were these architectural choices made? What alternatives were considered?]
+
+## Decision
+[The chosen architecture — reference SPEC.md Module Map]
+
+## Consequences
+[What this decision makes easy, and what it makes hard]
+
+## Constraints Accepted
+[The explicit non-goals from SPEC.md that shaped these choices]
+
+────────────────────────────────────────────────
+After writing all five files, print a summary table:
+
+| File | Purpose | First session read order |
+|------|---------|--------------------------|
+| SPEC.md | Canonical specification | 1 |
+| CLAUDE.md | Claude Code constitution | 2 |
+| AGENTS.md | Other assistants constitution | 2 |
+| STATUS.md | Session continuity | 3 |
+| docs/adrs/ADR-000... | Architecture rationale | 4 |
+
+Then print the first session prompt to paste into a new AI session:
+"Read SPEC.md, then CLAUDE.md (or AGENTS.md), then STATUS.md. Confirm you
+have read all three before beginning work. Ask me what to work on first."</span><span lang="es">Genera el árbol sentinel de Especificación Generativa completo para este proyecto.
+Escribe todos los archivos listados abajo. No hagas más preguntas — usa las respuestas
+de nuestra entrevista. Si algo es ambiguo, enuncia tu supuesto en un comentario
+dentro del archivo relevante.
+
+────────────────────────────────────────────────
+ARCHIVO 1: SPEC.md  (la especificación canónica)
+────────────────────────────────────────────────
+# Especificación de [Nombre del Proyecto]
+
+## Visión General
+[Un párrafo: qué es, qué hace, quién lo usa]
+
+## Visión
+[Cómo se ve "listo" en 6–12 meses — concreto, no aspiracional]
+
+## Fase Actual: Fase [N] — [Nombre de Fase]
+
+**En alcance:**
+- [Feature 1]
+- [Feature 2]
+- ...
+
+**Explícitamente fuera de alcance (esta fase):**
+- [No-objetivo 1]
+- [No-objetivo 2]
+
+## Funcionalidades
+
+### F-001: [Nombre de Funcionalidad]
+Actor: [quién la activa]
+Precondición: [qué debe ser verdad antes]
+Flujo:
+  1. [paso]
+  2. [paso]
+Postcondición: [resultado observable]
+Criterios de aceptación:
+  - [ ] [criterio verificable 1]
+  - [ ] [criterio verificable 2]
+
+[Repetir F-002, F-003... para cada feature en alcance]
+
+## Requerimientos No Funcionales
+
+### Performance
+- P-001: [Endpoint primario] responde en menos de [X ms] con [Y] usuarios concurrentes
+- P-002: [Endpoint secundario] responde en menos de [X ms]
+
+### Confiabilidad
+- R-001: Tasa de error por debajo de [X]% en cualquier ventana de 24 horas
+- R-002: Recuperación tras caída en menos de [X] minutos
+
+### Seguridad
+- S-001: Todas las rutas requieren autenticación excepto [listar rutas públicas]
+- S-002: Todo input de usuario validado en el trust boundary
+- S-003: Secretos en variables de entorno, nunca en código ni logs
+
+### Escalabilidad
+- SC-001: Debe soportar [X] usuarios concurrentes sin cambios de escalado horizontal
+
+## Stack Tecnológico
+- Lenguaje: [lenguaje + versión]
+- Runtime: [runtime]
+- Framework: [framework]
+- Base de datos: [base de datos + versión]
+- Despliegue: [plataforma]
+- Framework de pruebas: [framework]
+- CI: [plataforma]
+
+## Mapa de Módulos
+
+| Módulo | Responsabilidad | Interfaces clave |
+|--------|----------------|-----------------|
+| [nombre] | [una oración] | [contratos in/out] |
+
+## Gates de Calidad
+- Cobertura mínima de pruebas: 80%
+- Longitud máxima de archivo: 400 líneas
+- Longitud máxima de función: 50 líneas
+- Formato de commit: Conventional Commits (feat/fix/chore/refactor/test/docs)
+- Pre-commit: lint + type check
+- CI: suite completa de pruebas en cada PR
+
+## Restricciones — La IA Nunca Debe
+- [Restricción 1 de las respuestas de entrevista]
+- [Restricción 2]
+- Nunca eliminar registros sin un paso explícito de confirmación en el prompt
+- Nunca correr migraciones de base de datos sin revisión humana
+- Nunca saltarse la autenticación por conveniencia
+
+────────────────────────────────────────────────
+ARCHIVO 2: CLAUDE.md  (constitución arquitectónica para Claude Code)
+────────────────────────────────────────────────
+# [Nombre del Proyecto] — Constitución Arquitectónica
+
+> Lee SPEC.md antes de cada sesión. Este archivo es la gramática.
+> SPEC.md es la fuente de verdad. En conflicto, SPEC.md gana.
+
+## Proyecto
+[Una oración del Resumen de SPEC.md]
+
+## Arquitectura
+[Decisiones arquitectónicas clave — derivadas del mapa de módulos y el stack]
+- En capas: [describe las capas]
+- Dirección de dependencias: [p.ej., dominio → aplicación → infraestructura, nunca invertido]
+- [Otras restricciones clave]
+
+## Estándares
+- Lenguaje: [lenguaje], runtime: [runtime]
+- Framework: [framework], base de datos: [base de datos]
+- Framework de pruebas: [framework]
+- Cobertura mínima: 80%
+- Longitud máxima de archivo: 400 líneas, longitud máxima de función: 50 líneas
+- Formato de commit: Conventional Commits
+
+## Estructura de Módulos
+[Espeja el mapa de módulos de SPEC.md — una línea por módulo]
+
+## La IA Nunca Debe
+[Espeja las restricciones de SPEC.md]
+
+## Checklist de Cierre de Sesión
+- [ ] Pruebas pasan
+- [ ] Sin errores de linting
+- [ ] STATUS.md actualizado
+- [ ] Commit sigue formato Conventional Commits
+
+────────────────────────────────────────────────
+ARCHIVO 3: AGENTS.md  (agentes OpenAI / cualquier otro asistente)
+────────────────────────────────────────────────
+[Mismo contenido que CLAUDE.md — constitución idéntica, nombre de archivo diferente.
+ Esto asegura que el proyecto funcione con Claude Code, agentes OpenAI, y
+ cualquier asistente que lea un AGENTS.md en la raíz]
+
+────────────────────────────────────────────────
+ARCHIVO 4: STATUS.md  (continuidad de sesión)
+────────────────────────────────────────────────
+# [Nombre del Proyecto] — Estado
+
+> Actualizado: [fecha de hoy]
+
+## Fase Actual
+Fase [N]: [Nombre de Fase]
+
+## Última Sesión
+[Se llenará después de la primera sesión de desarrollo]
+
+## En Progreso
+[Se llenará cuando comience el trabajo]
+
+## Completado
+[Vacío al inicio del proyecto]
+
+## Punto de Entrada para la Siguiente Sesión
+Lee SPEC.md → lee CLAUDE.md → comienza en [primera feature].
+
+────────────────────────────────────────────────
+ARCHIVO 5: docs/adrs/ADR-000-arquitectura-inicial.md
+────────────────────────────────────────────────
+# ADR-000: Arquitectura Inicial
+
+Fecha: [fecha de hoy]
+Estado: Aceptado
+
+## Contexto
+[¿Por qué se tomaron estas decisiones arquitectónicas? ¿Qué alternativas se consideraron?]
+
+## Decisión
+[La arquitectura elegida — referencia el Mapa de Módulos de SPEC.md]
+
+## Consecuencias
+[Qué hace fácil esta decisión, y qué hace difícil]
+
+## Restricciones Aceptadas
+[Los no-objetivos explícitos de SPEC.md que moldearon estas elecciones]
+
+────────────────────────────────────────────────
+Después de escribir los cinco archivos, imprime una tabla resumen:
+
+| Archivo | Propósito | Orden de lectura primera sesión |
+|---------|-----------|--------------------------------|
+| SPEC.md | Especificación canónica | 1 |
+| CLAUDE.md | Constitución Claude Code | 2 |
+| AGENTS.md | Constitución otros asistentes | 2 |
+| STATUS.md | Continuidad de sesión | 3 |
+| docs/adrs/ADR-000... | Rationale de arquitectura | 4 |
+
+Luego imprime el prompt de primera sesión para pegar en una nueva sesión de IA:
+"Lee SPEC.md, luego CLAUDE.md (o AGENTS.md), luego STATUS.md. Confirma que
+has leído los tres antes de comenzar a trabajar. Pregúntame en qué trabajar primero."</span></div>
+      </div>
+    </div>
+
+    <div class="pattern-note">
+      <span lang="en">For an existing project: replace "Generate" with "Read the codebase first, then generate SPEC.md from what you find, filling gaps with [TODO] markers where the intent is not clear from the code."</span>
+      <span lang="es">Para un proyecto existente: reemplaza "Genera" con "Lee la base de código primero, luego genera SPEC.md desde lo que encuentres, llenando huecos con marcadores [TODO] donde la intención no sea clara desde el código."</span>
+    </div>
+
+    <h2>
+      <span lang="en">Step 03 — First session</span>
+      <span lang="es">Paso 03 — Primera sesión</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">Open a new session — the spec is the mold</span>
+      <span lang="es">Abre una sesión nueva — la especificación es el molde</span>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <span lang="en"><strong>Your specification is your mold.</strong> Open a new AI session, paste: "Read SPEC.md, then CLAUDE.md, then STATUS.md. Confirm you have read all three before beginning." The AI derives the implementation. You review intent, not code.</span>
+        <span lang="es"><strong>Tu especificación es tu molde.</strong> Abre una sesión nueva de IA, pega: "Lee SPEC.md, luego CLAUDE.md, luego STATUS.md. Confirma que leíste los tres antes de comenzar." La IA deriva la implementación. Tú revisas intención, no código.</span>
+      </div>
+    </div>
+
+    <div class="pattern-note">
+      <span lang="en"><strong>Each session follows the same entry point:</strong> read SPEC.md → read CLAUDE.md → read STATUS.md → confirm → begin work. The architectural constitution tells the AI what it must never do. STATUS.md tells it where work left off. The spec tells it what to build. You never have to re-explain the project from scratch.</span>
+      <span lang="es"><strong>Cada sesión sigue el mismo punto de entrada:</strong> leer SPEC.md → leer CLAUDE.md → leer STATUS.md → confirmar → comenzar trabajo. La constitución arquitectónica le dice a la IA qué nunca debe hacer. STATUS.md le dice dónde quedó el trabajo. La spec le dice qué construir. Nunca tienes que re-explicar el proyecto desde cero.</span>
+    </div>
+
+    <div class="path-picker" style="margin-top: 48px;">
+      <a href="/try">
+        <div class="label">
+          <span lang="en">Cookbook</span>
+          <span lang="es">Recetario</span>
+        </div>
+        <div class="name">
+          <span lang="en">Developer Cookbook →</span>
+          <span lang="es">Recetario para Desarrolladores →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Full session flows: greenfield, brownfield, onboarding, migration.</span>
+          <span lang="es">Flujos de sesión completos: nuevo, existente, onboarding, migración.</span>
+        </div>
+      </a>
+      <a href="/audit">
+        <div class="label">
+          <span lang="en">Workshop · 30 min</span>
+          <span lang="es">Taller · 30 min</span>
+        </div>
+        <div class="name">
+          <span lang="en">GS Audit Report →</span>
+          <span lang="es">Reporte de Auditoría GS →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Score an existing codebase on all seven GS properties. No tools required.</span>
+          <span lang="es">Puntúa una base de código existente en las siete propiedades GS. Sin herramientas.</span>
+        </div>
+      </a>
+      <a href="/diseases">
+        <div class="label">
+          <span lang="en">Reference</span>
+          <span lang="es">Referencia</span>
+        </div>
+        <div class="name">
+          <span lang="en">GS Disease Reference →</span>
+          <span lang="es">Referencia de Enfermedades GS →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">The seven failure modes at score 0 — and the cure for each.</span>
+          <span lang="es">Los siete modos de falla en puntaje 0 — y la cura para cada uno.</span>
+        </div>
+      </a>
+      <a href="/cookbook">
+        <div class="label">
+          <span lang="en">Recipes</span>
+          <span lang="es">Recetas</span>
+        </div>
+        <div class="name">
+          <span lang="en">Recipe Cards →</span>
+          <span lang="es">Tarjetas de Receta →</span>
+        </div>
+        <div class="desc">
+          <span lang="en">Shorter focused recipes for specific situations.</span>
+          <span lang="es">Recetas más cortas y enfocadas para situaciones específicas.</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+      <a href="/audit"><span lang="en">GS Audit Report</span><span lang="es">Auditoría GS</span></a> ·
+      <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+    </div>
+
+  </div>
+
+  <script src="/i18n.js" defer></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

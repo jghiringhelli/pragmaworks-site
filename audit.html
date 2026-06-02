@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="GS Audit Report — PragmaWorks" data-es="Reporte de Auditoría GS — PragmaWorks">GS Audit Report — PragmaWorks</title>
+<meta name="description"
+  data-en="One prompt, no CLI. Full 7-property GS scorecard with disease names, structural disciplines, test pyramid, and remediation plan. Paste into any AI assistant."
+  data-es="Un prompt, sin CLI. Scorecard GS completo de 7 propiedades con nombres de enfermedades, disciplinas estructurales, pirámide de pruebas y plan de remediación."
+  content="One prompt, no CLI. Full 7-property GS scorecard.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection -->
+<script>(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--parchment); font-family: 'Source Serif 4', Georgia, serif; line-height: 1.55; color: var(--iron); min-height: 100vh; }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 64px 32px 80px; }
+
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ember); margin-bottom: 18px; }
+
+  h1 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 38px; line-height: 1.15; color: var(--forge-dark); margin-bottom: 16px; }
+
+  .lede { font-size: 18px; color: var(--steel); margin-bottom: 24px; line-height: 1.55; }
+  .lede strong { color: var(--forge-dark); }
+
+  h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; color: var(--forge-dark); margin: 48px 0 10px; padding-top: 24px; border-top: 2px solid var(--ember); }
+  .h2-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember); margin-bottom: 28px; }
+
+  h3 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 17px; color: var(--forge-dark); margin: 32px 0 8px; }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step { display: grid; grid-template-columns: 36px 1fr; gap: 16px; margin-bottom: 22px; align-items: start; }
+  .step-num { font-family: 'JetBrains Mono', monospace; color: var(--ember); font-size: 18px; font-weight: 600; padding-top: 1px; }
+  .step-text { font-size: 16px; }
+  .step-text strong { font-family: 'Cinzel', serif; color: var(--forge-dark); }
+
+  .prompt-box { background: var(--forge-dark); color: var(--parchment); border-radius: 4px; padding: 18px 22px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; border-left: 3px solid var(--molten); }
+  .prompt-box .prompt-label { color: var(--molten); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; display: block; }
+
+  details.path-option { margin: 10px 0; border: 1px solid var(--ash); border-radius: 4px; background: #fff; }
+  details.path-option > summary { padding: 12px 18px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--steel); list-style: none; user-select: none; }
+  details.path-option > summary::-webkit-details-marker { display: none; }
+  details.path-option > summary::before { content: "▸ "; color: var(--ember); margin-right: 6px; display: inline-block; width: 12px; }
+  details.path-option[open] > summary::before { content: "▾ "; }
+  details.path-option > summary:hover { color: var(--ember); }
+  details.path-option[open] > summary { color: var(--forge-dark); border-bottom: 1px solid var(--ash); }
+  details.path-option > .option-body { padding: 14px 18px 18px; font-size: 15px; }
+
+  .help-box { margin: 56px 0 0; padding: 28px 32px; background: var(--forge-dark); color: var(--parchment); border-radius: 4px; }
+  .help-box h3 { color: var(--molten); margin: 0 0 10px; }
+  .help-box p { color: var(--ash); font-size: 15px; margin-bottom: 8px; }
+  .help-box a { font-family: 'JetBrains Mono', monospace; color: var(--molten); text-decoration: none; border-bottom: 1px solid var(--molten); }
+  .help-box a:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  .small-note { font-size: 13px; color: var(--smoke); font-style: italic; margin-bottom: 20px; }
+
+  .footer { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--ash); font-size: 14px; color: var(--smoke); text-align: center; }
+  .footer a { color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--ash); }
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 28px; }
+    .container { padding: 48px 20px 64px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Language toggle -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
+  <div class="container">
+
+    <div class="eyebrow">
+      <span lang="en">Workshop · 30 min · no tools required</span>
+      <span lang="es">Taller · 30 min · sin herramientas</span>
+    </div>
+
+    <h1>
+      <span lang="en">GS Audit Report</span>
+      <span lang="es">Reporte de Auditoría GS</span>
+    </h1>
+
+    <p class="lede">
+      <span lang="en">Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. <strong>No install, no CLI.</strong> The AI reads the codebase, scores all seven GS properties with disease names at score 0, identifies which structural disciplines apply, and produces a prioritized remediation plan as markdown. Nothing is changed in this pass.</span>
+      <span lang="es">Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. <strong>Sin instalar, sin CLI.</strong> La IA lee la base de código, puntúa las siete propiedades GS con nombres de enfermedades en puntaje 0, identifica qué disciplinas estructurales aplican, y produce un plan de remediación priorizado como markdown. No se cambia nada en esta pasada.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <span lang="en"><strong>Paste the template.</strong> Edit the bracketed lines to match your project if needed. The rest runs without customization.</span>
+        <span lang="es"><strong>Pega la plantilla.</strong> Edita las líneas entre corchetes para que coincidan con tu proyecto si es necesario. El resto corre sin personalización.</span>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — GS Audit Report</span><span lang="es">Pega esto — Reporte de Auditoría GS</span></span><span lang="en">You are about to produce a GS Audit Report for this codebase. Read the
+code, tests, documentation, CI config, and last 90 days of git log. Write
+the report to reports/gs-audit-[YYYY-MM-DD].md. Do not modify any
+application code in this session.
+
+──────────────────────────────────────
+SECTION 1 — GS PROPERTY SCORECARD (0–14)
+──────────────────────────────────────
+Score each property 0, 1, or 2.
+  0 = absent or severely deficient
+  1 = intent present, implementation incomplete
+  2 = solid — evidence is clear and reproducible
+
+For each property: score · one-sentence finding · file:line citation ·
+one specific next step to raise it by 1.
+
+SELF-DESCRIBING
+Does the codebase explain its own intent without the original author present?
+Look for: SPEC.md or equivalent, ADRs, README that states purpose not just
+setup, architectural constitution (CLAUDE.md / AGENTS.md / .cursor/rules).
+  Score 0 — "Empty Map": all intent lives in heads; codebase cannot
+             explain itself.
+  Score 1 — some docs exist; intent must still be inferred from code.
+  Score 2 — spec + ADRs + architectural constitution present and current.
+
+BOUNDED
+Do files, functions, and modules stay within size discipline?
+Look for: files over 400 lines, functions over 50 lines, modules with
+multiple responsibilities.
+  Score 0 — "Spreading Boundary": no size discipline; modules grow
+             unchecked.
+  Score 1 — most modules bounded; notable outliers exist.
+  Score 2 — explicit size limits configured or documented; consistently
+             respected.
+
+COMPOSABLE
+Do pieces compose without hidden coupling?
+Look for: circular dependencies, wide import fan-out (one file imports from
+3+ layers), direct cross-module writes, feature flags that span modules.
+  Score 0 — "Tangled Web": changing one module triggers cascading effects.
+  Score 1 — some coupling present but modules are isolatable with effort.
+  Score 2 — clear interface boundaries; no circular deps; coupling explicit.
+
+VERIFIABLE
+Do tests bind specification to behavior?
+Look for: test files, coverage %, whether tests describe behavior vs.
+internals, integration and e2e tests alongside unit tests.
+  Score 0 — "Unbound Spec": no structural link between spec and running
+             code.
+  Score 1 — unit tests present; minimal behavior-level coverage.
+  Score 2 — tests at multiple layers that verify use-case behavior.
+
+AUDITABLE
+Can decisions and changes be traced back to why they happened?
+Look for: commit message quality, ADRs present and current, changelog, PR
+descriptions with context.
+  Score 0 — "Amnesia Stack": changes happened; reasons are unknowable.
+  Score 1 — some ADRs or meaningful commits; traceability has gaps.
+  Score 2 — clear ADR coverage; meaningful commits; decisions traceable.
+
+DEFENDED
+Is the security and error-handling baseline in place?
+Look for: input validation at trust boundaries, secrets in env files not
+hardcoded, error handling that does not leak internals, what is logged at
+the trust boundary.
+  Score 0 — "Open Gates": system accepts and leaks without enforcement.
+  Score 1 — some validation; trust boundary is unclear or inconsistent.
+  Score 2 — trust boundary defined; input validated; secrets managed.
+
+EXECUTABLE
+Do the use cases actually run? Is the spec operationally alive?
+Look for: can you run the project from a clean clone? Does CI run? Are
+there scripts that build, test, and start the project without tribal
+knowledge?
+  Score 0 — "Frozen Spec": specification is prose that nothing executes.
+  Score 1 — runnable but requires manual steps or tribal knowledge.
+  Score 2 — clean clone → running in one command; CI enforces it.
+
+──────────────────────────────────────
+SECTION 2 — TOTAL SCORE AND BAND
+──────────────────────────────────────
+Total = sum of 7 scores (0–14).
+
+  0–4   Critical — foundational properties absent; start with oracle
+        tests + Self-describing before anything else
+  5–8   Developing — partial discipline; one focused sprint can move
+        3–4 properties
+  9–11  Functional — solid base; targeted improvement per weak property
+  12–14 Strong — publish the approach; document what is working as
+        methodology
+
+State: total score · band · one sentence on the single highest-leverage
+property to improve first and why.
+
+──────────────────────────────────────
+SECTION 3 — STRUCTURAL DISCIPLINES
+──────────────────────────────────────
+For each discipline: Implemented / Partial / Not applicable — one citation.
+For "not applicable": one sentence on why it does not fit this codebase.
+
+  SOLID principles · TDD · BDD · DDD (ubiquitous language) ·
+  Hexagonal / ports-and-adapters · Layered / clean architecture ·
+  CQRS · Conventional commits · ADRs (Architecture Decision Records) ·
+  Doc-first cascade (sentinel → spec → ADR → code) ·
+  Intentional naming (signatures as specifications)
+
+──────────────────────────────────────
+SECTION 4 — TEST PYRAMID
+──────────────────────────────────────
+Count test files by layer: unit · integration · e2e. State the ratio.
+Identify the most under-served layer. Flag any test that mocks all
+dependencies without a corresponding behavior-level test — label these
+"test theater."
+
+──────────────────────────────────────
+SECTION 5 — DOCUMENTATION HEALTH
+──────────────────────────────────────
+Use git log --follow -- &lt;file&gt; to find last-touched date for each doc.
+Flag: any doc not updated in 90+ days where the code beneath it changed.
+List: missing docs (README with purpose, SPEC, ADR for major decisions,
+CHANGELOG).
+
+──────────────────────────────────────
+SECTION 6 — REMEDIATION PLAN
+──────────────────────────────────────
+10–15 items in priority order:
+  1. Oracle tests first — before any structural change
+  2. Lowest-scoring properties first
+  3. Within a property: smallest effort, biggest score lift
+
+Format each item:
+  [N] [S/M/L] [property affected]
+  What: one sentence describing the change
+  Why now: one sentence on ordering rationale
+
+──────────────────────────────────────
+
+Cite files and line numbers liberally. Do not apply any change in this
+pass. This report is the contract for the remediation session that
+follows.</span><span lang="es">Vas a producir un Reporte de Auditoría GS para esta base de código. Lee
+el código, pruebas, documentación, config de CI, y los últimos 90 días
+de git log. Escribe el reporte en reports/gs-audit-[YYYY-MM-DD].md. No
+modifiques ningún código de la aplicación en esta sesión.
+
+──────────────────────────────────────
+SECCIÓN 1 — SCORECARD DE PROPIEDADES GS (0–14)
+──────────────────────────────────────
+Puntúa cada propiedad 0, 1, o 2.
+  0 = ausente o severamente deficiente
+  1 = intención presente, implementación incompleta
+  2 = sólido — evidencia clara y reproducible
+
+Para cada propiedad: puntaje · hallazgo en una oración · citación file:line ·
+un siguiente paso específico para subirlo 1 punto.
+
+AUTO-DESCRIPTIVO
+¿La base de código explica su propia intención sin que el autor original
+esté presente?
+Busca: SPEC.md o equivalente, ADRs, README que explique propósito no solo
+setup, constitución arquitectónica (CLAUDE.md / AGENTS.md / .cursor/rules).
+  Puntaje 0 — "Mapa Vacío": toda la intención vive en cabezas; la base
+               no puede explicarse sola.
+  Puntaje 1 — existen algunos docs; la intención aún debe inferirse del
+               código.
+  Puntaje 2 — spec + ADRs + constitución arquitectónica presentes y
+               actuales.
+
+ACOTADO
+¿Los archivos, funciones y módulos se mantienen dentro de la disciplina
+de tamaño?
+Busca: archivos de más de 400 líneas, funciones de más de 50 líneas,
+módulos con múltiples responsabilidades.
+  Puntaje 0 — "Límite Expandido": sin disciplina de tamaño; módulos
+               crecen sin control.
+  Puntaje 1 — la mayoría de módulos acotados; existen excepciones notables.
+  Puntaje 2 — límites de tamaño explícitos configurados o documentados;
+               respetados consistentemente.
+
+COMPONIBLE
+¿Las piezas componen sin acoplamiento oculto?
+Busca: dependencias circulares, import fan-out amplio (un archivo importa
+de 3+ capas), escrituras directas entre módulos, feature flags que cruzan
+módulos.
+  Puntaje 0 — "Red Enredada": cambiar un módulo desencadena efectos en
+               cascada.
+  Puntaje 1 — algo de acoplamiento presente pero módulos son aislables.
+  Puntaje 2 — límites de interfaz claros; sin deps circulares.
+
+VERIFICABLE
+¿Las pruebas conectan la especificación al comportamiento?
+Busca: archivos de pruebas, % de cobertura, si las pruebas describen
+comportamiento vs. internos, pruebas de integración y e2e.
+  Puntaje 0 — "Spec Desvinculada": sin conexión estructural entre spec
+               y código en ejecución.
+  Puntaje 1 — pruebas unitarias presentes; cobertura de comportamiento mínima.
+  Puntaje 2 — pruebas en múltiples capas que verifican comportamiento
+               de casos de uso.
+
+AUDITABLE
+¿Se pueden rastrear decisiones y cambios hasta por qué ocurrieron?
+Busca: calidad de mensajes de commit, ADRs presentes y actuales,
+changelog, descripciones de PR con contexto.
+  Puntaje 0 — "Pila de Amnesia": los cambios ocurrieron; las razones son
+               incognoscibles.
+  Puntaje 1 — algunos ADRs o commits significativos; trazabilidad con brechas.
+  Puntaje 2 — cobertura clara de ADRs; commits significativos; decisiones
+               trazables.
+
+DEFENDIDO
+¿Está en marcha el baseline de seguridad y manejo de errores?
+Busca: validación de input en límites de confianza, secretos en archivos
+de entorno no hardcodeados, manejo de errores que no filtra internos.
+  Puntaje 0 — "Puertas Abiertas": el sistema acepta y filtra sin
+               enforcement.
+  Puntaje 1 — algo de validación; el límite de confianza es poco claro.
+  Puntaje 2 — límite de confianza definido; input validado; secretos
+               manejados.
+
+EJECUTABLE
+¿Los casos de uso realmente corren? ¿Está viva la spec operacionalmente?
+Busca: ¿puedes correr el proyecto desde un clone limpio? ¿Corre CI? ¿Hay
+scripts que construyen, prueban, e inician el proyecto sin conocimiento
+tribal?
+  Puntaje 0 — "Spec Congelada": la especificación es prosa que nada
+               ejecuta.
+  Puntaje 1 — ejecutable pero requiere pasos manuales o conocimiento
+               tribal.
+  Puntaje 2 — clone limpio → corriendo en un comando; CI lo refuerza.
+
+──────────────────────────────────────
+SECCIÓN 2 — PUNTAJE TOTAL Y BANDA
+──────────────────────────────────────
+Total = suma de 7 puntajes (0–14).
+
+  0–4   Crítico — propiedades fundamentales ausentes; empezar con oracle
+        tests + Auto-descriptivo antes que cualquier otra cosa
+  5–8   En desarrollo — disciplina parcial; un sprint enfocado puede mover
+        3–4 propiedades
+  9–11  Funcional — base sólida; mejora dirigida por propiedad débil
+  12–14 Sólido — publica el enfoque; documenta lo que funciona como
+        metodología
+
+Indica: puntaje total · banda · una oración sobre la propiedad de mayor
+apalancamiento para mejorar primero y por qué.
+
+──────────────────────────────────────
+SECCIÓN 3 — DISCIPLINAS ESTRUCTURALES
+──────────────────────────────────────
+Para cada disciplina: Implementada / Parcial / No aplica — una citación.
+Para "no aplica": una oración de por qué no encaja en esta base.
+
+  Principios SOLID · TDD · BDD · DDD (lenguaje ubicuo) ·
+  Hexagonal / ports-and-adapters · Capas / clean architecture ·
+  CQRS · Conventional commits · ADRs (Registros de Decisiones) ·
+  Cascada doc-first (sentinel → spec → ADR → código) ·
+  Naming intencional (firmas como especificaciones)
+
+──────────────────────────────────────
+SECCIÓN 4 — PIRÁMIDE DE PRUEBAS
+──────────────────────────────────────
+Cuenta archivos de prueba por capa: unit · integration · e2e. Indica el
+ratio. Identifica la capa más sub-servida. Flagea cualquier prueba que
+mockea todas las dependencias sin una prueba de nivel de comportamiento
+correspondiente — etiquétalas "teatro de pruebas".
+
+──────────────────────────────────────
+SECCIÓN 5 — SALUD DE DOCUMENTACIÓN
+──────────────────────────────────────
+Usa git log --follow -- &lt;archivo&gt; para encontrar la última fecha de
+modificación de cada doc. Flagea: cualquier doc no actualizado en 90+
+días donde el código debajo cambió. Lista: docs faltantes (README con
+propósito, SPEC, ADR para decisiones mayores, CHANGELOG).
+
+──────────────────────────────────────
+SECCIÓN 6 — PLAN DE REMEDIACIÓN
+──────────────────────────────────────
+10–15 items en orden de prioridad:
+  1. Oracle tests primero — antes de cualquier cambio estructural
+  2. Propiedades con puntaje más bajo primero
+  3. Dentro de una propiedad: menor esfuerzo, mayor lift de puntaje
+
+Formato por item:
+  [N] [S/M/L] [propiedad afectada]
+  Qué: una oración describiendo el cambio
+  Por qué ahora: una oración sobre la racionalidad de orden
+
+──────────────────────────────────────
+
+Cita archivos y números de línea liberalmente. No apliques ningún cambio
+en esta pasada. Este reporte es el contrato para la sesión de remediación
+que sigue.</span></div>
+      </div>
+    </div>
+
+    <p class="small-note">
+      <span lang="en">This template is the no-tools version of the full audit. The <a href="/try#brownfield" style="color: var(--ember);">brownfield path in the Developer Cookbook</a> shows the tool-assisted version that also runs CI, generates HTML + PDF output, and works at team scale.</span>
+      <span lang="es">Esta plantilla es la versión sin herramientas de la auditoría completa. El <a href="/try#brownfield" style="color: var(--ember);">camino brownfield en el Recetario de Desarrolladores</a> muestra la versión asistida por herramientas que también corre CI, genera HTML + PDF, y funciona a escala de equipo.</span>
+    </p>
+
+    <div class="help-box">
+      <h3>
+        <span lang="en">Want a guided audit run?</span>
+        <span lang="es">¿Quieres una corrida de auditoría guiada?</span>
+      </h3>
+      <p>
+        <span lang="en">Email me directly. If you want a live walkthrough with the full PragmaWorks toolchain, or a Concierge engagement where we handle the remediation end-to-end, just ask.</span>
+        <span lang="es">Escríbeme directamente. Si quieres un walkthrough en vivo con el stack completo de PragmaWorks, o un engagement de Concierge donde manejamos la remediación end-to-end, solo pídelo.</span>
+      </p>
+      <p><a href="mailto:juan@pragmaworks.dev?subject=GS%20Audit%20Run">juan@pragmaworks.dev →</a></p>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario de Desarrolladores</span></a> ·
+      <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Recetas</span></a> ·
+      <a href="/teams"><span lang="en">Pricing</span><span lang="es">Precios</span></a>
+    </div>
+
+  </div>
+
+  <script src="/i18n.js" defer></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>
