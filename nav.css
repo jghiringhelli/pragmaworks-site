@@ -64,7 +64,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--sb-muted);
+  color: #C7C7CC;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9.5px;
   letter-spacing: 0.22em;
@@ -117,7 +117,7 @@
 .pw-nav-standalone {
   display: block;
   padding: 8px 16px;
-  color: var(--sb-muted);
+  color: #C7C7CC;
   text-decoration: none;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9.5px;
@@ -127,6 +127,33 @@
 }
 .pw-nav-standalone:hover { color: #F5F0E8; }
 .pw-nav-standalone.is-active { color: var(--sb-active); }
+
+/* ── SIDEBAR LANG TOGGLE ── */
+.pw-sidebar-lang {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.pw-sidebar-lang button {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2px;
+  color: #C7C7CC;
+  padding: 3px 9px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.pw-sidebar-lang button:hover {
+  color: #F5F0E8;
+  background: rgba(255,255,255,0.12);
+}
+.pw-sidebar-lang button.is-active {
+  color: var(--sb-active);
+  border-color: rgba(196,75,26,0.5);
+}
 
 .pw-nav-divider {
   height: 1px;
