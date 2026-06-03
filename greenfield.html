@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Greenfield — Start from Scratch · PragmaWorks"
+  data-es="Greenfield — Empieza desde Cero · PragmaWorks"
+>Greenfield — Start from Scratch · PragmaWorks</title>
+<meta name="description"
+  data-en="Complete guide: spec → cascade documents → sentinel → harness → build → ongoing features, fixes, and refactors. Full GS lifecycle for new projects."
+  data-es="Guía completa: spec → documentos de cascada → sentinel → harness → construir → features, fixes y refactors continuos. Ciclo GS completo para proyectos nuevos."
+  content="Complete guide: spec → cascade documents → sentinel → harness → build → ongoing features, fixes, and refactors. Full GS lifecycle for new projects.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 40px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .facilitator-note {
+    margin: 20px 0 0;
+    padding: 14px 20px;
+    background: var(--parchment2);
+    border-left: 3px solid var(--ember);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+    font-style: italic;
+  }
+
+  .facilitator-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+
+  table thead tr {
+    background: var(--parchment2);
+  }
+
+  table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--steel);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--ash);
+  }
+
+  table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--ash);
+    color: var(--iron);
+    vertical-align: top;
+  }
+
+  table td code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--parchment2);
+    padding: 1px 5px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ── Forge progress bar ── */
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* ── Forge pagination ── */
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Forge progress bar — Temple active -->
+<div class="forge-progress"><div class="forge-progress-inner">
+  <a href="/heating" class="fp-stage fp-done">Heating</a><span class="fp-arrow">›</span>
+  <a href="/mold" class="fp-stage fp-done">Mold</a><span class="fp-arrow">›</span>
+  <span class="fp-stage fp-active">Temple</span><span class="fp-arrow">›</span>
+  <a href="/temper" class="fp-stage fp-next">Temper</a><span class="fp-arrow">›</span>
+  <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
+  <a href="/brownfield" class="fp-stage">Anneal</a>
+</div></div>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Greenfield · New Project · Full Lifecycle</span>
+    <span lang="es">Greenfield · Proyecto Nuevo · Ciclo Completo</span>
+  </div>
+
+  <h1>
+    <span lang="en">Start from Scratch</span>
+    <span lang="es">Empieza desde Cero</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">Seven steps from empty folder to a running project under full GS discipline — <strong>spec</strong>, <strong>cascade documents</strong>, <strong>sentinel</strong>, <strong>harness</strong>, first feature, and the ongoing workflow for features, fixes, and refactors.</span>
+    <span lang="es">Siete pasos desde carpeta vacía hasta un proyecto en ejecución bajo disciplina GS completa — <strong>spec</strong>, <strong>documentos de cascada</strong>, <strong>sentinel</strong>, <strong>harness</strong>, primera feature, y el flujo continuo para features, fixes y refactors.</span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 01 — INTERVIEW                                        -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 01 — Interview</span>
+    <span lang="es">Paso 01 — Entrevista</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Mold · New project · 9 questions · one at a time</span>
+    <span lang="es">Molde · Proyecto nuevo · 9 preguntas · una a la vez</span>
+  </div>
+
+  <p>
+    <span lang="en">Open a new AI session in an empty project folder. Paste the interview prompt. The AI asks nine questions one at a time — waiting for your answer before asking the next. The answers become the raw material for your specification.</span>
+    <span lang="es">Abre una nueva sesión de IA en una carpeta vacía. Pega el prompt de entrevista. La IA hace nueve preguntas una a la vez — esperando tu respuesta antes de hacer la siguiente. Las respuestas se vuelven la materia prima de tu especificación.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+      <span lang="en"><strong>Open a new AI session</strong> in your empty project folder. Paste the prompt below.</span>
+      <span lang="es"><strong>Abre una nueva sesión de IA</strong> en tu carpeta de proyecto vacía. Pega el prompt a continuación.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Interview</span><span lang="es">Pega esto — Entrevista</span></span><span lang="en">Before writing any files, ask me the following questions one at a time.
+Wait for my answer before asking the next. Do not guess or fill in defaults.
+
+1. What is this project? One sentence: what it does and who uses it.
+2. What does "done" look like in 6–12 months?
+3. Current phase: 0=idea · 1=early dev · 2=prototype · 3=production
+4. The 3–5 most important features in scope for the current phase.
+5. What should this system never do? Explicit non-goals.
+6. Tech stack: language, runtime, framework, database, deployment target.
+7. Module structure: the main areas of the codebase, one sentence each.
+8. Performance requirements: latency, concurrent users, throughput SLA.
+9. What must the AI never do? (e.g. never delete records without confirmation,
+   never bypass authentication, never run migrations automatically)
+
+When I have answered all nine questions, say "Ready to generate" and wait.</span><span lang="es">Antes de escribir archivos, hazme las siguientes preguntas una a la vez.
+Espera mi respuesta antes de hacer la siguiente. No adivines ni llenes defaults.
+
+1. ¿Qué es este proyecto? Una oración: qué hace y quién lo usa.
+2. ¿Cómo se ve "listo" en 6–12 meses?
+3. Fase actual: 0=idea · 1=desarrollo temprano · 2=prototipo · 3=producción
+4. Las 3–5 funcionalidades más importantes en alcance para la fase actual.
+5. ¿Qué nunca debe hacer este sistema? No-objetivos explícitos.
+6. Stack tecnológico: lenguaje, runtime, framework, base de datos, destino de despliegue.
+7. Estructura de módulos: las áreas principales del código, una oración cada una.
+8. Requerimientos de performance: latencia, usuarios concurrentes, SLA de throughput.
+9. ¿Qué nunca debe hacer la IA? (ej. nunca eliminar registros sin confirmación,
+   nunca saltarse la autenticación, nunca correr migraciones automáticamente)
+
+Cuando haya respondido las nueve preguntas, di "Listo para generar" y espera.</span></div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>For an existing project,</strong> skip the interview — go to <a href="/brownfield">/brownfield</a>. The brownfield flow reads your codebase first and generates the spec from what it finds.</span>
+    <span lang="es"><strong>Para un proyecto existente,</strong> salta la entrevista — ve a <a href="/brownfield">/brownfield</a>. El flujo brownfield lee tu base de código primero y genera el spec desde lo que encuentra.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 02 — GENERATE SPEC                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 02 — Generate Spec</span>
+    <span lang="es">Paso 02 — Genera el Spec</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Mold · SPEC.md + STATUS.md · the canonical mold</span>
+    <span lang="es">Molde · SPEC.md + STATUS.md · el molde canónico</span>
+  </div>
+
+  <p>
+    <span lang="en">Paste this in the same session. The AI generates SPEC.md — your canonical specification — with vision, functional features in F-NNN format, non-functional requirements, tech stack, module map, quality gates, and constraints. Plus STATUS.md for session continuity. One prompt, no further questions.</span>
+    <span lang="es">Pega esto en la misma sesión. La IA genera SPEC.md — tu especificación canónica — con visión, funcionalidades en formato F-NNN, requerimientos no funcionales, stack tecnológico, mapa de módulos, quality gates y restricciones. Más STATUS.md para continuidad de sesión. Un prompt, sin más preguntas.</span>
+  </p>
+
+  <p style="font-size:14px; color: var(--steel); margin-bottom: 10px;">
+    <span lang="en">The specification the AI will write. Sections map directly to the interview answers.</span>
+    <span lang="es">La especificación que escribirá la IA. Las secciones mapean directamente a las respuestas de la entrevista.</span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Section</span><span lang="es">Sección</span></th>
+        <th><span lang="en">Content</span><span lang="es">Contenido</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Vision / Overview</code></td>
+        <td><span lang="en">What the system is, who uses it, what "done" looks like</span><span lang="es">Qué es el sistema, quién lo usa, cómo se ve "listo"</span></td>
+      </tr>
+      <tr>
+        <td><code>Phase + Scope</code></td>
+        <td><span lang="en">Current phase, in-scope features, explicit non-goals</span><span lang="es">Fase actual, features en alcance, no-objetivos explícitos</span></td>
+      </tr>
+      <tr>
+        <td><code>F-NNN Features</code></td>
+        <td><span lang="en">Actor / Precondition / Flow / Postcondition / Acceptance criteria ([ ] testable)</span><span lang="es">Actor / Precondición / Flujo / Postcondición / Criterios de aceptación ([ ] verificables)</span></td>
+      </tr>
+      <tr>
+        <td><code>NFRs</code></td>
+        <td><span lang="en">Performance P-001, Reliability R-001, Security S-001, Scalability SC-001 — each numbered</span><span lang="es">Performance P-001, Confiabilidad R-001, Seguridad S-001, Escalabilidad SC-001 — cada uno numerado</span></td>
+      </tr>
+      <tr>
+        <td><code>Tech Stack</code></td>
+        <td><span lang="en">Language, runtime, framework, database, deployment, test framework, CI</span><span lang="es">Lenguaje, runtime, framework, base de datos, despliegue, framework de tests, CI</span></td>
+      </tr>
+      <tr>
+        <td><code>Module Map</code></td>
+        <td><span lang="en">One row per module — name, responsibility, key interfaces</span><span lang="es">Una fila por módulo — nombre, responsabilidad, interfaces clave</span></td>
+      </tr>
+      <tr>
+        <td><code>Quality Gates</code></td>
+        <td><span lang="en">Coverage minimum, file/function length limits, commit format, CI rules</span><span lang="es">Cobertura mínima, límites de longitud, formato de commit, reglas de CI</span></td>
+      </tr>
+      <tr>
+        <td><code>Constraints</code></td>
+        <td><span lang="en">The AI Must Never — explicit prohibitions derived from interview Q9</span><span lang="es">La IA Nunca Debe — prohibiciones explícitas derivadas de la pregunta 9 de la entrevista</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Generate spec</span><span lang="es">Pega esto — Genera el spec</span></span><span lang="en">Generate the GS specification for this project.
+Write the files to these exact paths. Use our interview answers.
+State any assumptions as comments inside the files.
+
+FILE 1: docs/spec/SPEC.md
+# [Project Name] Specification
+
+## Overview
+[One paragraph]
+
+## Vision
+[What "done" looks like in 6–12 months — concrete]
+
+## Phase [N] — [Name]
+In scope: [features]
+Explicitly out of scope: [non-goals]
+
+## Functional Features
+
+### F-001: [Name]
+Actor: [who]
+Precondition: [what must be true]
+Flow: 1. [step] 2. [step]
+Postcondition: [observable result]
+Acceptance criteria:
+  - [ ] [testable criterion]
+
+[Repeat for each feature]
+
+## Non-Functional Requirements
+### Performance
+- P-001: [endpoint] responds within [X ms] at [Y] concurrent users
+### Reliability
+- R-001: Error rate below [X]% over any 24h window
+### Security
+- S-001: All routes require authentication except [public routes]
+- S-002: All user input validated at the trust boundary
+- S-003: Secrets in env vars, never in code or logs
+### Scalability
+- SC-001: Supports [X] concurrent users without horizontal scaling changes
+
+## Tech Stack
+Language / Runtime / Framework / Database / Deployment / Test framework / CI
+
+## Module Map
+| Module | Responsibility | Key interfaces |
+
+## Quality Gates
+- Coverage minimum: 80%
+- Max file length: 400 lines · Max function length: 50 lines
+- Commit format: Conventional Commits
+- Pre-commit: lint + type check
+- CI: full test suite on every PR
+
+## Constraints — The AI Must Never
+[From interview answer 9]
+
+FILE 2: STATUS.md
+# [Project Name] — Status
+> Updated: [today]
+## Current Phase: Phase [N] — [Name]
+## Last Session: [to be filled]
+## In Progress: [to be filled]
+## Completed: [empty at start]
+## Next Session Entry Point
+Read docs/spec/SPEC.md → CONSTITUTION.md → STATUS.md → begin at F-001.
+
+After writing both files, print the first-session entry prompt.</span><span lang="es">Genera la especificación GS para este proyecto.
+Escribe los archivos en estas rutas exactas. Usa las respuestas de nuestra entrevista.
+Enuncia los supuestos como comentarios dentro de los archivos.
+
+ARCHIVO 1: docs/spec/SPEC.md
+# Especificación de [Nombre del Proyecto]
+
+## Visión General
+[Un párrafo]
+
+## Visión
+[Cómo se ve "listo" en 6–12 meses — concreto]
+
+## Fase [N] — [Nombre]
+En alcance: [features]
+Explícitamente fuera de alcance: [no-objetivos]
+
+## Funcionalidades
+
+### F-001: [Nombre]
+Actor: [quién]
+Precondición: [qué debe ser verdad]
+Flujo: 1. [paso] 2. [paso]
+Postcondición: [resultado observable]
+Criterios de aceptación:
+  - [ ] [criterio verificable]
+
+[Repetir para cada feature]
+
+## Requerimientos No Funcionales
+### Performance
+- P-001: [endpoint] responde en menos de [X ms] con [Y] usuarios concurrentes
+### Confiabilidad
+- R-001: Tasa de error por debajo de [X]% en cualquier ventana de 24h
+### Seguridad
+- S-001: Todas las rutas requieren autenticación excepto [rutas públicas]
+- S-002: Todo input de usuario validado en el trust boundary
+- S-003: Secretos en variables de entorno, nunca en código ni logs
+### Escalabilidad
+- SC-001: Soporta [X] usuarios concurrentes sin cambios de escalado horizontal
+
+## Stack Tecnológico
+Lenguaje / Runtime / Framework / Base de datos / Despliegue / Framework de tests / CI
+
+## Mapa de Módulos
+| Módulo | Responsabilidad | Interfaces clave |
+
+## Gates de Calidad
+- Cobertura mínima: 80%
+- Longitud máxima de archivo: 400 líneas · Longitud máxima de función: 50 líneas
+- Formato de commit: Conventional Commits
+- Pre-commit: lint + type check
+- CI: suite completa de tests en cada PR
+
+## Restricciones — La IA Nunca Debe
+[De la respuesta 9 de la entrevista]
+
+ARCHIVO 2: STATUS.md
+# [Nombre del Proyecto] — Estado
+> Actualizado: [hoy]
+## Fase Actual: Fase [N] — [Nombre]
+## Última Sesión: [a completar]
+## En Progreso: [a completar]
+## Completado: [vacío al inicio]
+## Punto de Entrada para la Siguiente Sesión
+Lee docs/spec/SPEC.md → CONSTITUTION.md → STATUS.md → comenzar en F-001.
+
+Después de escribir ambos archivos, imprime el prompt de entrada de primera sesión.</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 03 — CASCADE DOCUMENTS                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 03 — Cascade Documents</span>
+    <span lang="es">Paso 03 — Documentos de Cascada</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Mold · ADRs · schemas · manifest · everything that derives from the spec</span>
+    <span lang="es">Molde · ADRs · schemas · manifest · todo lo que deriva del spec</span>
+  </div>
+
+  <p>
+    <span lang="en">The cascade documents are the full document hierarchy derived from your spec. They give the sentinel something concrete to point to, and give every future session a complete picture of the project's decisions, schemas, and constraints. Paste this in the same session.</span>
+    <span lang="es">Los documentos de cascada son la jerarquía de documentos completa derivada de tu spec. Le dan al sentinel algo concreto a lo que apuntar, y le dan a cada sesión futura un cuadro completo de las decisiones, schemas y restricciones del proyecto. Pega esto en la misma sesión.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Cascade documents</span><span lang="es">Pega esto — Documentos de cascada</span></span><span lang="en">Create the cascade document structure for this project. Use the content of SPEC.md.
+
+1. CREATE FOLDER STRUCTURE (with .gitkeep):
+   docs/adrs/active/     open architecture decisions
+   docs/adrs/done/       closed or superseded ADRs
+   docs/specs/           feature-level spec files (F-NNN)
+   docs/use-cases/       UC-NNN detailed use case files
+   docs/schemas/         data schemas and ER diagrams
+   docs/decisions/       code-only change justifications
+   docs/edrs/            engineering decision records (spec changes)
+
+2. CREATE docs/adrs/ADR-000-initial-architecture.md:
+   Date / Status: Accepted / Context (why these choices) /
+   Decision (the architecture — reference SPEC.md Module Map) /
+   Consequences (easier/harder) / Constraints Accepted (from SPEC.md)
+
+3. CREATE docs/manifest.yaml:
+   ---
+   project: "[name]"
+   version: "0.1.0"
+   phase: [N]
+   stack: { language, framework, database, deployment }
+   disciplines:
+     - solid
+     - tdd
+     - conventional-commits
+     - doc-first-cascade
+     - hexagonal-architecture
+     - adr-on-arch-change
+   cascade-rules:
+     feat: write spec in docs/specs/ before any code
+     fix: write failing test before patch
+     refactor: ADR in docs/adrs/active/ first
+     docs: documentation only, no production code
+   ai-never:
+     [list from SPEC.md Constraints]
+
+Confirm: "Cascade documents ready. docs/ structure ✓ ADR-000 ✓ manifest.yaml ✓"</span><span lang="es">Crea la estructura de documentos de cascada para este proyecto. Usa el contenido de SPEC.md.
+
+1. CREAR ESTRUCTURA DE CARPETAS (con .gitkeep):
+   docs/adrs/active/     decisiones de arquitectura abiertas
+   docs/adrs/done/       ADRs cerrados o supersedidos
+   docs/specs/           archivos de spec a nivel de feature (F-NNN)
+   docs/use-cases/       archivos de casos de uso UC-NNN detallados
+   docs/schemas/         esquemas de datos y diagramas ER
+   docs/decisions/       justificaciones de cambios solo-código
+   docs/edrs/            registros de decisión de ingeniería (cambios de spec)
+
+2. CREAR docs/adrs/ADR-000-initial-architecture.md:
+   Fecha / Estado: Aceptado / Contexto (por qué estas elecciones) /
+   Decisión (la arquitectura — referencia el Mapa de Módulos de SPEC.md) /
+   Consecuencias (más fácil/difícil) / Restricciones Aceptadas (de SPEC.md)
+
+3. CREAR docs/manifest.yaml:
+   ---
+   project: "[nombre]"
+   version: "0.1.0"
+   phase: [N]
+   stack: { language, framework, database, deployment }
+   disciplines:
+     - solid
+     - tdd
+     - conventional-commits
+     - doc-first-cascade
+     - hexagonal-architecture
+     - adr-on-arch-change
+   cascade-rules:
+     feat: escribir spec en docs/specs/ antes de cualquier código
+     fix: escribir test fallido antes del parche
+     refactor: ADR en docs/adrs/active/ primero
+     docs: solo documentación, sin código de producción
+   ai-never:
+     [listar de Restricciones en SPEC.md]
+
+Confirmar: "Documentos de cascada listos. estructura docs/ ✓ ADR-000 ✓ manifest.yaml ✓"</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 04 — GENERATE SENTINEL                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 04 — Generate Sentinel</span>
+    <span lang="es">Paso 04 — Genera el Sentinel</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Mold completes · CONSTITUTION.md — CNT on docs + code + disciplines</span>
+    <span lang="es">Molde completa · CONSTITUTION.md — CNT en docs + código + disciplinas</span>
+  </div>
+
+  <p>
+    <span lang="en">The sentinel is the complete AI navigation system for your project. It can only be generated now — after the cascade documents exist — because it points to them. It contains three things: a bounded context tree (CNT) on your cascade documents, a CNT on your code folder structure, and the structural disciplines manifesto that the AI reads every session. This file is called <strong>CONSTITUTION.md</strong> in the methodology. Your AI tool reads it as <strong>CLAUDE.md</strong> (Claude Code), <strong>AGENTS.md</strong> (OpenAI / most tools), <strong>.cursor/rules/</strong> (Cursor), or <strong>.github/copilot-instructions.md</strong> (Copilot).</span>
+    <span lang="es">El sentinel es el sistema de navegación de IA completo para tu proyecto. Solo puede generarse ahora — después de que existan los documentos de cascada — porque apunta a ellos. Contiene tres cosas: un árbol de contexto acotado (CNT) sobre tus documentos de cascada, un CNT sobre la estructura de carpetas de código, y el manifiesto de disciplinas estructurales que la IA lee en cada sesión. Este archivo se llama <strong>CONSTITUTION.md</strong> en la metodología. Tu herramienta de IA lo lee como <strong>CLAUDE.md</strong> (Claude Code), <strong>AGENTS.md</strong> (OpenAI / la mayoría de herramientas), <strong>.cursor/rules/</strong> (Cursor), o <strong>.github/copilot-instructions.md</strong> (Copilot).</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Generate sentinel</span><span lang="es">Pega esto — Genera el sentinel</span></span><span lang="en">Read docs/spec/SPEC.md and docs/adrs/ADR-000-initial-architecture.md.
+Generate the sentinel — the complete AI navigation system for this project.
+
+FILE 1: CONSTITUTION.md (the agnostic canonical constitution)
+Also generate these tool-specific copies with identical content:
+  CLAUDE.md               (Claude Code)
+  AGENTS.md               (OpenAI Agents and most other tools)
+
+# [Project Name] — Architectural Constitution
+
+> Read docs/spec/SPEC.md before every session. This file is the grammar.
+> SPEC.md is the source of truth. When in conflict, SPEC.md wins.
+
+## Project
+[One sentence from SPEC.md Overview]
+
+## Document Navigation (CNT on cascade documents)
+- Specification: docs/spec/SPEC.md
+- Active ADRs: docs/adrs/active/
+- Closed ADRs: docs/adrs/done/
+- Feature specs: docs/specs/F-NNN-[name].md
+- Use cases: docs/use-cases/UC-NNN-[name].md
+- Schemas: docs/schemas/
+- Engineering decisions: docs/edrs/
+- Code-only change notes: docs/decisions/
+
+## Code Navigation (CNT on code structure)
+[Derive from SPEC.md Module Map and tech stack]
+- [module-name]/: [responsibility] — interfaces: [key contracts]
+[One line per module. Match the dependency direction from ADR-000.]
+Dependency direction: [e.g. domain → application → infrastructure, never reversed]
+
+## Structural Disciplines Manifesto
+Apply these at all times. No exceptions.
+- SOLID: interfaces + dependency inversion. AI reads contracts, not implementations.
+- Single Responsibility: one reason to change per class/module.
+- Hexagonal / consistent structure: [module-name]/ always has [type]. First search hits.
+- TDD: write failing test first. Every fix starts with a failing test.
+- Conventional Commits: feat/fix/chore/refactor/test/docs/style/ci/perf
+- ADR on arch change: any architectural decision gets an ADR before implementation.
+- Doc-first cascade: feat → spec file first. fix → test first. refactor → ADR first.
+- Intentional naming: function names carry domain, operation, inputs, output.
+
+## Architecture
+[From ADR-000: layered structure, key constraints]
+
+## Standards
+[From SPEC.md: language, framework, coverage 80%, max file 400 lines, max fn 50 lines]
+
+## The AI Must Never
+[Mirror from SPEC.md Constraints]
+
+## Session Protocol
+1. Read docs/spec/SPEC.md
+2. Read this file (CONSTITUTION.md)
+3. Read STATUS.md
+4. Confirm you have read all three before beginning work.
+
+## Session Closing Checklist
+- [ ] All tests pass
+- [ ] No linting errors
+- [ ] STATUS.md updated
+- [ ] Commit follows Conventional Commits format</span><span lang="es">Lee docs/spec/SPEC.md y docs/adrs/ADR-000-initial-architecture.md.
+Genera el sentinel — el sistema de navegación de IA completo para este proyecto.
+
+ARCHIVO 1: CONSTITUTION.md (la constitución canónica agnóstica)
+También genera estas copias específicas por herramienta con contenido idéntico:
+  CLAUDE.md               (Claude Code)
+  AGENTS.md               (OpenAI Agents y la mayoría de herramientas)
+
+# [Nombre del Proyecto] — Constitución Arquitectónica
+
+> Lee docs/spec/SPEC.md antes de cada sesión. Este archivo es la gramática.
+> SPEC.md es la fuente de verdad. En conflicto, SPEC.md gana.
+
+## Proyecto
+[Una oración del Resumen de SPEC.md]
+
+## Navegación de Documentos (CNT en documentos de cascada)
+- Especificación: docs/spec/SPEC.md
+- ADRs activos: docs/adrs/active/
+- ADRs cerrados: docs/adrs/done/
+- Specs de features: docs/specs/F-NNN-[nombre].md
+- Casos de uso: docs/use-cases/UC-NNN-[nombre].md
+- Schemas: docs/schemas/
+- Decisiones de ingeniería: docs/edrs/
+- Notas de cambio solo-código: docs/decisions/
+
+## Navegación de Código (CNT en estructura de código)
+[Derivar del Mapa de Módulos de SPEC.md y stack tecnológico]
+- [nombre-modulo]/: [responsabilidad] — interfaces: [contratos clave]
+[Una línea por módulo. Seguir la dirección de dependencias de ADR-000.]
+Dirección de dependencias: [ej. dominio → aplicación → infraestructura, nunca invertido]
+
+## Manifiesto de Disciplinas Estructurales
+Aplicar en todo momento. Sin excepciones.
+- SOLID: interfaces + inversión de dependencias. La IA lee contratos, no implementaciones.
+- Responsabilidad Única: una razón para cambiar por clase/módulo.
+- Hexagonal / estructura consistente: [nombre-modulo]/ siempre tiene [tipo]. Primera búsqueda acierta.
+- TDD: escribir test fallido primero. Cada fix empieza con un test fallido.
+- Conventional Commits: feat/fix/chore/refactor/test/docs/style/ci/perf
+- ADR en cambio arquitectónico: cualquier decisión arquitectónica requiere ADR antes de implementar.
+- Cascada doc-first: feat → archivo spec primero. fix → test primero. refactor → ADR primero.
+- Nombres intencionales: los nombres de función llevan dominio, operación, inputs, output.
+
+## Arquitectura
+[De ADR-000: estructura en capas, restricciones clave]
+
+## Estándares
+[De SPEC.md: lenguaje, framework, cobertura 80%, archivo máx 400 líneas, fn máx 50 líneas]
+
+## La IA Nunca Debe
+[Espeja de Restricciones en SPEC.md]
+
+## Protocolo de Sesión
+1. Lee docs/spec/SPEC.md
+2. Lee este archivo (CONSTITUTION.md)
+3. Lee STATUS.md
+4. Confirma que leíste los tres antes de comenzar a trabajar.
+
+## Checklist de Cierre de Sesión
+- [ ] Todos los tests pasan
+- [ ] Sin errores de linting
+- [ ] STATUS.md actualizado
+- [ ] Commit sigue formato Conventional Commits</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 05 — INSTALL HARNESS                                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 05 — Install Harness</span>
+    <span lang="es">Paso 05 — Instala el Harness</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Temple begins · enforcement infrastructure</span>
+    <span lang="es">Temple comienza · infraestructura de cumplimiento</span>
+  </div>
+
+  <p>
+    <span lang="en">The harness is the enforcement layer. It makes the cascade rules mechanical: conventional commits are rejected at the git level, code changes without doc updates require a decision note, CI runs the full test suite on every push. Needs the sentinel to be complete first — the hooks reference the cascade rules defined in manifest.yaml.</span>
+    <span lang="es">El harness es la capa de cumplimiento. Hace que las reglas de cascada sean mecánicas: los commits que no siguen Conventional Commits son rechazados a nivel git, los cambios de código sin actualizaciones de docs requieren una nota de decisión, la CI ejecuta la suite de tests completa en cada push. Necesita que el sentinel esté completo primero — los hooks referencian las reglas de cascada definidas en manifest.yaml.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">05</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Install harness</span><span lang="es">Pega esto — Instala el harness</span></span><span lang="en">Read docs/manifest.yaml and CONSTITUTION.md.
+Install the harness enforcement infrastructure.
+
+1. .git/hooks/commit-msg — enforce Conventional Commits:
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: Commit message must follow Conventional Commits."
+  echo "  Format: type(scope): description"
+  echo "  Types: feat fix chore refactor test docs style ci perf"
+  exit 1
+fi
+
+2. .git/hooks/pre-commit — cascade check:
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  Code changed without a doc update."
+    echo "   Option A: update or create a file in docs/ in this commit."
+    echo "   Option B: create docs/decisions/${today}-[reason].md"
+    exit 1
+  fi
+fi
+
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+3. .github/workflows/ci.yml:
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: [install command for this stack]
+      - name: Lint
+        run: [lint command]
+      - name: Test
+        run: [test command]
+      - name: Coverage
+        run: [coverage command — fail below 80%]
+
+Confirm: "Harness installed. commit-msg hook ✓ pre-commit cascade check ✓ CI workflow ✓"</span><span lang="es">Lee docs/manifest.yaml y CONSTITUTION.md.
+Instala la infraestructura de cumplimiento del harness.
+
+1. .git/hooks/commit-msg — hacer cumplir Conventional Commits:
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: El mensaje de commit debe seguir Conventional Commits."
+  echo "  Formato: tipo(scope): descripción"
+  echo "  Tipos: feat fix chore refactor test docs style ci perf"
+  exit 1
+fi
+
+2. .git/hooks/pre-commit — verificación de cascada:
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  El código cambió sin actualización de docs."
+    echo "   Opción A: actualiza o crea un archivo en docs/ en este commit."
+    echo "   Opción B: crea docs/decisions/${today}-[motivo].md"
+    exit 1
+  fi
+fi
+
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+3. .github/workflows/ci.yml:
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar
+        run: [comando de instalación para este stack]
+      - name: Lint
+        run: [comando de lint]
+      - name: Tests
+        run: [comando de tests]
+      - name: Cobertura
+        run: [comando de cobertura — fallar por debajo de 80%]
+
+Confirmar: "Harness instalado. hook commit-msg ✓ pre-commit cascada ✓ CI workflow ✓"</span></div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Note on NFR gates:</strong> NFR enforcement (P-001, R-001, S-001 thresholds from SPEC.md) activates at Tier 2 — see <a href="/harden">/harden</a>. The harness installed here covers commit discipline and test coverage only.</span>
+    <span lang="es"><strong>Nota sobre NFR gates:</strong> El cumplimiento de NFRs (umbrales P-001, R-001, S-001 de SPEC.md) se activa en Tier 2 — ver <a href="/harden">/harden</a>. El harness instalado aquí cubre solo disciplina de commits y cobertura de tests.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 06 — FIRST FEATURE                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 06 — First Feature</span>
+    <span lang="es">Paso 06 — Primera Feature</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Temple · F-NNN → spec → tests → code → green</span>
+    <span lang="es">Temple · F-NNN → spec → tests → código → verde</span>
+  </div>
+
+  <p>
+    <span lang="en">Open a new AI session. Paste the entry prompt first — the AI reads your three files and confirms before doing anything. Then paste the first feature prompt. The AI writes the feature spec, gets your approval, then generates tests first and implementation second. The harness verifies the output.</span>
+    <span lang="es">Abre una nueva sesión de IA. Pega primero el prompt de entrada — la IA lee tus tres archivos y confirma antes de hacer nada. Luego pega el prompt de primera feature. La IA escribe el spec de la feature, obtiene tu aprobación, luego genera tests primero e implementación después. El harness verifica el output.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">06</div>
+    <div class="step-text">
+      <span lang="en"><strong>Open a new session.</strong> Paste the entry prompt, then the feature prompt.</span>
+      <span lang="es"><strong>Abre una nueva sesión.</strong> Pega el prompt de entrada, luego el prompt de feature.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this first — session entry</span><span lang="es">Pega esto primero — entrada de sesión</span></span><span lang="en">Read docs/spec/SPEC.md, then CONSTITUTION.md, then STATUS.md.
+Confirm you have read all three before beginning work.</span><span lang="es">Lee docs/spec/SPEC.md, luego CONSTITUTION.md, luego STATUS.md.
+Confirma que leíste los tres antes de comenzar a trabajar.</span></div>
+<div class="prompt-box" style="margin-top:10px;"><span class="prompt-label"><span lang="en">Paste this — first feature</span><span lang="es">Pega esto — primera feature</span></span><span lang="en">Implement F-001 from SPEC.md following the doc-first cascade.
+
+Before writing any code:
+1. Write the feature spec at docs/specs/F-001-[name].md using this format:
+   Actor / Precondition / Flow (numbered steps) / Postcondition /
+   Acceptance criteria ([ ] testable format)
+2. Show me the spec. Wait for my approval.
+
+Once I approve:
+3. Generate unit tests from the acceptance criteria. They must fail first (red).
+4. Generate the implementation.
+5. Run the tests. All must pass (green).
+6. Update STATUS.md: mark F-001 as completed, set next entry point.
+7. Commit: feat(scope): implement F-001 [feature name]</span><span lang="es">Implementa F-001 de SPEC.md siguiendo la cascada doc-first.
+
+Antes de escribir código:
+1. Escribe el spec de la feature en docs/specs/F-001-[nombre].md con este formato:
+   Actor / Precondición / Flujo (pasos numerados) / Postcondición /
+   Criterios de aceptación (formato [ ] verificable)
+2. Muéstrame el spec. Espera mi aprobación.
+
+Una vez que apruebo:
+3. Genera tests unitarios desde los criterios de aceptación. Deben fallar primero (rojo).
+4. Genera la implementación.
+5. Corre los tests. Todos deben pasar (verde).
+6. Actualiza STATUS.md: marca F-001 como completado, establece el próximo punto de entrada.
+7. Commit: feat(scope): implementar F-001 [nombre de la feature]</span></div>
+    </div>
+  </div>
+
+  <div class="facilitator-note">
+    <span lang="en">The green test is the signal. The spec said what correct means. The AI built it. The harness verified it. You did not read the code.</span>
+    <span lang="es">El test verde es la señal. El spec dijo qué significa correcto. La IA lo construyó. El harness lo verificó. No leíste el código.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- ONGOING WORK                                               -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Ongoing Work</span>
+    <span lang="es">Trabajo Continuo</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Temple + Temper · three operation types</span>
+    <span lang="es">Temple + Templado · tres tipos de operación</span>
+  </div>
+
+  <p>
+    <span lang="en">Once the harness is running, all future work follows one of three patterns. Each enforces the doc-first cascade at the git level — the hooks reject commits that skip the discipline.</span>
+    <span lang="es">Una vez que el harness está en ejecución, todo el trabajo futuro sigue uno de tres patrones. Cada uno hace cumplir la cascada doc-first a nivel git — los hooks rechazan commits que omiten la disciplina.</span>
+  </p>
+
+  <!-- NEW FEATURE -->
+  <h3>
+    <span lang="en">New Feature</span>
+    <span lang="es">Nueva Feature</span>
+  </h3>
+
+  <p>
+    <span lang="en">Every new feature starts with a spec file. The AI reads SPEC.md first to check phase scope, then writes F-NNN before touching code. Your approval gates the implementation.</span>
+    <span lang="es">Cada nueva feature empieza con un archivo de spec. La IA lee SPEC.md primero para verificar el scope de la fase, luego escribe F-NNN antes de tocar código. Tu aprobación es el gate de la implementación.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Feature prompt — English</span><span lang="es">Prompt de feature — Inglés</span></span><span lang="en">Read docs/spec/SPEC.md, then CONSTITUTION.md, then STATUS.md. Confirm you have read all three.
+
+New feature request: [describe the feature in one sentence].
+
+Before writing any code:
+1. Check if this feature fits the current phase scope in SPEC.md. If not, flag it and stop.
+2. Write the feature spec at docs/specs/F-[NNN]-[slug].md:
+   Actor / Precondition / Flow / Postcondition / Acceptance criteria (testable, [ ] format)
+3. Show me the spec. Wait for my approval before proceeding.
+4. Once approved:
+   - Generate unit tests from the acceptance criteria (failing first)
+   - Generate the implementation
+   - Run tests — all must pass
+5. Update STATUS.md.
+Commit: feat(scope): [description]</span><span lang="es">Lee docs/spec/SPEC.md, luego CONSTITUTION.md, luego STATUS.md. Confirma que leíste los tres.
+
+Nueva funcionalidad: [describe la feature en una oración].
+
+Antes de escribir código:
+1. Verifica si esta feature cabe en el scope de la fase actual en SPEC.md. Si no, márcalo y detente.
+2. Escribe el spec de la feature en docs/specs/F-[NNN]-[slug].md:
+   Actor / Precondición / Flujo / Postcondición / Criterios de aceptación (verificables, formato [ ])
+3. Muéstrame el spec. Espera mi aprobación antes de continuar.
+4. Una vez aprobado:
+   - Genera tests unitarios desde los criterios de aceptación (fallando primero)
+   - Genera la implementación
+   - Corre los tests — todos deben pasar
+5. Actualiza STATUS.md.
+Commit: feat(scope): [descripción]</span></div>
+
+  <!-- BUG FIX -->
+  <h3>
+    <span lang="en">Bug Fix</span>
+    <span lang="es">Fix de Bug</span>
+  </h3>
+
+  <p>
+    <span lang="en">Every fix starts with a failing test that reproduces the bug. The test is committed first — this proves the bug exists and proves the fix worked. A one-paragraph decision note in docs/decisions/ explains root cause.</span>
+    <span lang="es">Cada fix empieza con un test fallido que reproduce el bug. El test se commitea primero — esto prueba que el bug existe y prueba que el fix funcionó. Una nota de decisión de un párrafo en docs/decisions/ explica la causa raíz.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Fix prompt — English</span><span lang="es">Prompt de fix — Inglés</span></span><span lang="en">Read CONSTITUTION.md.
+Bug: [describe the bug — what happens, what should happen instead].
+1. Write a failing test that reproduces the bug exactly. Commit: test(scope): reproduce [bug-slug]
+2. Create docs/decisions/[YYYY-MM-DD]-fix-[bug-slug].md — one paragraph: root cause.
+3. Patch the code. The failing test must now pass. No other tests may break.
+4. Commit: fix(scope): [description]</span><span lang="es">Lee CONSTITUTION.md.
+Bug: [describe el bug — qué pasa, qué debería pasar en cambio].
+1. Escribe un test fallido que reproduzca el bug exactamente. Commit: test(scope): reproduce [bug-slug]
+2. Crea docs/decisions/[AAAA-MM-DD]-fix-[bug-slug].md — un párrafo: causa raíz.
+3. Parchea el código. El test fallido debe pasar ahora. Ningún otro test puede fallar.
+4. Commit: fix(scope): [descripción]</span></div>
+
+  <!-- REFACTOR -->
+  <h3>
+    <span lang="en">Refactor, Dedup, Dead Code</span>
+    <span lang="es">Refactor, Deduplicación, Código Muerto</span>
+  </h3>
+
+  <p>
+    <span lang="en">Structural changes always start with an ADR. No behavior changes — only structural. All existing tests must pass. Dead code is removed only after confirming it's outside SPEC.md scope. The ADR moves to docs/adrs/done/ when complete.</span>
+    <span lang="es">Los cambios estructurales siempre empiezan con un ADR. Sin cambios de comportamiento — solo estructurales. Todos los tests existentes deben pasar. El código muerto se elimina solo después de confirmar que está fuera del scope de SPEC.md. El ADR se mueve a docs/adrs/done/ cuando está completo.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Refactor prompt — English</span><span lang="es">Prompt de refactor — Inglés</span></span><span lang="en">Read CONSTITUTION.md and docs/spec/SPEC.md.
+Refactoring task: [describe what to clean up — duplication / dead code / structure / rename].
+1. Write ADR at docs/adrs/active/ADR-[NNN]-[slug].md:
+   Context (why this refactor) / Decision (what changes) / Consequences (easier/harder)
+2. Rules: no behavior changes — structural only. All existing tests must pass after.
+3. If removing dead code: confirm each deletion is outside SPEC.md scope first.
+4. Commit: refactor(scope): [description]
+5. Move ADR to docs/adrs/done/ when complete.</span><span lang="es">Lee CONSTITUTION.md y docs/spec/SPEC.md.
+Tarea de refactor: [describe qué limpiar — duplicación / código muerto / estructura / renombrado].
+1. Escribe ADR en docs/adrs/active/ADR-[NNN]-[slug].md:
+   Contexto (por qué este refactor) / Decisión (qué cambia) / Consecuencias (más fácil/difícil)
+2. Reglas: sin cambios de comportamiento — solo estructurales. Todos los tests existentes deben pasar.
+3. Si eliminás código muerto: confirma que cada eliminación está fuera del scope de SPEC.md.
+4. Commit: refactor(scope): [descripción]
+5. Mueve el ADR a docs/adrs/done/ cuando termines.</span></div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>New phase</strong> = update SPEC.md (add Phase N+1 section with scope + features) + proceed with features/fixes/refactors as above. The three operations cover the full ongoing lifecycle.</span>
+    <span lang="es"><strong>Nueva fase</strong> = actualiza SPEC.md (agrega sección Fase N+1 con scope + features) + procede con features/fixes/refactors como arriba. Las tres operaciones cubren el ciclo de vida continuo completo.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FORGE PAGINATION                                           -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="forge-pagination">
+    <a href="/mold" class="fp-prev">← Mold: Build the Specification</a>
+    <a href="/temper" class="fp-next-btn">Temper: Structural Disciplines →</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PATH PICKER                                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="path-picker" style="margin-top: 32px;">
+    <a href="/brownfield">
+      <div class="label">
+        <span lang="en">Anneal · Existing Project</span>
+        <span lang="es">Recocer · Proyecto Existente</span>
+      </div>
+      <div class="name">
+        <span lang="en">Anneal: Existing Project →</span>
+        <span lang="es">Recocer: Proyecto Existente →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Audit → spec from code → sentinel → harness → remediation</span>
+        <span lang="es">Auditoría → spec desde código → sentinel → harness → remediación</span>
+      </div>
+    </a>
+    <a href="/harden">
+      <div class="label">
+        <span lang="en">Harden · Tier 2</span>
+        <span lang="es">Harden · Tier 2</span>
+      </div>
+      <div class="name">
+        <span lang="en">Harden: Tier 2 →</span>
+        <span lang="es">Harden: Tier 2 →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">NFR gates, CD pipeline, staging harness</span>
+        <span lang="es">NFR gates, CD pipeline, harness de staging</span>
+      </div>
+    </a>
+    <a href="/diagnose">
+      <div class="label">
+        <span lang="en">Diagnose</span>
+        <span lang="es">Diagnóstico</span>
+      </div>
+      <div class="name">
+        <span lang="en">Diagnose →</span>
+        <span lang="es">Diagnóstico →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Score an existing codebase on all 7 GS properties</span>
+        <span lang="es">Puntúa una base de código existente en las 7 propiedades GS</span>
+      </div>
+    </a>
+    <a href="/mold">
+      <div class="label">
+        <span lang="en">Mold · Sentinel standalone</span>
+        <span lang="es">Molde · Sentinel standalone</span>
+      </div>
+      <div class="name">
+        <span lang="en">Mold: Sentinel standalone →</span>
+        <span lang="es">Molde: Sentinel standalone →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Generate spec + sentinel for any project</span>
+        <span lang="es">Genera spec + sentinel para cualquier proyecto</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
