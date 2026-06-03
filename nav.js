@@ -5,6 +5,22 @@
     '  <div class="pw-sidebar-brand"><a href="/">Pragma<span>Works</span></a></div>',
     '  <nav class="pw-sidebar-nav" aria-label="Site navigation">',
 
+    '    <div class="pw-nav-section" data-section="forge">',
+    '      <button class="pw-nav-section-toggle" aria-expanded="false">',
+    '        <span>Forge Flow</span><i class="pw-chevron">&#8250;</i>',
+    '      </button>',
+    '      <div class="pw-nav-section-items">',
+    '        <a href="/heating" class="pw-nav-item">1 · Heating</a>',
+    '        <a href="/mold" class="pw-nav-item">2 · Mold</a>',
+    '        <a href="/try#greenfield" class="pw-nav-item">3 · Temple</a>',
+    '        <a href="/temper" class="pw-nav-item">4 · Temper</a>',
+    '        <a href="/harden" class="pw-nav-item">5 · Harden</a>',
+    '        <a href="/try#brownfield" class="pw-nav-item">6 · Anneal</a>',
+    '      </div>',
+    '    </div>',
+
+    '    <div class="pw-nav-divider"></div>',
+
     '    <div class="pw-nav-section" data-section="try">',
     '      <button class="pw-nav-section-toggle" aria-expanded="false">',
     '        <span>Try It</span><i class="pw-chevron">&#8250;</i>',
@@ -27,9 +43,9 @@
     '        <a href="/forge" class="pw-nav-item">The Forge Cycle</a>',
     '        <a href="/properties" class="pw-nav-item">7 Properties</a>',
     '        <a href="/diseases" class="pw-nav-item">7 Disease Cards</a>',
-    '        <a href="/sentinel" class="pw-nav-item">Sentinel Tree</a>',
-    '        <a href="/revenido" class="pw-nav-item"><span lang="en">Structural Disciplines</span><span lang="es">Disciplinas Estructurales</span></a>',
-    '        <a href="/harden" class="pw-nav-item"><span lang="en">Tier 2: Staging</span><span lang="es">Tier 2: Staging</span></a>',
+    '        <a href="/mold" class="pw-nav-item">Mold: Full Spec</a>',
+    '        <a href="/temper" class="pw-nav-item"><span lang="en">Temper: Disciplines</span><span lang="es">Templado: Disciplinas</span></a>',
+    '        <a href="/harden" class="pw-nav-item"><span lang="en">Harden: Tier 2</span><span lang="es">Endurecer: Tier 2</span></a>',
     '      </div>',
     '    </div>',
 
@@ -102,7 +118,9 @@
   // Path → section key
   var SECTIONS = {
     '/try': 'try', '/audit': 'try', '/cookbook': 'try', '/start': 'try',
-    '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference', '/sentinel': 'reference', '/revenido': 'reference', '/harden': 'reference',
+    '/heating': 'forge', '/mold': 'forge', '/temper': 'forge', '/harden': 'forge',
+    '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference',
+    '/sentinel': 'reference', '/revenido': 'reference',
     '/teams': 'workshops', '/leaders': 'workshops',
     '/manifesto': 'writing',
     '/diagnose': 'tools', '/diagnostico': 'tools'

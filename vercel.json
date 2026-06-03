@@ -1,4 +1,8 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/sentinel", "destination": "/mold", "permanent": true },
+    { "source": "/revenido", "destination": "/temper", "permanent": true }
+  ]
 }

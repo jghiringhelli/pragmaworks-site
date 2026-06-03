@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Heating — Activate the AI · PragmaWorks" data-es="Calentamiento — Activa la IA · PragmaWorks">Heating — Activate the AI · PragmaWorks</title>
+<meta name="description"
+  data-en="Stage 1 of the Forge: read your codebase cold with an AI assistant to discover what it knows, what it doesn't, and what your specification needs to say."
+  data-es="Etapa 1 de la Fragua: lee tu codebase en frío con un asistente de IA para descubrir qué sabe, qué no, y qué necesita decir tu especificación."
+  content="Stage 1 of the Forge: read your codebase cold with an AI assistant to discover what it knows, what it doesn't, and what your specification needs to say.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    nav { padding: 0.75rem 1.2rem; }
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<div class="forge-progress"><div class="forge-progress-inner">
+  <span class="fp-stage fp-active">Heating</span><span class="fp-arrow">›</span>
+  <a href="/mold" class="fp-stage fp-next">Mold</a><span class="fp-arrow">›</span>
+  <a href="/try#greenfield" class="fp-stage">Temple</a><span class="fp-arrow">›</span>
+  <a href="/temper" class="fp-stage">Temper</a><span class="fp-arrow">›</span>
+  <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
+  <a href="/try#brownfield" class="fp-stage">Anneal</a>
+</div></div>
+
+  <!-- Language toggle (fixed top-right of viewport) -->
+  <div class="lang-toggle" aria-label="Language toggle">
+    <button data-lang="en" aria-label="English">EN</button>
+    <button data-lang="es" aria-label="Español">ES</button>
+  </div>
+
+  <div class="container">
+
+    <div class="eyebrow">
+      <span lang="en">Stage 1 · Heating · Activation</span>
+      <span lang="es">Etapa 1 · Calentamiento · Activación</span>
+    </div>
+    <h1>
+      <span lang="en">Before You Build the Mold, Read What Exists</span>
+      <span lang="es">Antes de Construir el Molde, Lee Lo que Existe</span>
+    </h1>
+    <p class="lede">
+      <span lang="en">A cold AI session on your codebase reveals two things: what it can reconstruct from code alone, and where it fills in blanks silently. Those gaps are exactly what your specification needs to cover. Heating is the diagnostic pass before the mold is built.</span>
+      <span lang="es">Una sesión de IA en frío sobre tu codebase revela dos cosas: lo que puede reconstruir solo desde el código, y dónde llena blancos silenciosamente. Esos gaps son exactamente lo que tu especificación necesita cubrir. El Calentamiento es el pase diagnóstico antes de construir el molde.</span>
+    </p>
+
+    <h2>
+      <span lang="en">Step 01 — The Cold Read</span>
+      <span lang="es">Paso 01 — La Lectura en Frío</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">What does the AI know about your system right now?</span>
+      <span lang="es">¿Qué sabe la IA sobre tu sistema ahora mismo?</span>
+    </div>
+
+    <p>
+      <span lang="en">Open a fresh AI session in your project root — no context, no CLAUDE.md, no briefing. Ask it three questions in sequence. The answers reveal the gap between what's implicit and what needs to be written down.</span>
+      <span lang="es">Abre una sesión de IA en frío en la raíz de tu proyecto — sin contexto, sin CLAUDE.md, sin briefing. Hazle tres preguntas en secuencia. Las respuestas revelan el gap entre lo que es implícito y lo que necesita escribirse.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <span lang="en"><strong>Open a new AI session</strong> in your project root with no additional context. Paste the cold read prompt below.</span>
+        <span lang="es"><strong>Abre una nueva sesión de IA</strong> en la raíz de tu proyecto sin contexto adicional. Pega el prompt de lectura en frío abajo.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Cold Read (3 questions)</span><span lang="es">Pega esto — Lectura en Frío (3 preguntas)</span></span><span lang="en">Ask me these three questions about this codebase, one at a time.
+Wait for me to confirm your answer before asking the next.
+
+1. In one paragraph: what does this system do and who uses it?
+   (Read the code to answer — do not ask me.)
+
+2. Pick any structural decision visible in the code — a module boundary,
+   a data model choice, a service separation. Explain why it was made that way.
+   (Read the code to answer — do not ask me.)
+
+3. What should this system never do? What are its explicit architectural
+   constraints and non-goals?
+   (Read the code to answer — do not ask me.)</span><span lang="es">Hazme estas tres preguntas sobre esta codebase, una a la vez.
+Espera a que confirme tu respuesta antes de hacer la siguiente.
+
+1. En un párrafo: ¿qué hace este sistema y quién lo usa?
+   (Lee el código para responder — no me preguntes.)
+
+2. Elige cualquier decisión estructural visible en el código — un límite de módulo,
+   una elección de modelo de datos, una separación de servicio. Explica por qué
+   se tomó esa decisión.
+   (Lee el código para responder — no me preguntes.)
+
+3. ¿Qué nunca debe hacer este sistema? ¿Cuáles son sus restricciones
+   arquitectónicas explícitas y no-objetivos?
+   (Lee el código para responder — no me preguntes.)</span></div>
+      </div>
+    </div>
+
+    <div class="pattern-note">
+      <span lang="en">For a new project with no existing code: skip the cold read. Your first AI session IS the heating — the interview in Step 01 of Mold activates the AI on your intent rather than your code.</span>
+      <span lang="es">Para un proyecto nuevo sin código existente: salta la lectura en frío. Tu primera sesión de IA ES el calentamiento — la entrevista en el Paso 01 de Mold activa la IA sobre tu intención en lugar de tu código.</span>
+    </div>
+
+    <h2>
+      <span lang="en">Step 02 — Score the Gap</span>
+      <span lang="es">Paso 02 — Puntúa el Gap</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">Run the GS Audit to see which properties are missing</span>
+      <span lang="es">Corre la Auditoría GS para ver qué propiedades faltan</span>
+    </div>
+
+    <p>
+      <span lang="en">The GS Audit Report scores your codebase on the seven properties. Where the AI answered question 3 with silence or invention — that's your score-0 on Self-describing. Where it invented an architectural rationale — that's Auditable at risk. The audit makes the gap concrete.</span>
+      <span lang="es">El Reporte de Auditoría GS puntúa tu codebase en las siete propiedades. Donde la IA respondió la pregunta 3 con silencio o invención — ese es tu puntaje 0 en Auto-descriptiva. Donde inventó una justificación arquitectónica — Auditable en riesgo. La auditoría hace el gap concreto.</span>
+    </p>
+
+    <div class="path-picker">
+      <a href="/diagnose">
+        <div class="label">Audit · EN</div>
+        <div class="name">GS Diagnostic →</div>
+        <div class="desc">
+          <span lang="en">Score your codebase on all 7 GS properties. 30 minutes, no tools required.</span>
+          <span lang="es">Puntúa tu codebase en las 7 propiedades GS. 30 minutos, sin herramientas.</span>
+        </div>
+      </a>
+      <a href="/diagnostico">
+        <div class="label">Auditoría · ES</div>
+        <div class="name">Diagnóstico GS →</div>
+        <div class="desc">
+          <span lang="en">Spanish version of the full diagnostic.</span>
+          <span lang="es">Versión en español del diagnóstico completo.</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="forge-pagination">
+      <span class="fp-prev">Stage 1 / 6</span>
+      <a href="/mold" class="fp-next-btn">
+        <span lang="en">Mold: Build the Specification →</span>
+        <span lang="es">Molde: Construye la Especificación →</span>
+      </a>
+    </div>
+
+    <div class="footer">
+      Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+      <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+      <a href="/audit"><span lang="en">GS Audit Report</span><span lang="es">Auditoría GS</span></a> ·
+      <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+      <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+    </div>
+
+  </div>
+
+  <script src="/i18n.js" defer></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>
