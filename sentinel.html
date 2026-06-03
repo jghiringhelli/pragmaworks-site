@@ -256,6 +256,19 @@
 
   .footer a:hover { color: var(--ember); border-color: var(--ember); }
 
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
   @media (max-width: 600px) {
     h1 { font-size: 30px; }
     h2 { font-size: 22px; }
@@ -280,6 +293,15 @@
 <nav>
   <a href="/" class="nav-brand">Pragma<span>Works</span></a>
 </nav>
+
+<div class="forge-progress"><div class="forge-progress-inner">
+  <span class="fp-stage fp-done">Calentamiento</span><span class="fp-arrow">›</span>
+  <span class="fp-stage fp-active">Moldeado</span><span class="fp-arrow">›</span>
+  <a href="/try#greenfield" class="fp-stage fp-next">Temple</a><span class="fp-arrow">›</span>
+  <a href="/revenido" class="fp-stage">Revenido</a><span class="fp-arrow">›</span>
+  <a href="/harden" class="fp-stage">Endurecido</a><span class="fp-arrow">›</span>
+  <a href="/try#brownfield" class="fp-stage">Recocido</a>
+</div></div>
 
   <!-- Language toggle (fixed top-right of viewport) -->
   <div class="lang-toggle" aria-label="Language toggle">
@@ -784,8 +806,239 @@ has leído los tres antes de comenzar a trabajar. Pregúntame en qué trabajar p
     </div>
 
     <h2>
-      <span lang="en">Step 03 — First session</span>
-      <span lang="es">Paso 03 — Primera sesión</span>
+      <span lang="en">Step 03 — Cascade Infrastructure</span>
+      <span lang="es">Paso 03 — Infraestructura de Cascada</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">Same session · enforce doc-first discipline</span>
+      <span lang="es">Misma sesión · hacer cumplir la disciplina doc-first</span>
+    </div>
+
+    <p>
+      <span lang="en">Your sentinel tree is the specification. Now scaffold the folder structure, manifest, and git hooks that enforce the doc-first cascade on every commit going forward.</span>
+      <span lang="es">Tu árbol sentinel es la especificación. Ahora crea la estructura de carpetas, el manifest y los git hooks que hacen cumplir la cascada doc-first en cada commit de ahora en adelante.</span>
+    </p>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <span lang="en"><strong>In the same session,</strong> paste this cascade setup prompt.</span>
+        <span lang="es"><strong>En la misma sesión,</strong> pega este prompt de configuración de cascada.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Cascade Infrastructure Setup</span><span lang="es">Pega esto — Configuración de Infraestructura de Cascada</span></span><span lang="en">Now set up the cascade infrastructure for this project.
+Use the project name, stack, and constraints from SPEC.md.
+
+─────────────────────────────────────────────
+1. FOLDER STRUCTURE
+─────────────────────────────────────────────
+Create these directories (add .gitkeep to each):
+  docs/specs/        feature-level spec files
+  docs/adrs/active/  open architecture decisions
+  docs/adrs/done/    closed or superseded ADRs
+  docs/use-cases/    UC-NNN detailed use case files
+  docs/schemas/      data schemas and ER diagrams
+  docs/decisions/    code-only change justifications
+  docs/edrs/         engineering decision records (spec changes)
+
+─────────────────────────────────────────────
+2. docs/manifest.yaml
+─────────────────────────────────────────────
+---
+project: "[project name]"
+version: "0.1.0"
+phase: [phase number]
+stack:
+  language: [language]
+  framework: [framework]
+  database: [database]
+  deployment: [deployment]
+disciplines:
+  - solid
+  - tdd
+  - conventional-commits
+  - doc-first-cascade
+  - hexagonal-architecture
+  - adr-on-arch-change
+cascade-rules:
+  feat: must touch docs/specs/ or create docs/edrs/ entry before code
+  fix: must add failing test before patch
+  refactor: should have docs/adrs/active/ entry
+  docs: documentation only — no production code changes
+  chore: tooling and config only
+ai-never:
+  [list each item from SPEC.md Constraints section]
+
+─────────────────────────────────────────────
+3. .git/hooks/commit-msg  (Conventional Commits)
+─────────────────────────────────────────────
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: Commit message must follow Conventional Commits."
+  echo "  Format:  type(scope): description"
+  echo "  Types:   feat fix chore refactor test docs style ci perf"
+  echo "  Example: feat(auth): add JWT refresh token endpoint"
+  exit 1
+fi
+
+─────────────────────────────────────────────
+4. .git/hooks/pre-commit  (cascade check)
+─────────────────────────────────────────────
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  Code changed without a doc update."
+    echo "   Option A: update or create a file in docs/ in this commit."
+    echo "   Option B: create docs/decisions/${today}-[reason].md"
+    echo "             (one paragraph explaining why no doc update is needed)."
+    exit 1
+  fi
+fi
+
+Make both hooks executable:
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+─────────────────────────────────────────────
+5. .github/workflows/ci.yml
+─────────────────────────────────────────────
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: [install command for this stack]
+      - name: Lint
+        run: [lint command]
+      - name: Test
+        run: [test command]
+      - name: Coverage
+        run: [coverage check — fail below 80%]
+
+─────────────────────────────────────────────
+After all files are created, confirm:
+"Cascade infrastructure ready.
+ docs/ structure ✓  manifest.yaml ✓
+ commit-msg hook ✓  pre-commit cascade check ✓  CI workflow ✓"</span><span lang="es">Ahora configura la infraestructura de cascada para este proyecto.
+Usa el nombre del proyecto, stack y restricciones de SPEC.md.
+
+─────────────────────────────────────────────
+1. ESTRUCTURA DE CARPETAS
+─────────────────────────────────────────────
+Crea estos directorios (agrega .gitkeep a cada uno):
+  docs/specs/        archivos de spec a nivel de feature
+  docs/adrs/active/  decisiones de arquitectura abiertas
+  docs/adrs/done/    ADRs cerrados o supersedidos
+  docs/use-cases/    archivos de casos de uso UC-NNN detallados
+  docs/schemas/      esquemas de datos y diagramas ER
+  docs/decisions/    justificaciones de cambios solo-código
+  docs/edrs/         registros de decisión de ingeniería (cambios de spec)
+
+─────────────────────────────────────────────
+2. docs/manifest.yaml
+─────────────────────────────────────────────
+---
+project: "[nombre del proyecto]"
+version: "0.1.0"
+phase: [número de fase]
+stack:
+  language: [lenguaje]
+  framework: [framework]
+  database: [base de datos]
+  deployment: [despliegue]
+disciplines:
+  - solid
+  - tdd
+  - conventional-commits
+  - doc-first-cascade
+  - hexagonal-architecture
+  - adr-on-arch-change
+cascade-rules:
+  feat: debe tocar docs/specs/ o crear entrada en docs/edrs/ antes del código
+  fix: debe agregar test fallido antes del parche
+  refactor: debería tener entrada en docs/adrs/active/
+  docs: solo documentación — sin cambios a código de producción
+  chore: solo tooling y configuración
+ai-never:
+  [listar cada item de la sección Restricciones de SPEC.md]
+
+─────────────────────────────────────────────
+3. .git/hooks/commit-msg  (Conventional Commits)
+─────────────────────────────────────────────
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: El mensaje de commit debe seguir Conventional Commits."
+  echo "  Formato:  tipo(scope): descripción"
+  echo "  Tipos:    feat fix chore refactor test docs style ci perf"
+  echo "  Ejemplo:  feat(auth): agregar endpoint de refresh de JWT"
+  exit 1
+fi
+
+─────────────────────────────────────────────
+4. .git/hooks/pre-commit  (verificación de cascada)
+─────────────────────────────────────────────
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  Código cambió sin actualización de docs."
+    echo "   Opción A: actualiza o crea un archivo en docs/ en este commit."
+    echo "   Opción B: crea docs/decisions/${today}-[motivo].md"
+    echo "             (un párrafo explicando por qué no se necesita actualización de docs)."
+    exit 1
+  fi
+fi
+
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+─────────────────────────────────────────────
+5. .github/workflows/ci.yml
+─────────────────────────────────────────────
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar
+        run: [comando de instalación para este stack]
+      - name: Lint
+        run: [comando de lint]
+      - name: Tests
+        run: [comando de tests]
+      - name: Cobertura
+        run: [verificación de cobertura — fallar por debajo de 80%]
+
+─────────────────────────────────────────────
+Al terminar, confirmar:
+"Infraestructura de cascada lista.
+ estructura docs/ ✓  manifest.yaml ✓
+ hook commit-msg ✓  pre-commit cascada ✓  CI workflow ✓"</span></div>
+      </div>
+    </div>
+
+    <div class="pattern-note">
+      <span lang="en"><strong>The cascade check hook</strong> does not block all code-only commits — it requires a one-paragraph decision note in <code>docs/decisions/</code> explaining why the change doesn't need a doc update. This leaves a trace without blocking emergency patches.</span>
+      <span lang="es"><strong>El hook de verificación de cascada</strong> no bloquea todos los commits solo-código — requiere una nota de decisión de un párrafo en <code>docs/decisions/</code> explicando por qué el cambio no necesita una actualización de docs. Esto deja rastro sin bloquear parches de emergencia.</span>
+    </div>
+
+    <h2>
+      <span lang="en">Step 04 — First Session</span>
+      <span lang="es">Paso 04 — Primera Sesión</span>
     </h2>
     <div class="h2-sub">
       <span lang="en">Open a new session — the spec is the mold</span>
@@ -793,7 +1046,7 @@ has leído los tres antes de comenzar a trabajar. Pregúntame en qué trabajar p
     </div>
 
     <div class="step">
-      <div class="step-num">03</div>
+      <div class="step-num">04</div>
       <div class="step-text">
         <span lang="en"><strong>Your specification is your mold.</strong> Open a new AI session, paste: "Read SPEC.md, then CLAUDE.md, then STATUS.md. Confirm you have read all three before beginning." The AI derives the implementation. You review intent, not code.</span>
         <span lang="es"><strong>Tu especificación es tu molde.</strong> Abre una sesión nueva de IA, pega: "Lee SPEC.md, luego CLAUDE.md, luego STATUS.md. Confirma que leíste los tres antes de comenzar." La IA deriva la implementación. Tú revisas intención, no código.</span>
@@ -805,7 +1058,12 @@ has leído los tres antes de comenzar a trabajar. Pregúntame en qué trabajar p
       <span lang="es"><strong>Cada sesión sigue el mismo punto de entrada:</strong> leer SPEC.md → leer CLAUDE.md → leer STATUS.md → confirmar → comenzar trabajo. La constitución arquitectónica le dice a la IA qué nunca debe hacer. STATUS.md le dice dónde quedó el trabajo. La spec le dice qué construir. Nunca tienes que re-explicar el proyecto desde cero.</span>
     </div>
 
-    <div class="path-picker" style="margin-top: 48px;">
+    <div class="forge-pagination">
+      <span class="fp-prev">Stage 2 / 6</span>
+      <a href="/try#greenfield" class="fp-next-btn">Temple: Build from the Mold → / Temple: Construye desde el Molde →</a>
+    </div>
+
+    <div class="path-picker" style="margin-top: 32px;">
       <a href="/try">
         <div class="label">
           <span lang="en">Cookbook</span>

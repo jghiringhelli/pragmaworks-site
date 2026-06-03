@@ -28,6 +28,8 @@
     '        <a href="/properties" class="pw-nav-item">7 Properties</a>',
     '        <a href="/diseases" class="pw-nav-item">7 Disease Cards</a>',
     '        <a href="/sentinel" class="pw-nav-item">Sentinel Tree</a>',
+    '        <a href="/revenido" class="pw-nav-item"><span lang="en">Structural Disciplines</span><span lang="es">Disciplinas Estructurales</span></a>',
+    '        <a href="/harden" class="pw-nav-item"><span lang="en">Tier 2: Staging</span><span lang="es">Tier 2: Staging</span></a>',
     '      </div>',
     '    </div>',
 
@@ -100,7 +102,7 @@
   // Path → section key
   var SECTIONS = {
     '/try': 'try', '/audit': 'try', '/cookbook': 'try', '/start': 'try',
-    '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference', '/sentinel': 'reference',
+    '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference', '/sentinel': 'reference', '/revenido': 'reference', '/harden': 'reference',
     '/teams': 'workshops', '/leaders': 'workshops',
     '/manifesto': 'writing',
     '/diagnose': 'tools', '/diagnostico': 'tools'

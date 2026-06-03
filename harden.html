@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Endurecido — Tier 2: Staging &amp; NFR · PragmaWorks" data-es="Endurecido — Tier 2: Staging y NFR · PragmaWorks">Endurecido — Tier 2: Staging &amp; NFR · PragmaWorks</title>
+<meta name="description"
+  data-en="Tier 2: deployment-as-spec, staging harness with NFR gates, smoke tests, and CD pipeline — every pre-production build verified against the specification."
+  data-es="Tier 2: deployment-as-spec, harness de staging con gates de NFR, smoke tests y pipeline de CD — cada build pre-producción verificado contra la especificación."
+  content="Tier 2: deployment-as-spec, staging harness with NFR gates, smoke tests, and CD pipeline — every pre-production build verified against the specification.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 32px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    nav { padding: 0.75rem 1.2rem; }
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+
+  /* Forge progress bar */
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<!-- Forge progress bar — Stage 5 Endurecido -->
+<div class="forge-progress"><div class="forge-progress-inner">
+  <span class="fp-stage fp-done">Calentamiento</span><span class="fp-arrow">›</span>
+  <a href="/sentinel" class="fp-stage fp-done">Moldeado</a><span class="fp-arrow">›</span>
+  <a href="/try#greenfield" class="fp-stage fp-done">Temple</a><span class="fp-arrow">›</span>
+  <a href="/revenido" class="fp-stage fp-done">Revenido</a><span class="fp-arrow">›</span>
+  <span class="fp-stage fp-active">Endurecido</span><span class="fp-arrow">›</span>
+  <a href="/try#brownfield" class="fp-stage fp-next">Recocido</a>
+</div></div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Stage 5 · Endurecido · Tier 2: Staging</span>
+    <span lang="es">Etapa 5 · Endurecido · Tier 2: Staging</span>
+  </div>
+
+  <h1>
+    <span lang="en">The Surface Resists. The Core Stays Tough.</span>
+    <span lang="es">La Superficie Resiste. El Núcleo Se Mantiene Tenaz.</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">Tier 2 is where the spec governs deployment, not just code. Every pre-production build is verified against NFRs, smoke tests, and the full test pyramid. The harness doesn't just check what the AI generated — it checks that what it generated can survive production load.</span>
+    <span lang="es">El Tier 2 es donde el spec gobierna el despliegue, no solo el código. Cada build pre-producción se verifica contra NFRs, smoke tests y la pirámide de pruebas completa. El harness no solo verifica lo que generó el AI — verifica que lo que generó puede sobrevivir la carga de producción.</span>
+  </p>
+
+  <h2>
+    <span lang="en">Three Areas of the Tier 2 Harness</span>
+    <span lang="es">Tres Áreas del Harness de Tier 2</span>
+  </h2>
+
+  <h3>
+    <span lang="en">NFR Gates</span>
+    <span lang="es">Gates de NFR</span>
+  </h3>
+
+  <p>
+    <span lang="en">Every Non-Functional Requirement from SPEC.md becomes a gate in the staging pipeline. Not a guideline — a gate. If P-001 says the endpoint responds in under 200ms at 100 concurrent users, the pipeline fails if it doesn't. Spec-first means NFRs are defined before deployment, not measured after.</span>
+    <span lang="es">Cada Requerimiento No Funcional de SPEC.md se convierte en un gate en el pipeline de staging. No una guía — un gate. Si P-001 dice que el endpoint responde en menos de 200ms con 100 usuarios concurrentes, el pipeline falla si no lo hace. Spec-first significa que los NFRs se definen antes del despliegue, no se miden después.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — NFR gate verification</span><span lang="es">Pega esto — verificación de gates NFR</span></span><span lang="en">Read SPEC.md section Non-Functional Requirements. For each NFR:
+1. Write a staging test that verifies it at the boundary condition (exactly the specified threshold).
+2. Name the test: nfr-[id]-[short-description].test.ts (e.g., nfr-p001-response-latency.test.ts)
+3. The test must FAIL if the NFR is not met — not warn, not log.
+4. Add each test to the CI workflow under a 'nfr' job that runs on staging only.
+
+After writing all NFR tests, print a coverage table:
+| NFR ID | Threshold | Test file | Status |</span><span lang="es">Lee la sección Requerimientos No Funcionales de SPEC.md. Para cada NFR:
+1. Escribe un test de staging que lo verifique en la condición límite (exactamente el umbral especificado).
+2. Nombra el test: nfr-[id]-[descripción-corta].test.ts (ej., nfr-p001-latencia-respuesta.test.ts)
+3. El test debe FALLAR si el NFR no se cumple — no advertir, no loguear.
+4. Agrega cada test al workflow de CI bajo un job 'nfr' que solo corre en staging.
+
+Al terminar los tests NFR, imprime una tabla de cobertura:
+| ID NFR | Umbral | Archivo de test | Estado |</span></div>
+
+  <h3>
+    <span lang="en">CD Pipeline as Spec</span>
+    <span lang="es">Pipeline de CD como Spec</span>
+  </h3>
+
+  <p>
+    <span lang="en">The deployment pipeline is a derived artifact of SPEC.md, not a standalone script. Deployment targets, environment variables, health check endpoints, rollback triggers — all are named in the spec first, then wired into the pipeline. If SPEC.md changes a deployment target, the pipeline changes.</span>
+    <span lang="es">El pipeline de despliegue es un artefacto derivado de SPEC.md, no un script independiente. Destinos de despliegue, variables de entorno, endpoints de health check, triggers de rollback — todos se nombran en el spec primero, luego se conectan al pipeline. Si SPEC.md cambia un destino de despliegue, el pipeline cambia.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — CD pipeline generation</span><span lang="es">Pega esto — generación de pipeline de CD</span></span><span lang="en">Read SPEC.md sections Tech Stack and Non-Functional Requirements.
+Generate a CD pipeline configuration (.github/workflows/deploy.yml or equivalent) that:
+1. Runs the full test suite (unit + integration + e2e)
+2. Runs all NFR gate tests
+3. Deploys to the staging environment named in SPEC.md Tech Stack
+4. Runs smoke tests post-deploy against every F-NNN feature in scope
+5. Rolls back automatically if any smoke test fails
+6. Never deploys to production — staging only at this tier
+
+Name each workflow step after the SPEC.md artifact it verifies.</span><span lang="es">Lee las secciones Stack Tecnológico y Requerimientos No Funcionales de SPEC.md.
+Genera una configuración de pipeline de CD (.github/workflows/deploy.yml o equivalente) que:
+1. Corra la suite de tests completa (unit + integration + e2e)
+2. Corra todos los tests de gates NFR
+3. Despliegue al ambiente de staging nombrado en Stack Tecnológico de SPEC.md
+4. Corra smoke tests post-despliegue contra cada feature F-NNN en alcance
+5. Haga rollback automáticamente si algún smoke test falla
+6. Nunca despliegue a producción — solo staging en este tier
+
+Nombra cada step del workflow con el artefacto de SPEC.md que verifica.</span></div>
+
+  <h3>
+    <span lang="en">Test Pyramid Completion</span>
+    <span lang="es">Completar la Pirámide de Pruebas</span>
+  </h3>
+
+  <p>
+    <span lang="en">By the end of Tier 1, you have unit and integration tests from the harness. Tier 2 completes the pyramid: E2E tests that drive the running application through every use case in SPEC.md. Not happy-path only — error paths, boundary conditions, concurrent access patterns.</span>
+    <span lang="es">Al final del Tier 1, tienes tests unitarios y de integración del harness. El Tier 2 completa la pirámide: tests E2E que conducen la aplicación en ejecución a través de cada caso de uso en SPEC.md. No solo happy-path — paths de error, condiciones límite, patrones de acceso concurrente.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — E2E test completion</span><span lang="es">Pega esto — completar tests E2E</span></span><span lang="en">Read SPEC.md Functional Features. For each F-NNN feature:
+1. Write an E2E test that drives the full user flow (actor → precondition → steps → postcondition).
+2. Write an error-path test for each acceptance criterion that can fail.
+3. Use Playwright (or the project's E2E framework) — browser-driven, real network, real database.
+4. Each test file: e2e/[feature-id]-[feature-name].spec.ts
+5. Add a screenshot assertion at the postcondition step.
+
+After all E2E tests exist, run the full suite and report:
+- Unit / Integration / E2E counts
+- Coverage percentage
+- Any acceptance criterion with no corresponding test (flag as gap)</span><span lang="es">Lee Funcionalidades de SPEC.md. Para cada feature F-NNN:
+1. Escribe un test E2E que conduzca el flujo completo del usuario (actor → precondición → pasos → postcondición).
+2. Escribe un test de path de error para cada criterio de aceptación que pueda fallar.
+3. Usa Playwright (o el framework E2E del proyecto) — browser-driven, red real, base de datos real.
+4. Cada archivo de test: e2e/[id-feature]-[nombre-feature].spec.ts
+5. Agrega una aserción de screenshot en el paso de postcondición.
+
+Cuando existan todos los tests E2E, corre la suite completa y reporta:
+- Conteos Unit / Integration / E2E
+- Porcentaje de cobertura
+- Cualquier criterio de aceptación sin test correspondiente (marcar como gap)</span></div>
+
+  <h2>
+    <span lang="en">Large Codebases: The Strangler Fig</span>
+    <span lang="es">Codebases Grandes: La Higuera Estranguladora</span>
+  </h2>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>For large brownfield systems,</strong> don't apply Tier 2 to the whole codebase at once. Identify the seam — the boundary where new GS-disciplined code will grow. Apply NFR gates and CD pipeline to the new module only. Route a percentage of traffic to it. The old code degrades gracefully as the new module grows. This is the Strangler Fig pattern applied to GS adoption: the new system strangles the old one without a big-bang rewrite.</span>
+    <span lang="es"><strong>Para sistemas brownfield grandes,</strong> no apliques Tier 2 a toda la codebase de una vez. Identifica la costura — el límite donde crecerá el nuevo código bajo disciplina GS. Aplica gates NFR y pipeline de CD solo al nuevo módulo. Ruteá un porcentaje del tráfico hacia él. El código viejo degrada graciosamente mientras crece el nuevo módulo. Este es el patrón Strangler Fig aplicado a la adopción de GS: el nuevo sistema estrangula al viejo sin una reescritura big-bang.</span>
+  </div>
+
+  <div class="forge-pagination">
+    <a href="/revenido" class="fp-prev">← Revenido: Structural Disciplines</a>
+    <a href="/try#brownfield" class="fp-next-btn">Recocido: Brownfield Audit →</a>
+  </div>
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit Report</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

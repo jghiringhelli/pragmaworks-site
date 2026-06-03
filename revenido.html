@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Revenido — Structural Disciplines · PragmaWorks"
+  data-es="Revenido — Disciplinas Estructurales · PragmaWorks"
+>Revenido — Structural Disciplines · PragmaWorks</title>
+<meta name="description"
+  data-en="Why structural disciplines (SOLID, TDD, hexagonal, ADRs) give AI readers a mechanical advantage — not just aesthetic benefits."
+  data-es="Por qué las disciplinas estructurales (SOLID, TDD, hexagonal, ADRs) dan una ventaja mecánica a los lectores de IA — no solo beneficios estéticos."
+  content="Why structural disciplines (SOLID, TDD, hexagonal, ADRs) give AI readers a mechanical advantage — not just aesthetic benefits.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  /* ── Forge progress bar ── */
+  .forge-progress {
+    background: var(--forge-dark);
+    border-bottom: 1px solid rgba(196,75,26,0.18);
+  }
+  .forge-progress-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 9px 32px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .fp-stage {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #48484A;
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  .forge-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid #D1D1D6;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .fp-prev, .fp-next-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+  .fp-prev { color: #8E8E93; }
+  .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; }
+  .fp-next-btn:hover { color: #E8652E; }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--forge-dark);
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--ember); }
+
+  /* ── Typography ── */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 40px;
+    line-height: 1.55;
+  }
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+    scroll-margin-top: 24px;
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 20px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  /* ── Table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 8px 0 24px;
+    line-height: 1.45;
+  }
+
+  thead tr { background: var(--forge-dark); color: var(--parchment); }
+
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  tbody tr { border-bottom: 1px solid var(--ash); }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,0.55); }
+  tbody tr:hover { background: #fff; }
+
+  tbody td {
+    padding: 12px 14px;
+    color: var(--steel);
+    vertical-align: top;
+  }
+
+  .discipline-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--forge-dark);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(196,75,26,0.08);
+    color: var(--ember);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Pattern note / callout ── */
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .callout {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 24px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .callout strong { color: var(--molten); }
+
+  /* ── Path picker ── */
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 8px 10px; }
+    nav { padding: 0.75rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<!-- ── Forge progress bar — Stage 4 Revenido ── -->
+<div class="forge-progress"><div class="forge-progress-inner">
+  <span class="fp-stage fp-done">Calentamiento</span><span class="fp-arrow">›</span>
+  <a href="/sentinel" class="fp-stage fp-done">Moldeado</a><span class="fp-arrow">›</span>
+  <a href="/try#greenfield" class="fp-stage fp-done">Temple</a><span class="fp-arrow">›</span>
+  <span class="fp-stage fp-active">Revenido</span><span class="fp-arrow">›</span>
+  <a href="/harden" class="fp-stage fp-next">Endurecido</a><span class="fp-arrow">›</span>
+  <a href="/try#brownfield" class="fp-stage">Recocido</a>
+</div></div>
+
+<div class="container">
+
+  <!-- ── Header ── -->
+  <div class="eyebrow">
+    <span lang="en">Stage 4 · Revenido · Structural Disciplines</span>
+    <span lang="es">Etapa 4 · Revenido · Disciplinas Estructurales</span>
+  </div>
+
+  <h1>
+    <span lang="en">The Disciplines That Help the AI the Same Way They Help You</span>
+    <span lang="es">Las Disciplinas que Ayudan a la IA de la Misma Forma que a Ti</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">SOLID, hexagonal architecture, TDD, ADRs, intentional naming — these existed for 30 years and were never fully adopted because humans couldn't sustain them under pressure. The AI reader that benefits from them is also the executor that enforces them. The friction of adoption disappeared. The benefit doubled.</span>
+    <span lang="es">SOLID, arquitectura hexagonal, TDD, ADRs, naming intencional — estas existieron 30 años y nunca se adoptaron completamente porque los humanos no las podían sostener bajo presión. El lector de IA que se beneficia de ellas es también el ejecutor que las hace cumplir. La fricción de adopción desapareció. El beneficio se duplicó.</span>
+  </p>
+
+  <!-- ── Section 1: The Mechanical Advantage ── -->
+  <h2>
+    <span lang="en">The Mechanical Advantage</span>
+    <span lang="es">La Ventaja Mecánica</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Why each discipline helps the AI reader, specifically</span>
+    <span lang="es">Por qué cada disciplina ayuda al lector IA, específicamente</span>
+  </div>
+
+  <p>
+    <span lang="en">These disciplines were invented to make intent legible to the next human reader. An AI reader has the same problem: it arrives knowing nothing about what you meant. The disciplines reduce the token cost of understanding, eliminate traversals, and make the AI's first search deterministic.</span>
+    <span lang="es">Estas disciplinas fueron inventadas para hacer la intención legible para el siguiente lector humano. Un lector IA tiene el mismo problema: llega sin saber nada de lo que quisiste decir. Las disciplinas reducen el costo en tokens de entender, eliminan traversals, y hacen que la primera búsqueda del AI sea determinista.</span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="discipline-name">SOLID — interfaces + DI</span>
+        </td>
+        <td>
+          <span lang="en">AI reads the contract (N lines), not the implementation (N×10). Hallucinations about private state = structurally impossible.</span>
+          <span lang="es">El AI lee el contrato (N líneas), no la implementación (N×10). Alucinaciones sobre estado privado = imposibles.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Single Responsibility</span>
+            <span lang="es">Responsabilidad Única</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">AI acts on the class without exploring the call graph. The class is its own complete spec.</span>
+          <span lang="es">El AI actúa sobre la clase sin explorar el call graph. La clase es su propia spec completa.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Hexagonal + consistent structure</span>
+            <span lang="es">Hexagonal + estructura consistente</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en"><code>controllers/</code> always has controllers. First search hits. No discovery traversals.</span>
+          <span lang="es"><code>controllers/</code> siempre tiene controllers. La primera búsqueda acierta. Sin traversals de descubrimiento.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">DDD — ubiquitous language</span>
+            <span lang="es">DDD — lenguaje ubicuo</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Names in code map to the AI's training data about the same domain. Higher generation quality.</span>
+          <span lang="es">Nombres en código mapean al training data del AI sobre el mismo dominio. Calidad de generación más alta.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">Conventional Commits</span>
+        </td>
+        <td>
+          <span lang="en">Git log is queryable by type and scope. Cascade triggers fire from parseable types.</span>
+          <span lang="es">El git log es consultable por tipo y scope. Cascade triggers se activan desde tipos parseables.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">TDD — tests as spec</span>
+            <span lang="es">TDD — tests como spec</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Each test is a behavioral declaration the AI reads before the implementation.</span>
+          <span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">ADRs</span>
+        </td>
+        <td>
+          <span lang="en">AI reads the <em>why</em> behind decisions. Can't "optimize" intentional tradeoffs that look suboptimal without context.</span>
+          <span lang="es">El AI lee el <em>por qué</em> de las decisiones. No puede "optimizar" tradeoffs intencionales que parecen subóptimos.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Doc-first cascade</span>
+            <span lang="es">Cascada doc-first</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">AI receives intent before implementation. Generating from spec is execution; from code without spec is reverse engineering.</span>
+          <span lang="es">El AI recibe la intención antes que la implementación. Generar desde spec es ejecución; desde código sin spec es ingeniería inversa.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Intentional naming</span>
+            <span lang="es">Naming intencional</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en"><code>calculateMonthlyCost(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, error contract, all in the signature. Zero implementation reading.</span>
+          <span lang="es"><code>calculateMonthlyCost(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output, contrato de error, todo en la firma. Cero lectura de implementación.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Section 2: The 30-Year Argument ── -->
+  <h2>
+    <span lang="en">The 30-Year Argument</span>
+    <span lang="es">El Argumento de los 30 Años</span>
+  </h2>
+
+  <p>
+    <span lang="en">These disciplines existed for 30 years and were never fully adopted. Not because they were wrong. Because humans couldn't sustain them under pressure. The sprint ends, the deadline moves, the senior engineer leaves, and the architecture degrades toward what's fastest to write, not what's clearest to read.</span>
+    <span lang="es">Estas disciplinas existieron 30 años y nunca se adoptaron completamente. No porque estuvieran equivocadas. Porque los humanos no las podían sostener bajo presión. El sprint termina, el deadline se mueve, el ingeniero senior se va, y la arquitectura degrada hacia lo más rápido de escribir, no lo más claro de leer.</span>
+  </p>
+
+  <p>
+    <span lang="en">The AI reader that benefits from these disciplines is also the AI executor that enforces them. SOLID isn't a style preference anymore — it's a constraint the AI applies on every file it touches. TDD isn't a discipline that requires willpower — it's the entry condition for every fix. The friction disappeared. The benefit compounded.</span>
+    <span lang="es">El lector de IA que se beneficia de estas disciplinas es también el ejecutor de IA que las hace cumplir. SOLID ya no es una preferencia de estilo — es una restricción que el AI aplica en cada archivo que toca. TDD ya no es una disciplina que requiere fuerza de voluntad — es la condición de entrada para cada fix. La fricción desapareció. El beneficio se compuso.</span>
+  </p>
+
+  <div class="callout">
+    <span lang="en"><strong>The insight:</strong> The same entity that needs readable code is the entity that writes it. The reader and the enforcer are one. For the first time, a discipline that benefits future readers has an executor with no memory of the pressure that caused the last violation.</span>
+    <span lang="es"><strong>La idea:</strong> La misma entidad que necesita código legible es la que lo escribe. El lector y el ejecutor son uno. Por primera vez, una disciplina que beneficia a futuros lectores tiene un ejecutor sin memoria de la presión que causó la última violación.</span>
+  </div>
+
+  <!-- ── Section 3: Enforce It ── -->
+  <h2>
+    <span lang="en">Enforce It</span>
+    <span lang="es">Hacerlo Cumplir</span>
+  </h2>
+
+  <p>
+    <span lang="en">The structural disciplines are enforced by the harness, not by willpower. The sentinel tree (CLAUDE.md) names the standards. The manifest enforces them. The pre-commit hooks reject violations before they land.</span>
+    <span lang="es">Las disciplinas estructurales las hace cumplir el harness, no la fuerza de voluntad. El árbol sentinel (CLAUDE.md) nombra los estándares. El manifest los hace cumplir. Los pre-commit hooks rechazan violaciones antes de que lleguen.</span>
+  </p>
+
+  <div class="path-picker">
+    <a href="/sentinel">
+      <div class="label">
+        <span lang="en">Stage 2 · Moldeado</span>
+        <span lang="es">Etapa 2 · Moldeado</span>
+      </div>
+      <div class="name">
+        <span lang="en">Generate Your Sentinel →</span>
+        <span lang="es">Genera tu Sentinel →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">The spec and architectural constitution that names the disciplines.</span>
+        <span lang="es">El spec y la constitución arquitectónica que nombra las disciplinas.</span>
+      </div>
+    </a>
+    <a href="/try#greenfield">
+      <div class="label">
+        <span lang="en">Stage 3 · Temple</span>
+        <span lang="es">Etapa 3 · Temple</span>
+      </div>
+      <div class="name">
+        <span lang="en">Build from the Mold →</span>
+        <span lang="es">Construye desde el Molde →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">The harness that verifies the AI's output against the spec.</span>
+        <span lang="es">El harness que verifica el output del AI contra el spec.</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── Forge pagination ── -->
+  <div class="forge-pagination">
+    <a href="/try#greenfield" class="fp-prev">← Temple: Build from the Mold</a>
+    <a href="/harden" class="fp-next-btn">Endurecido: Tier 2 →</a>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
