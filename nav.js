@@ -27,9 +27,11 @@
     '      </button>',
     '      <div class="pw-nav-section-items">',
     '        <a href="/start" class="pw-nav-item">Get Started</a>',
-    '        <a href="/greenfield" class="pw-nav-item">Greenfield Guide</a>',
-    '        <a href="/brownfield" class="pw-nav-item">Brownfield Guide</a>',
-    '        <a href="/try" class="pw-nav-item">Developer Cookbook</a>',
+    '        <a href="/try" class="pw-nav-item">Cookbook (pick a path)</a>',
+    '        <a href="/greenfield" class="pw-nav-item">Path A · Greenfield</a>',
+    '        <a href="/brownfield" class="pw-nav-item">Path B · Brownfield</a>',
+    '        <a href="/onboarding" class="pw-nav-item">Path C · Onboarding</a>',
+    '        <a href="/migration" class="pw-nav-item">Path D · Migration</a>',
     '        <a href="/audit" class="pw-nav-item">GS Audit Report</a>',
     '        <a href="/cookbook" class="pw-nav-item">Recipe Cards</a>',
     '      </div>',
@@ -116,6 +118,7 @@
   // Path → section key
   var SECTIONS = {
     '/try': 'try', '/audit': 'try', '/cookbook': 'try', '/start': 'try',
+    '/onboarding': 'try', '/migration': 'try',
     '/heating': 'forge', '/mold': 'forge', '/temper': 'forge', '/harden': 'forge',
     '/greenfield': 'forge', '/brownfield': 'forge',
     '/forge': 'reference', '/properties': 'reference', '/diseases': 'reference',

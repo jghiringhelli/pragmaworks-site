@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Onboarding — Join an Existing Codebase · PragmaWorks"
+  data-es="Onboarding — Únete a una Codebase Existente · PragmaWorks"
+>Onboarding — Join an Existing Codebase · PragmaWorks</title>
+<meta name="description"
+  data-en="Read-only onboarding briefing for an inherited codebase: what it is, how it works, the conventions, what surprises new devs, and where to start. ~1 hour, no code changes."
+  data-es="Briefing de onboarding de solo lectura para una base de código heredada: qué es, cómo funciona, las convenciones, qué sorprende a los devs nuevos, y dónde empezar. ~1 hora, sin cambios de código."
+  content="Read-only onboarding briefing for an inherited codebase: what it is, how it works, the conventions, what surprises new devs, and where to start. ~1 hour, no code changes.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 40px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* Two-option pattern (tool vs pure-GS, equally prominent, both closed) */
+  details.path-option {
+    margin: 10px 0;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    background: #fff;
+  }
+  details.path-option > summary {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--steel);
+    list-style: none;
+    user-select: none;
+  }
+  details.path-option > summary::-webkit-details-marker { display: none; }
+  details.path-option > summary::before {
+    content: "▸ ";
+    color: var(--ember);
+    margin-right: 6px;
+    display: inline-block;
+    width: 12px;
+  }
+  details.path-option[open] > summary::before { content: "▾ "; }
+  details.path-option > summary:hover { color: var(--ember); }
+  details.path-option[open] > summary {
+    color: var(--forge-dark);
+    border-bottom: 1px solid var(--ash);
+  }
+  details.path-option > .option-body {
+    padding: 14px 18px 18px;
+    font-size: 15px;
+  }
+  details.path-option > .option-body > p:first-child { margin-top: 0; }
+  details.path-option > .option-body code {
+    background: transparent;
+    color: var(--iron);
+    padding: 0;
+    font-size: 13px;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .small-note {
+    font-size: 13px;
+    color: var(--smoke);
+    font-style: italic;
+    margin-top: 24px;
+    margin-bottom: 20px;
+  }
+
+  .small-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Path C · Onboarding · ~1 hour, read-only</span>
+    <span lang="es">Camino C · Onboarding · ~1 hora, solo lectura</span>
+  </div>
+
+  <h1>
+    <span lang="en">Join a Codebase</span>
+    <span lang="es">Únete a una Codebase</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">You inherited a codebase. Or you're returning after parental leave. Or you're a consultant taking over a system someone else built. You don't need a full audit yet — you need to know <strong>what the project is, how it works, and where to start.</strong></span>
+    <span lang="es">Heredaste una base de código. O estás regresando después de licencia parental. O eres consultor tomando un sistema que alguien más construyó. No necesitas una auditoría completa todavía — necesitas saber <strong>qué es el proyecto, cómo funciona, y dónde empezar.</strong></span>
+  </p>
+
+  <p class="lede" style="font-size:16px;">
+    <span lang="en">Onboarding is read-only — a briefing, not a remediation. ~1 hour, no code changes.</span>
+    <span lang="es">El onboarding es solo lectura — un briefing, no una remediación. ~1 hora, sin cambios de código.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+      <span lang="en"><strong>Open your AI assistant in the project root.</strong> Same options as paths A and B.</span>
+      <span lang="es"><strong>Abre tu asistente de IA en la raíz del proyecto.</strong> Mismas opciones que los caminos A y B.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+      <span lang="en"><strong>Ask for the onboarding briefing.</strong> Onboarding is read-only — it doesn't change code. Even so, it's safer to do exploration on a branch in case the AI ends up writing notes or memory files into the repo.</span>
+      <span lang="es"><strong>Pide el briefing de onboarding.</strong> El onboarding es solo lectura — no cambia código. Aun así, es más seguro hacer la exploración en una rama por si la IA termina escribiendo notas o archivos de memoria en el repo.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this, edit your role/level</span><span lang="es">Pega esto, edita tu rol/nivel</span></span><span lang="en">Use pragmaworks to onboard me to this project. Find pragmaworks on npm,
+install what you need, create a working branch first (don't touch main),
+and produce an onboarding briefing as markdown.
+
+My role: [frontend / backend / full-stack / data / devops]
+Experience level: [junior / mid / senior / staff]
+Module I'm starting on: [optional — leave blank if you don't know yet]
+
+The briefing should cover: what this project is in three sentences, the
+architecture in one diagram, the conventions I must respect, what's
+surprising about this codebase, 2-3 first-task suggestions sized for
+my role and experience, and a cheat sheet for getting set up.</span><span lang="es">Usa pragmaworks para hacer mi onboarding a este proyecto. Busca pragmaworks
+en npm, instala lo que necesites, crea una rama de trabajo primero (no
+toques main), y produce un briefing de onboarding como markdown.
+
+Mi rol: [frontend / backend / full-stack / data / devops]
+Nivel de experiencia: [junior / mid / senior / staff]
+Módulo donde empiezo: [opcional — déjalo en blanco si aún no sabes]
+
+El briefing debe cubrir: qué es este proyecto en tres oraciones, la
+arquitectura en un diagrama, las convenciones que debo respetar, qué
+es sorprendente de esta base de código, 2-3 sugerencias de primera tarea
+dimensionadas para mi rol y experiencia, y una cheat sheet para
+configurarme.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same output (markdown briefing), generated by walking the code conventionally. The discipline here is naming what the briefing must contain so two AI sessions land on the same shape:</span>
+      <span lang="es">El mismo output (briefing markdown), generado caminando el código convencionalmente. La disciplina aquí es nombrar qué debe contener el briefing para que dos sesiones de IA aterricen en la misma forma:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this, edit your role/level</span><span lang="es">Pega esto, edita tu rol/nivel</span></span><span lang="en">Onboard me to this project. Use git CLI to create a branch first
+(onboarding-YYYY-MM-DD); do not touch main. Then produce an onboarding
+briefing at reports/onboarding.md covering:
+
+  My role: [frontend / backend / full-stack / data / devops]
+  Experience level: [junior / mid / senior / staff]
+  Module I'm starting on: [optional]
+
+  1. WHAT — three sentences naming the project, its users, and the
+     business outcome it produces.
+  2. ARCHITECTURE — one ASCII or mermaid diagram showing the major
+     components and the data flow between them. Cite file:line for
+     each component.
+  3. CONVENTIONS — naming, file layout, error handling, logging
+     format, test style, commit-message style. Each one cited to a
+     representative file:line.
+  4. WHAT SURPRISES NEW DEVS — the 3-5 things in this codebase that
+     look idiomatic but aren't, or that look weird but are
+     load-bearing. Cite file:line.
+  5. FIRST TASKS — 2-3 concrete suggestions sized to my role and
+     level. For each: the files involved, what to read first, rough
+     effort estimate.
+  6. CHEAT SHEET — environment setup commands, where to find what,
+     useful greps. Concrete enough to act on without rereading
+     this document.
+
+Cite files and lines liberally. The briefing should be reproducible
+by anyone who can read the code; that's the test.</span><span lang="es">Hazme onboarding a este proyecto. Usa git CLI para crear una rama
+primero (onboarding-YYYY-MM-DD); no toques main. Después produce un
+briefing de onboarding en reports/onboarding.md cubriendo:
+
+  Mi rol: [frontend / backend / full-stack / data / devops]
+  Nivel de experiencia: [junior / mid / senior / staff]
+  Módulo donde empiezo: [opcional]
+
+  1. QUÉ — tres oraciones nombrando el proyecto, sus usuarios, y el
+     outcome de negocio que produce.
+  2. ARQUITECTURA — un diagrama ASCII o mermaid mostrando los
+     componentes mayores y el flujo de datos entre ellos. Cita
+     file:line para cada componente.
+  3. CONVENCIONES — naming, layout de archivos, manejo de errores,
+     formato de logging, estilo de pruebas, estilo de mensaje de
+     commit. Cada una citada a un file:line representativo.
+  4. QUÉ SORPRENDE A DEVS NUEVOS — las 3-5 cosas en esta base de
+     código que se ven idiomáticas pero no lo son, o que se ven
+     raras pero son críticas. Cita file:line.
+  5. PRIMERAS TAREAS — 2-3 sugerencias concretas dimensionadas a
+     mi rol y nivel. Para cada una: archivos involucrados, qué
+     leer primero, estimación rough de esfuerzo.
+  6. CHEAT SHEET — comandos de setup de entorno, dónde encontrar
+     qué, greps útiles. Concreto al punto de poder actuar sin
+     re-leer este documento.
+
+Cita archivos y líneas liberalmente. El briefing debe ser reproducible
+por cualquiera que pueda leer el código; esa es la prueba.</span></div>
+  </div>
+</details>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+      <span lang="en"><strong>Read the briefing.</strong> Markdown file, 4-8 pages. Designed to be read in 20-30 minutes. Architecture diagram, conventions, what surprises new devs, where to start. Cite the files and lines that support each claim — you can verify by reading.</span>
+      <span lang="es"><strong>Lee el briefing.</strong> Archivo markdown, 4-8 páginas. Diseñado para leerse en 20-30 minutos. Diagrama de arquitectura, convenciones, qué sorprende a devs nuevos, dónde empezar. Cita los archivos y líneas que soportan cada afirmación — puedes verificar leyendo.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-text">
+      <span lang="en"><strong>Pick a first task.</strong> The briefing ends with 2-3 concrete options sized to your role. Pick one. Start.</span>
+      <span lang="es"><strong>Escoge una primera tarea.</strong> El briefing termina con 2-3 opciones concretas dimensionadas a tu rol. Escoge una. Empieza.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">05</div>
+    <div class="step-text">
+      <span lang="en"><strong>Optional — for takeover engagements: include team-habit analysis.</strong> If you're a consultant or freelancer adopting a codebase from another team, you want to know who to trust on which areas and where the recent fires were.</span>
+      <span lang="es"><strong>Opcional — para engagements de takeover: incluye el análisis de hábitos del equipo.</strong> Si eres consultor o freelancer adoptando una base de código de otro equipo, quieres saber en quién confiar en qué áreas y dónde estuvieron los incendios recientes.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Include team-habit analysis in the briefing. Last 90 days of commit
+history: PR review density, regression coverage, AI-bug rate, who's
+been touching what.</span><span lang="es">Incluye el análisis de hábitos del equipo en el briefing. Últimos 90
+días de historial de commits: densidad de revisión de PRs, cobertura de
+regresión, tasa de bugs de IA, quién ha estado tocando qué.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same signals from <code>git log</code> directly. Same prompt as Path B step 7 — see there for the full version.</span>
+      <span lang="es">Las mismas señales desde <code>git log</code> directamente. El mismo prompt que el paso 7 del Camino B — ver ahí la versión completa.</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Append a team-habit section to the onboarding briefing. Compute from
+git log of the last 90 days: PR review density per author, regression
+test coverage of fix: commits, AI-introduced bug rate (detect AI
+co-authorship signals, correlate with subsequent fix: commits within
+14 days), commit-size distribution, collaboration adjacency table.
+For each metric, one-line interpretation pitched at "who do I trust
+on what" decisions. Cite the git log queries used.</span><span lang="es">Agrega una sección de hábitos del equipo al briefing de onboarding.
+Computa desde git log de los últimos 90 días: densidad de revisión de
+PRs por autor, cobertura de regresión de commits fix:, tasa de bugs
+introducidos por IA (detecta señales de co-autoría de IA, correlaciona
+con commits fix: posteriores dentro de 14 días), distribución de tamaño
+de commits, tabla de adyacencia de colaboración. Para cada métrica,
+interpretación de una línea pitched a decisiones de "en quién confío
+para qué". Cita las queries git log usadas.</span></div>
+  </div>
+</details>
+    </div>
+  </div>
+
+  <p class="small-note">
+    <span lang="en">Onboarding mode is <strong>read-only</strong>. It does not propose code changes. If you also want a remediation analysis (what's wrong with this project, what to fix), run <a href="/brownfield">Path B / Anneal</a> separately.</span>
+    <span lang="es">El modo onboarding es <strong>solo-lectura</strong>. No propone cambios de código. Si también quieres un análisis de remediación (qué está mal con este proyecto, qué arreglar), corre el <a href="/brownfield">Camino B / Recocer</a> por separado.</span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PATH PICKER                                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="path-picker" style="margin-top: 56px;">
+    <a href="/greenfield">
+      <div class="label">
+        <span lang="en">Path A · New Project</span>
+        <span lang="es">Camino A · Proyecto Nuevo</span>
+      </div>
+      <div class="name">
+        <span lang="en">Greenfield: Start from Scratch →</span>
+        <span lang="es">Greenfield: Empieza desde Cero →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Spec → cascade → sentinel → harness → build, full lifecycle</span>
+        <span lang="es">Spec → cascada → sentinel → harness → construir, ciclo completo</span>
+      </div>
+    </a>
+    <a href="/brownfield">
+      <div class="label">
+        <span lang="en">Path B · Existing Project</span>
+        <span lang="es">Camino B · Proyecto Existente</span>
+      </div>
+      <div class="name">
+        <span lang="en">Anneal: Existing Project →</span>
+        <span lang="es">Recocer: Proyecto Existente →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Audit → spec from code → sentinel → harness → remediation</span>
+        <span lang="es">Auditoría → spec desde código → sentinel → harness → remediación</span>
+      </div>
+    </a>
+    <a href="/diagnose">
+      <div class="label">
+        <span lang="en">Diagnose</span>
+        <span lang="es">Diagnóstico</span>
+      </div>
+      <div class="name">
+        <span lang="en">Diagnose →</span>
+        <span lang="es">Diagnóstico →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Score an existing codebase on all 7 GS properties</span>
+        <span lang="es">Puntúa una base de código existente en las 7 propiedades GS</span>
+      </div>
+    </a>
+    <a href="/try">
+      <div class="label">
+        <span lang="en">Cookbook Hub</span>
+        <span lang="es">Hub del Recetario</span>
+      </div>
+      <div class="name">
+        <span lang="en">Back to the Cookbook →</span>
+        <span lang="es">Volver al Recetario →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">All paths and recipes in one place</span>
+        <span lang="es">Todos los caminos y recetas en un solo lugar</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Migration — Move to a New Stack · PragmaWorks"
+  data-es="Migración — Muévete a un Nuevo Stack · PragmaWorks"
+>Migration — Move to a New Stack · PragmaWorks</title>
+<meta name="description"
+  data-en="Guided three-stage migration: audit the source, refine through a structured conversation, bootstrap the target under GS discipline. Cross-stack moves done well."
+  data-es="Migración guiada de tres etapas: audita el origen, refina a través de una conversación estructurada, arranca el destino bajo disciplina GS. Moves entre stacks hechos bien."
+  content="Guided three-stage migration: audit the source, refine through a structured conversation, bootstrap the target under GS discipline. Cross-stack moves done well.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 40px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .small-note {
+    margin: 24px 0 0;
+    font-size: 14px;
+    color: var(--smoke);
+    line-height: 1.6;
+  }
+
+  .small-note code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--parchment2);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Path option (tool vs pure-GS variants) ── */
+  details.path-option {
+    margin: 12px 0 0;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  details.path-option summary {
+    cursor: pointer;
+    padding: 11px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+    background: var(--parchment2);
+    list-style: none;
+    user-select: none;
+  }
+
+  details.path-option summary::-webkit-details-marker { display: none; }
+
+  details.path-option summary::before {
+    content: "▸ ";
+    color: var(--smoke);
+  }
+
+  details.path-option[open] summary::before { content: "▾ "; }
+
+  details.path-option .option-body {
+    padding: 14px 16px 4px;
+  }
+
+  details.path-option .option-body p {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .at-the-end {
+    margin: 20px 0 0;
+    padding: 18px 22px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+  }
+
+  .at-the-end h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+  }
+
+  .at-the-end ul {
+    margin: 0 0 0 20px;
+    font-size: 15px;
+  }
+
+  .at-the-end li { margin-bottom: 8px; }
+
+  .at-the-end li strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+    font-weight: 700;
+  }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Path D · Migration · ~3-5 hours</span>
+    <span lang="es">Camino D · Migración · ~3-5 horas</span>
+  </div>
+
+  <h1>
+    <span lang="en">Migrate to a New Stack</span>
+    <span lang="es">Migra a un Nuevo Stack</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">You're moving an existing system to a new stack, platform, or modernized architecture. Done naively, you reproduce every wart. Done well, you drop unused features, modernize, add NFRs that were missing. This path is the guided version — a three-stage flow: <strong>audit the source</strong>, <strong>refine through a structured conversation</strong>, <strong>bootstrap the target</strong>.</span>
+    <span lang="es">Estás moviendo un sistema existente a un nuevo stack, plataforma, o arquitectura modernizada. Hecho ingenuamente, reproduces cada verruga. Hecho bien, descartas features no usadas, modernizas, agregas NFRs que faltaban. Este camino es la versión guiada — un flujo de tres etapas: <strong>auditar el origen</strong>, <strong>refinar a través de una conversación estructurada</strong>, <strong>arrancar el destino</strong>.</span>
+  </p>
+
+  <p>
+    <span lang="en"><em>(For in-place dependency or framework-version upgrades — same repo, same architecture, just newer versions — use Path B's audit + remediation flow instead. This path is for cross-stack moves where the target is a separate codebase.)</em></span>
+    <span lang="es"><em>(Para upgrades in-place de dependencias o versión de framework — mismo repo, misma arquitectura, solo versiones más nuevas — usa el flujo de auditoría + remediación del Camino B. Este camino es para moves entre stacks donde el destino es una base de código separada.)</em></span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- THE MIGRATION FLOW                                          -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">The Migration Flow</span>
+    <span lang="es">El Flujo de Migración</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">~3-5 hours · existing project → new project</span>
+    <span lang="es">~3-5 horas · proyecto existente → proyecto nuevo</span>
+  </div>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+      <span lang="en"><strong>Open your AI assistant.</strong> You'll need both repos available — the existing source system and an empty target folder for the new system.</span>
+      <span lang="es"><strong>Abre tu asistente de IA.</strong> Vas a necesitar ambos repos disponibles — el sistema origen existente y una carpeta destino vacía para el sistema nuevo.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+      <span lang="en"><strong>Branch the source repo — before any audit.</strong> The migration audit lands in the source repo as artifacts (specs, ADRs, decisions). Even though no source code is being modified, those artifacts go on a branch so they can be reviewed before merging back.</span>
+      <span lang="es"><strong>Crea rama en el repo origen — antes de cualquier auditoría.</strong> La auditoría de migración aterriza en el repo origen como artefactos (specs, ADRs, decisiones). Aunque no se modifique código fuente, esos artefactos van en una rama para poder revisarse antes de mergear de regreso.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">The migration tool branches automatically. If you want to confirm before any change:</span>
+      <span lang="es">La herramienta de migración crea la rama automáticamente. Si quieres confirmar antes de cualquier cambio:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Optional</span><span lang="es">Opcional</span></span><span lang="en">Before any analysis, create a branch named migration-audit in the
+source repo using git CLI. Confirm the branch is active. Do not touch
+main in the source repo during this session.</span><span lang="es">Antes de cualquier análisis, crea una rama llamada migration-audit en
+el repo origen usando git CLI. Confirma que la rama esté activa. No
+toques main en el repo origen durante esta sesión.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same as Path B step 2 — paste a branch-and-stay-off-main commitment before any analysis starts. See there for the full template.</span>
+      <span lang="es">Igual que el paso 2 del Camino B — pega un compromiso de crear rama y quedarse fuera de main antes de que empiece cualquier análisis. Ver ahí la plantilla completa.</span>
+    </p>
+  </div>
+</details>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+      <span lang="en"><strong>Start the migration.</strong> Three stages: (1) audit the source and extract a stack-independent specification; (2) refinement conversation; (3) bootstrap the target folder with the refined spec under GS discipline.</span>
+      <span lang="es"><strong>Inicia la migración.</strong> Tres etapas: (1) audita el origen y extrae una especificación independiente de stack; (2) conversación de refinamiento; (3) arranca la carpeta destino con la spec refinada bajo disciplina GS.</span>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">With PragmaWorks tools</span>
+    <span lang="es">Con las herramientas de PragmaWorks</span>
+  </summary>
+  <div class="option-body">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Use pragmaworks to migrate this project to a new stack. The source
+system is the current folder (on the migration-audit branch). The
+target folder is at: [absolute path to empty folder]. Find pragmaworks
+on npm, install what you need.
+
+Run the migration in three stages: (1) audit the source and extract
+a stack-independent specification; (2) walk me through a refinement
+conversation — what features to drop, what to modernize, what NFRs
+to add, what tech stack to target; (3) bootstrap the target folder
+with the refined specification under GS discipline.
+
+Pause between stages so I can review.</span><span lang="es">Usa pragmaworks para migrar este proyecto a un nuevo stack. El sistema
+origen es la carpeta actual (en la rama migration-audit). La carpeta
+destino está en: [ruta absoluta a carpeta vacía]. Busca pragmaworks en
+npm, instala lo que necesites.
+
+Corre la migración en tres etapas: (1) audita el origen y extrae una
+especificación independiente de stack; (2) llévame por una conversación
+de refinamiento — qué features descartar, qué modernizar, qué NFRs
+agregar, a qué stack tecnológico apuntar; (3) arranca la carpeta destino
+con la especificación refinada bajo disciplina GS.
+
+Pausa entre etapas para que pueda revisar.</span></div>
+  </div>
+</details>
+
+<details class="path-option">
+  <summary>
+    <span lang="en">Pure GS (no tools)</span>
+    <span lang="es">GS puro (sin herramientas)</span>
+  </summary>
+  <div class="option-body">
+    <p>
+      <span lang="en">Same three-stage flow, more explicit. The pure-GS version names the artifacts because no tool is producing them by default:</span>
+      <span lang="es">El mismo flujo de tres etapas, más explícito. La versión GS puro nombra los artefactos porque ninguna herramienta los produce por default:</span>
+    </p>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this</span><span lang="es">Pega esto</span></span><span lang="en">Migrate this project to a new stack. The source system is the
+current folder (on the migration-audit branch). The target folder is
+at: [absolute path to empty folder].
+
+Run in three stages, pausing between each so I can review:
+
+STAGE 1 — Source audit (~30 min)
+  Read the source codebase. Produce a stack-independent specification at
+  source/reports/migration-spec.md. Cover: behavioral contracts (what
+  each endpoint / use case does), data model (entities, relationships),
+  integration points (external systems, APIs, queues), use cases in
+  UC-NNN form with pre/post-conditions, NFRs (performance, security,
+  regulatory). Keep framework-specific notes separate in
+  migration-spec-impl-notes.md — the primary spec should be portable.
+
+STAGE 2 — Refinement (~1 hour, conversational)
+  Walk me through five passes:
+    1. Feature triage — for each feature: keep / drop / modernize.
+    2. Tech stack decision — bundled (language + framework + DB +
+       deployment), not piecemeal.
+    3. NFR additions — logging, rate limits, encryption, audit
+       trail, anything missing in the source.
+    4. Modernization opportunities — polling → WebSocket, homegrown
+       queue → managed, etc.
+    5. What stays the same — API contracts, schemas, regulated
+       business logic that cannot drift.
+  Propose defaults; I override what I want. Write the refined spec
+  to source/reports/migration-spec-refined.md.
+
+STAGE 3 — Bootstrap target (~1-3 hours)
+  In the target folder, set up GS discipline from scratch (see
+  Path A's pure-GS step 3 for the layout: docs/manifest.yaml, the
+  doc directories, the hooks, the CI workflow). Then generate code
+  from the refined spec under that discipline. Pause and ask before
+  any decision that contradicts the refined spec.</span><span lang="es">Migra este proyecto a un nuevo stack. El sistema origen es la carpeta
+actual (en la rama migration-audit). La carpeta destino está en:
+[ruta absoluta a carpeta vacía].
+
+Corre en tres etapas, pausando entre cada una para que pueda revisar:
+
+ETAPA 1 — Auditoría de origen (~30 min)
+  Lee la base de código origen. Produce una especificación independiente
+  de stack en source/reports/migration-spec.md. Cubre: contratos de
+  comportamiento (qué hace cada endpoint / caso de uso), modelo de
+  datos (entidades, relaciones), puntos de integración (sistemas
+  externos, APIs, queues), casos de uso en forma UC-NNN con
+  pre/post-condiciones, NFRs (performance, seguridad, regulatorios).
+  Mantén las notas específicas del framework separadas en
+  migration-spec-impl-notes.md — la spec primaria debe ser portable.
+
+ETAPA 2 — Refinamiento (~1 hora, conversacional)
+  Llévame por cinco pasadas:
+    1. Triage de features — para cada feature: mantener / descartar /
+       modernizar.
+    2. Decisión de stack — integral (lenguaje + framework + DB +
+       deployment), no por piezas.
+    3. Adiciones de NFR — logging, rate limits, encriptación, audit
+       trail, lo que falte en el origen.
+    4. Oportunidades de modernización — polling → WebSocket, queue
+       casero → managed, etc.
+    5. Qué se queda igual — contratos de API, schemas, lógica de
+       negocio regulada que no puede derivar.
+  Propón defaults; yo sobreescribo lo que quiera. Escribe la spec
+  refinada a source/reports/migration-spec-refined.md.
+
+ETAPA 3 — Arranque del destino (~1-3 horas)
+  En la carpeta destino, configura disciplina GS desde cero (ver el
+  paso 3 GS puro del Camino A para el layout: docs/manifest.yaml,
+  los directorios de docs, los hooks, el workflow de CI). Después
+  genera código desde la spec refinada bajo esa disciplina. Pausa y
+  pregunta antes de cualquier decisión que contradiga la spec refinada.</span></div>
+  </div>
+</details>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-text">
+      <span lang="en"><strong>Stage 1 — Source audit (~30 min).</strong> The AI extracts what the source system actually does into a stack-independent spec. Behavioral contracts, data models, integration points, use cases. Framework-specific implementation notes are separate from the primary spec.</span>
+      <span lang="es"><strong>Etapa 1 — Auditoría de origen (~30 min).</strong> La IA extrae lo que el sistema origen realmente hace en una spec independiente de stack. Contratos de comportamiento, modelos de datos, puntos de integración, casos de uso. Las notas de implementación específicas del framework están separadas de la spec primaria.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">05</div>
+    <div class="step-text">
+      <span lang="en"><strong>Stage 2 — Refinement conversation (~1 hour).</strong> The AI walks you through five passes:</span>
+      <span lang="es"><strong>Etapa 2 — Conversación de refinamiento (~1 hora).</strong> La IA te lleva por cinco pasadas:</span>
+      <ul style="margin: 8px 0 0 22px; font-size: 15px;">
+        <li>
+          <span lang="en"><strong>Feature triage</strong> — for each feature in the source: keep, drop, modernize?</span>
+          <span lang="es"><strong>Triage de features</strong> — para cada feature en el origen: ¿mantener, descartar, modernizar?</span>
+        </li>
+        <li>
+          <span lang="en"><strong>Tech stack decision</strong> — bundled choice, not piecemeal</span>
+          <span lang="es"><strong>Decisión de stack tecnológico</strong> — elección integral, no por piezas</span>
+        </li>
+        <li>
+          <span lang="en"><strong>NFR additions</strong> — logging, rate limits, encryption, audit trail</span>
+          <span lang="es"><strong>Adiciones de NFR</strong> — logging, rate limits, encriptación, audit trail</span>
+        </li>
+        <li>
+          <span lang="en"><strong>Modernization opportunities</strong> — polling → WebSocket, homegrown queue → managed, etc.</span>
+          <span lang="es"><strong>Oportunidades de modernización</strong> — polling → WebSocket, queue casero → managed, etc.</span>
+        </li>
+        <li>
+          <span lang="en"><strong>What stays the same</strong> — preserved API contracts, schemas, regulated logic</span>
+          <span lang="es"><strong>Qué se queda igual</strong> — contratos de API preservados, schemas, lógica regulada</span>
+        </li>
+      </ul>
+      <p style="margin-top: 10px; font-size: 14px; color: var(--smoke);">
+        <span lang="en">The AI proposes defaults for each. You override what you want. Don't re-confirm the defaults — keep moving.</span>
+        <span lang="es">La IA propone defaults para cada uno. Tú sobre-escribes lo que quieras. No re-confirmes los defaults — sigue avanzando.</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">06</div>
+    <div class="step-text">
+      <span lang="en"><strong>Stage 3 — Bootstrap the target (~1-3 hours).</strong> The refined spec lands in the target folder. Cascade is set up tailored to the chosen target stack (or set up by convention if pure-GS). The AI generates code under that discipline.</span>
+      <span lang="es"><strong>Etapa 3 — Arranque del destino (~1-3 horas).</strong> La spec refinada aterriza en la carpeta destino. La cascade se configura ajustada al stack destino elegido (o por convención si es GS puro). La IA genera código bajo esa disciplina.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">07</div>
+    <div class="step-text">
+      <span lang="en"><strong>Verify parity.</strong> You now have the new system. Use the harness from Path A's step 6 to drive the new system through the source system's behavioral contracts. Anything that doesn't match is a refinement decision to revisit, not a bug to chase.</span>
+      <span lang="es"><strong>Verifica paridad.</strong> Ahora tienes el sistema nuevo. Usa el harness del paso 6 del Camino A para manejar el sistema nuevo a través de los contratos de comportamiento del sistema origen. Cualquier cosa que no coincida es una decisión de refinamiento para revisitar, no un bug para perseguir.</span>
+    </div>
+  </div>
+
+  <p class="small-note">
+    <span lang="en">If you want a literal port (preserve every wart, change only the stack), say so in step 2 and the AI will skip the refinement conversation entirely. If you want help during the refinement (regulated systems, complex business logic), <a href="mailto:juan@pragmaworks.dev?subject=Migration%20Concierge" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">the Concierge engagement</a> handles the refinement conversation as part of the work.</span>
+    <span lang="es">Si quieres un port literal (preserva cada verruga, cambia solo el stack), dilo en el paso 2 y la IA se saltará la conversación de refinamiento por completo. Si quieres ayuda durante el refinamiento (sistemas regulados, lógica de negocio compleja), <a href="mailto:juan@pragmaworks.dev?subject=Migration%20Concierge" style="color: var(--ember); border-color: var(--ember); border-bottom-style: solid; text-decoration: none;">el engagement de Concierge</a> maneja la conversación de refinamiento como parte del trabajo.</span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- WHAT YOU'LL HAVE AT THE END                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">What you'll have at the end</span>
+    <span lang="es">Qué tendrás al final</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Path D — Migration</span>
+    <span lang="es">Camino D — Migración</span>
+  </div>
+
+  <div class="at-the-end">
+    <h3>
+      <span lang="en">Path D — Migration</span>
+      <span lang="es">Camino D — Migración</span>
+    </h3>
+    <ul>
+      <li>
+        <span lang="en"><strong>A working new system in the target folder.</strong> Generated under GS discipline from a refined version of the source spec.</span>
+        <span lang="es"><strong>Un sistema nuevo funcionando en la carpeta destino.</strong> Generado bajo disciplina GS desde una versión refinada de la spec origen.</span>
+      </li>
+      <li>
+        <span lang="en"><strong>An ADR trail of migration decisions.</strong> What you kept, what you dropped, what you modernized, with rationale. Defensible at the next architecture review.</span>
+        <span lang="es"><strong>Un trail de ADRs de decisiones de migración.</strong> Qué mantuviste, qué descartaste, qué modernizaste, con racionalidad. Defendible en la siguiente revisión de arquitectura.</span>
+      </li>
+      <li>
+        <span lang="en"><strong>The source system unchanged on its main branch.</strong> Migration audit lands on a separate branch in the source repo.</span>
+        <span lang="es"><strong>El sistema origen sin cambios en su rama main.</strong> La auditoría de migración aterriza en una rama separada en el repo origen.</span>
+      </li>
+      <li>
+        <span lang="en"><strong>Migration-context document.</strong> The relevant slice of source-system context the new system needs to know about (legacy data shapes, integration contracts, etc.).</span>
+        <span lang="es"><strong>Documento de contexto de migración.</strong> La rebanada relevante de contexto del sistema origen que el sistema nuevo necesita saber (formas de datos legacy, contratos de integración, etc.).</span>
+      </li>
+      <li>
+        <span lang="en"><strong>Optional parity verification.</strong> Run the new system through the source system's behavioral contracts using the harness.</span>
+        <span lang="es"><strong>Verificación opcional de paridad.</strong> Corre el sistema nuevo a través de los contratos de comportamiento del sistema origen usando el harness.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PATH PICKER                                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="path-picker" style="margin-top: 48px;">
+    <a href="/greenfield">
+      <div class="label">
+        <span lang="en">Path A · New Project</span>
+        <span lang="es">Camino A · Proyecto Nuevo</span>
+      </div>
+      <div class="name">
+        <span lang="en">Greenfield →</span>
+        <span lang="es">Greenfield →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Spec → cascade → sentinel → harness → build, from an empty folder</span>
+        <span lang="es">Spec → cascada → sentinel → harness → construir, desde carpeta vacía</span>
+      </div>
+    </a>
+    <a href="/brownfield">
+      <div class="label">
+        <span lang="en">Path B · Existing Project</span>
+        <span lang="es">Camino B · Proyecto Existente</span>
+      </div>
+      <div class="name">
+        <span lang="en">Brownfield →</span>
+        <span lang="es">Brownfield →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Audit → spec from code → sentinel → harness → remediation</span>
+        <span lang="es">Auditoría → spec desde código → sentinel → harness → remediación</span>
+      </div>
+    </a>
+    <a href="/diagnose">
+      <div class="label">
+        <span lang="en">Diagnose</span>
+        <span lang="es">Diagnóstico</span>
+      </div>
+      <div class="name">
+        <span lang="en">Diagnose →</span>
+        <span lang="es">Diagnóstico →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Score an existing codebase on all 7 GS properties</span>
+        <span lang="es">Puntúa una base de código existente en las 7 propiedades GS</span>
+      </div>
+    </a>
+    <a href="/try">
+      <div class="label">
+        <span lang="en">All Paths</span>
+        <span lang="es">Todos los Caminos</span>
+      </div>
+      <div class="name">
+        <span lang="en">Developer Cookbook →</span>
+        <span lang="es">Recetario →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Every path in one place, plus the GS Audit Report</span>
+        <span lang="es">Todos los caminos en un lugar, más el Reporte de Auditoría GS</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
