@@ -35,8 +35,8 @@
       if (v) m.setAttribute('content', v);
     });
 
-    // Set .active state on toggle buttons
-    document.querySelectorAll('.lang-toggle [data-lang]').forEach(function (btn) {
+    // Set .active state on all lang toggle buttons
+    document.querySelectorAll('button[data-lang]').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
   }
@@ -46,8 +46,15 @@
     const currentLang = document.documentElement.lang === 'es' ? 'es' : 'en';
     setLang(currentLang);
 
-    // Wire up toggle buttons
-    document.querySelectorAll('.lang-toggle [data-lang]').forEach(function (btn) {
+    // Add flag emoji to all lang buttons
+    var FLAGS = { en: '🇺🇸', es: '🇲🇽' };
+    document.querySelectorAll('button[data-lang]').forEach(function (btn) {
+      var flag = FLAGS[btn.dataset.lang];
+      if (flag) btn.textContent = flag + ' ' + btn.dataset.lang.toUpperCase();
+    });
+
+    // Wire up all lang buttons (both fixed toggle and any other instances)
+    document.querySelectorAll('button[data-lang]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         setLang(this.dataset.lang);

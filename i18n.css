@@ -8,31 +8,33 @@
 html[lang="en"] [lang="es"] { display: none; }
 html[lang="es"] [lang="en"] { display: none; }
 
-/* Language toggle button — fixed top-right, always reachable */
+/* Language toggle — fixed upper right, always above sidebar (z-index 250) */
 .lang-toggle {
   position: fixed;
-  top: 16px;
-  right: 16px;
+  top: 12px;
+  right: 14px;
   display: flex;
   gap: 4px;
-  z-index: 100;
+  z-index: 250;
 }
 .lang-toggle button {
-  background: transparent;
+  background: rgba(245,240,232,0.92);
   border: 1px solid #d4cfc4;
-  color: #8E8E93;
-  padding: 5px 10px;
+  color: #48484A;
+  padding: 5px 9px;
   border-radius: 3px;
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(6px);
   transition: all 0.15s;
+  line-height: 1;
 }
 .lang-toggle button:hover {
   border-color: #C44B1A;
   color: #C44B1A;
+  background: rgba(245,240,232,1);
 }
 .lang-toggle button.active {
   background: #C44B1A;
@@ -41,8 +43,8 @@ html[lang="es"] [lang="en"] { display: none; }
 }
 
 @media (max-width: 600px) {
-  .lang-toggle { top: 12px; right: 12px; }
-  .lang-toggle button { padding: 4px 8px; font-size: 10px; }
+  .lang-toggle { top: 10px; right: 10px; }
+  .lang-toggle button { padding: 4px 7px; font-size: 11px; }
 }
 
 /* Hide the toggle when printing — language is locked by the time

@@ -103,10 +103,6 @@
 
     '  </nav>',
     '  <div class="pw-sidebar-footer">',
-    '    <div class="pw-sidebar-lang">',
-    '      <button data-lang="en" aria-label="English">EN</button>',
-    '      <button data-lang="es" aria-label="Español">ES</button>',
-    '    </div>',
     '    <a href="/">&#8592; Home</a>',
     '    <a href="mailto:juan@pragmaworks.dev">Contact</a>',
     '  </div>',

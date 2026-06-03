@@ -190,10 +190,7 @@ body.pw-has-sidebar {
 body.pw-has-sidebar > nav {
   display: none;
 }
-/* hide fixed lang-toggle when sidebar provides it */
-body.pw-has-sidebar .lang-toggle {
-  display: none;
-}
+/* lang-toggle always visible — fixed upper right, above sidebar */
 
 /* ── MOBILE TOGGLE BUTTON ── */
 .pw-sidebar-toggle {
@@ -239,7 +236,5 @@ body.pw-has-sidebar .lang-toggle {
   .pw-sidebar-overlay.is-open {
     display: block;
   }
-  body.pw-has-sidebar .lang-toggle {
-    display: flex; /* restore on mobile since sidebar is hidden */
-  }
+  /* lang-toggle already always visible */
 }
