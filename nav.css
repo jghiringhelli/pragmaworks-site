@@ -47,6 +47,7 @@
   padding: 6px 0 4px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.1) transparent;
+  background: var(--sb-bg) !important;
 }
 .pw-sidebar-nav::-webkit-scrollbar { width: 4px; }
 .pw-sidebar-nav::-webkit-scrollbar-track { background: transparent; }

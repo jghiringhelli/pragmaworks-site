@@ -24,7 +24,7 @@
   a { color: var(--ember); text-decoration: none; }
   a:hover { color: var(--ember-glow); }
 
-  nav {
+  body > nav {
     position: sticky; top: 0; z-index: 100;
     background: rgba(13,11,9,0.9); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(196,75,26,0.12);
@@ -139,7 +139,7 @@
 
   @media (max-width: 600px) {
     .container { padding: 48px 20px 80px; }
-    nav { padding: 0.85rem 1.25rem; }
+    body > nav { padding: 0.85rem 1.25rem; }
     .value-item { grid-template-columns: 1fr; gap: 6px; }
     .value-right { text-align: left; }
     .value-over { text-align: left; }
