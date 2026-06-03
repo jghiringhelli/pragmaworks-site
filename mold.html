@@ -324,18 +324,23 @@
       <span lang="es">Esta receta produce el árbol sentinel GS completo: un <strong>SPEC.md</strong> con visión general, visión, fases, funcionalidades, NFRs, stack tecnológico y mapa de módulos — más <strong>constituciones arquitectónicas independientes del asistente</strong> (CLAUDE.md para Claude Code, AGENTS.md para OpenAI Codex y la mayoría de herramientas, .cursor/rules/ para Cursor, .github/copilot-instructions.md para GitHub Copilot) — más <strong>STATUS.md</strong> y un ADR inicial. Todo lo que el lector de IA necesita para derivar comportamiento correcto a través de todos los estadios del ciclo de vida sin contexto externo.</span>
     </p>
 
+    <div class="pattern-note">
+      <span lang="en"><strong>Files this recipe creates:</strong> <code>docs/spec/SPEC.md</code> · <code>CLAUDE.md</code> · <code>AGENTS.md</code> · <code>STATUS.md</code> · <code>docs/adrs/ADR-000.md</code>. All written in one session. If you want SPEC.md somewhere else, tell the AI before you begin: <em>"Write SPEC.md to [your path]."</em></span>
+      <span lang="es"><strong>Archivos que crea esta receta:</strong> <code>docs/spec/SPEC.md</code> · <code>CLAUDE.md</code> · <code>AGENTS.md</code> · <code>STATUS.md</code> · <code>docs/adrs/ADR-000.md</code>. Todos escritos en una sesión. Si querés SPEC.md en otra ubicación, decíselo al AI antes de empezar: <em>"Escribe SPEC.md en [tu ruta]."</em></span>
+    </div>
+
     <h2>
       <span lang="en">Step 01 — Interview</span>
       <span lang="es">Paso 01 — Entrevista</span>
     </h2>
     <div class="h2-sub">
-      <span lang="en">For new projects</span>
-      <span lang="es">Para proyectos nuevos</span>
+      <span lang="en">For new projects · 9 questions · one at a time</span>
+      <span lang="es">Para proyectos nuevos · 9 preguntas · una a la vez</span>
     </div>
 
     <p>
-      <span lang="en">Before writing any files, the AI asks you ten questions — one at a time, waiting for your answer before asking the next. No guessing, no defaults filled in silently. The answers become the raw material for the spec.</span>
-      <span lang="es">Antes de escribir archivos, la IA te hace diez preguntas — una a la vez, esperando tu respuesta antes de hacer la siguiente. Sin adivinar, sin defaults llenados silenciosamente. Las respuestas se convierten en la materia prima de la especificación.</span>
+      <span lang="en">Before writing any files, the AI asks nine questions — one at a time, waiting for your answer before asking the next. No guessing, no defaults filled in silently. The answers become the raw material for the spec.</span>
+      <span lang="es">Antes de escribir archivos, la IA te hace nueve preguntas — una a la vez, esperando tu respuesta antes de hacer la siguiente. Sin adivinar, sin defaults llenados silenciosamente. Las respuestas se convierten en la materia prima de la especificación.</span>
     </p>
 
     <div class="step">
@@ -357,15 +362,13 @@ Wait for my answer before asking the next. Do not guess or fill in defaults.
 6. Tech stack: language, runtime, framework, database, deployment target.
 7. Module structure: the main areas of the codebase, even if not yet built.
    Name them and describe their responsibility in one sentence each.
-8. Which AI assistant(s) will work with this project?
-   (Claude Code / Cursor / Copilot / OpenAI / all)
-9. Performance requirements: acceptable response latency, expected concurrent
+8. Performance requirements: acceptable response latency, expected concurrent
    users, any throughput SLA.
-10. What must the AI never do? Examples: never delete records without
-    confirmation, never bypass authentication, never run migrations
-    automatically.
+9. What must the AI never do? Examples: never delete records without
+   confirmation, never bypass authentication, never run migrations
+   automatically.
 
-When I have answered all ten questions, tell me "Ready to generate" and wait
+When I have answered all nine questions, tell me "Ready to generate" and wait
 for my go-ahead before writing any files.</span><span lang="es">Antes de escribir archivos, hazme las siguientes preguntas una a la vez.
 Espera mi respuesta antes de hacer la siguiente. No adivines ni llenes defaults.
 
@@ -383,15 +386,13 @@ Espera mi respuesta antes de hacer la siguiente. No adivines ni llenes defaults.
 7. Estructura de módulos: las áreas principales del código, incluso si
    aún no están construidas. Nómbralas y describe su responsabilidad
    en una oración cada una.
-8. ¿Qué asistente(s) de IA trabajarán con este proyecto?
-   (Claude Code / Cursor / Copilot / OpenAI / todos)
-9. Requerimientos de performance: latencia de respuesta aceptable,
+8. Requerimientos de performance: latencia de respuesta aceptable,
    usuarios concurrentes esperados, cualquier SLA de throughput.
-10. ¿Qué nunca debe hacer la IA? Ejemplos: nunca eliminar registros sin
-    confirmación, nunca saltarse la autenticación, nunca correr
-    migraciones automáticamente.
+9. ¿Qué nunca debe hacer la IA? Ejemplos: nunca eliminar registros sin
+   confirmación, nunca saltarse la autenticación, nunca correr
+   migraciones automáticamente.
 
-Cuando haya respondido las diez preguntas, dime "Listo para generar"
+Cuando haya respondido las nueve preguntas, dime "Listo para generar"
 y espera mi visto bueno antes de escribir archivos.</span></div>
       </div>
     </div>
@@ -411,20 +412,42 @@ y espera mi visto bueno antes de escribir archivos.</span></div>
     </div>
 
     <p>
-      <span lang="en">Once the interview is complete, paste this generation prompt. The AI writes all five files — the canonical specification, two architectural constitutions (CLAUDE.md and AGENTS.md), STATUS.md, and an initial ADR. One prompt, no further questions.</span>
-      <span lang="es">Una vez completada la entrevista, pega este prompt de generación. La IA escribe los cinco archivos — la especificación canónica, dos constituciones arquitectónicas (CLAUDE.md y AGENTS.md), STATUS.md y un ADR inicial. Un prompt, sin más preguntas.</span>
+      <span lang="en">Once the interview is complete, paste this generation prompt. The AI writes all five files in one pass. No further questions.</span>
+      <span lang="es">Una vez completada la entrevista, pega este prompt. La IA escribe los cinco archivos de una vez. Sin más preguntas.</span>
     </p>
+
+    <h3>
+      <span lang="en">SPEC.md structure</span>
+      <span lang="es">Estructura de SPEC.md</span>
+    </h3>
+    <p style="font-size:14px; color: var(--steel); margin-bottom: 10px;">
+      <span lang="en">The specification the AI will write. Sections map directly to the interview answers.</span>
+      <span lang="es">La especificación que escribirá la IA. Las secciones mapean directamente a las respuestas de la entrevista.</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="en">Section</span><span lang="es">Sección</span></th><th><span lang="en">Content</span><span lang="es">Contenido</span></th></tr></thead>
+      <tbody>
+        <tr><td><code>Overview · Vision</code></td><td><span lang="en">What the system is, who uses it, what "done" looks like</span><span lang="es">Qué es el sistema, quién lo usa, cómo se ve "listo"</span></td></tr>
+        <tr><td><code>Phase · Scope</code></td><td><span lang="en">Current phase, in-scope features, explicit non-goals</span><span lang="es">Fase actual, features en alcance, no-objetivos explícitos</span></td></tr>
+        <tr><td><code>F-001 · F-002…</code></td><td><span lang="en">Functional features — Actor, Precondition, Flow, Postcondition, Acceptance criteria</span><span lang="es">Funcionalidades — Actor, Precondición, Flujo, Postcondición, Criterios de aceptación</span></td></tr>
+        <tr><td><code>NFRs</code></td><td><span lang="en">Performance, Reliability, Security, Scalability — each as a numbered constraint</span><span lang="es">Performance, Confiabilidad, Seguridad, Escalabilidad — cada uno como restricción numerada</span></td></tr>
+        <tr><td><code>Tech Stack</code></td><td><span lang="en">Language, runtime, framework, database, deployment, test framework, CI</span><span lang="es">Lenguaje, runtime, framework, base de datos, despliegue, framework de tests, CI</span></td></tr>
+        <tr><td><code>Module Map</code></td><td><span lang="en">One row per module — name, responsibility, key interfaces</span><span lang="es">Una fila por módulo — nombre, responsabilidad, interfaces clave</span></td></tr>
+        <tr><td><code>Quality Gates</code></td><td><span lang="en">Coverage minimum, file/function length limits, commit format, CI rules</span><span lang="es">Cobertura mínima, límites de longitud, formato de commit, reglas de CI</span></td></tr>
+        <tr><td><code>Constraints</code></td><td><span lang="en">The AI Must Never — explicit prohibitions, derived from interview Q9</span><span lang="es">La IA Nunca Debe — prohibiciones explícitas, derivadas de la pregunta 9 de la entrevista</span></td></tr>
+      </tbody>
+    </table>
 
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-text">
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — after the interview</span><span lang="es">Pega esto — después de la entrevista</span></span><span lang="en">Generate the complete Generative Specification sentinel tree for this project.
-Write all files listed below. Do not ask further questions — use the answers
-from our interview. If something is ambiguous, state your assumption in a
-comment inside the relevant file.
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — after the interview</span><span lang="es">Pega esto — después de la entrevista</span></span><span lang="en">Generate the complete GS sentinel tree for this project.
+Write the files to the exact paths listed below.
+Use the answers from our interview. If something is ambiguous, state your
+assumption in a comment inside the relevant file. Do not ask further questions.
 
 ────────────────────────────────────────────────
-FILE 1: SPEC.md  (the canonical specification)
+FILE 1: docs/spec/SPEC.md  (the canonical specification)
 ────────────────────────────────────────────────
 # [Project Name] Specification
 
@@ -577,6 +600,7 @@ Read SPEC.md → read CLAUDE.md → begin at [first feature].
 ────────────────────────────────────────────────
 FILE 5: docs/adrs/ADR-000-initial-architecture.md
 ────────────────────────────────────────────────
+
 # ADR-000: Initial Architecture
 
 Date: [today's date]
@@ -599,7 +623,7 @@ After writing all five files, print a summary table:
 
 | File | Purpose | First session read order |
 |------|---------|--------------------------|
-| SPEC.md | Canonical specification | 1 |
+| docs/spec/SPEC.md | Canonical specification | 1 |
 | CLAUDE.md | Claude Code constitution | 2 |
 | AGENTS.md | Other assistants constitution | 2 |
 | STATUS.md | Session continuity | 3 |
@@ -607,13 +631,13 @@ After writing all five files, print a summary table:
 
 Then print the first session prompt to paste into a new AI session:
 "Read SPEC.md, then CLAUDE.md (or AGENTS.md), then STATUS.md. Confirm you
-have read all three before beginning work. Ask me what to work on first."</span><span lang="es">Genera el árbol sentinel de Especificación Generativa completo para este proyecto.
-Escribe todos los archivos listados abajo. No hagas más preguntas — usa las respuestas
-de nuestra entrevista. Si algo es ambiguo, enuncia tu supuesto en un comentario
-dentro del archivo relevante.
+have read all three before beginning work. Ask me what to work on first."</span><span lang="es">Genera el árbol sentinel GS completo para este proyecto.
+Escribe los archivos en las rutas exactas indicadas abajo.
+Usa las respuestas de nuestra entrevista. Si algo es ambiguo, enuncia tu supuesto
+en un comentario dentro del archivo relevante. No hagas más preguntas.
 
 ────────────────────────────────────────────────
-ARCHIVO 1: SPEC.md  (la especificación canónica)
+ARCHIVO 1: docs/spec/SPEC.md  (la especificación canónica)
 ────────────────────────────────────────────────
 # Especificación de [Nombre del Proyecto]
 
@@ -788,7 +812,7 @@ Después de escribir los cinco archivos, imprime una tabla resumen:
 
 | Archivo | Propósito | Orden de lectura primera sesión |
 |---------|-----------|--------------------------------|
-| SPEC.md | Especificación canónica | 1 |
+| docs/spec/SPEC.md | Especificación canónica | 1 |
 | CLAUDE.md | Constitución Claude Code | 2 |
 | AGENTS.md | Constitución otros asistentes | 2 |
 | STATUS.md | Continuidad de sesión | 3 |
