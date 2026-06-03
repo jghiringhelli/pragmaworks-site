@@ -26,6 +26,7 @@
     --smoke:       #8E8E93;
     --ash:         #D1D1D6;
     --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
     --forge-dark:  #1A1611;
   }
 
@@ -158,6 +159,37 @@
 
   .pattern-note strong { color: var(--forge-dark); font-style: normal; }
 
+  /* MCP recommendation table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 8px;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 9px 14px;
+  }
+  tbody td {
+    padding: 10px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--ash);
+  }
+  tbody tr:nth-child(odd) { background: var(--parchment); }
+  tbody tr:nth-child(even) { background: var(--parchment2); }
+  tbody td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--forge-dark);
+    white-space: nowrap;
+  }
+
   .footer {
     margin-top: 72px;
     padding-top: 28px;
@@ -246,15 +278,207 @@
     <span lang="es">El Tier 2 es donde el spec gobierna el despliegue, no solo el código. Cada build pre-producción se verifica contra NFRs, smoke tests y la pirámide de pruebas completa. El harness no solo verifica lo que generó el AI — verifica que lo que generó puede sobrevivir la carga de producción.</span>
   </p>
 
-  <h2>
-    <span lang="en">Three Areas of the Tier 2 Harness</span>
-    <span lang="es">Tres Áreas del Harness de Tier 2</span>
-  </h2>
+  <p>
+    <span lang="en">Tier 1 gave you a working system verified against behavioral specs. Tier 2 hardens it for production load: the spec grows to cover non-functional requirements, real services run locally, and the harness gains load, stress, security, concurrency, and latency tests. Then GS writes the CI/CD pipeline that gates every one of them.</span>
+    <span lang="es">El Tier 1 te dio un sistema funcionando, verificado contra specs de comportamiento. El Tier 2 lo endurece para la carga de producción: el spec crece para cubrir requerimientos no funcionales, los servicios reales corren localmente, y el harness gana pruebas de carga, stress, seguridad, concurrencia y latencia. Después GS escribe el pipeline de CI/CD que pone un gate a cada una de ellas.</span>
+  </p>
 
-  <h3>
-    <span lang="en">NFR Gates</span>
-    <span lang="es">Gates de NFR</span>
-  </h3>
+  <h2>
+    <span lang="en">Step 01 — Expand the Spec for Tier 2</span>
+    <span lang="es">Paso 01 — Expande el Spec para Tier 2</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">The NFR section grows teeth</span>
+    <span lang="es">La sección de NFR muestra los dientes</span>
+  </div>
+
+  <p>
+    <span lang="en">Your SPEC.md already has a non-functional requirements section. Now it gets specific and measurable — every threshold becomes a number a test can check.</span>
+    <span lang="es">Tu SPEC.md ya tiene una sección de requerimientos no funcionales. Ahora se vuelve específica y medible — cada umbral se convierte en un número que un test puede verificar.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — expand NFRs</span><span lang="es">Pega esto — expandir NFRs</span></span><span lang="en">Read docs/spec/SPEC.md. Expand the Non-Functional Requirements section so every requirement is a measurable threshold a test can verify. Cover all five classes:
+
+PERFORMANCE / LATENCY
+- P-NNN: [endpoint] responds within [p50 / p95 / p99 ms] at [N] concurrent users
+
+LOAD
+- L-NNN: system sustains [N] requests/second for [duration] with error rate < [X]%
+
+STRESS
+- ST-NNN: identify the breaking point — at what concurrency does the system degrade, and does it fail gracefully (no data loss, clean 503s)?
+
+SECURITY
+- S-NNN: authentication required on all routes except [list]; input validated at the trust boundary; secrets only in env; [authz rules per role]
+
+CONCURRENCY
+- C-NNN: [shared resource] is safe under concurrent access — no race conditions, correct locking/transactions, idempotent where required
+
+For each, write the threshold AND the failure behavior (what the system must do when the limit is hit). Update SPEC.md and commit: docs(spec): expand NFRs for Tier 2.</span><span lang="es">Lee docs/spec/SPEC.md. Expande la sección de Requerimientos No Funcionales para que cada requerimiento sea un umbral medible que un test pueda verificar. Cubre las cinco clases:
+
+PERFORMANCE / LATENCIA
+- P-NNN: [endpoint] responde dentro de [p50 / p95 / p99 ms] con [N] usuarios concurrentes
+
+CARGA
+- L-NNN: el sistema sostiene [N] requests/segundo durante [duración] con tasa de error < [X]%
+
+STRESS
+- ST-NNN: identifica el punto de quiebre — ¿a qué concurrencia se degrada el sistema, y falla graciosamente (sin pérdida de datos, 503 limpios)?
+
+SEGURIDAD
+- S-NNN: autenticación requerida en todas las rutas excepto [lista]; input validado en el límite de confianza; secretos solo en env; [reglas de authz por rol]
+
+CONCURRENCIA
+- C-NNN: [recurso compartido] es seguro bajo acceso concurrente — sin race conditions, locking/transacciones correctas, idempotente donde se requiera
+
+Para cada uno, escribe el umbral Y el comportamiento ante el fallo (qué debe hacer el sistema cuando se alcanza el límite). Actualiza SPEC.md y commitea: docs(spec): expand NFRs for Tier 2.</span></div>
+
+  <h2>
+    <span lang="en">Step 02 — Local Services with Docker / Rancher</span>
+    <span lang="es">Paso 02 — Servicios Locales con Docker / Rancher</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Real infrastructure, not mocks</span>
+    <span lang="es">Infraestructura real, no mocks</span>
+  </div>
+
+  <p>
+    <span lang="en">The staging harness must run against real services — a real database, cache, and queue — not mocks. Mocks pass when production fails. Stand the dependencies up locally with containers so every test runs against the real thing.</span>
+    <span lang="es">El harness de staging debe correr contra servicios reales — una base de datos, caché y cola reales — no mocks. Los mocks pasan cuando producción falla. Levanta las dependencias localmente con contenedores para que cada test corra contra lo real.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — local services</span><span lang="es">Pega esto — servicios locales</span></span><span lang="en">Read docs/spec/SPEC.md Tech Stack. Generate a docker-compose.yml (or Rancher / Podman config if I specify) that stands up every external dependency this system needs locally:
+- Database [from spec] with a seeded test schema
+- Cache / queue / object store if the spec uses them
+- Any third-party service that has a containerized emulator
+Include a Makefile or npm script: "services:up", "services:down", "services:reset".
+The harness will run against these. No mocks for integration, E2E, load, or concurrency tests.
+Commit: chore(infra): local service stack for the staging harness.</span><span lang="es">Lee el Stack Tecnológico de docs/spec/SPEC.md. Genera un docker-compose.yml (o config de Rancher / Podman si lo especifico) que levante localmente cada dependencia externa que este sistema necesita:
+- Base de datos [del spec] con un esquema de test seedeado
+- Caché / cola / object store si el spec los usa
+- Cualquier servicio de terceros que tenga un emulador en contenedor
+Incluye un Makefile o npm script: "services:up", "services:down", "services:reset".
+El harness correrá contra estos. Sin mocks para tests de integración, E2E, carga o concurrencia.
+Commitea: chore(infra): local service stack for the staging harness.</span></div>
+
+  <h2>
+    <span lang="en">Step 03 — MCP Tooling for Tier 2</span>
+    <span lang="es">Paso 03 — Herramientas MCP para Tier 2</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Give the AI the instruments to drive the harness</span>
+    <span lang="es">Dale al AI los instrumentos para conducir el harness</span>
+  </div>
+
+  <p>
+    <span lang="en">Model Context Protocol servers let the AI drive real tools directly — a browser, a load generator, the database. At Tier 2 these turn the AI from a code generator into a system operator that can run the full battery and read the results.</span>
+    <span lang="es">Los servidores Model Context Protocol permiten que el AI conduzca herramientas reales directamente — un navegador, un generador de carga, la base de datos. En el Tier 2 estos convierten al AI de un generador de código en un operador de sistema que puede correr la batería completa y leer los resultados.</span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Tool</span><span lang="es">Herramienta</span></th>
+        <th><span lang="en">Use</span><span lang="es">Uso</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Playwright MCP</td>
+        <td><span lang="en">Drive the running app in a real browser for E2E and visual verification.</span><span lang="es">Conduce la app en un navegador real para E2E y verificación visual.</span></td>
+      </tr>
+      <tr>
+        <td>Load-testing MCP (k6 / Artillery)</td>
+        <td><span lang="en">Generate and run load and stress scenarios from the spec NFRs; read the latency histogram back.</span><span lang="es">Genera y corre escenarios de carga y stress desde los NFR del spec; lee el histograma de latencia.</span></td>
+      </tr>
+      <tr>
+        <td>Database / SQL MCP</td>
+        <td><span lang="en">Inspect state before and after a test, verify no concurrency corruption.</span><span lang="es">Inspecciona el estado antes y después de un test, verifica que no haya corrupción por concurrencia.</span></td>
+      </tr>
+      <tr>
+        <td>HTTP / API MCP</td>
+        <td><span lang="en">Hit endpoints directly for contract and security tests, independent of the UI.</span><span lang="es">Golpea endpoints directamente para tests de contrato y seguridad, independiente de la UI.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Wire these in CONSTITUTION.md</strong> so every session knows which tools are available and when to use them. The AI should reach for the load MCP when it sees an L-NNN requirement, the same way it reaches for the test runner on an F-NNN.</span>
+    <span lang="es"><strong>Conéctalos en CONSTITUTION.md</strong> para que cada sesión sepa qué herramientas están disponibles y cuándo usarlas. El AI debería recurrir al MCP de carga cuando ve un requerimiento L-NNN, igual que recurre al test runner ante un F-NNN.</span>
+  </div>
+
+  <h2>
+    <span lang="en">Step 04 — The Test Battery</span>
+    <span lang="es">Paso 04 — La Batería de Pruebas</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Load · stress · security · concurrency · latency</span>
+    <span lang="es">Carga · stress · seguridad · concurrencia · latencia</span>
+  </div>
+
+  <p>
+    <span lang="en">One prompt per class, each derived from the spec NFRs. The AI writes the test, runs it against the local service stack, and reports against the threshold.</span>
+    <span lang="es">Un prompt por clase, cada uno derivado de los NFR del spec. El AI escribe el test, lo corre contra el stack de servicios locales, y reporta contra el umbral.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — generate the Tier 2 test battery</span><span lang="es">Pega esto — generar la batería de pruebas Tier 2</span></span><span lang="en">Read docs/spec/SPEC.md NFR section and CONSTITUTION.md. Using the local service stack and the available MCP tools, generate and run the Tier 2 test battery. One suite per class, each tied to its NFR id:
+
+1. LOAD (L-NNN): sustained throughput test. Assert error rate and latency hold for the full duration.
+2. STRESS (ST-NNN): ramp concurrency until the breaking point. Assert graceful degradation — no data loss, clean error codes.
+3. SECURITY (S-NNN): unauthenticated access rejected, input fuzzing at the trust boundary, no secrets in responses or logs, authz enforced per role.
+4. CONCURRENCY (C-NNN): hammer the shared resource with parallel writers. Assert no race condition, correct final state, idempotency where required.
+5. LATENCY (P-NNN): measure p50/p95/p99 under the specified concurrent load. Assert each percentile is within threshold.
+
+Place suites in tests/tier2/. Report a table: NFR id | threshold | measured | pass/fail. For any failure, do not patch silently — show me the gap.</span><span lang="es">Lee la sección de NFR de docs/spec/SPEC.md y CONSTITUTION.md. Usando el stack de servicios locales y las herramientas MCP disponibles, genera y corre la batería de pruebas Tier 2. Una suite por clase, cada una atada a su id de NFR:
+
+1. CARGA (L-NNN): test de throughput sostenido. Asegura que la tasa de error y la latencia se mantienen durante toda la duración.
+2. STRESS (ST-NNN): rampea la concurrencia hasta el punto de quiebre. Asegura degradación graciosa — sin pérdida de datos, códigos de error limpios.
+3. SEGURIDAD (S-NNN): acceso no autenticado rechazado, fuzzing de input en el límite de confianza, sin secretos en respuestas o logs, authz aplicado por rol.
+4. CONCURRENCIA (C-NNN): martilla el recurso compartido con escritores en paralelo. Asegura que no haya race condition, estado final correcto, idempotencia donde se requiera.
+5. LATENCIA (P-NNN): mide p50/p95/p99 bajo la carga concurrente especificada. Asegura que cada percentil está dentro del umbral.
+
+Coloca las suites en tests/tier2/. Reporta una tabla: id NFR | umbral | medido | pasa/falla. Ante cualquier fallo, no parchees en silencio — muéstrame la brecha.</span></div>
+
+  <h2>
+    <span lang="en">Step 05 — GS Writes the CI/CD Pipeline</span>
+    <span lang="es">Paso 05 — GS Escribe el Pipeline CI/CD</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">The pipeline is a derived artifact of the spec</span>
+    <span lang="es">El pipeline es un artefacto derivado del spec</span>
+  </div>
+
+  <p>
+    <span lang="en">The deployment pipeline is not a hand-written script — it derives from SPEC.md. Every NFR gate, deploy trigger, smoke test, and rollback rule is named in the spec first, then the AI generates the pipeline that enforces them.</span>
+    <span lang="es">El pipeline de despliegue no es un script escrito a mano — deriva de SPEC.md. Cada gate de NFR, trigger de despliegue, smoke test y regla de rollback se nombra primero en el spec, luego el AI genera el pipeline que los aplica.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — generate the CD pipeline</span><span lang="es">Pega esto — generar el pipeline de CD</span></span><span lang="en">Read docs/spec/SPEC.md (Tech Stack, NFRs, Quality Gates) and CONSTITUTION.md.
+Generate the full CI/CD pipeline (.github/workflows/deploy.yml or the platform in the spec) that:
+1. Runs the full test suite: unit, integration, E2E, plus the Tier 2 battery (load, stress, security, concurrency, latency) against the local/staging service stack.
+2. Makes every NFR a gate — if L-001 or P-001 fails, the build fails. Not a warning.
+3. Deploys to the staging environment named in the spec only after all gates pass.
+4. Runs smoke tests post-deploy against every F-NNN feature.
+5. Rolls back automatically if any smoke test fails.
+6. Never deploys to production at this tier — staging only.
+Name each pipeline step after the SPEC.md artifact it verifies. Commit: ci(tier2): spec-derived staging pipeline with NFR gates.</span><span lang="es">Lee docs/spec/SPEC.md (Stack Tecnológico, NFRs, Quality Gates) y CONSTITUTION.md.
+Genera el pipeline de CI/CD completo (.github/workflows/deploy.yml o la plataforma del spec) que:
+1. Corra la suite de tests completa: unit, integration, E2E, más la batería Tier 2 (carga, stress, seguridad, concurrencia, latencia) contra el stack de servicios local/staging.
+2. Haga de cada NFR un gate — si L-001 o P-001 falla, el build falla. No una advertencia.
+3. Despliegue al ambiente de staging nombrado en el spec solo después de que todos los gates pasen.
+4. Corra smoke tests post-despliegue contra cada feature F-NNN.
+5. Haga rollback automáticamente si algún smoke test falla.
+6. Nunca despliegue a producción en este tier — solo staging.
+Nombra cada step del pipeline con el artefacto de SPEC.md que verifica. Commitea: ci(tier2): spec-derived staging pipeline with NFR gates.</span></div>
+
+  <h2>
+    <span lang="en">Step 06 — NFR Gates in Practice</span>
+    <span lang="es">Paso 06 — Gates de NFR en la Práctica</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Each NFR becomes a test that fails if unmet</span>
+    <span lang="es">Cada NFR se vuelve un test que falla si no se cumple</span>
+  </div>
 
   <p>
     <span lang="en">Every Non-Functional Requirement from SPEC.md becomes a gate in the staging pipeline. Not a guideline — a gate. If P-001 says the endpoint responds in under 200ms at 100 concurrent users, the pipeline fails if it doesn't. Spec-first means NFRs are defined before deployment, not measured after.</span>
@@ -277,40 +501,14 @@ After writing all NFR tests, print a coverage table:
 Al terminar los tests NFR, imprime una tabla de cobertura:
 | ID NFR | Umbral | Archivo de test | Estado |</span></div>
 
-  <h3>
-    <span lang="en">CD Pipeline as Spec</span>
-    <span lang="es">Pipeline de CD como Spec</span>
-  </h3>
-
-  <p>
-    <span lang="en">The deployment pipeline is a derived artifact of SPEC.md, not a standalone script. Deployment targets, environment variables, health check endpoints, rollback triggers — all are named in the spec first, then wired into the pipeline. If SPEC.md changes a deployment target, the pipeline changes.</span>
-    <span lang="es">El pipeline de despliegue es un artefacto derivado de SPEC.md, no un script independiente. Destinos de despliegue, variables de entorno, endpoints de health check, triggers de rollback — todos se nombran en el spec primero, luego se conectan al pipeline. Si SPEC.md cambia un destino de despliegue, el pipeline cambia.</span>
-  </p>
-
-  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — CD pipeline generation</span><span lang="es">Pega esto — generación de pipeline de CD</span></span><span lang="en">Read SPEC.md sections Tech Stack and Non-Functional Requirements.
-Generate a CD pipeline configuration (.github/workflows/deploy.yml or equivalent) that:
-1. Runs the full test suite (unit + integration + e2e)
-2. Runs all NFR gate tests
-3. Deploys to the staging environment named in SPEC.md Tech Stack
-4. Runs smoke tests post-deploy against every F-NNN feature in scope
-5. Rolls back automatically if any smoke test fails
-6. Never deploys to production — staging only at this tier
-
-Name each workflow step after the SPEC.md artifact it verifies.</span><span lang="es">Lee las secciones Stack Tecnológico y Requerimientos No Funcionales de SPEC.md.
-Genera una configuración de pipeline de CD (.github/workflows/deploy.yml o equivalente) que:
-1. Corra la suite de tests completa (unit + integration + e2e)
-2. Corra todos los tests de gates NFR
-3. Despliegue al ambiente de staging nombrado en Stack Tecnológico de SPEC.md
-4. Corra smoke tests post-despliegue contra cada feature F-NNN en alcance
-5. Haga rollback automáticamente si algún smoke test falla
-6. Nunca despliegue a producción — solo staging en este tier
-
-Nombra cada step del workflow con el artefacto de SPEC.md que verifica.</span></div>
-
-  <h3>
-    <span lang="en">Test Pyramid Completion</span>
-    <span lang="es">Completar la Pirámide de Pruebas</span>
-  </h3>
+  <h2>
+    <span lang="en">Step 07 — Test Pyramid Completion</span>
+    <span lang="es">Paso 07 — Completar la Pirámide</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">E2E tests that drive the running application</span>
+    <span lang="es">Tests E2E que conducen la aplicación en ejecución</span>
+  </div>
 
   <p>
     <span lang="en">By the end of Tier 1, you have unit and integration tests from the harness. Tier 2 completes the pyramid: E2E tests that drive the running application through every use case in SPEC.md. Not happy-path only — error paths, boundary conditions, concurrent access patterns.</span>

@@ -165,6 +165,14 @@
     margin-bottom: 20px;
   }
 
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forge-dark);
+    margin: 32px 0 4px;
+  }
+
   p { margin-bottom: 16px; font-size: 16px; }
 
   /* ── Table ── */
@@ -354,26 +362,51 @@
     <span lang="es">SOLID, arquitectura hexagonal, TDD, ADRs, naming intencional — estas existieron 30 años y nunca se adoptaron completamente porque los humanos no las podían sostener bajo presión. El lector de IA que se beneficia de ellas es también el ejecutor que las hace cumplir. La fricción de adopción desapareció. El beneficio se duplicó.</span>
   </p>
 
-  <!-- ── Section 1: The Mechanical Advantage ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── Section 1: Why This Is the Core ── -->
+  <!-- ══════════════════════════════════════════════════ -->
   <h2>
-    <span lang="en">The Mechanical Advantage</span>
-    <span lang="es">La Ventaja Mecánica</span>
+    <span lang="en">Why This Is the Core</span>
+    <span lang="es">Por Qué Esto Es el Núcleo</span>
+  </h2>
+
+  <p>
+    <span lang="en">Temper is the heart of Generative Specification. Every other stage — the mold, the harness, the cascade — exists to make this one possible. The structural disciplines below were invented over thirty years to make code legible to the next human reader. A stateless AI reader has the exact same problem: it arrives knowing nothing about what you meant. The disciplines that help the human help the AI — for the same reason, by the same mechanism.</span>
+    <span lang="es">El Templado es el corazón de la Especificación Generativa. Cada otra etapa — el molde, el harness, la cascada — existe para hacer posible esta. Las disciplinas estructurales de abajo fueron inventadas a lo largo de treinta años para hacer el código legible para el siguiente lector humano. Un lector de IA sin estado tiene exactamente el mismo problema: llega sin saber nada de lo que quisiste decir. Las disciplinas que ayudan al humano ayudan a la IA — por la misma razón, por el mismo mecanismo.</span>
+  </p>
+
+  <p>
+    <span lang="en">But there is a difference that changes everything. Humans could never fully sustain these disciplines under deadline pressure. The AI reader that benefits from them is also the AI executor that enforces them on every file it touches. The discipline that required willpower is now structural. That is why Temper is the core: it is where the thirty-year-old promise of software engineering finally becomes enforceable.</span>
+    <span lang="es">Pero hay una diferencia que lo cambia todo. Los humanos nunca pudieron sostener completamente estas disciplinas bajo la presión de los plazos. El lector de IA que se beneficia de ellas es también el ejecutor de IA que las hace cumplir en cada archivo que toca. La disciplina que requería fuerza de voluntad ahora es estructural. Por eso el Templado es el núcleo: es donde la promesa de treinta años de la ingeniería de software por fin se vuelve exigible.</span>
+  </p>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── Section 2: The Fourteen Disciplines ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">The Fourteen Disciplines</span>
+    <span lang="es">Las Catorce Disciplinas</span>
   </h2>
   <div class="h2-sub">
-    <span lang="en">Why each discipline helps the AI reader, specifically</span>
-    <span lang="es">Por qué cada disciplina ayuda al lector IA, específicamente</span>
+    <span lang="en">Each one, and the mechanical advantage it gives the AI reader</span>
+    <span lang="es">Cada una, y la ventaja mecánica que le da al lector de IA</span>
   </div>
 
   <p>
-    <span lang="en">These disciplines were invented to make intent legible to the next human reader. An AI reader has the same problem: it arrives knowing nothing about what you meant. The disciplines reduce the token cost of understanding, eliminate traversals, and make the AI's first search deterministic.</span>
-    <span lang="es">Estas disciplinas fueron inventadas para hacer la intención legible para el siguiente lector humano. Un lector IA tiene el mismo problema: llega sin saber nada de lo que quisiste decir. Las disciplinas reducen el costo en tokens de entender, eliminan traversals, y hacen que la primera búsqueda del AI sea determinista.</span>
+    <span lang="en">Grouped in five families. For each: what it does for humans is well known — the column that matters is what it does for the AI.</span>
+    <span lang="es">Agrupadas en cinco familias. Para cada una: lo que hace por los humanos es bien conocido — la columna que importa es lo que hace por la IA.</span>
   </p>
 
+  <!-- ── Group 1: Architecture & Structure ── -->
+  <h3>
+    <span lang="en">Architecture &amp; Structure</span>
+    <span lang="es">Arquitectura y Estructura</span>
+  </h3>
   <table>
     <thead>
       <tr>
         <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
-        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector IA</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
       </tr>
     </thead>
     <tbody>
@@ -382,8 +415,8 @@
           <span class="discipline-name">SOLID — interfaces + DI</span>
         </td>
         <td>
-          <span lang="en">AI reads the contract (N lines), not the implementation (N×10). Hallucinations about private state = structurally impossible.</span>
-          <span lang="es">El AI lee el contrato (N líneas), no la implementación (N×10). Alucinaciones sobre estado privado = imposibles.</span>
+          <span lang="en">AI reads the contract (N lines), not the implementation (N×10). Hallucinations about private state are structurally impossible.</span>
+          <span lang="es">El AI lee el contrato (N líneas), no la implementación (N×10). Las alucinaciones sobre estado privado son estructuralmente imposibles.</span>
         </td>
       </tr>
       <tr>
@@ -394,22 +427,50 @@
           </span>
         </td>
         <td>
-          <span lang="en">AI acts on the class without exploring the call graph. The class is its own complete spec.</span>
-          <span lang="es">El AI actúa sobre la clase sin explorar el call graph. La clase es su propia spec completa.</span>
+          <span lang="en">The AI acts on the class without traversing the call graph. The class is its own complete spec.</span>
+          <span lang="es">El AI actúa sobre la clase sin recorrer el call graph. La clase es su propia spec completa.</span>
         </td>
       </tr>
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">Hexagonal + consistent structure</span>
-            <span lang="es">Hexagonal + estructura consistente</span>
+            <span lang="en">Hexagonal / ports &amp; adapters</span>
+            <span lang="es">Hexagonal / puertos y adaptadores</span>
           </span>
         </td>
         <td>
-          <span lang="en"><code>controllers/</code> always has controllers. First search hits. No discovery traversals.</span>
+          <span lang="en"><code>controllers/</code> always holds controllers. The first search hits. No discovery traversals.</span>
           <span lang="es"><code>controllers/</code> siempre tiene controllers. La primera búsqueda acierta. Sin traversals de descubrimiento.</span>
         </td>
       </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Layered / clean architecture</span>
+            <span lang="es">Arquitectura por capas / limpia</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Dependency direction is fixed (domain → application → infrastructure). The AI never wires a layer backwards.</span>
+          <span lang="es">La dirección de dependencias es fija (dominio → aplicación → infraestructura). El AI nunca conecta una capa al revés.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 2: Modeling ── -->
+  <h3>
+    <span lang="en">Modeling</span>
+    <span lang="es">Modelado</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
       <tr>
         <td>
           <span class="discipline-name">
@@ -419,18 +480,37 @@
         </td>
         <td>
           <span lang="en">Names in code map to the AI's training data about the same domain. Higher generation quality.</span>
-          <span lang="es">Nombres en código mapean al training data del AI sobre el mismo dominio. Calidad de generación más alta.</span>
+          <span lang="es">Los nombres en el código mapean al training data del AI sobre el mismo dominio. Mayor calidad de generación.</span>
         </td>
       </tr>
       <tr>
         <td>
-          <span class="discipline-name">Conventional Commits</span>
+          <span class="discipline-name">
+            <span lang="en">CQRS — command/query separation</span>
+            <span lang="es">CQRS — separación comando/consulta</span>
+          </span>
         </td>
         <td>
-          <span lang="en">Git log is queryable by type and scope. Cascade triggers fire from parseable types.</span>
-          <span lang="es">El git log es consultable por tipo y scope. Cascade triggers se activan desde tipos parseables.</span>
+          <span lang="en">Reads and writes are separate types. The AI cannot accidentally mutate state in a query path.</span>
+          <span lang="es">Lecturas y escrituras son tipos separados. El AI no puede mutar estado por accidente en un camino de lectura.</span>
         </td>
       </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 3: Testing ── -->
+  <h3>
+    <span lang="en">Testing</span>
+    <span lang="es">Pruebas</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
       <tr>
         <td>
           <span class="discipline-name">
@@ -439,8 +519,48 @@
           </span>
         </td>
         <td>
-          <span lang="en">Each test is a behavioral declaration the AI reads before the implementation.</span>
-          <span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación.</span>
+          <span lang="en">Each test is a behavioral declaration the AI reads before the implementation. Intent is stated, not inferred.</span>
+          <span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación. La intención está declarada, no inferida.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">BDD — behavior specs</span>
+            <span lang="es">BDD — specs de comportamiento</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Given/When/Then scenarios are executable acceptance criteria. The AI generates against the scenario, not a guess.</span>
+          <span lang="es">Los escenarios Given/When/Then son criterios de aceptación ejecutables. El AI genera contra el escenario, no contra una suposición.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 4: Process & History ── -->
+  <h3>
+    <span lang="en">Process &amp; History</span>
+    <span lang="es">Proceso e Historia</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Conventional commits</span>
+            <span lang="es">Conventional commits</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">The git log is queryable by type and scope. Cascade triggers fire from parseable types.</span>
+          <span lang="es">El git log es consultable por tipo y scope. Los cascade triggers se activan desde tipos parseables.</span>
         </td>
       </tr>
       <tr>
@@ -448,8 +568,8 @@
           <span class="discipline-name">ADRs</span>
         </td>
         <td>
-          <span lang="en">AI reads the <em>why</em> behind decisions. Can't "optimize" intentional tradeoffs that look suboptimal without context.</span>
-          <span lang="es">El AI lee el <em>por qué</em> de las decisiones. No puede "optimizar" tradeoffs intencionales que parecen subóptimos.</span>
+          <span lang="en">The AI reads the why behind decisions. It cannot "optimize" an intentional tradeoff that looks suboptimal without context.</span>
+          <span lang="es">El AI lee el porqué de las decisiones. No puede "optimizar" un tradeoff intencional que parece subóptimo sin contexto.</span>
         </td>
       </tr>
       <tr>
@@ -460,10 +580,26 @@
           </span>
         </td>
         <td>
-          <span lang="en">AI receives intent before implementation. Generating from spec is execution; from code without spec is reverse engineering.</span>
+          <span lang="en">The AI receives intent before implementation. Generating from spec is execution; from code without spec is reverse engineering.</span>
           <span lang="es">El AI recibe la intención antes que la implementación. Generar desde spec es ejecución; desde código sin spec es ingeniería inversa.</span>
         </td>
       </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 5: Code-level & Enforcement ── -->
+  <h3>
+    <span lang="en">Code-level &amp; Enforcement</span>
+    <span lang="es">Nivel de Código y Enforcement</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
       <tr>
         <td>
           <span class="discipline-name">
@@ -472,72 +608,137 @@
           </span>
         </td>
         <td>
-          <span lang="en"><code>calculateMonthlyCost(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, error contract, all in the signature. Zero implementation reading.</span>
-          <span lang="es"><code>calculateMonthlyCost(userId: UserId, period: BillingPeriod): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output, contrato de error, todo en la firma. Cero lectura de implementación.</span>
+          <span lang="en"><code>calculateMonthlyCost(userId, period): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, error contract, all in the signature. Zero implementation reading.</span>
+          <span lang="es"><code>calcularCostoMensual(userId, period): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output, contrato de error, todo en la firma. Cero lectura de implementación.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Hooks / quality gates</span>
+            <span lang="es">Hooks / quality gates</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Structural rejection turns feedback from conversational to architectural. The AI corrects against machine rules, not per-session reminders.</span>
+          <span lang="es">El rechazo estructural convierte el feedback de conversacional a arquitectónico. El AI corrige contra reglas de máquina, no recordatorios por sesión.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">GoF design patterns (named in the spec)</span>
+            <span lang="es">Patrones de diseño GoF (nombrados en la spec)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">The pattern name activates the AI's full trained knowledge of the canonical structure, interface contracts, and invariants. The name IS the specification.</span>
+          <span lang="es">El nombre del patrón activa el conocimiento entrenado completo del AI sobre la estructura canónica, contratos de interfaz e invariantes. El nombre ES la especificación.</span>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- ── Section 2: The 30-Year Argument ── -->
+  <blockquote class="pattern-note">
+    <span lang="en"><strong>These disciplines existed for thirty years and were never fully adopted</strong> — not because they were wrong, but because humans could not sustain them under pressure. The AI reader that benefits from them is also the executor that enforces them. The friction of adoption disappeared. The benefit doubled.</span>
+    <span lang="es"><strong>Estas disciplinas existieron durante treinta años y nunca se adoptaron completamente</strong> — no porque estuvieran equivocadas, sino porque los humanos no las podían sostener bajo presión. El lector de IA que se beneficia de ellas es también el ejecutor que las hace cumplir. La fricción de adopción desapareció. El beneficio se duplicó.</span>
+  </blockquote>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── Section 3: The Token Question ── -->
+  <!-- ══════════════════════════════════════════════════ -->
   <h2>
-    <span lang="en">The 30-Year Argument</span>
-    <span lang="es">El Argumento de los 30 Años</span>
+    <span lang="en">The Token Question</span>
+    <span lang="es">La Pregunta de los Tokens</span>
   </h2>
-
-  <p>
-    <span lang="en">These disciplines existed for 30 years and were never fully adopted. Not because they were wrong. Because humans couldn't sustain them under pressure. The sprint ends, the deadline moves, the senior engineer leaves, and the architecture degrades toward what's fastest to write, not what's clearest to read.</span>
-    <span lang="es">Estas disciplinas existieron 30 años y nunca se adoptaron completamente. No porque estuvieran equivocadas. Porque los humanos no las podían sostener bajo presión. El sprint termina, el deadline se mueve, el ingeniero senior se va, y la arquitectura degrada hacia lo más rápido de escribir, no lo más claro de leer.</span>
-  </p>
-
-  <p>
-    <span lang="en">The AI reader that benefits from these disciplines is also the AI executor that enforces them. SOLID isn't a style preference anymore — it's a constraint the AI applies on every file it touches. TDD isn't a discipline that requires willpower — it's the entry condition for every fix. The friction disappeared. The benefit compounded.</span>
-    <span lang="es">El lector de IA que se beneficia de estas disciplinas es también el ejecutor de IA que las hace cumplir. SOLID ya no es una preferencia de estilo — es una restricción que el AI aplica en cada archivo que toca. TDD ya no es una disciplina que requiere fuerza de voluntad — es la condición de entrada para cada fix. La fricción desapareció. El beneficio se compuso.</span>
-  </p>
-
-  <div class="callout">
-    <span lang="en"><strong>The insight:</strong> The same entity that needs readable code is the entity that writes it. The reader and the enforcer are one. For the first time, a discipline that benefits future readers has an executor with no memory of the pressure that caused the last violation.</span>
-    <span lang="es"><strong>La idea:</strong> La misma entidad que necesita código legible es la que lo escribe. El lector y el ejecutor son uno. Por primera vez, una disciplina que beneficia a futuros lectores tiene un ejecutor sin memoria de la presión que causó la última violación.</span>
+  <div class="h2-sub">
+    <span lang="en">The one real objection — and why the metric is wrong</span>
+    <span lang="es">La única objeción real — y por qué la métrica está equivocada</span>
   </div>
 
-  <!-- ── Section 3: Enforce It ── -->
+  <p>
+    <span lang="en">The most common objection to Generative Specification: it looks token-expensive. You write a specification, cascade documents, and tests — then regenerate code from the spec. Surely that burns more tokens than simply asking the AI to write the code?</span>
+    <span lang="es">La objeción más común a la Especificación Generativa: parece cara en tokens. Escribes una especificación, documentos en cascada, y tests — luego regeneras el código desde la spec. ¿Seguramente eso quema más tokens que simplemente pedirle al AI que escriba el código?</span>
+  </p>
+
+  <p>
+    <span lang="en">The metric is wrong. What matters is not tokens generated — it is tokens per correct, merged line of code. Without a specification, the AI spends tokens on code that gets discarded, on re-explaining context at the start of every cold session, on debugging hallucinations, and on redoing work lost to drift. GS front-loads the spend into a specification written once and read every session, then collapses the waste downstream. The line of code that ships on the first try is far cheaper than the line written three times.</span>
+    <span lang="es">La métrica está equivocada. Lo que importa no son los tokens generados — son los tokens por línea de código correcta y mergeada. Sin una especificación, el AI gasta tokens en código que se descarta, en re-explicar el contexto al inicio de cada sesión fría, en depurar alucinaciones, y en rehacer trabajo perdido por la deriva. GS adelanta el gasto a una especificación escrita una vez y leída en cada sesión, luego colapsa el desperdicio aguas abajo. La línea de código que llega bien al primer intento es mucho más barata que la línea escrita tres veces.</span>
+  </p>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>For a solo developer this barely matters</strong> — your own time dominates the cost. For an enterprise running AI across many engineers, tokens-per-correct-line is a real budget line, and it is exactly where GS wins. We are measuring this directly; the experiment is in design.</span>
+    <span lang="es"><strong>Para un desarrollador solo esto apenas importa</strong> — tu propio tiempo domina el costo. Para una empresa corriendo AI en muchos ingenieros, los tokens-por-línea-correcta son una línea de presupuesto real, y es exactamente donde GS gana. Lo estamos midiendo directamente; el experimento está en diseño.</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── Section 4: Enforce It ── -->
+  <!-- ══════════════════════════════════════════════════ -->
   <h2>
     <span lang="en">Enforce It</span>
-    <span lang="es">Hacerlo Cumplir</span>
+    <span lang="es">Hazlo Cumplir</span>
   </h2>
 
   <p>
-    <span lang="en">The structural disciplines are enforced by the harness, not by willpower. The sentinel tree (CLAUDE.md) names the standards. The manifest enforces them. The pre-commit hooks reject violations before they land.</span>
-    <span lang="es">Las disciplinas estructurales las hace cumplir el harness, no la fuerza de voluntad. El árbol sentinel (CLAUDE.md) nombra los estándares. El manifest los hace cumplir. Los pre-commit hooks rechazan violaciones antes de que lleguen.</span>
+    <span lang="en">The disciplines are enforced by the harness, not by willpower. The sentinel (CONSTITUTION.md) names them in its structural-disciplines manifesto. The hooks reject violations before they land. The CI gate fails the build.</span>
+    <span lang="es">Las disciplinas las hace cumplir el harness, no la fuerza de voluntad. El sentinel (CONSTITUTION.md) las nombra en su manifiesto de disciplinas estructurales. Los hooks rechazan violaciones antes de que lleguen. El gate de CI hace fallar el build.</span>
   </p>
 
   <div class="path-picker">
-    <a href="/sentinel">
+    <a href="/mold">
       <div class="label">
-        <span lang="en">Stage 2 · Moldeado</span>
-        <span lang="es">Etapa 2 · Moldeado</span>
+        <span lang="en">Stage 2 · Mold</span>
+        <span lang="es">Etapa 2 · Molde</span>
       </div>
       <div class="name">
-        <span lang="en">Generate Your Sentinel →</span>
-        <span lang="es">Genera tu Sentinel →</span>
+        <span lang="en">Generate the Sentinel →</span>
+        <span lang="es">Genera el Sentinel →</span>
       </div>
       <div class="desc">
-        <span lang="en">The spec and architectural constitution that names the disciplines.</span>
-        <span lang="es">El spec y la constitución arquitectónica que nombra las disciplinas.</span>
+        <span lang="en">Names the disciplines in the architectural constitution.</span>
+        <span lang="es">Nombra las disciplinas en la constitución arquitectónica.</span>
       </div>
     </a>
-    <a href="/try#greenfield">
+    <a href="/greenfield">
       <div class="label">
         <span lang="en">Stage 3 · Temple</span>
         <span lang="es">Etapa 3 · Temple</span>
       </div>
       <div class="name">
-        <span lang="en">Build from the Mold →</span>
-        <span lang="es">Construye desde el Molde →</span>
+        <span lang="en">Build Under Discipline →</span>
+        <span lang="es">Construye Bajo Disciplina →</span>
       </div>
       <div class="desc">
-        <span lang="en">The harness that verifies the AI's output against the spec.</span>
-        <span lang="es">El harness que verifica el output del AI contra el spec.</span>
+        <span lang="en">The harness verifies the AI's output against the spec.</span>
+        <span lang="es">El harness verifica el output del AI contra la spec.</span>
+      </div>
+    </a>
+    <a href="/harden">
+      <div class="label">
+        <span lang="en">Stage 5 · Harden</span>
+        <span lang="es">Etapa 5 · Harden</span>
+      </div>
+      <div class="name">
+        <span lang="en">Tier 2 — NFR Gates →</span>
+        <span lang="es">Tier 2 — Gates de NFR →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Add non-functional requirement gates on top of the structure.</span>
+        <span lang="es">Agrega gates de requisitos no funcionales sobre la estructura.</span>
+      </div>
+    </a>
+    <a href="/diagnose">
+      <div class="label">
+        <span lang="en">Diagnose</span>
+        <span lang="es">Diagnostica</span>
+      </div>
+      <div class="name">
+        <span lang="en">Score Your Codebase →</span>
+        <span lang="es">Puntúa tu Codebase →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Measure how legible your code already is to an AI reader.</span>
+        <span lang="es">Mide qué tan legible es ya tu código para un lector de IA.</span>
       </div>
     </a>
   </div>
