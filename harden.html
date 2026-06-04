@@ -352,6 +352,23 @@
     <span lang="es"><strong>Qué lo fuerza:</strong> el pipeline invoca el skill del paseo de casos de uso y bloquea la promoción según su exit code. El AI no puede desplegar-y-olvidar — la promoción está gateada por un paseo en verde. Este es el análogo en Tier 2 del test verde del Tier 1.</span>
   </div>
 
+  <h3>
+    <span lang="en">What the gate proves: Executable + Verifiable</span>
+    <span lang="es">Qué prueba el gate: Ejecutable + Verificable</span>
+  </h3>
+  <p>
+    <span lang="en">Tier 1 proves the code is correct in isolation — its tests pass. But "passes its tests" is not "works in production." The Harden gate forces a demonstration of two of the seven properties, at production fidelity:</span>
+    <span lang="es">El Tier 1 prueba que el código es correcto en aislamiento — sus tests pasan. Pero "pasa sus tests" no es "funciona en producción". El gate de Harden fuerza una demostración de dos de las siete propiedades, a fidelidad de producción:</span>
+  </p>
+  <ul>
+    <li><span lang="en"><strong>Executable</strong> — the spec's use cases actually run end-to-end against real services. The generative execution (the <code>qa-walk</code> driving the deployed app through every use case) is the proof: not "the tests pass" but "the system does the thing."</span><span lang="es"><strong>Ejecutable</strong> — los casos de uso del spec realmente corren end-to-end contra servicios reales. La ejecución generativa (el <code>qa-walk</code> manejando la app desplegada por cada caso de uso) es la prueba: no "los tests pasan" sino "el sistema hace la cosa".</span></li>
+    <li><span lang="en"><strong>Verifiable</strong> — every NFR threshold and every use-case postcondition is checked against the spec by the harness, not a human. The NFR battery and the verification-loop coherence checks are the proof.</span><span lang="es"><strong>Verificable</strong> — cada umbral NFR y cada postcondición se chequea contra el spec por el harness, no por un humano. La batería NFR y los chequeos de coherencia del loop son la prueba.</span></li>
+  </ul>
+  <p>
+    <span lang="en"><strong>NFR battery + generative execution = Executable and Verifiable, demonstrated.</strong> The gate requires both green to promote. You cannot promote an artifact that hasn't shown it both runs and is verified against the spec under production conditions.</span>
+    <span lang="es"><strong>Batería NFR + ejecución generativa = Ejecutable y Verificable, demostradas.</strong> El gate exige ambas en verde para promover. No podés promover un artefacto que no mostró que corre y que está verificado contra el spec bajo condiciones de producción.</span>
+  </p>
+
   <h2>
     <span lang="en">The Verification Loop — Multimodal AI-as-QA</span>
     <span lang="es">El Loop de Verificación — IA como QA Multimodal</span>
@@ -405,7 +422,14 @@
     <li><span lang="en"><strong>Headless</strong> — the same loop without the UI steps: Hurl drives the boundary, SQL + logs verify. For API services and batch jobs.</span><span lang="es"><strong>Headless</strong> — el mismo loop sin los pasos de UI: Hurl conduce el boundary, SQL + logs verifican. Para servicios API y batch jobs.</span></li>
     <li><span lang="en"><strong>Mobile</strong> — the same loop, with a mobile-automation MCP replacing Playwright for the behavior and visual step.</span><span lang="es"><strong>Móvil</strong> — el mismo loop, con un MCP de automatización móvil reemplazando a Playwright en el paso de comportamiento y visual.</span></li>
     <li><span lang="en"><strong>Simulation / optimization / game balance</strong> — the behavior step becomes a parameterized run (e.g. a Monte Carlo over a blackjack advisor: 100k hands, check the recommended action's expected value). Verification is statistical — distributions, balance, convergence — not a single postcondition.</span><span lang="es"><strong>Simulación / optimización / balance de juego</strong> — el paso de comportamiento se vuelve una corrida parametrizada (ej. un Monte Carlo sobre un asesor de blackjack: 100k manos, chequear el valor esperado de la acción recomendada). La verificación es estadística — distribuciones, balance, convergencia — no una sola postcondición.</span></li>
+    <li><span lang="en"><strong>ETL / data pipeline</strong> — trace a datum through the pipeline: state at the source, evidence at each transform stage, aggregated state at the sink. Verify <strong>lineage and coherence</strong> — the datum arrived transformed and aggregated correctly, with no loss and no silent corruption between stages. The "behavior" is the pipeline run; the evidence layers are the stage outputs.</span><span lang="es"><strong>ETL / pipeline de datos</strong> — trazá un dato por el pipeline: estado en el origen, evidencia en cada etapa de transformación, estado agregado en el sink. Verificá <strong>lineage y coherencia</strong> — el dato llegó transformado y agregado correctamente, sin pérdida ni corrupción silenciosa entre etapas. El "comportamiento" es la corrida del pipeline; las capas de evidencia son las salidas de cada etapa.</span></li>
+    <li><span lang="en"><strong>Event-driven / async</strong> — message published → consumer received → side effect happened. Verify across the broker, the consumer logs, and the resulting state; account for eventual consistency, idempotency, and retries.</span><span lang="es"><strong>Event-driven / async</strong> — mensaje publicado → consumidor recibió → efecto secundario ocurrió. Verificá a través del broker, los logs del consumidor y el estado resultante; tené en cuenta consistencia eventual, idempotencia y reintentos.</span></li>
   </ul>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>The catalog is open.</strong> CRUD, headless, mobile, simulation, ETL, event-driven — these are not separate mechanisms. They are one principle (gather evidence per layer, check coherence) instantiated for the shape of the use case. When a new shape appears, you don't need a new method — you map its evidence layers to tools and check they cohere.</span>
+    <span lang="es"><strong>El catálogo es abierto.</strong> CRUD, headless, móvil, simulación, ETL, event-driven — no son mecanismos separados. Son un principio (juntar evidencia por capa, chequear coherencia) instanciado para la forma del caso de uso. Cuando aparece una forma nueva, no necesitás un método nuevo — mapeás sus capas de evidencia a herramientas y verificás que coincidan.</span>
+  </div>
 
   <div class="pattern-note">
     <span lang="en"><strong>The principle:</strong> pick the evidence layers the use case actually touches, drive each with the right tool, and verify they cohere. GS is tool-agnostic — Playwright, Hurl, SQL, log readers, and simulation harnesses are the common defaults, swapped per platform. The <code>qa-walk</code> skill runs this loop; the CD gate makes it mandatory.</span>
