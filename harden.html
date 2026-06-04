@@ -353,6 +353,66 @@
   </div>
 
   <h2>
+    <span lang="en">The Verification Loop — Multimodal AI-as-QA</span>
+    <span lang="es">El Loop de Verificación — IA como QA Multimodal</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">A use case is verified by triangulating evidence, not by one tool</span>
+    <span lang="es">Un caso de uso se verifica triangulando evidencia, no con una sola herramienta</span>
+  </div>
+
+  <p>
+    <span lang="en">No single tool proves a use case works. The AI verifies it the way a careful human QA would — by gathering evidence from every layer the use case touches and checking that the layers <strong>agree</strong>. The canonical loop, for a typical create/update use case:</span>
+    <span lang="es">Ninguna herramienta sola prueba que un caso de uso funciona. El AI lo verifica como lo haría un QA humano cuidadoso — juntando evidencia de cada capa que el caso de uso toca y chequeando que las capas <strong>coincidan</strong>. El loop canónico, para un caso de uso típico de creación/actualización:</span>
+  </p>
+
+  <ol>
+    <li><span lang="en"><strong>Read prior state</strong> — SQL (or a DB MCP): capture the database state before the action.</span><span lang="es"><strong>Leer el estado previo</strong> — SQL (o un MCP de DB): captura el estado de la base de datos antes de la acción.</span></li>
+    <li><span lang="en"><strong>Drive the behavior</strong> — Playwright MCP: simulate the user performing the use case in the real UI.</span><span lang="es"><strong>Conducir el comportamiento</strong> — Playwright MCP: simula al usuario ejecutando el caso de uso en la UI real.</span></li>
+    <li><span lang="en"><strong>Inspect the business layer</strong> — read the logs/traces: confirm the business layer received and processed the right command and values.</span><span lang="es"><strong>Inspeccionar la capa de negocio</strong> — leer los logs/trazas: confirma que la capa de negocio recibió y procesó el comando y los valores correctos.</span></li>
+    <li><span lang="en"><strong>Read the new state</strong> — SQL again: capture the delta. Did exactly the right rows change, and nothing else?</span><span lang="es"><strong>Leer el estado nuevo</strong> — SQL de nuevo: captura el delta. ¿Cambiaron exactamente las filas correctas, y nada más?</span></li>
+    <li><span lang="en"><strong>Confirm the return</strong> — UI refresh (Playwright screenshot + vision): the returned information shows on screen as the postcondition specifies.</span><span lang="es"><strong>Confirmar el retorno</strong> — refresco de UI (screenshot de Playwright + visión): la información devuelta aparece en pantalla como especifica la postcondición.</span></li>
+    <li><span lang="en"><strong>Check coherence</strong> — the UI, the logs, and the DB must tell the same story. If the screen says "saved" but the DB delta is empty, or the logs show a value the UI never displayed, you have a bug — even if each isolated check passes. Coherence across layers is what separates real verification from test theater.</span><span lang="es"><strong>Chequear coherencia</strong> — la UI, los logs y la DB deben contar la misma historia. Si la pantalla dice "guardado" pero el delta de la DB está vacío, o los logs muestran un valor que la UI nunca mostró, tenés un bug — aunque cada chequeo aislado pase. La coherencia entre capas es lo que separa la verificación real del teatro de tests.</span></li>
+  </ol>
+
+  <p>
+    <span lang="en"><strong>Evidence layers and the tool for each:</strong></span>
+    <span lang="es"><strong>Capas de evidencia y la herramienta para cada una:</strong></span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Evidence layer</span><span lang="es">Capa de evidencia</span></th>
+        <th><span lang="en">Tool</span><span lang="es">Herramienta</span></th>
+        <th><span lang="en">Question it answers</span><span lang="es">Pregunta que responde</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span lang="en">State (before / after / delta)</span><span lang="es">Estado (antes / después / delta)</span></td><td>SQL · DB MCP</td><td><span lang="en">Did the right data change, and only that?</span><span lang="es">¿Cambió el dato correcto, y solo ese?</span></td></tr>
+      <tr><td><span lang="en">User behavior + visual</span><span lang="es">Comportamiento de usuario + visual</span></td><td>Playwright MCP + <span lang="en">vision</span><span lang="es">visión</span></td><td><span lang="en">Does the flow work and look right to a user?</span><span lang="es">¿El flujo funciona y se ve bien para un usuario?</span></td></tr>
+      <tr><td><span lang="en">API / contract</span><span lang="es">API / contrato</span></td><td>Hurl</td><td><span lang="en">Does the boundary honor its contract?</span><span lang="es">¿El boundary honra su contrato?</span></td></tr>
+      <tr><td><span lang="en">Business internals</span><span lang="es">Internos de negocio</span></td><td><span lang="en">log / trace reading</span><span lang="es">lectura de logs / trazas</span></td><td><span lang="en">Did the business layer do the right thing inside?</span><span lang="es">¿La capa de negocio hizo lo correcto adentro?</span></td></tr>
+      <tr><td><span lang="en">Statistical / balance</span><span lang="es">Estadística / balance</span></td><td><span lang="en">parameterized simulation</span><span lang="es">simulación parametrizada</span></td><td><span lang="en">Over many runs, are outcomes and balance correct?</span><span lang="es">¿En muchas corridas, los resultados y el balance son correctos?</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <span lang="en"><strong>The same loop, swapped per platform:</strong></span>
+    <span lang="es"><strong>El mismo loop, intercambiado por plataforma:</strong></span>
+  </p>
+  <ul>
+    <li><span lang="en"><strong>Headless</strong> — the same loop without the UI steps: Hurl drives the boundary, SQL + logs verify. For API services and batch jobs.</span><span lang="es"><strong>Headless</strong> — el mismo loop sin los pasos de UI: Hurl conduce el boundary, SQL + logs verifican. Para servicios API y batch jobs.</span></li>
+    <li><span lang="en"><strong>Mobile</strong> — the same loop, with a mobile-automation MCP replacing Playwright for the behavior and visual step.</span><span lang="es"><strong>Móvil</strong> — el mismo loop, con un MCP de automatización móvil reemplazando a Playwright en el paso de comportamiento y visual.</span></li>
+    <li><span lang="en"><strong>Simulation / optimization / game balance</strong> — the behavior step becomes a parameterized run (e.g. a Monte Carlo over a blackjack advisor: 100k hands, check the recommended action's expected value). Verification is statistical — distributions, balance, convergence — not a single postcondition.</span><span lang="es"><strong>Simulación / optimización / balance de juego</strong> — el paso de comportamiento se vuelve una corrida parametrizada (ej. un Monte Carlo sobre un asesor de blackjack: 100k manos, chequear el valor esperado de la acción recomendada). La verificación es estadística — distribuciones, balance, convergencia — no una sola postcondición.</span></li>
+  </ul>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>The principle:</strong> pick the evidence layers the use case actually touches, drive each with the right tool, and verify they cohere. GS is tool-agnostic — Playwright, Hurl, SQL, log readers, and simulation harnesses are the common defaults, swapped per platform. The <code>qa-walk</code> skill runs this loop; the CD gate makes it mandatory.</span>
+    <span lang="es"><strong>El principio:</strong> elegí las capas de evidencia que el caso de uso realmente toca, conducí cada una con la herramienta correcta, y verificá que coincidan. GS es agnóstico de herramientas — Playwright, Hurl, SQL, lectores de logs y harnesses de simulación son los defaults comunes, intercambiados por plataforma. El skill <code>qa-walk</code> corre este loop; el gate de CD lo hace obligatorio.</span>
+  </div>
+
+  <h2>
     <span lang="en">Step 01 — Expand the Spec for Tier 2</span>
     <span lang="es">Paso 01 — Expande el Spec para Tier 2</span>
   </h2>
