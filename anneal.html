@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Anneal — Renew an Existing System · PragmaWorks"
+  data-es="Recocido — Renueva un Sistema Existente · PragmaWorks"
+>Anneal — Renew an Existing System · PragmaWorks</title>
+<meta name="description"
+  data-en="Stage 6: renew an existing system — oracle tests, prioritized remediation under cascade discipline, and the strangler fig for large codebases, then re-enter the forge cycle."
+  data-es="Etapa 6: renueva un sistema existente — oracle tests, remediación priorizada bajo disciplina de cascada y la higuera estranguladora para codebases grandes, luego re-entra al ciclo de la forja."
+  content="Stage 6: renew an existing system — oracle tests, prioritized remediation under cascade discipline, and the strangler fig for large codebases, then re-enter the forge cycle.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  /* ── Forge progress bar ── */
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
+  /* ── Nav ── */
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+
+  /* ── Typography ── */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+    scroll-margin-top: 24px;
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 40px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  /* ── Step grid ── */
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  /* ── Prompt box ── */
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* ── Pattern note ── */
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  /* ── Flow line ── */
+  .flow-line {
+    margin: 18px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--ember);
+    background: var(--parchment2);
+    border-radius: 4px;
+    padding: 14px 18px;
+  }
+
+  /* ── Path picker ── */
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<!-- Forge progress bar — Stage 6 Anneal active -->
+<div class="forge-progress"><div class="forge-progress-inner">
+      <a href="/heating" class="fp-stage fp-done">Heating</a><span class="fp-arrow">›</span>
+      <a href="/mold" class="fp-stage fp-done">Mold</a><span class="fp-arrow">›</span>
+      <a href="/temple" class="fp-stage fp-done">Temple</a><span class="fp-arrow">›</span>
+      <a href="/temper" class="fp-stage fp-done">Temper</a><span class="fp-arrow">›</span>
+      <a href="/harden" class="fp-stage fp-done">Harden</a><span class="fp-arrow">›</span>
+      <span class="fp-stage fp-active">Anneal</span>
+    </div></div>
+
+<div class="container">
+
+  <!-- ── Header ── -->
+  <div class="eyebrow">
+    <span lang="en">Stage 6 · Anneal · Renewal</span>
+    <span lang="es">Etapa 6 · Recocido · Renovación</span>
+  </div>
+
+  <h1>
+    <span lang="en">Bring Existing Code Under Discipline</span>
+    <span lang="es">Trae el Código Existente a la Disciplina</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">Annealing relieves internal stress in metal and readies it to be reshaped. In GS, Anneal is how an existing system is renewed: protected with oracle tests, remediated in priority order under cascade discipline, and — for large systems — strangled module by module rather than rewritten. When remediation is done, the system re-enters the cycle as if greenfield.</span>
+    <span lang="es">El recocido alivia el estrés interno del metal y lo prepara para ser reformado. En GS, el Recocido es cómo se renueva un sistema existente: protegido con oracle tests, remediado en orden de prioridad bajo disciplina de cascada y — para sistemas grandes — estrangulado módulo por módulo en vez de reescrito. Cuando la remediación termina, el sistema re-entra al ciclo como si fuera greenfield.</span>
+  </p>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Anneal assumes you have already run Heating (cold read + audit) and Mold (spec from code + sentinel + harness) on the existing project.</strong> If not, start at <a href="/heating">/heating</a>.</span>
+    <span lang="es"><strong>El Recocido asume que ya corriste Calentamiento (lectura en frío + auditoría) y Moldeado (spec desde el código + sentinel + harness) sobre el proyecto existente.</strong> Si no, comienza en <a href="/heating">/heating</a>.</span>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 01 — ORACLE TESTS
+       ════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 01 — Oracle Tests</span>
+    <span lang="es">Paso 01 — Oracle Tests</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Boundary tests BEFORE touching structural code</span>
+    <span lang="es">Tests de boundary ANTES de tocar código estructural</span>
+  </div>
+
+  <p>
+    <span lang="en">Before changing anything structural, install oracle tests at the system boundary. These tests verify the existing behavior — not the intended behavior. They are your safety net during remediation. If a remediation breaks an oracle test, you've changed behavior, not just structure.</span>
+    <span lang="es">Antes de cambiar cualquier cosa estructural, instala oracle tests en el boundary del sistema. Estos tests verifican el comportamiento existente — no el comportamiento pretendido. Son tu red de seguridad durante la remediación. Si una remediación rompe un oracle test, cambiaste comportamiento, no solo estructura.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Install Oracle Tests</span><span lang="es">Pega esto — Instala Oracle Tests</span></span><span lang="en">Read docs/spec/SPEC.md and CONSTITUTION.md.
+Install oracle tests at the system boundary BEFORE any structural changes.
+
+For each HTTP endpoint (or equivalent system boundary):
+1. Write an integration test that verifies the current behavior — what it
+   actually does today.
+2. Write an error-path test for each failure mode.
+3. Place all oracle tests in: tests/oracle/
+4. These tests must NOT change during remediation. If one fails after a
+   refactor, stop.
+
+Commit: test(oracle): install boundary tests before remediation
+
+After all oracle tests pass: run the GS audit again — the score is
+your baseline.</span><span lang="es">Lee docs/spec/SPEC.md y CONSTITUTION.md.
+Instala oracle tests en el boundary del sistema ANTES de cualquier cambio estructural.
+
+Para cada endpoint HTTP (o boundary equivalente del sistema):
+1. Escribe un test de integración que verifique el comportamiento actual
+   — lo que realmente hace hoy.
+2. Escribe un test de path de error para cada modo de falla.
+3. Coloca todos los oracle tests en: tests/oracle/
+4. Estos tests NO deben cambiar durante la remediación. Si uno falla
+   después de un refactor, detente.
+
+Commit: test(oracle): install boundary tests before remediation
+
+Después de que todos los oracle tests pasen: corre la auditoría GS
+nuevamente — ese puntaje es tu baseline.</span></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 02 — REMEDIATION
+       ════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 02 — Remediation</span>
+    <span lang="es">Paso 02 — Remediación</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Priority order, cascade discipline throughout</span>
+    <span lang="es">Orden de prioridad, disciplina de cascada en todo momento</span>
+  </div>
+
+  <p>
+    <span lang="en">Apply the remediation plan from your audit under full cascade discipline. Work in priority order: highest-impact, lowest-score properties first. Each item is one of three operation types: refactor, fix, or new spec entry. The harness rejects any commit that skips the discipline.</span>
+    <span lang="es">Aplica el plan de remediación de tu auditoría bajo disciplina de cascada completa. Trabaja en orden de prioridad: propiedades de mayor impacto y menor puntaje primero. Cada item es uno de tres tipos de operación: refactor, fix o nueva entrada de spec. El harness rechaza cualquier commit que saltee la disciplina.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Remediation Plan Execution</span><span lang="es">Pega esto — Ejecución del Plan de Remediación</span></span><span lang="en">Read docs/spec/SPEC.md, CONSTITUTION.md, and the GS audit report from Step 02.
+Apply the remediation plan in priority order.
+
+Rules:
+1. Work one item at a time. Complete and commit before starting the next.
+2. Each remediation item is one of:
+   - REFACTOR: ADR first → structural change → oracle tests still pass
+   - FIX: failing test first → patch → oracle tests still pass
+   - SPEC UPDATE: add missing F-NNN or NFR to SPEC.md → derive code from it
+3. After every 3 items, run the full test suite including oracle tests.
+4. Update STATUS.md after each session.
+5. Pause before: any DB schema change, any public API change, any change
+   touching more than 10 files.
+
+After completing the remediation plan, run the GS audit again for the
+after-score.</span><span lang="es">Lee docs/spec/SPEC.md, CONSTITUTION.md y el reporte de auditoría GS del Paso 02.
+Aplica el plan de remediación en orden de prioridad.
+
+Reglas:
+1. Trabaja un item a la vez. Completa y commitea antes de comenzar el siguiente.
+2. Cada item de remediación es uno de:
+   - REFACTOR: ADR primero → cambio estructural → oracle tests siguen pasando
+   - FIX: test fallido primero → parche → oracle tests siguen pasando
+   - SPEC UPDATE: agrega F-NNN o NFR faltante a SPEC.md → deriva código desde él
+3. Después de cada 3 items, corre la suite completa de tests incluyendo oracle tests.
+4. Actualiza STATUS.md después de cada sesión.
+5. Pausa antes de: cualquier cambio de schema de BD, cualquier cambio de API pública,
+   cualquier cambio que toque más de 10 archivos.
+
+Después de completar el plan de remediación, corre la auditoría GS
+nuevamente para el puntaje posterior.</span></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 03 — STRANGLER FIG
+       ════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 03 — Large Codebases: The Strangler Fig</span>
+    <span lang="es">Paso 03 — Codebases Grandes: La Higuera Estranguladora</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Strangle the old system module by module — never a big-bang rewrite</span>
+    <span lang="es">Estrangula el sistema viejo módulo por módulo — nunca una reescritura big-bang</span>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>For large brownfield systems,</strong> don't apply Tier 2 to the whole codebase at once. Identify the seam — the boundary where new GS-disciplined code will grow. Apply NFR gates and CD pipeline to the new module only. Route a percentage of traffic to it. The old code degrades gracefully as the new module grows. This is the Strangler Fig pattern applied to GS adoption: the new system strangles the old one without a big-bang rewrite.</span>
+    <span lang="es"><strong>Para sistemas brownfield grandes,</strong> no apliques Tier 2 a toda la codebase de una vez. Identifica la costura — el límite donde crecerá el nuevo código bajo disciplina GS. Aplica gates NFR y pipeline de CD solo al nuevo módulo. Ruteá un porcentaje del tráfico hacia él. El código viejo degrada graciosamente mientras crece el nuevo módulo. Este es el patrón Strangler Fig aplicado a la adopción de GS: el nuevo sistema estrangula al viejo sin una reescritura big-bang.</span>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 04 — RE-ENTER THE CYCLE
+       ════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 04 — Re-enter the Cycle</span>
+    <span lang="es">Paso 04 — Re-entra al Ciclo</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Anneal feeds back into Heating for the next module</span>
+    <span lang="es">El Recocido retroalimenta al Calentamiento para el siguiente módulo</span>
+  </div>
+
+  <p>
+    <span lang="en">Once remediated, the module is greenfield-grade: spec-governed, harness-protected, disciplined. New work on it follows Temple's ongoing loop. The forge cycle closes and begins again — anneal feeds back into heating for the next module or the next phase.</span>
+    <span lang="es">Una vez remediado, el módulo es de grado greenfield: gobernado por spec, protegido por harness, disciplinado. El trabajo nuevo sobre él sigue el loop continuo del Temple. El ciclo de la forja se cierra y comienza de nuevo — el recocido retroalimenta al calentamiento para el siguiente módulo o la siguiente fase.</span>
+  </p>
+
+  <div class="flow-line">
+    <span lang="en">Anneal → (re-audit) → Heating → Mold → Temple … for the next seam.</span>
+    <span lang="es">Recocido → (re-auditoría) → Calentamiento → Moldeado → Temple … para la siguiente costura.</span>
+  </div>
+
+  <!-- ── Forge pagination ── -->
+  <div class="forge-pagination">
+    <a href="/harden" class="fp-prev">← Harden: Tier 2</a>
+    <a href="/heating" class="fp-next-btn">Heating: Next Module →</a>
+  </div>
+
+  <!-- ── Path picker ── -->
+  <div class="path-picker" style="margin-top: 32px;">
+    <a href="/brownfield">
+      <div class="label">
+        <span lang="en">Full Path</span>
+        <span lang="es">Ruta Completa</span>
+      </div>
+      <div class="name">
+        <span lang="en">Brownfield →</span>
+        <span lang="es">Brownfield →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Brownfield journey — the full existing-project path.</span>
+        <span lang="es">Recorrido brownfield — la ruta completa del proyecto existente.</span>
+      </div>
+    </a>
+    <a href="/diagnose">
+      <div class="label">
+        <span lang="en">Audit</span>
+        <span lang="es">Auditoría</span>
+      </div>
+      <div class="name">
+        <span lang="en">Diagnose →</span>
+        <span lang="es">Diagnostica →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Re-run the audit for an after-score.</span>
+        <span lang="es">Vuelve a correr la auditoría para un puntaje posterior.</span>
+      </div>
+    </a>
+    <a href="/temple">
+      <div class="label">
+        <span lang="en">Ongoing</span>
+        <span lang="es">Continuo</span>
+      </div>
+      <div class="name">
+        <span lang="en">Temple →</span>
+        <span lang="es">Temple →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Ongoing work loop.</span>
+        <span lang="es">Loop de trabajo continuo.</span>
+      </div>
+    </a>
+    <a href="/forge">
+      <div class="label">
+        <span lang="en">Cycle</span>
+        <span lang="es">Ciclo</span>
+      </div>
+      <div class="name">
+        <span lang="en">Forge →</span>
+        <span lang="es">Forja →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">The full cycle.</span>
+        <span lang="es">El ciclo completo.</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit Report</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="GS Audit Report — PragmaWorks" data-es="Reporte de Auditoría GS — PragmaWorks">GS Audit Report — PragmaWorks</title>
 <meta name="description"
-  data-en="One prompt, no CLI. Full 7-property GS scorecard with disease names, structural disciplines, test pyramid, and remediation plan. Paste into any AI assistant."
-  data-es="Un prompt, sin CLI. Scorecard GS completo de 7 propiedades con nombres de enfermedades, disciplinas estructurales, pirámide de pruebas y plan de remediación."
-  content="One prompt, no CLI. Full 7-property GS scorecard.">
+  data-en="One prompt, no CLI. The full 8-dimension GS audit that mirrors the pragmaworks CLI report: 7-property scorecard, structural disciplines, test pyramid, documentation health, security &amp; logging, team habits, and remediation plan. Paste into any AI assistant."
+  data-es="Un prompt, sin CLI. La auditoría GS completa de 8 dimensiones que espeja el reporte del CLI de pragmaworks: scorecard de 7 propiedades, disciplinas estructurales, pirámide de pruebas, salud de documentación, seguridad y logging, hábitos de equipo y plan de remediación."
+  content="One prompt, no CLI. The full 8-dimension GS audit that mirrors the pragmaworks CLI report.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/i18n.css">
@@ -54,6 +54,57 @@
   .prompt-box { background: var(--forge-dark); color: var(--parchment); border-radius: 4px; padding: 18px 22px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; border-left: 3px solid var(--molten); }
   .prompt-box .prompt-label { color: var(--molten); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
   details.path-option { margin: 10px 0; border: 1px solid var(--ash); border-radius: 4px; background: #fff; }
   details.path-option > summary { padding: 12px 18px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--steel); list-style: none; user-select: none; }
   details.path-option > summary::-webkit-details-marker { display: none; }
@@ -75,13 +126,52 @@
   .footer a { color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--ash); }
   .footer a:hover { color: var(--ember); border-color: var(--ember); }
 
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
   @media (max-width: 600px) {
     h1 { font-size: 28px; }
+    h2 { font-size: 22px; }
     .container { padding: 48px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
   }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<div class="forge-progress"><div class="forge-progress-inner">
+  <a href="/heating" class="fp-stage fp-done">Heating</a><span class="fp-arrow">›</span>
+  <a href="/mold" class="fp-stage fp-done">Mold</a><span class="fp-arrow">›</span>
+  <a href="/try#greenfield" class="fp-stage">Temple</a><span class="fp-arrow">›</span>
+  <a href="/temper" class="fp-stage">Temper</a><span class="fp-arrow">›</span>
+  <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
+  <span class="fp-stage fp-active">Anneal · Audit</span>
+</div></div>
 
   <!-- Language toggle -->
   <div class="lang-toggle" aria-label="Language toggle">
@@ -102,9 +192,14 @@
     </h1>
 
     <p class="lede">
-      <span lang="en">Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. <strong>No install, no CLI.</strong> The AI reads the codebase, scores all seven GS properties with disease names at score 0, identifies which structural disciplines apply, and produces a prioritized remediation plan as markdown. Nothing is changed in this pass.</span>
-      <span lang="es">Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. <strong>Sin instalar, sin CLI.</strong> La IA lee la base de código, puntúa las siete propiedades GS con nombres de enfermedades en puntaje 0, identifica qué disciplinas estructurales aplican, y produce un plan de remediación priorizado como markdown. No se cambia nada en esta pasada.</span>
+      <span lang="en">Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. <strong>No install, no CLI.</strong> This prompt now mirrors the full <strong>pragmaworks CLI report — all eight dimensions</strong>: the AI reads the codebase, scores all seven GS properties with disease names at score 0, identifies which structural disciplines apply, maps the test pyramid, checks documentation health, reviews security &amp; logging, reads the git history for team habits, and produces a prioritized remediation plan as markdown. Nothing is changed in this pass.</span>
+      <span lang="es">Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. <strong>Sin instalar, sin CLI.</strong> Este prompt ahora espeja el reporte completo del <strong>CLI de pragmaworks — las ocho dimensiones</strong>: la IA lee la base de código, puntúa las siete propiedades GS con nombres de enfermedades en puntaje 0, identifica qué disciplinas estructurales aplican, mapea la pirámide de pruebas, verifica la salud de la documentación, revisa seguridad y logging, lee el historial de git para hábitos de equipo, y produce un plan de remediación priorizado como markdown. No se cambia nada en esta pasada.</span>
     </p>
+
+    <div class="pattern-note">
+      <span lang="en"><strong>The eight dimensions, in order:</strong> 1 GS Property Scorecard (0–14) · 2 Total Score &amp; Band · 3 Structural Disciplines · 4 Test Pyramid · 5 Documentation Health · 6 Security &amp; Logging · 7 Team Habits (Git History) · 8 Remediation Plan. Dimensions 1–6 read the code; dimension 7 reads the <strong>git history</strong>, so the project must be a git repository for that section to run.</span>
+      <span lang="es"><strong>Las ocho dimensiones, en orden:</strong> 1 Scorecard de Propiedades GS (0–14) · 2 Puntaje Total y Banda · 3 Disciplinas Estructurales · 4 Pirámide de Pruebas · 5 Salud de Documentación · 6 Seguridad y Logging · 7 Hábitos de Equipo (Historial Git) · 8 Plan de Remediación. Las dimensiones 1–6 leen el código; la dimensión 7 lee el <strong>historial de git</strong>, por lo que el proyecto debe ser un repositorio git para que esa sección corra.</span>
+    </div>
 
     <div class="step">
       <div class="step-num">01</div>
@@ -113,9 +208,9 @@
         <span lang="es"><strong>Pega la plantilla.</strong> Edita las líneas entre corchetes para que coincidan con tu proyecto si es necesario. El resto corre sin personalización.</span>
 
 <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — GS Audit Report</span><span lang="es">Pega esto — Reporte de Auditoría GS</span></span><span lang="en">You are about to produce a GS Audit Report for this codebase. Read the
-code, tests, documentation, CI config, and last 90 days of git log. Write
-the report to reports/gs-audit-[YYYY-MM-DD].md. Do not modify any
-application code in this session.
+code, tests, documentation, CI config, and the last 200 commits of git
+log. Write the report to reports/gs-audit-[YYYY-MM-DD].md. Do not modify
+any application code in this session.
 
 ──────────────────────────────────────
 SECTION 1 — GS PROPERTY SCORECARD (0–14)
@@ -235,7 +330,31 @@ List: missing docs (README with purpose, SPEC, ADR for major decisions,
 CHANGELOG).
 
 ──────────────────────────────────────
-SECTION 6 — REMEDIATION PLAN
+SECTION 6 — SECURITY &amp; LOGGING
+──────────────────────────────────────
+Review and report:
+- Authentication: which routes are protected, which are public, any gaps.
+- Authorization: are roles/permissions enforced at the boundary, or assumed?
+- Input validation: is all external input validated at the trust boundary? Cite files.
+- Secrets: any hardcoded credentials, keys, or tokens in code or logs? (flag each)
+- Logging hygiene: are errors logged with enough context? Any PII or secrets leaked into logs?
+- Dependency risk: known-vulnerable or unmaintained dependencies (note if a lockfile audit is possible).
+Rate each: OK / Gap / Critical. List every Critical with file:line.
+
+──────────────────────────────────────
+SECTION 7 — TEAM HABITS (read the last 200 commits with git log)
+──────────────────────────────────────
+Analyze and report:
+- PR / review density: what fraction of changes went through review vs. direct commits?
+- Commit-size distribution: median and tail. Flag giant commits (>400 lines) — they hide intent.
+- AI-introduced bug rate: commits that were reverted or hot-fixed within a short window — estimate the rate.
+- Regression coverage: when bugs were fixed, was a test added in the same or adjacent commit?
+- Collaboration graph / bus factor: how many files have effectively one author? Where is the knowledge concentrated?
+- Co-change coupling: which files change together most often? (this also reveals where module boundaries are wrong)
+Report the numbers plus the single biggest risk the history reveals.
+
+──────────────────────────────────────
+SECTION 8 — REMEDIATION PLAN
 ──────────────────────────────────────
 10–15 items in priority order:
   1. Oracle tests first — before any structural change
@@ -252,7 +371,7 @@ Format each item:
 Cite files and line numbers liberally. Do not apply any change in this
 pass. This report is the contract for the remediation session that
 follows.</span><span lang="es">Vas a producir un Reporte de Auditoría GS para esta base de código. Lee
-el código, pruebas, documentación, config de CI, y los últimos 90 días
+el código, pruebas, documentación, config de CI, y los últimos 200 commits
 de git log. Escribe el reporte en reports/gs-audit-[YYYY-MM-DD].md. No
 modifiques ningún código de la aplicación en esta sesión.
 
@@ -386,7 +505,31 @@ días donde el código debajo cambió. Lista: docs faltantes (README con
 propósito, SPEC, ADR para decisiones mayores, CHANGELOG).
 
 ──────────────────────────────────────
-SECCIÓN 6 — PLAN DE REMEDIACIÓN
+SECCIÓN 6 — SEGURIDAD Y LOGGING
+──────────────────────────────────────
+Revisa y reporta:
+- Autenticación: qué rutas están protegidas, cuáles son públicas, cualquier brecha.
+- Autorización: ¿se imponen roles/permisos en el límite, o se asumen?
+- Validación de input: ¿todo input externo se valida en el límite de confianza? Cita archivos.
+- Secretos: ¿credenciales, claves o tokens hardcodeados en código o logs? (flagea cada uno)
+- Higiene de logging: ¿se loguean los errores con suficiente contexto? ¿Se filtra PII o secretos a los logs?
+- Riesgo de dependencias: dependencias con vulnerabilidades conocidas o sin mantenimiento (nota si es posible una auditoría de lockfile).
+Califica cada uno: OK / Brecha / Crítico. Lista cada Crítico con file:line.
+
+──────────────────────────────────────
+SECCIÓN 7 — HÁBITOS DE EQUIPO (lee los últimos 200 commits con git log)
+──────────────────────────────────────
+Analiza y reporta:
+- Densidad de PR / revisión: ¿qué fracción de los cambios pasó por revisión vs. commits directos?
+- Distribución de tamaño de commits: mediana y cola. Flagea commits gigantes (>400 líneas) — ocultan la intención.
+- Tasa de bugs introducidos por IA: commits revertidos o hot-fixeados en una ventana corta — estima la tasa.
+- Cobertura de regresión: cuando se arreglaron bugs, ¿se agregó un test en el mismo commit o uno adyacente?
+- Grafo de colaboración / bus factor: ¿cuántos archivos tienen efectivamente un solo autor? ¿Dónde se concentra el conocimiento?
+- Acoplamiento por co-cambio: ¿qué archivos cambian juntos más seguido? (esto también revela dónde están mal los límites de módulo)
+Reporta los números más el mayor riesgo único que revela el historial.
+
+──────────────────────────────────────
+SECCIÓN 8 — PLAN DE REMEDIACIÓN
 ──────────────────────────────────────
 10–15 items en orden de prioridad:
   1. Oracle tests primero — antes de cualquier cambio estructural
@@ -406,6 +549,33 @@ que sigue.</span></div>
       </div>
     </div>
 
+    <h2>
+      <span lang="en">What each dimension reports</span>
+      <span lang="es">Qué reporta cada dimensión</span>
+    </h2>
+    <div class="h2-sub">
+      <span lang="en">The eight dimensions of the full CLI report</span>
+      <span lang="es">Las ocho dimensiones del reporte completo del CLI</span>
+    </div>
+
+    <h3>
+      <span lang="en">6 · Security &amp; Logging</span>
+      <span lang="es">6 · Seguridad y Logging</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">A focused security read of the trust boundary. The AI reports authentication coverage (which routes are protected, which are public, where the gaps are), whether authorization is enforced at the boundary or merely assumed, and whether all external input is validated where it enters. It flags every hardcoded credential, key, or token found in code or logs; checks logging hygiene for missing context and for PII or secrets leaking into log output; and notes dependency risk, including whether a lockfile audit is possible. Each item is rated <strong>OK / Gap / Critical</strong>, and every Critical is listed with a <code>file:line</code> citation.</span>
+      <span lang="es">Una lectura de seguridad enfocada en el límite de confianza. La IA reporta la cobertura de autenticación (qué rutas están protegidas, cuáles son públicas, dónde están las brechas), si la autorización se impone en el límite o solo se asume, y si todo input externo se valida donde entra. Flagea cada credencial, clave o token hardcodeado en código o logs; verifica la higiene de logging por falta de contexto y por PII o secretos filtrándose a la salida de logs; y nota el riesgo de dependencias, incluyendo si es posible una auditoría de lockfile. Cada ítem se califica <strong>OK / Brecha / Crítico</strong>, y cada Crítico se lista con una citación <code>file:line</code>.</span>
+    </p>
+
+    <h3>
+      <span lang="en">7 · Team Habits — Git History</span>
+      <span lang="es">7 · Hábitos de Equipo — Historial Git</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The only dimension that reads the project's <strong>git history</strong> rather than its code, so it needs an actual git repository to run. Over the last 200 commits the AI estimates PR / review density (reviewed changes vs. direct commits), the commit-size distribution with its median and tail (flagging giant commits over 400 lines that hide intent), and the AI-introduced bug rate inferred from reverts and quick hot-fixes. It checks whether bug fixes shipped with a regression test in the same or an adjacent commit, maps the collaboration graph and bus factor (how many files have effectively one author, where knowledge is concentrated), and surfaces co-change coupling — the files that change together most often, which also reveals where module boundaries are drawn wrong. It closes with the numbers plus the single biggest risk the history reveals.</span>
+      <span lang="es">La única dimensión que lee el <strong>historial de git</strong> del proyecto en lugar de su código, por lo que necesita un repositorio git real para correr. Sobre los últimos 200 commits la IA estima la densidad de PR / revisión (cambios revisados vs. commits directos), la distribución de tamaño de commits con su mediana y cola (flageando commits gigantes de más de 400 líneas que ocultan la intención), y la tasa de bugs introducidos por IA inferida de reverts y hot-fixes rápidos. Verifica si los arreglos de bugs vinieron con un test de regresión en el mismo commit o uno adyacente, mapea el grafo de colaboración y el bus factor (cuántos archivos tienen efectivamente un solo autor, dónde se concentra el conocimiento), y revela el acoplamiento por co-cambio — los archivos que cambian juntos más seguido, lo que también muestra dónde están mal trazados los límites de módulo. Cierra con los números más el mayor riesgo único que revela el historial.</span>
+    </p>
+
     <p class="small-note">
       <span lang="en">This template is the no-tools version of the full audit. The <a href="/try#brownfield" style="color: var(--ember);">brownfield path in the Developer Cookbook</a> shows the tool-assisted version that also runs CI, generates HTML + PDF output, and works at team scale.</span>
       <span lang="es">Esta plantilla es la versión sin herramientas de la auditoría completa. El <a href="/try#brownfield" style="color: var(--ember);">camino brownfield en el Recetario de Desarrolladores</a> muestra la versión asistida por herramientas que también corre CI, genera HTML + PDF, y funciona a escala de equipo.</span>
@@ -421,6 +591,11 @@ que sigue.</span></div>
         <span lang="es">Escríbeme directamente. Si quieres un walkthrough en vivo con el stack completo de PragmaWorks, o un engagement de Concierge donde manejamos la remediación end-to-end, solo pídelo.</span>
       </p>
       <p><a href="mailto:juan@pragmaworks.dev?subject=GS%20Audit%20Run">juan@pragmaworks.dev →</a></p>
+    </div>
+
+    <div class="forge-pagination">
+      <a href="/harden" class="fp-prev">← Harden: Endurecido</a>
+      <a href="/try#brownfield" class="fp-next-btn">Anneal: Brownfield Recipe →</a>
     </div>
 
     <div class="footer">

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Temple — Build & Verify · PragmaWorks"
+  data-es="Temple — Construye y Verifica · PragmaWorks"
+>Temple — Build & Verify · PragmaWorks</title>
+<meta name="description"
+  data-en="Stage 3 of the forge: install the harness, build the first feature, verify with the green test, and run the ongoing loop of features, fixes, and refactors."
+  data-es="Etapa 3 de la forja: instala el harness, construye la primera feature, verifica con el test en verde y corre el loop continuo de features, fixes y refactors."
+  content="Stage 3 of the forge: install the harness, build the first feature, verify with the green test, and run the ongoing loop of features, fixes, and refactors.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 40px 0 8px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: start;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ember);
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+
+  .step-text { font-size: 16px; }
+
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    color: var(--forge-dark);
+  }
+
+  .prompt-box {
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--molten);
+  }
+
+  .prompt-box .prompt-label {
+    color: var(--molten);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .facilitator-note {
+    margin: 20px 0 0;
+    padding: 14px 20px;
+    background: var(--parchment2);
+    border-left: 3px solid var(--ember);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+    font-style: italic;
+  }
+
+  .facilitator-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+
+  .path-picker .desc {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ── Forge progress bar ── */
+  .forge-progress { background: var(--forge-dark); border-bottom: 1px solid rgba(196,75,26,0.18); }
+  .forge-progress-inner { max-width: 760px; margin: 0 auto; padding: 9px 32px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .fp-stage { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #48484A; text-decoration: none; transition: color 0.12s; }
+  .fp-stage:hover { color: #D1D1D6; }
+  .fp-active { color: #C44B1A !important; }
+  .fp-done { color: #8E8E93; }
+  .fp-next { color: #D1D1D6; }
+  .fp-arrow { color: #48484A; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* ── Forge pagination ── */
+  .forge-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 28px; border-top: 1px solid #D1D1D6; gap: 16px; flex-wrap: wrap; }
+  .fp-prev, .fp-next-btn { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.12s; }
+  .fp-prev { color: #8E8E93; } .fp-prev:hover { color: #48484A; }
+  .fp-next-btn { color: #C44B1A; } .fp-next-btn:hover { color: #E8652E; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Forge progress bar — Temple active -->
+<div class="forge-progress"><div class="forge-progress-inner">
+      <a href="/heating" class="fp-stage fp-done">Heating</a><span class="fp-arrow">›</span>
+      <a href="/mold" class="fp-stage fp-done">Mold</a><span class="fp-arrow">›</span>
+      <span class="fp-stage fp-active">Temple</span><span class="fp-arrow">›</span>
+      <a href="/temper" class="fp-stage fp-next">Temper</a><span class="fp-arrow">›</span>
+      <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
+      <a href="/anneal" class="fp-stage">Anneal</a>
+    </div></div>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Stage 3 · Temple · Build & Verify</span>
+    <span lang="es">Etapa 3 · Temple · Construye y Verifica</span>
+  </div>
+
+  <h1>
+    <span lang="en">Build from the Mold</span>
+    <span lang="es">Construye desde el Molde</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">Quenching locks the shape. In GS, Temple is where code is derived from the spec and verified by the harness — you stop writing code, and you stop reading what was generated, because the harness reads it for you. Install the <strong>enforcement layer</strong>, build the <strong>first feature</strong>, then run the <strong>ongoing loop</strong>.</span>
+    <span lang="es">El temple fija la forma. En GS, el Temple es donde el código se deriva del spec y lo verifica el harness — dejas de escribir código, y dejas de leer lo que se generó, porque el harness lo lee por ti. Instala la <strong>capa de cumplimiento</strong>, construye la <strong>primera feature</strong>, luego corre el <strong>loop continuo</strong>.</span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 01 — INSTALL THE HARNESS                              -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 01 — Install the Harness</span>
+    <span lang="es">Paso 01 — Instala el Harness</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Enforcement infrastructure: hooks, CI, gates</span>
+    <span lang="es">Infraestructura de cumplimiento: hooks, CI, gates</span>
+  </div>
+
+  <p>
+    <span lang="en">The harness is the enforcement layer. It makes the cascade rules mechanical: conventional commits are rejected at the git level, code changes without doc updates require a decision note, CI runs the full test suite on every push. Needs the sentinel to be complete first — the hooks reference the cascade rules defined in manifest.yaml.</span>
+    <span lang="es">El harness es la capa de cumplimiento. Hace que las reglas de cascada sean mecánicas: los commits que no siguen Conventional Commits son rechazados a nivel git, los cambios de código sin actualizaciones de docs requieren una nota de decisión, la CI ejecuta la suite de tests completa en cada push. Necesita que el sentinel esté completo primero — los hooks referencian las reglas de cascada definidas en manifest.yaml.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Install harness</span><span lang="es">Pega esto — Instala el harness</span></span><span lang="en">Read docs/manifest.yaml and CONSTITUTION.md.
+Install the harness enforcement infrastructure.
+
+1. .git/hooks/commit-msg — enforce Conventional Commits:
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: Commit message must follow Conventional Commits."
+  echo "  Format: type(scope): description"
+  echo "  Types: feat fix chore refactor test docs style ci perf"
+  exit 1
+fi
+
+2. .git/hooks/pre-commit — cascade check:
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  Code changed without a doc update."
+    echo "   Option A: update or create a file in docs/ in this commit."
+    echo "   Option B: create docs/decisions/${today}-[reason].md"
+    exit 1
+  fi
+fi
+
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+3. .github/workflows/ci.yml:
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: [install command for this stack]
+      - name: Lint
+        run: [lint command]
+      - name: Test
+        run: [test command]
+      - name: Coverage
+        run: [coverage command — fail below 80%]
+
+Confirm: "Harness installed. commit-msg hook ✓ pre-commit cascade check ✓ CI workflow ✓"</span><span lang="es">Lee docs/manifest.yaml y CONSTITUTION.md.
+Instala la infraestructura de cumplimiento del harness.
+
+1. .git/hooks/commit-msg — hacer cumplir Conventional Commits:
+#!/usr/bin/env bash
+msg=$(cat "$1")
+pattern="^(feat|fix|chore|refactor|test|docs|style|ci|perf)(\(.+\))?: .{1,72}"
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "ERROR: El mensaje de commit debe seguir Conventional Commits."
+  echo "  Formato: tipo(scope): descripción"
+  echo "  Tipos: feat fix chore refactor test docs style ci perf"
+  exit 1
+fi
+
+2. .git/hooks/pre-commit — verificación de cascada:
+#!/usr/bin/env bash
+staged=$(git diff --cached --name-only)
+src_changed=$(echo "$staged" | grep -E "^(src|app|lib|components|pages)/")
+doc_changed=$(echo "$staged" | grep -E "^docs/")
+if [ -n "$src_changed" ] && [ -z "$doc_changed" ]; then
+  today=$(date +%Y-%m-%d)
+  decision=$(ls docs/decisions/${today}-*.md 2>/dev/null | head -1)
+  if [ -z "$decision" ]; then
+    echo "⚠  El código cambió sin actualización de docs."
+    echo "   Opción A: actualiza o crea un archivo en docs/ en este commit."
+    echo "   Opción B: crea docs/decisions/${today}-[motivo].md"
+    exit 1
+  fi
+fi
+
+chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
+
+3. .github/workflows/ci.yml:
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar
+        run: [comando de instalación para este stack]
+      - name: Lint
+        run: [comando de lint]
+      - name: Tests
+        run: [comando de tests]
+      - name: Cobertura
+        run: [comando de cobertura — fallar por debajo de 80%]
+
+Confirmar: "Harness instalado. hook commit-msg ✓ pre-commit cascada ✓ CI workflow ✓"</span></div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Note on NFR gates:</strong> NFR enforcement (P-001, R-001, S-001 thresholds from SPEC.md) activates at Tier 2 — see <a href="/harden">/harden</a>. The harness installed here covers commit discipline and test coverage only.</span>
+    <span lang="es"><strong>Nota sobre NFR gates:</strong> El cumplimiento de NFRs (umbrales P-001, R-001, S-001 de SPEC.md) se activa en Tier 2 — ver <a href="/harden">/harden</a>. El harness instalado aquí cubre solo disciplina de commits y cobertura de tests.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 02 — FIRST FEATURE                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 02 — First Feature</span>
+    <span lang="es">Paso 02 — Primera Feature</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Session entry → F-NNN → tests → green</span>
+    <span lang="es">Entrada de sesión → F-NNN → tests → verde</span>
+  </div>
+
+  <p>
+    <span lang="en">Open a new AI session. Paste the entry prompt first — the AI reads your three files and confirms before doing anything. Then paste the first feature prompt. The AI writes the feature spec, gets your approval, then generates tests first and implementation second. The harness verifies the output.</span>
+    <span lang="es">Abre una nueva sesión de IA. Pega primero el prompt de entrada — la IA lee tus tres archivos y confirma antes de hacer nada. Luego pega el prompt de primera feature. La IA escribe el spec de la feature, obtiene tu aprobación, luego genera tests primero e implementación después. El harness verifica el output.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+      <span lang="en"><strong>Open a new session.</strong> Paste the entry prompt, then the feature prompt.</span>
+      <span lang="es"><strong>Abre una nueva sesión.</strong> Pega el prompt de entrada, luego el prompt de feature.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this first — session entry</span><span lang="es">Pega esto primero — entrada de sesión</span></span><span lang="en">Read docs/spec/SPEC.md, then CONSTITUTION.md, then STATUS.md.
+Confirm you have read all three before beginning work.</span><span lang="es">Lee docs/spec/SPEC.md, luego CONSTITUTION.md, luego STATUS.md.
+Confirma que leíste los tres antes de comenzar a trabajar.</span></div>
+<div class="prompt-box" style="margin-top:10px;"><span class="prompt-label"><span lang="en">Paste this — first feature</span><span lang="es">Pega esto — primera feature</span></span><span lang="en">Implement F-001 from SPEC.md following the doc-first cascade.
+
+Before writing any code:
+1. Write the feature spec at docs/specs/F-001-[name].md using this format:
+   Actor / Precondition / Flow (numbered steps) / Postcondition /
+   Acceptance criteria ([ ] testable format)
+2. Show me the spec. Wait for my approval.
+
+Once I approve:
+3. Generate unit tests from the acceptance criteria. They must fail first (red).
+4. Generate the implementation.
+5. Run the tests. All must pass (green).
+6. Update STATUS.md: mark F-001 as completed, set next entry point.
+7. Commit: feat(scope): implement F-001 [feature name]</span><span lang="es">Implementa F-001 de SPEC.md siguiendo la cascada doc-first.
+
+Antes de escribir código:
+1. Escribe el spec de la feature en docs/specs/F-001-[nombre].md con este formato:
+   Actor / Precondición / Flujo (pasos numerados) / Postcondición /
+   Criterios de aceptación (formato [ ] verificable)
+2. Muéstrame el spec. Espera mi aprobación.
+
+Una vez que apruebo:
+3. Genera tests unitarios desde los criterios de aceptación. Deben fallar primero (rojo).
+4. Genera la implementación.
+5. Corre los tests. Todos deben pasar (verde).
+6. Actualiza STATUS.md: marca F-001 como completado, establece el próximo punto de entrada.
+7. Commit: feat(scope): implementar F-001 [nombre de la feature]</span></div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>The green test is the signal.</strong> The spec said what correct means. The AI built it. The harness verified it. You did not read the code.</span>
+    <span lang="es"><strong>El test en verde es la señal.</strong> El spec dijo qué significa correcto. La IA lo construyó. El harness lo verificó. No leíste el código.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- STEP 03 — VERIFY (THE GREEN TEST)                          -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Step 03 — Verify (the green test)</span>
+    <span lang="es">Paso 03 — Verifica (el test en verde)</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">What "correct" means at Tier 1</span>
+    <span lang="es">Qué significa "correcto" en Tier 1</span>
+  </div>
+
+  <p>
+    <span lang="en">At Tier 1, "correct" has a precise meaning: the acceptance criteria in the spec became tests, the tests went red, the implementation made them green, and the harness ran them. The green test is not an opinion about the code — it is mechanical evidence that the postcondition the spec described actually holds. You verify the spec was satisfied, not that the code is pretty.</span>
+    <span lang="es">En Tier 1, "correcto" tiene un significado preciso: los criterios de aceptación del spec se volvieron tests, los tests pasaron a rojo, la implementación los puso en verde, y el harness los corrió. El test en verde no es una opinión sobre el código — es evidencia mecánica de que la postcondición que describió el spec efectivamente se cumple. Verificas que el spec se satisfizo, no que el código es bonito.</span>
+  </p>
+
+  <p>
+    <span lang="en">For anything with a visible surface — a UI, a rendered page, an end-to-end flow — the unit test is not enough. The postcondition is something a user would <em>see</em>. Drive the running app, reach the postcondition state, capture a screenshot, and assert the visual result. The screenshot is the green test for the things tests-in-isolation cannot reach.</span>
+    <span lang="es">Para cualquier cosa con superficie visible — una UI, una página renderizada, un flujo end-to-end — el test unitario no alcanza. La postcondición es algo que un usuario <em>vería</em>. Conduce la app en ejecución, alcanza el estado de postcondición, captura un screenshot y verifica el resultado visual. El screenshot es el test en verde para lo que los tests aislados no pueden alcanzar.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+      <span lang="en"><strong>For features with a visible surface,</strong> paste this in the same session after the green unit tests.</span>
+      <span lang="es"><strong>Para features con superficie visible,</strong> pega esto en la misma sesión después de los tests unitarios en verde.</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Playwright screenshot verification</span><span lang="es">Pega esto — Verificación con screenshot Playwright</span></span><span lang="en">Read docs/specs/F-001-[name].md.
+Add an end-to-end verification test using Playwright that proves the
+postcondition is visually true.
+
+1. Start (or attach to) the running app.
+2. Drive the app through the F-001 flow exactly as the spec's numbered steps describe.
+3. At the postcondition, take a screenshot to test-results/F-001-postcondition.png.
+4. Assert the visual state matches the postcondition:
+   - assert the expected element is visible and has the expected text/role
+   - assert the URL / route is the one the spec expects at this point
+5. Add one error-path test: drive an invalid input from the spec's preconditions,
+   screenshot to test-results/F-001-error.png, and assert the app shows the
+   expected error state (not a crash, not a blank page).
+6. Run the suite. Both paths must pass (green).
+7. Commit: test(scope): e2e screenshot verification for F-001
+
+Do not change production code to make the test pass. If the postcondition does
+not hold, stop and report what the screenshot shows versus what the spec requires.</span><span lang="es">Lee docs/specs/F-001-[nombre].md.
+Agrega un test de verificación end-to-end usando Playwright que pruebe que la
+postcondición es visualmente verdadera.
+
+1. Inicia (o conéctate a) la app en ejecución.
+2. Conduce la app por el flujo de F-001 exactamente como describen los pasos numerados del spec.
+3. En la postcondición, toma un screenshot a test-results/F-001-postcondition.png.
+4. Verifica que el estado visual coincide con la postcondición:
+   - verifica que el elemento esperado es visible y tiene el texto/rol esperado
+   - verifica que la URL / ruta es la que el spec espera en este punto
+5. Agrega un test de ruta de error: conduce un input inválido desde las precondiciones del spec,
+   screenshot a test-results/F-001-error.png, y verifica que la app muestra el
+   estado de error esperado (no un crash, no una página en blanco).
+6. Corre la suite. Ambas rutas deben pasar (verde).
+7. Commit: test(scope): verificación e2e con screenshot para F-001
+
+No cambies código de producción para hacer pasar el test. Si la postcondición no
+se cumple, detente y reporta qué muestra el screenshot frente a lo que pide el spec.</span></div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en">The screenshot is reviewed by you; the assertions are run by the harness. You look at the picture to confirm intent — you still do not read the implementation. Both layers — unit green and visual green — are the Tier 1 definition of done.</span>
+    <span lang="es">El screenshot lo revisas tú; las aserciones las corre el harness. Miras la imagen para confirmar la intención — sigues sin leer la implementación. Ambas capas — verde unitario y verde visual — son la definición de "listo" en Tier 1.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- ONGOING WORK                                               -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Ongoing Work</span>
+    <span lang="es">Trabajo Continuo</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Three operations — feature, fix, refactor</span>
+    <span lang="es">Tres operaciones — feature, fix, refactor</span>
+  </div>
+
+  <p>
+    <span lang="en">Once the harness runs, all future work is one of three patterns. Each enforces the doc-first cascade at the git level — the hooks reject commits that skip the discipline.</span>
+    <span lang="es">Una vez que el harness está en ejecución, todo el trabajo futuro es uno de tres patrones. Cada uno hace cumplir la cascada doc-first a nivel git — los hooks rechazan commits que omiten la disciplina.</span>
+  </p>
+
+  <!-- NEW FEATURE -->
+  <h3>
+    <span lang="en">New Feature</span>
+    <span lang="es">Nueva Feature</span>
+  </h3>
+
+  <p>
+    <span lang="en">Every new feature starts with a spec file. The AI reads SPEC.md first to check phase scope, then writes F-NNN before touching code. Your approval gates the implementation.</span>
+    <span lang="es">Cada nueva feature empieza con un archivo de spec. La IA lee SPEC.md primero para verificar el scope de la fase, luego escribe F-NNN antes de tocar código. Tu aprobación es el gate de la implementación.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Feature prompt — English</span><span lang="es">Prompt de feature — Inglés</span></span><span lang="en">Read docs/spec/SPEC.md, then CONSTITUTION.md, then STATUS.md. Confirm you have read all three.
+
+New feature request: [describe the feature in one sentence].
+
+Before writing any code:
+1. Check if this feature fits the current phase scope in SPEC.md. If not, flag it and stop.
+2. Write the feature spec at docs/specs/F-[NNN]-[slug].md:
+   Actor / Precondition / Flow / Postcondition / Acceptance criteria (testable, [ ] format)
+3. Show me the spec. Wait for my approval before proceeding.
+4. Once approved:
+   - Generate unit tests from the acceptance criteria (failing first)
+   - Generate the implementation
+   - Run tests — all must pass
+5. Update STATUS.md.
+Commit: feat(scope): [description]</span><span lang="es">Lee docs/spec/SPEC.md, luego CONSTITUTION.md, luego STATUS.md. Confirma que leíste los tres.
+
+Nueva funcionalidad: [describe la feature en una oración].
+
+Antes de escribir código:
+1. Verifica si esta feature cabe en el scope de la fase actual en SPEC.md. Si no, márcalo y detente.
+2. Escribe el spec de la feature en docs/specs/F-[NNN]-[slug].md:
+   Actor / Precondición / Flujo / Postcondición / Criterios de aceptación (verificables, formato [ ])
+3. Muéstrame el spec. Espera mi aprobación antes de continuar.
+4. Una vez aprobado:
+   - Genera tests unitarios desde los criterios de aceptación (fallando primero)
+   - Genera la implementación
+   - Corre los tests — todos deben pasar
+5. Actualiza STATUS.md.
+Commit: feat(scope): [descripción]</span></div>
+
+  <!-- BUG FIX -->
+  <h3>
+    <span lang="en">Bug Fix</span>
+    <span lang="es">Fix de Bug</span>
+  </h3>
+
+  <p>
+    <span lang="en">Every fix starts with a failing test that reproduces the bug. The test is committed first — this proves the bug exists and proves the fix worked. A one-paragraph decision note in docs/decisions/ explains root cause.</span>
+    <span lang="es">Cada fix empieza con un test fallido que reproduce el bug. El test se commitea primero — esto prueba que el bug existe y prueba que el fix funcionó. Una nota de decisión de un párrafo en docs/decisions/ explica la causa raíz.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Fix prompt — English</span><span lang="es">Prompt de fix — Inglés</span></span><span lang="en">Read CONSTITUTION.md.
+Bug: [describe the bug — what happens, what should happen instead].
+1. Write a failing test that reproduces the bug exactly. Commit: test(scope): reproduce [bug-slug]
+2. Create docs/decisions/[YYYY-MM-DD]-fix-[bug-slug].md — one paragraph: root cause.
+3. Patch the code. The failing test must now pass. No other tests may break.
+4. Commit: fix(scope): [description]</span><span lang="es">Lee CONSTITUTION.md.
+Bug: [describe el bug — qué pasa, qué debería pasar en cambio].
+1. Escribe un test fallido que reproduzca el bug exactamente. Commit: test(scope): reproduce [bug-slug]
+2. Crea docs/decisions/[AAAA-MM-DD]-fix-[bug-slug].md — un párrafo: causa raíz.
+3. Parchea el código. El test fallido debe pasar ahora. Ningún otro test puede fallar.
+4. Commit: fix(scope): [descripción]</span></div>
+
+  <!-- REFACTOR -->
+  <h3>
+    <span lang="en">Refactor, Dedup, Dead Code</span>
+    <span lang="es">Refactor, Deduplicación, Código Muerto</span>
+  </h3>
+
+  <p>
+    <span lang="en">Structural changes always start with an ADR. No behavior changes — only structural. All existing tests must pass. Dead code is removed only after confirming it's outside SPEC.md scope. The ADR moves to docs/adrs/done/ when complete.</span>
+    <span lang="es">Los cambios estructurales siempre empiezan con un ADR. Sin cambios de comportamiento — solo estructurales. Todos los tests existentes deben pasar. El código muerto se elimina solo después de confirmar que está fuera del scope de SPEC.md. El ADR se mueve a docs/adrs/done/ cuando está completo.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Refactor prompt — English</span><span lang="es">Prompt de refactor — Inglés</span></span><span lang="en">Read CONSTITUTION.md and docs/spec/SPEC.md.
+Refactoring task: [describe what to clean up — duplication / dead code / structure / rename].
+1. Write ADR at docs/adrs/active/ADR-[NNN]-[slug].md:
+   Context (why this refactor) / Decision (what changes) / Consequences (easier/harder)
+2. Rules: no behavior changes — structural only. All existing tests must pass after.
+3. If removing dead code: confirm each deletion is outside SPEC.md scope first.
+4. Commit: refactor(scope): [description]
+5. Move ADR to docs/adrs/done/ when complete.</span><span lang="es">Lee CONSTITUTION.md y docs/spec/SPEC.md.
+Tarea de refactor: [describe qué limpiar — duplicación / código muerto / estructura / renombrado].
+1. Escribe ADR en docs/adrs/active/ADR-[NNN]-[slug].md:
+   Contexto (por qué este refactor) / Decisión (qué cambia) / Consecuencias (más fácil/difícil)
+2. Reglas: sin cambios de comportamiento — solo estructurales. Todos los tests existentes deben pasar.
+3. Si eliminás código muerto: confirma que cada eliminación está fuera del scope de SPEC.md.
+4. Commit: refactor(scope): [descripción]
+5. Mueve el ADR a docs/adrs/done/ cuando termines.</span></div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>New phase</strong> = update SPEC.md (add the next phase's scope + features) then proceed with features/fixes/refactors. The three operations cover the entire ongoing lifecycle.</span>
+    <span lang="es"><strong>Nueva fase</strong> = actualiza SPEC.md (agrega el scope + features de la siguiente fase) luego procede con features/fixes/refactors. Las tres operaciones cubren todo el ciclo de vida continuo.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FORGE PAGINATION                                           -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="forge-pagination">
+    <a href="/mold" class="fp-prev">← Mold: Build the Specification</a>
+    <a href="/temper" class="fp-next-btn">Temper: Structural Disciplines →</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PATH PICKER                                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="path-picker" style="margin-top: 32px;">
+    <a href="/greenfield">
+      <div class="label">
+        <span lang="en">Greenfield · Full Path</span>
+        <span lang="es">Greenfield · Ruta Completa</span>
+      </div>
+      <div class="name">
+        <span lang="en">Greenfield journey →</span>
+        <span lang="es">Recorrido Greenfield →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Full new-project path — interview through ongoing work.</span>
+        <span lang="es">Ruta completa de proyecto nuevo — de la entrevista al trabajo continuo.</span>
+      </div>
+    </a>
+    <a href="/brownfield">
+      <div class="label">
+        <span lang="en">Brownfield · Existing</span>
+        <span lang="es">Brownfield · Existente</span>
+      </div>
+      <div class="name">
+        <span lang="en">Brownfield journey →</span>
+        <span lang="es">Recorrido Brownfield →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">Audit → spec from code → sentinel → harness → remediation.</span>
+        <span lang="es">Auditoría → spec desde código → sentinel → harness → remediación.</span>
+      </div>
+    </a>
+    <a href="/temper">
+      <div class="label">
+        <span lang="en">Temper · Disciplines</span>
+        <span lang="es">Temper · Disciplinas</span>
+      </div>
+      <div class="name">
+        <span lang="en">The 14 disciplines →</span>
+        <span lang="es">Las 14 disciplinas →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">The structural disciplines that hold the shape under stress.</span>
+        <span lang="es">Las disciplinas estructurales que sostienen la forma bajo estrés.</span>
+      </div>
+    </a>
+    <a href="/harden">
+      <div class="label">
+        <span lang="en">Harden · Tier 2</span>
+        <span lang="es">Harden · Tier 2</span>
+      </div>
+      <div class="name">
+        <span lang="en">Harden: Tier 2 →</span>
+        <span lang="es">Harden: Tier 2 →</span>
+      </div>
+      <div class="desc">
+        <span lang="en">NFR gates, CD pipeline, staging harness.</span>
+        <span lang="es">NFR gates, CD pipeline, harness de staging.</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a> ·
+    <a href="/cookbook"><span lang="en">Recipe Cards</span><span lang="es">Tarjetas de Receta</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

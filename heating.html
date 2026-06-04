@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-en="Heating — Activate the AI · PragmaWorks" data-es="Calentamiento — Activa la IA · PragmaWorks">Heating — Activate the AI · PragmaWorks</title>
+<title data-en="Heating — Activate &amp; Diagnose · PragmaWorks" data-es="Calentamiento — Activa y Diagnostica · PragmaWorks">Heating — Activate &amp; Diagnose · PragmaWorks</title>
 <meta name="description"
-  data-en="Stage 1 of the Forge: read your codebase cold with an AI assistant to discover what it knows, what it doesn't, and what your specification needs to say."
-  data-es="Etapa 1 de la Fragua: lee tu codebase en frío con un asistente de IA para descubrir qué sabe, qué no, y qué necesita decir tu especificación."
-  content="Stage 1 of the Forge: read your codebase cold with an AI assistant to discover what it knows, what it doesn't, and what your specification needs to say.">
+  data-en="Stage 1 of the Forge: read an existing codebase cold and run a full diagnostic, or ground a fuzzy idea into concrete raw material before the mold."
+  data-es="Etapa 1 de la Fragua: lee una base de código existente en frío y corre un diagnóstico completo, o aterriza una idea difusa en materia prima concreta antes del molde."
+  content="Stage 1 of the Forge: read an existing codebase cold and run a full diagnostic, or ground a fuzzy idea into concrete raw material before the mold.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/i18n.css">
@@ -91,6 +91,14 @@
     margin-bottom: 28px;
   }
 
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--forge-dark);
+    margin: 32px 0 8px;
+  }
+
   p { margin-bottom: 16px; font-size: 16px; }
 
   .step {
@@ -149,6 +157,26 @@
   }
 
   .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .pattern-note a {
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+
+  .pattern-note a:hover { border-color: var(--ember); }
+
+  .dimensions {
+    margin: 24px 0 0;
+    padding: 16px 22px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--steel);
+  }
 
   .path-picker {
     display: grid;
@@ -251,13 +279,13 @@
 </nav>
 
 <div class="forge-progress"><div class="forge-progress-inner">
-  <span class="fp-stage fp-active">Heating</span><span class="fp-arrow">›</span>
-  <a href="/mold" class="fp-stage fp-next">Mold</a><span class="fp-arrow">›</span>
-  <a href="/try#greenfield" class="fp-stage">Temple</a><span class="fp-arrow">›</span>
-  <a href="/temper" class="fp-stage">Temper</a><span class="fp-arrow">›</span>
-  <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
-  <a href="/try#brownfield" class="fp-stage">Anneal</a>
-</div></div>
+      <span class="fp-stage fp-active">Heating</span><span class="fp-arrow">›</span>
+      <a href="/mold" class="fp-stage fp-next">Mold</a><span class="fp-arrow">›</span>
+      <a href="/temple" class="fp-stage">Temple</a><span class="fp-arrow">›</span>
+      <a href="/temper" class="fp-stage">Temper</a><span class="fp-arrow">›</span>
+      <a href="/harden" class="fp-stage">Harden</a><span class="fp-arrow">›</span>
+      <a href="/anneal" class="fp-stage">Anneal</a>
+    </div></div>
 
   <!-- Language toggle (fixed top-right of viewport) -->
   <div class="lang-toggle" aria-label="Language toggle">
@@ -268,110 +296,126 @@
   <div class="container">
 
     <div class="eyebrow">
-      <span lang="en">Stage 1 · Heating · Activation</span>
-      <span lang="es">Etapa 1 · Calentamiento · Activación</span>
+      <span lang="en">Stage 1 · Heating · Activation &amp; Diagnosis</span>
+      <span lang="es">Etapa 1 · Calentamiento · Activación y Diagnóstico</span>
     </div>
     <h1>
-      <span lang="en">Before You Build the Mold, Read What Exists</span>
-      <span lang="es">Antes de Construir el Molde, Lee Lo que Existe</span>
+      <span lang="en">Read What Exists, or Ground the Idea</span>
+      <span lang="es">Lee Lo que Existe, o Aterriza la Idea</span>
     </h1>
     <p class="lede">
-      <span lang="en">A cold AI session on your codebase reveals two things: what it can reconstruct from code alone, and where it fills in blanks silently. Those gaps are exactly what your specification needs to cover. Heating is the diagnostic pass before the mold is built.</span>
-      <span lang="es">Una sesión de IA en frío sobre tu codebase revela dos cosas: lo que puede reconstruir solo desde el código, y dónde llena blancos silenciosamente. Esos gaps son exactamente lo que tu especificación necesita cubrir. El Calentamiento es el pase diagnóstico antes de construir el molde.</span>
+      <span lang="en">Heating is where the metal becomes workable. For an existing codebase, that means reading it cold and running a full diagnostic — you cannot specify what you haven't seen clearly. For a new project, it means grounding a fuzzy idea into something concrete enough to mold. Pick your track.</span>
+      <span lang="es">El Calentamiento es donde el metal se vuelve trabajable. Para una base de código existente, eso significa leerla en frío y correr un diagnóstico completo — no puedes especificar lo que no has visto con claridad. Para un proyecto nuevo, significa aterrizar una idea difusa en algo lo bastante concreto para moldear. Elige tu camino.</span>
     </p>
 
     <h2>
-      <span lang="en">Step 01 — The Cold Read</span>
-      <span lang="es">Paso 01 — La Lectura en Frío</span>
+      <span lang="en">Track A — New Project: Ground the Idea</span>
+      <span lang="es">Camino A — Proyecto Nuevo: Aterriza la Idea</span>
     </h2>
     <div class="h2-sub">
-      <span lang="en">What does the AI know about your system right now?</span>
-      <span lang="es">¿Qué sabe la IA sobre tu sistema ahora mismo?</span>
+      <span lang="en">A guided discussion before the spec</span>
+      <span lang="es">Una discusión guiada antes de la especificación</span>
     </div>
 
     <p>
-      <span lang="en">Open a fresh AI session in your project root — no context, no CLAUDE.md, no briefing. Ask it three questions in sequence. The answers reveal the gap between what's implicit and what needs to be written down.</span>
-      <span lang="es">Abre una sesión de IA en frío en la raíz de tu proyecto — sin contexto, sin CLAUDE.md, sin briefing. Hazle tres preguntas en secuencia. Las respuestas revelan el gap entre lo que es implícito y lo que necesita escribirse.</span>
+      <span lang="en">A new project has no code to read — but it usually has a fuzzy idea. Before the mold, bring it down to earth. This guided discussion turns "I want to build X" into the concrete raw material the spec interview needs. If your idea is already sharp, skip straight to Mold.</span>
+      <span lang="es">Un proyecto nuevo no tiene código que leer — pero normalmente tiene una idea difusa. Antes del molde, bájala a la tierra. Esta discusión guiada convierte "quiero construir X" en la materia prima concreta que necesita la entrevista de la especificación. Si tu idea ya está afilada, salta directo al Molde.</span>
     </p>
 
-    <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-text">
-        <span lang="en"><strong>Open a new AI session</strong> in your project root with no additional context. Paste the cold read prompt below.</span>
-        <span lang="es"><strong>Abre una nueva sesión de IA</strong> en la raíz de tu proyecto sin contexto adicional. Pega el prompt de lectura en frío abajo.</span>
-<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — Cold Read (3 questions)</span><span lang="es">Pega esto — Lectura en Frío (3 preguntas)</span></span><span lang="en">Ask me these three questions about this codebase, one at a time.
-Wait for me to confirm your answer before asking the next.
+    <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — ground the idea</span><span lang="es">Pega esto — aterriza la idea</span></span><span lang="en">Be my thinking partner, not a yes-man. I have a project idea I want to ground before writing a specification. Ask me one question at a time, and push back when an answer is vague.
 
-1. In one paragraph: what does this system do and who uses it?
-   (Read the code to answer — do not ask me.)
+1. In one sentence — what is it, and who is it for?
+2. What is the single most important thing it must do well? (if everything is important, nothing is)
+3. Who is the user the day it ships, and what do they do in the first five minutes?
+4. What is explicitly NOT in version one? Name three things you are tempted to build but will not.
+5. What is the riskiest assumption — the thing that, if wrong, sinks the project?
+6. What does "good enough to show someone" look like? Be concrete.
 
-2. Pick any structural decision visible in the code — a module boundary,
-   a data model choice, a service separation. Explain why it was made that way.
-   (Read the code to answer — do not ask me.)
+After my answers, reflect back: the one-sentence pitch, the MVP scope, the top three non-goals, and the riskiest assumption. If any answer was hand-wavy, tell me which and why. Do not write any spec or code yet.</span><span lang="es">Sé mi compañero de pensamiento, no un adulador. Tengo una idea de proyecto que quiero aterrizar antes de escribir una especificación. Hazme una pregunta a la vez, y cuestióname cuando una respuesta sea vaga.
 
-3. What should this system never do? What are its explicit architectural
-   constraints and non-goals?
-   (Read the code to answer — do not ask me.)</span><span lang="es">Hazme estas tres preguntas sobre esta codebase, una a la vez.
-Espera a que confirme tu respuesta antes de hacer la siguiente.
+1. En una oración — ¿qué es, y para quién es?
+2. ¿Cuál es la única cosa más importante que debe hacer bien? (si todo es importante, nada lo es)
+3. ¿Quién es el usuario el día que se lanza, y qué hace en los primeros cinco minutos?
+4. ¿Qué NO está, explícitamente, en la versión uno? Nombra tres cosas que estás tentado a construir pero no lo harás.
+5. ¿Cuál es el supuesto más riesgoso — la cosa que, si está mal, hunde el proyecto?
+6. ¿Cómo se ve "lo bastante bueno para mostrárselo a alguien"? Sé concreto.
 
-1. En un párrafo: ¿qué hace este sistema y quién lo usa?
-   (Lee el código para responder — no me preguntes.)
-
-2. Elige cualquier decisión estructural visible en el código — un límite de módulo,
-   una elección de modelo de datos, una separación de servicio. Explica por qué
-   se tomó esa decisión.
-   (Lee el código para responder — no me preguntes.)
-
-3. ¿Qué nunca debe hacer este sistema? ¿Cuáles son sus restricciones
-   arquitectónicas explícitas y no-objetivos?
-   (Lee el código para responder — no me preguntes.)</span></div>
-      </div>
-    </div>
+Después de mis respuestas, refléjame de vuelta: el pitch de una oración, el alcance del MVP, los tres principales no-objetivos, y el supuesto más riesgoso. Si alguna respuesta fue vaga, dime cuál y por qué. No escribas ninguna especificación ni código todavía.</span></div>
 
     <div class="pattern-note">
-      <span lang="en">For a new project with no existing code: skip the cold read. Your first AI session IS the heating — the interview in Step 01 of Mold activates the AI on your intent rather than your code.</span>
-      <span lang="es">Para un proyecto nuevo sin código existente: salta la lectura en frío. Tu primera sesión de IA ES el calentamiento — la entrevista en el Paso 01 de Mold activa la IA sobre tu intención en lugar de tu código.</span>
+      <span lang="en">This is the only stage a new project may skip — if the idea is already concrete, go straight to <a href="/mold">Mold</a>. But most fuzzy ideas get sharper here, and a sharper idea makes a tighter mold.</span>
+      <span lang="es">Esta es la única etapa que un proyecto nuevo puede saltar — si la idea ya es concreta, ve directo al <a href="/mold">Molde</a>. Pero la mayoría de las ideas difusas se afilan aquí, y una idea más afilada hace un molde más ajustado.</span>
     </div>
 
     <h2>
-      <span lang="en">Step 02 — Score the Gap</span>
-      <span lang="es">Paso 02 — Puntúa el Gap</span>
+      <span lang="en">Track B — Existing Project: Cold Read + Audit</span>
+      <span lang="es">Camino B — Proyecto Existente: Lectura en Frío + Auditoría</span>
     </h2>
     <div class="h2-sub">
-      <span lang="en">Run the GS Audit to see which properties are missing</span>
-      <span lang="es">Corre la Auditoría GS para ver qué propiedades faltan</span>
+      <span lang="en">See what the AI sees — then score it</span>
+      <span lang="es">Mira lo que ve la IA — luego puntúalo</span>
     </div>
 
     <p>
-      <span lang="en">The GS Audit Report scores your codebase on the seven properties. Where the AI answered question 3 with silence or invention — that's your score-0 on Self-describing. Where it invented an architectural rationale — that's Auditable at risk. The audit makes the gap concrete.</span>
-      <span lang="es">El Reporte de Auditoría GS puntúa tu codebase en las siete propiedades. Donde la IA respondió la pregunta 3 con silencio o invención — ese es tu puntaje 0 en Auto-descriptiva. Donde inventó una justificación arquitectónica — Auditable en riesgo. La auditoría hace el gap concreto.</span>
+      <span lang="en">An existing codebase must be read before it can be specified. First the cold read — three questions that expose the gap between what's implicit and what's written. Then the full GS audit — eight dimensions, a 0–14 score, and a remediation roadmap.</span>
+      <span lang="es">Una base de código existente debe leerse antes de poder especificarla. Primero la lectura en frío — tres preguntas que exponen el gap entre lo que es implícito y lo que está escrito. Luego la auditoría GS completa — ocho dimensiones, un puntaje 0–14 y una hoja de ruta de remediación.</span>
+    </p>
+
+    <h3>
+      <span lang="en">Sub-step 1 — Cold Read</span>
+      <span lang="es">Sub-paso 1 — Lectura en Frío</span>
+    </h3>
+
+    <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — cold read</span><span lang="es">Pega esto — lectura en frío</span></span><span lang="en">Ask me these three questions about this codebase, one at a time. Read the code to answer — do not ask me.
+1. In one paragraph: what does this system do and who uses it?
+2. Pick a structural decision visible in the code (a module boundary, a data model, a service split). Explain why it was made that way.
+3. What should this system never do? What are its explicit constraints and non-goals?</span><span lang="es">Hazme estas tres preguntas sobre esta base de código, una a la vez. Lee el código para responder — no me preguntes.
+1. En un párrafo: ¿qué hace este sistema y quién lo usa?
+2. Elige una decisión estructural visible en el código (un límite de módulo, un modelo de datos, una separación de servicio). Explica por qué se tomó así.
+3. ¿Qué nunca debe hacer este sistema? ¿Cuáles son sus restricciones y no-objetivos explícitos?</span></div>
+
+    <div class="pattern-note">
+      <span lang="en">Where the AI answers with silence, invention, or low confidence — that is exactly what your sentinel will need to make explicit.</span>
+      <span lang="es">Donde la IA responde con silencio, invención o baja confianza — eso es exactamente lo que tu sentinel necesitará hacer explícito.</span>
+    </div>
+
+    <h3>
+      <span lang="en">Sub-step 2 — Full GS Audit</span>
+      <span lang="es">Sub-paso 2 — Auditoría GS Completa</span>
+    </h3>
+
+    <p>
+      <span lang="en">Now run the full audit. It scores eight dimensions — the same report the pragmaworks CLI produces — and ends with a prioritized remediation plan. The complete paste-able template is on the GS Audit page.</span>
+      <span lang="es">Ahora corre la auditoría completa. Puntúa ocho dimensiones — el mismo reporte que produce el CLI de pragmaworks — y termina con un plan de remediación priorizado. La plantilla completa para pegar está en la página de Auditoría GS.</span>
     </p>
 
     <div class="path-picker">
-      <a href="/diagnose">
-        <div class="label">Audit · EN</div>
-        <div class="name">GS Diagnostic →</div>
+      <a href="/audit">
+        <div class="label">Audit</div>
+        <div class="name">GS Audit Report →</div>
         <div class="desc">
-          <span lang="en">Score your codebase on all 7 GS properties. 30 minutes, no tools required.</span>
-          <span lang="es">Puntúa tu codebase en las 7 propiedades GS. 30 minutos, sin herramientas.</span>
+          <span lang="en">The full 8-section template.</span>
+          <span lang="es">La plantilla completa de 8 secciones.</span>
         </div>
       </a>
-      <a href="/diagnostico">
-        <div class="label">Auditoría · ES</div>
-        <div class="name">Diagnóstico GS →</div>
+      <a href="/diagnose">
+        <div class="label">Diagnose</div>
+        <div class="name">Diagnose →</div>
         <div class="desc">
-          <span lang="en">Spanish version of the full diagnostic.</span>
-          <span lang="es">Versión en español del diagnóstico completo.</span>
+          <span lang="en">Score + disease names, 30 min.</span>
+          <span lang="es">Puntaje + nombres de enfermedades, 30 min.</span>
         </div>
       </a>
     </div>
 
+    <div class="dimensions">
+      <span lang="en">1 Property Scorecard (0–14) · 2 Total &amp; Band · 3 Structural Disciplines · 4 Test Pyramid · 5 Documentation Health · 6 Security &amp; Logging · 7 Team Habits (git history) · 8 Remediation Plan</span>
+      <span lang="es">1 Tarjeta de Propiedades (0–14) · 2 Total y Banda · 3 Disciplinas Estructurales · 4 Pirámide de Tests · 5 Salud de Documentación · 6 Seguridad y Logging · 7 Hábitos de Equipo (historial git) · 8 Plan de Remediación</span>
+    </div>
+
     <div class="forge-pagination">
-      <span class="fp-prev">Stage 1 / 6</span>
-      <a href="/mold" class="fp-next-btn">
-        <span lang="en">Mold: Build the Specification →</span>
-        <span lang="es">Molde: Construye la Especificación →</span>
-      </a>
+      <a href="/forge" class="fp-prev">← The Forge Cycle</a>
+      <a href="/mold" class="fp-next-btn">Mold: Build the Specification →</a>
     </div>
 
     <div class="footer">
