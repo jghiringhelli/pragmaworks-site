@@ -547,6 +547,108 @@ Cuando existan todos los tests E2E, corre la suite completa y reporta:
     <span lang="es"><strong>Para sistemas brownfield grandes,</strong> no apliques Tier 2 a toda la codebase de una vez. Identifica la costura — el límite donde crecerá el nuevo código bajo disciplina GS. Aplica gates NFR y pipeline de CD solo al nuevo módulo. Ruteá un porcentaje del tráfico hacia él. El código viejo degrada graciosamente mientras crece el nuevo módulo. Este es el patrón Strangler Fig aplicado a la adopción de GS: el nuevo sistema estrangula al viejo sin una reescritura big-bang.</span>
   </div>
 
+  <h2>
+    <span lang="en">Don't Over-Harness</span>
+    <span lang="es">No Sobre-Harness</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">The harness is Bounded too</span>
+    <span lang="es">El harness también es Acotado</span>
+  </div>
+
+  <p>
+    <span lang="en">The harness is subject to the same <strong>Bounded</strong> property it enforces. Too many hooks, an overgrown CONSTITUTION.md, or too many CNT (context navigation tree) levels make the AI spend its context budget reading the harness instead of doing the work — re-creating the exact context degradation GS exists to prevent. The cure becomes the disease. Keep the harness <strong>minimal-sufficient</strong>: every hook, rule, and CNT level must earn its place by preventing a real, observed failure.</span>
+    <span lang="es">El harness está sujeto a la misma propiedad <strong>Acotada</strong> que hace cumplir. Demasiados hooks, un CONSTITUTION.md sobrecargado, o demasiados niveles de CNT (árbol de navegación de contexto) hacen que el AI gaste su presupuesto de contexto leyendo el harness en vez de trabajar — recreando la misma degradación de contexto que GS existe para prevenir. La cura se vuelve la enfermedad. Mantené el harness <strong>mínimo-suficiente</strong>: cada hook, regla y nivel de CNT debe ganarse su lugar previniendo una falla real y observada.</span>
+  </p>
+
+  <h3>
+    <span lang="en">How many CNT levels? The math, made simple</span>
+    <span lang="es">¿Cuántos niveles de CNT? La matemática, simple</span>
+  </h3>
+
+  <p>
+    <span lang="en">A CNT level is a map the AI reads to find things. A few well-organized maps are fast. Too many tiny maps and the AI burns its budget reading maps instead of working. Three rules keep it healthy:</span>
+    <span lang="es">Un nivel de CNT es un mapa que el AI lee para encontrar cosas. Unos pocos mapas bien organizados son rápidos. Demasiados mapas chiquitos y el AI quema su presupuesto leyendo mapas en vez de trabajar. Tres reglas lo mantienen sano:</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">The CNT health rules</span><span lang="es">Las reglas de salud del CNT</span></span><span lang="en">RULE 1 — Branching: each map holds 3 to 10 entries.
+  Fewer than 3  → the level isn't earning its place. Flatten it.
+  More than ~10 → split it into sub-maps.
+
+RULE 2 — Depth ≈ log10(file count). Each level multiplies capacity ~10×.
+  ~30 files    → 2 levels
+  ~300 files   → 3 levels
+  ~3,000 files → 4 levels
+
+RULE 3 — Co-change coherence: files that change together live in the same map.
+  If two files almost always change together but sit in different branches,
+  the partition is wrong. Fix the partition before adding depth.
+
+Healthy CNT = depth near log10(files), 3–10 per node,
+              partitioned along what actually changes together.</span><span lang="es">REGLA 1 — Ramificación: cada mapa tiene de 3 a 10 entradas.
+  Menos de 3   → el nivel no se gana su lugar. Aplanalo.
+  Más de ~10   → dividilo en sub-mapas.
+
+REGLA 2 — Profundidad ≈ log10(cantidad de archivos). Cada nivel multiplica la capacidad ~10×.
+  ~30 archivos     → 2 niveles
+  ~300 archivos    → 3 niveles
+  ~3.000 archivos  → 4 niveles
+
+REGLA 3 — Coherencia de co-cambio: los archivos que cambian juntos viven en el mismo mapa.
+  Si dos archivos casi siempre cambian juntos pero están en ramas distintas,
+  la partición está mal. Arreglá la partición antes de agregar profundidad.
+
+CNT sano = profundidad cerca de log10(archivos), 3–10 por nodo,
+           particionado según lo que de verdad cambia junto.</span></div>
+
+  <p>
+    <span lang="en">The third rule is the one that matters most — and it is computable. Files that change together should be navigated together. Your git history already knows which those are.</span>
+    <span lang="es">La tercera regla es la que más importa — y es calculable. Los archivos que cambian juntos deberían navegarse juntos. Tu historial de git ya sabe cuáles son.</span>
+  </p>
+
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — CNT health check</span><span lang="es">Pega esto — chequeo de salud del CNT</span></span><span lang="en">Read CONSTITUTION.md and the current CNT structure (the document and code
+navigation maps). Then read the last 200 commits.
+
+1. For each CNT node, count its entries.
+   - Flag any node with fewer than 3 entries (candidate to flatten).
+   - Flag any node with more than 10 entries (candidate to split).
+
+2. Count the project's files. Target depth = ceil(log10(file count)).
+   Report whether the current tree is deeper or shallower than target.
+
+3. Build the co-change matrix from the 200 commits. List any file pairs that
+   change together in more than half their commits but live in different
+   CNT branches — these are mis-partitioned.
+
+4. Report only (change nothing):
+   - Nodes to flatten / nodes to split
+   - Too deep or too shallow vs. target
+   - Mis-partitioned files (co-change across branches)
+   - The minimal CNT that keeps co-changing files together at 3–10 per node.</span><span lang="es">Lee CONSTITUTION.md y la estructura actual del CNT (los mapas de navegación
+de documentos y de código). Luego lee los últimos 200 commits.
+
+1. Para cada nodo del CNT, contá sus entradas.
+   - Marcá los nodos con menos de 3 entradas (candidatos a aplanar).
+   - Marcá los nodos con más de 10 entradas (candidatos a dividir).
+
+2. Contá los archivos del proyecto. Profundidad objetivo = ceil(log10(cantidad de archivos)).
+   Reportá si el árbol actual es más profundo o más plano que el objetivo.
+
+3. Construí la matriz de co-cambio desde los 200 commits. Listá los pares de
+   archivos que cambian juntos en más de la mitad de sus commits pero viven en
+   ramas distintas del CNT — están mal particionados.
+
+4. Reportá solamente (no cambies nada):
+   - Nodos a aplanar / nodos a dividir
+   - Demasiado profundo o demasiado plano vs. el objetivo
+   - Archivos mal particionados (co-cambio entre ramas)
+   - El CNT mínimo que mantiene juntos los archivos que cambian juntos, a 3–10 por nodo.</span></div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Run this whenever the AI starts feeling slower or vaguer.</strong> It usually means the harness has outgrown its job — the navigation cost now exceeds the navigation benefit. A CNT that follows what changes together stays cheap to read and precise to navigate.</span>
+    <span lang="es"><strong>Corré esto cuando el AI empiece a sentirse más lento o más vago.</strong> Suele significar que el harness creció más allá de su función — el costo de navegación ahora supera el beneficio. Un CNT que sigue lo que cambia junto se mantiene barato de leer y preciso de navegar.</span>
+  </div>
+
   <div class="forge-pagination">
     <a href="/temper" class="fp-prev">← Temper: Structural Disciplines</a>
     <a href="/try#brownfield" class="fp-next-btn">Anneal: Brownfield Audit →</a>
