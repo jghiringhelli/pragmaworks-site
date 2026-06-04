@@ -559,6 +559,51 @@ que sigue.</span></div>
     </div>
 
     <h3>
+      <span lang="en">1 · GS Property Scorecard (0–14)</span>
+      <span lang="es">1 · Tarjeta de Puntaje GS (0–14)</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The core of the report. Each of the seven properties — Self-describing, Bounded, Composable, Verifiable, Auditable, Defended, Executable — is scored 0, 1, or 2 against concrete evidence in the code, with the failure disease named at each 0 (Empty Map, Spreading Boundary, Tangled Web, Unbound Spec, Amnesia Stack, Open Gates, Frozen Spec). Every score cites <code>file:line</code>, so two independent runs land within ±1 point.</span>
+      <span lang="es">El núcleo del reporte. Cada una de las siete propiedades — Auto-descriptiva, Acotada, Componible, Verificable, Auditable, Defendida, Ejecutable — se puntúa 0, 1 o 2 contra evidencia concreta en el código, nombrando la enfermedad de falla en cada 0 (Mapa Vacío, Límite Difuso, Telaraña, Spec sin Anclaje, Pila de Amnesia, Puertas Abiertas, Spec Congelada). Cada puntaje cita <code>file:line</code>, de modo que dos corridas independientes quedan dentro de ±1 punto.</span>
+    </p>
+
+    <h3>
+      <span lang="en">2 · Total Score &amp; Band</span>
+      <span lang="es">2 · Puntaje Total y Banda</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The seven scores sum to 0–14 and place the codebase in a band: <strong>0–4 Critical · 5–8 Developing · 9–11 Functional · 12–14 Strong</strong>. The band sets the expectation for how much remediation the project needs before it can be trusted to an unattended AI session.</span>
+      <span lang="es">Los siete puntajes suman 0–14 y ubican la base de código en una banda: <strong>0–4 Crítico · 5–8 En desarrollo · 9–11 Funcional · 12–14 Sólido</strong>. La banda fija la expectativa de cuánta remediación necesita el proyecto antes de poder confiarlo a una sesión de IA sin supervisión.</span>
+    </p>
+
+    <h3>
+      <span lang="en">3 · Structural Disciplines</span>
+      <span lang="es">3 · Disciplinas Estructurales</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">A checklist of the engineering disciplines present, partial, or absent: SOLID, TDD, BDD, DDD, hexagonal / ports-and-adapters, layered / clean architecture, CQRS, conventional commits, ADRs, the doc-first cascade, and intentional naming. These are the same disciplines that give the AI reader its mechanical advantage — see <a href="/temper" style="color: var(--ember);">Temper</a>.</span>
+      <span lang="es">Una checklist de las disciplinas de ingeniería presentes, parciales o ausentes: SOLID, TDD, BDD, DDD, hexagonal / puertos-y-adaptadores, arquitectura en capas / limpia, CQRS, conventional commits, ADRs, la cascada doc-first y el naming intencional. Son las mismas disciplinas que le dan al lector IA su ventaja mecánica — ver <a href="/temper" style="color: var(--ember);">Temper</a>.</span>
+    </p>
+
+    <h3>
+      <span lang="en">4 · Test Pyramid</span>
+      <span lang="es">4 · Pirámide de Pruebas</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The ratio of unit, integration, and end-to-end tests, and whether the shape is healthy or inverted. Flags <strong>test theater</strong> — suites that mock every dependency and never exercise real behavior, which pass green while the system breaks.</span>
+      <span lang="es">La proporción de tests unitarios, de integración y end-to-end, y si la forma es sana o está invertida. Flagea el <strong>teatro de tests</strong> — suites que mockean toda dependencia y nunca ejercitan comportamiento real, que pasan en verde mientras el sistema se rompe.</span>
+    </p>
+
+    <h3>
+      <span lang="en">5 · Documentation Health</span>
+      <span lang="es">5 · Salud de la Documentación</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The last-touched date of each doc against the code beneath it, flagging stale documentation where the code moved on without the spec. Stale docs are worse than none — they feed the AI reader confident, wrong context.</span>
+      <span lang="es">La fecha de última modificación de cada doc contra el código debajo, flageando documentación desactualizada donde el código avanzó sin la spec. Los docs desactualizados son peores que ninguno — le dan al lector IA contexto seguro y equivocado.</span>
+    </p>
+
+    <h3>
       <span lang="en">6 · Security &amp; Logging</span>
       <span lang="es">6 · Seguridad y Logging</span>
     </h3>
@@ -576,9 +621,18 @@ que sigue.</span></div>
       <span lang="es">La única dimensión que lee el <strong>historial de git</strong> del proyecto en lugar de su código, por lo que necesita un repositorio git real para correr. Sobre los últimos 200 commits la IA estima la densidad de PR / revisión (cambios revisados vs. commits directos), la distribución de tamaño de commits con su mediana y cola (flageando commits gigantes de más de 400 líneas que ocultan la intención), y la tasa de bugs introducidos por IA inferida de reverts y hot-fixes rápidos. Verifica si los arreglos de bugs vinieron con un test de regresión en el mismo commit o uno adyacente, mapea el grafo de colaboración y el bus factor (cuántos archivos tienen efectivamente un solo autor, dónde se concentra el conocimiento), y revela el acoplamiento por co-cambio — los archivos que cambian juntos más seguido, lo que también muestra dónde están mal trazados los límites de módulo. Cierra con los números más el mayor riesgo único que revela el historial.</span>
     </p>
 
+    <h3>
+      <span lang="en">8 · Remediation Plan</span>
+      <span lang="es">8 · Plan de Remediación</span>
+    </h3>
+    <p style="font-size:15px; color: var(--steel);">
+      <span lang="en">The report closes with a prioritized plan: 10–15 items in order — oracle tests first, then the lowest-scoring properties, then the smallest-effort / biggest-lift fixes. Each item names the property it raises, the effort (S / M / L), and why it matters now. This plan is the contract for the remediation session that follows — see <a href="/anneal" style="color: var(--ember);">Anneal</a>.</span>
+      <span lang="es">El reporte cierra con un plan priorizado: 10–15 ítems en orden — oracle tests primero, luego las propiedades de menor puntaje, luego los arreglos de menor esfuerzo / mayor impacto. Cada ítem nombra la propiedad que sube, el esfuerzo (S / M / L), y por qué importa ahora. Este plan es el contrato para la sesión de remediación que sigue — ver <a href="/anneal" style="color: var(--ember);">Anneal</a>.</span>
+    </p>
+
     <p class="small-note">
-      <span lang="en">This template is the no-tools version of the full audit. The <a href="/try#brownfield" style="color: var(--ember);">brownfield path in the Developer Cookbook</a> shows the tool-assisted version that also runs CI, generates HTML + PDF output, and works at team scale.</span>
-      <span lang="es">Esta plantilla es la versión sin herramientas de la auditoría completa. El <a href="/try#brownfield" style="color: var(--ember);">camino brownfield en el Recetario de Desarrolladores</a> muestra la versión asistida por herramientas que también corre CI, genera HTML + PDF, y funciona a escala de equipo.</span>
+      <span lang="en">This template is the no-tools version of the full audit. The <a href="/brownfield" style="color: var(--ember);">brownfield journey</a> shows the tool-assisted version that also runs CI, generates HTML + PDF output, and works at team scale.</span>
+      <span lang="es">Esta plantilla es la versión sin herramientas de la auditoría completa. El <a href="/brownfield" style="color: var(--ember);">camino brownfield</a> muestra la versión asistida por herramientas que también corre CI, genera HTML + PDF, y funciona a escala de equipo.</span>
     </p>
 
     <div class="help-box">
@@ -594,8 +648,8 @@ que sigue.</span></div>
     </div>
 
     <div class="forge-pagination">
-      <a href="/harden" class="fp-prev">← Harden: Endurecido</a>
-      <a href="/try#brownfield" class="fp-next-btn">Anneal: Brownfield Recipe →</a>
+      <a href="/heating" class="fp-prev">← Heating: Cold Read + Audit</a>
+      <a href="/anneal" class="fp-next-btn">Anneal: Remediation →</a>
     </div>
 
     <div class="footer">
