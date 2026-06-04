@@ -318,9 +318,50 @@
     <span lang="es">El recocido alivia el estrés interno del metal y lo prepara para ser reformado. En GS, el Recocido es cómo se renueva un sistema existente: protegido con oracle tests, remediado en orden de prioridad bajo disciplina de cascada y — para sistemas grandes — estrangulado módulo por módulo en vez de reescrito. Cuando la remediación termina, el sistema re-entra al ciclo como si fuera greenfield.</span>
   </p>
 
+  <h2>
+    <span lang="en">Before You Anneal — Prerequisites</span>
+    <span lang="es">Antes del Recocido — Prerrequisitos</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Remediation needs the harness already in place</span>
+    <span lang="es">La remediación necesita el harness ya instalado</span>
+  </div>
+
+  <p>
+    <span lang="en">Anneal is remediation — and you cannot safely remediate code that isn't yet protected. It assumes the existing project already has the three things below. If it doesn't, install them first: the <a href="/brownfield">Brownfield journey</a> walks all three in sequence (Steps 03–06), starting from the audit you ran in <a href="/heating">Heating</a>.</span>
+    <span lang="es">El Recocido es remediación — y no podés remediar código que todavía no está protegido. Asume que el proyecto existente ya tiene las tres cosas de abajo. Si no las tiene, instalalas primero: el <a href="/brownfield">camino Brownfield</a> recorre las tres en secuencia (Pasos 03–06), partiendo de la auditoría que corriste en <a href="/heating">Heating</a>.</span>
+  </p>
+
+  <table style="width:100%;border-collapse:collapse;margin:14px 0 8px;font-size:14px;">
+    <thead>
+      <tr style="background:var(--forge-dark);">
+        <th style="text-align:left;padding:9px 12px;color:var(--parchment);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;"><span lang="en">Prerequisite</span><span lang="es">Prerrequisito</span></th>
+        <th style="text-align:left;padding:9px 12px;color:var(--parchment);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;"><span lang="en">What it is</span><span lang="es">Qué es</span></th>
+        <th style="text-align:left;padding:9px 12px;color:var(--parchment);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;"><span lang="en">Where</span><span lang="es">Dónde</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#fff;">
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);"><strong><span lang="en">Spec from code</span><span lang="es">Spec desde el código</span></strong></td>
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);color:var(--steel);"><code>docs/spec/SPEC.md</code> <span lang="en">generated from what exists</span><span lang="es">generado desde lo que existe</span></td>
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);"><a href="/brownfield" style="color:var(--ember);"><span lang="en">Brownfield Step 03</span><span lang="es">Brownfield Paso 03</span></a> · <a href="/mold" style="color:var(--ember);">/mold</a></td>
+      </tr>
+      <tr style="background:var(--parchment2);">
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);"><strong>Sentinel</strong></td>
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);color:var(--steel);"><code>CONSTITUTION.md</code> — <span lang="en">CNT on docs + code + disciplines</span><span lang="es">CNT sobre docs + código + disciplinas</span></td>
+        <td style="padding:9px 12px;border-bottom:1px solid var(--ash);"><a href="/brownfield" style="color:var(--ember);"><span lang="en">Brownfield Step 05</span><span lang="es">Brownfield Paso 05</span></a> · <a href="/mold" style="color:var(--ember);">/mold</a></td>
+      </tr>
+      <tr style="background:#fff;">
+        <td style="padding:9px 12px;"><strong>Harness</strong></td>
+        <td style="padding:9px 12px;color:var(--steel);"><span lang="en">hooks + CI + quality gates</span><span lang="es">hooks + CI + quality gates</span></td>
+        <td style="padding:9px 12px;"><a href="/brownfield" style="color:var(--ember);"><span lang="en">Brownfield Step 06</span><span lang="es">Brownfield Paso 06</span></a> · <a href="/temple" style="color:var(--ember);">/temple</a></td>
+      </tr>
+    </tbody>
+  </table>
+
   <div class="pattern-note">
-    <span lang="en"><strong>Anneal assumes you have already run Heating (cold read + audit) and Mold (spec from code + sentinel + harness) on the existing project.</strong> If not, start at <a href="/heating">/heating</a>.</span>
-    <span lang="es"><strong>El Recocido asume que ya corriste Calentamiento (lectura en frío + auditoría) y Moldeado (spec desde el código + sentinel + harness) sobre el proyecto existente.</strong> Si no, comienza en <a href="/heating">/heating</a>.</span>
+    <span lang="en"><strong>Already have all three?</strong> Continue with Step 01 below. The oracle tests you write next are the one piece of the harness that Anneal itself adds — characterization tests that pin the current behavior before you change it.</span>
+    <span lang="es"><strong>¿Ya tenés las tres?</strong> Continuá con el Paso 01 abajo. Los oracle tests que escribís a continuación son la única pieza del harness que el propio Recocido agrega — tests de caracterización que fijan el comportamiento actual antes de cambiarlo.</span>
   </div>
 
   <!-- ════════════════════════════════════════

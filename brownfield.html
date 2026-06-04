@@ -1220,6 +1220,11 @@ Al terminar, confirmar:
     <span lang="es">Recocido · tests de boundary ANTES de tocar código estructural</span>
   </div>
 
+  <div class="pattern-note">
+    <span lang="en"><strong>Steps 07–08 are the Anneal stage.</strong> By now you have the spec, sentinel, and harness from Steps 03–06 — the prerequisites remediation needs. The standalone Anneal recipe (oracle tests + remediation + strangler fig + cycle re-entry) lives at <a href="/anneal" style="color: var(--ember);">/anneal</a>.</span>
+    <span lang="es"><strong>Los Pasos 07–08 son la etapa Recocido.</strong> A esta altura ya tenés el spec, el sentinel y el harness de los Pasos 03–06 — los prerrequisitos que la remediación necesita. La receta Recocido standalone (oracle tests + remediación + higuera estranguladora + re-entrada al ciclo) está en <a href="/anneal" style="color: var(--ember);">/anneal</a>.</span>
+  </div>
+
   <p>
     <span lang="en">Before changing anything structural, install oracle tests at the system boundary. These tests verify the existing behavior — not the intended behavior. They are your safety net during remediation. If a remediation breaks an oracle test, you've changed behavior, not just structure.</span>
     <span lang="es">Antes de cambiar cualquier cosa estructural, instala oracle tests en el boundary del sistema. Estos tests verifican el comportamiento existente — no el comportamiento pretendido. Son tu red de seguridad durante la remediación. Si una remediación rompe un oracle test, cambiaste comportamiento, no solo estructura.</span>
