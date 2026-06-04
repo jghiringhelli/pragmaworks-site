@@ -107,6 +107,7 @@
 
     '  </nav>',
     '  <div class="pw-sidebar-footer">',
+    '    <a href="/workshop" class="pw-sidebar-cta">&#9733; The Workshop</a>',
     '    <a href="/">&#8592; Home</a>',
     '    <a href="mailto:juan@pragmaworks.dev">Contact</a>',
     '  </div>',
@@ -179,6 +180,16 @@
     if (toggle)  toggle.addEventListener('click', function () { sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar(); });
     if (overlay) overlay.addEventListener('click', closeSidebar);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSidebar(); });
+
+    // Bottom CTA band — every page except /workshop (reuses `path` from above)
+    if (path !== '/workshop') {
+      var cta = document.createElement('a');
+      cta.href = '/workshop';
+      cta.className = 'pw-cta-band';
+      cta.innerHTML = '<span class="pw-cta-h">The recipes are free. What I teach is everything they unlock.</span>' +
+        '<span class="pw-cta-b">The Forge — live cohort workshop &#8594;</span>';
+      document.body.appendChild(cta);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

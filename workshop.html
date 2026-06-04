@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="The Forge — Workshop · PragmaWorks"
+  data-es="La Fragua — Taller · PragmaWorks"
+>The Forge — Workshop · PragmaWorks</title>
+<meta name="description"
+  data-en="Four mornings, on your code, live: your team stops fighting AI drift and starts shipping spec-governed software with 10x leverage — sustainably."
+  data-es="Cuatro mañanas, sobre tu código, en vivo: tu equipo deja de pelear con la deriva de la IA y empieza a entregar software gobernado por especificación con 10x de apalancamiento — de forma sostenible."
+  content="Four mornings, on your code, live: your team stops fighting AI drift and starts shipping spec-governed software with 10x leverage — sustainably.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  /* ── Nav ── */
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center;
+    padding: 0.85rem 2rem;
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--forge-dark);
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--ember); }
+
+  /* ── Typography ── */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--forge-dark);
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--steel);
+    margin-bottom: 40px;
+    line-height: 1.55;
+  }
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--forge-dark);
+    margin: 64px 0 12px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ember);
+    scroll-margin-top: 24px;
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forge-dark);
+    margin: 32px 0 4px;
+  }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  ul { margin: 0 0 20px 0; list-style: none; }
+
+  /* ── Cost list (cost-of-inaction) ── */
+  .cost-list { margin: 20px 0 8px; }
+  .cost-list li {
+    position: relative;
+    padding: 10px 0 10px 30px;
+    font-size: 16px;
+    color: var(--steel);
+    border-bottom: 1px solid var(--ash);
+    line-height: 1.5;
+  }
+  .cost-list li:last-child { border-bottom: none; }
+  .cost-list li::before {
+    content: "✕";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--ember);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* ── Value stack (deliverables) ── */
+  .value-stack { margin: 24px 0 8px; }
+  .value-stack li {
+    position: relative;
+    padding: 12px 0 12px 30px;
+    font-size: 16px;
+    color: var(--steel);
+    border-bottom: 1px solid var(--ash);
+    line-height: 1.5;
+  }
+  .value-stack li:last-child { border-bottom: none; }
+  .value-stack li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: var(--ember);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .value-stack li strong,
+  .cost-list li strong { color: var(--forge-dark); font-weight: 600; }
+
+  /* ── Proof list ── */
+  .proof-list { margin: 20px 0 8px; }
+  .proof-list li {
+    position: relative;
+    padding: 10px 0 10px 30px;
+    font-size: 16px;
+    color: var(--steel);
+    border-bottom: 1px solid var(--ash);
+    line-height: 1.5;
+  }
+  .proof-list li:last-child { border-bottom: none; }
+  .proof-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--ember);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .proof-list li strong { color: var(--forge-dark); font-weight: 600; }
+  .proof-list a, p a, .lede a {
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196,75,26,0.35);
+  }
+  .proof-list a:hover, p a:hover, .lede a:hover { color: var(--ember-glow); border-color: var(--ember-glow); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(196,75,26,0.08);
+    color: var(--ember);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Pattern note / callout ── */
+  .pattern-note {
+    margin: 28px 0 0;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 3px solid var(--ash);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--steel);
+  }
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  /* ── Guarantee callout (bordered, on-brand) ── */
+  .guarantee {
+    margin: 28px 0 0;
+    padding: 24px 28px;
+    background: #fff;
+    border: 1px solid var(--ember);
+    border-left: 4px solid var(--ember);
+    border-radius: 0 4px 4px 0;
+    font-size: 16px;
+    color: var(--steel);
+    line-height: 1.55;
+  }
+  .guarantee strong { color: var(--forge-dark); font-weight: 600; }
+  .guarantee .seal {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 12px;
+  }
+
+  /* ── Teaser story block ── */
+  .teaser-story {
+    margin: 4px 0 0;
+    padding: 18px 22px;
+    background: var(--parchment2);
+    border-radius: 4px;
+    font-size: 15.5px;
+    color: var(--steel);
+    line-height: 1.6;
+  }
+  .teaser-story strong { color: var(--forge-dark); font-weight: 600; }
+
+  /* ── Path picker ── */
+  .path-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+  .path-picker a {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .path-picker a:hover {
+    border-color: var(--ember);
+    transform: translateY(-1px);
+  }
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+  .path-picker .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--forge-dark);
+    margin-bottom: 4px;
+  }
+  .path-picker .desc { font-size: 14px; color: var(--steel); }
+
+  /* ── Final CTA ── */
+  .cta-box {
+    margin: 56px 0 24px;
+    padding: 32px 36px;
+    background: var(--forge-dark);
+    color: var(--parchment);
+    border-radius: 4px;
+  }
+  .cta-box .eyebrow { color: var(--molten); margin-bottom: 14px; }
+  .cta-box h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--parchment);
+    font-size: 24px;
+    margin: 0 0 14px;
+  }
+  .cta-box p { color: var(--ash); font-size: 16px; margin-bottom: 22px; }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn-primary {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 22px;
+    border-radius: 3px;
+    background: var(--ember);
+    color: #fff;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--ember-glow); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 22px;
+    border-radius: 3px;
+    background: transparent;
+    color: var(--molten);
+    border: 1px solid rgba(244,166,35,0.5);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ash);
+    font-size: 14px;
+    color: var(--smoke);
+    text-align: center;
+  }
+  .footer a {
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ash);
+  }
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    .cta-box { padding: 26px 22px; }
+    .cta-box h3 { font-size: 21px; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── HERO ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="eyebrow">
+    <span lang="en">The Forge · Live Cohort Workshop</span>
+    <span lang="es">La Fragua · Taller en Cohorte en Vivo</span>
+  </div>
+
+  <h1>
+    <span lang="en">Your Team Stops Fighting the AI. It Starts Commanding It.</span>
+    <span lang="es">Tu Equipo Deja de Pelear con la IA. Empieza a Comandarla.</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">Four mornings. Your real codebase. By the end, your engineers don't prompt and pray — they write the specification, and the AI derives, verifies, and defends the code against its own drift. This is not a lecture. It is the discipline, installed on your team, on your project, while I'm in the room.</span>
+    <span lang="es">Cuatro mañanas. Tu base de código real. Al terminar, tus ingenieros no piden y rezan — escriben la especificación, y la IA deriva, verifica y defiende el código contra su propia deriva. Esto no es una charla. Es la disciplina, instalada en tu equipo, sobre tu proyecto, mientras estoy en la sala.</span>
+  </p>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 1. The Cost of Staying Where You Are ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">The Cost of Staying Where You Are</span>
+    <span lang="es">El Costo de Quedarte Donde Estás</span>
+  </h2>
+
+  <p>
+    <span lang="en">The status quo is not free. It is the most expensive option you have — you just pay for it in places your dashboard doesn't show. Every week you keep generating code without a discipline to govern it, the bill compounds:</span>
+    <span lang="es">El status quo no es gratis. Es la opción más cara que tenés — solo que la pagás en lugares que tu dashboard no muestra. Cada semana que seguís generando código sin una disciplina que lo gobierne, la cuenta se acumula:</span>
+  </p>
+
+  <ul class="cost-list">
+    <li>
+      <span lang="en">Every AI session starts cold and re-derives context you already decided — paid again in tokens and time, every day.</span>
+      <span lang="es">Cada sesión de IA arranca en frío y vuelve a derivar contexto que ya habías decidido — pagado de nuevo en tokens y tiempo, todos los días.</span>
+    </li>
+    <li>
+      <span lang="en">Drift compounds silently: the code drifts from intent, and you find out in production.</span>
+      <span lang="es">La deriva se acumula en silencio: el código se aleja de la intención, y te enterás en producción.</span>
+    </li>
+    <li>
+      <span lang="en">The architecture lives in one person's head. When they're out, every AI session is a reconstruction. That's your bus factor.</span>
+      <span lang="es">La arquitectura vive en la cabeza de una sola persona. Cuando no está, cada sesión de IA es una reconstrucción. Ese es tu factor bus.</span>
+    </li>
+    <li>
+      <span lang="en">Your best engineers burn out re-reviewing AI output by hand — the one thing that doesn't scale.</span>
+      <span lang="es">Tus mejores ingenieros se queman re-revisando a mano el output de la IA — lo único que no escala.</span>
+    </li>
+    <li>
+      <span lang="en">Competitors who install the discipline move 10x. You're not standing still; you're falling behind at their speed.</span>
+      <span lang="es">Los competidores que instalan la disciplina se mueven 10x. No estás quieto; estás quedándote atrás a la velocidad de ellos.</span>
+    </li>
+  </ul>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>None of this is a tooling problem. It is a discipline problem — and discipline can be installed.</strong></span>
+    <span lang="es"><strong>Nada de esto es un problema de herramientas. Es un problema de disciplina — y la disciplina se puede instalar.</strong></span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 2. What Your Team Walks Away With ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">What Your Team Walks Away With</span>
+    <span lang="es">Qué Se Lleva Tu Equipo</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">Not a certificate. A working discipline, on your repo.</span>
+    <span lang="es">No un certificado. Una disciplina funcionando, sobre tu repo.</span>
+  </div>
+
+  <ul class="value-stack">
+    <li>
+      <span lang="en"><strong>The full GS discipline installed on YOUR codebase</strong>, live across four mornings — not slides, your repo.</span>
+      <span lang="es"><strong>La disciplina GS completa instalada en TU base de código</strong>, en vivo a lo largo de cuatro mañanas — no diapositivas, tu repo.</span>
+    </li>
+    <li>
+      <span lang="en">A working <strong>spec → cascade → sentinel → harness</strong> on a real project, with the first green test on Day 2.</span>
+      <span lang="es">Un <strong>spec → cascada → sentinel → harness</strong> funcionando sobre un proyecto real, con el primer test en verde el Día 2.</span>
+    </li>
+    <li>
+      <span lang="en">The <strong>14 structural disciplines</strong> your seniors already half-practice — finally justified mechanically, so the whole team adopts them.</span>
+      <span lang="es">Las <strong>14 disciplinas estructurales</strong> que tus seniors ya practican a medias — por fin justificadas mecánicamente, para que todo el equipo las adopte.</span>
+    </li>
+    <li>
+      <span lang="en"><strong>Tier 2:</strong> the staging harness, NFR gates, and the execution cycle that proves use cases before they ship.</span>
+      <span lang="es"><strong>Tier 2:</strong> el harness de staging, los gates de NFR, y el ciclo de ejecución que prueba los casos de uso antes de que salgan.</span>
+    </li>
+    <li>
+      <span lang="en">The <strong>recipes, the cookbook, and the reference</strong> — yours forever.</span>
+      <span lang="es">Las <strong>recetas, el recetario y la referencia</strong> — tuyos para siempre.</span>
+    </li>
+    <li>
+      <span lang="en">A <strong>private cohort channel</strong> during and after, and a direct line to me.</span>
+      <span lang="es">Un <strong>canal privado de cohorte</strong> durante y después, y una línea directa conmigo.</span>
+    </li>
+    <li>
+      <span lang="en">A path to <strong>Concierge</strong> if you want the deep remediation done with you.</span>
+      <span lang="es">Un camino a <strong>Concierge</strong> si querés que la remediación profunda se haga con vos.</span>
+    </li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 3. The Part That Isn't on This Website ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">The Part That Isn't on This Website</span>
+    <span lang="es">La Parte que No Está en Este Sitio</span>
+  </h2>
+
+  <p>
+    <span lang="en">Everything on pragmaworks.dev is free. The recipes, the audit, the disciplines — take them. They are the syntax. What I teach in the room is the part no page can hold: the leverage. What this discipline unlocks once your team can wield it — the applications you haven't imagined yet.</span>
+    <span lang="es">Todo en pragmaworks.dev es gratis. Las recetas, la auditoría, las disciplinas — llevátelas. Son la sintaxis. Lo que enseño en la sala es la parte que ninguna página puede contener: el apalancamiento. Lo que esta disciplina desbloquea una vez que tu equipo la sabe empuñar — las aplicaciones que todavía no imaginaste.</span>
+  </p>
+
+  <div class="teaser-story">
+    <span lang="en">A student built a tool that tells you whether to hit or stand in blackjack. In ten minutes we turned it into a system that runs Monte Carlo simulations, scores its own heuristics, and improves its recommendation every hand. Another walked in with a reporting bottleneck and left with retrieval-augmented text-to-SQL. Another instrumented production logs to see which features were actually used — and which were dead weight paying rent. None of these were on a page. They came from someone who has watched this discipline compound across dozens of domains.</span>
+    <span lang="es">Un estudiante construyó una herramienta que te dice si pedir carta o plantarte en blackjack. En diez minutos la convertimos en un sistema que corre simulaciones de Monte Carlo, puntúa sus propias heurísticas y mejora su recomendación en cada mano. Otro llegó con un cuello de botella de reportes y se fue con text-to-SQL aumentado por recuperación. Otro instrumentó los logs de producción para ver qué features se usaban de verdad — y cuáles eran peso muerto pagando alquiler. Ninguna de estas estaba en una página. Vinieron de alguien que ha visto esta disciplina capitalizarse a través de docenas de dominios.</span>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>The recipes are free. What I teach is everything they unlock.</strong></span>
+    <span lang="es"><strong>Las recetas son gratis. Lo que enseño es todo lo que ellas desbloquean.</strong></span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 4. Why You Can Believe It Works ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">Why You Can Believe It Works</span>
+    <span lang="es">Por Qué Podés Creer que Funciona</span>
+  </h2>
+
+  <ul class="proof-list">
+    <li>
+      <span lang="en">A <strong>peer-grade white paper</strong> with the formal lineage and empirical evidence — <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">doi.org/10.5281/zenodo.19637142</a>.</span>
+      <span lang="es">Un <strong>white paper de grado académico</strong> con el linaje formal y la evidencia empírica — <a href="https://doi.org/10.5281/zenodo.19637142" target="_blank" rel="noopener">doi.org/10.5281/zenodo.19637142</a>.</span>
+    </li>
+    <li>
+      <span lang="en"><strong>Practitioner studies</strong> measuring real repos, not toy examples.</span>
+      <span lang="es"><strong>Estudios con practicantes</strong> que miden repos reales, no ejemplos de juguete.</span>
+    </li>
+    <li>
+      <span lang="en"><strong>Live cohorts already running it</strong> — the format is in production, not theory.</span>
+      <span lang="es"><strong>Cohortes en vivo que ya lo corren</strong> — el formato está en producción, no en teoría.</span>
+    </li>
+    <li>
+      <span lang="en">And the simplest proof: the disciplines your team already trusts — <strong>SOLID, TDD, hexagonal</strong> — are the exact ones GS makes enforceable.</span>
+      <span lang="es">Y la prueba más simple: las disciplinas en las que tu equipo ya confía — <strong>SOLID, TDD, hexagonal</strong> — son exactamente las que GS vuelve exigibles.</span>
+    </li>
+  </ul>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>You are not adopting a belief. You are systematizing what your best engineers already know is right.</strong></span>
+    <span lang="es"><strong>No estás adoptando una creencia. Estás sistematizando lo que tus mejores ingenieros ya saben que está bien.</strong></span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 5. The Guarantee ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">The Guarantee</span>
+    <span lang="es">La Garantía</span>
+  </h2>
+
+  <div class="guarantee">
+    <span class="seal">
+      <span lang="en">Risk reversal</span>
+      <span lang="es">Reversión de riesgo</span>
+    </span>
+    <span lang="en"><strong>Sit through the first morning.</strong> If by the end you don't see how this changes the way your team builds, tell me and we stop — you owe nothing beyond that morning. I am not selling you a belief; I'm showing you a discipline. The risk of trying it is one morning. The risk of not trying it compounds every sprint.</span>
+    <span lang="es"><strong>Quedate la primera mañana.</strong> Si al terminar no ves cómo esto cambia la forma en que tu equipo construye, decímelo y paramos — no debés nada más allá de esa mañana. No te estoy vendiendo una creencia; te estoy mostrando una disciplina. El riesgo de probarla es una mañana. El riesgo de no probarla se acumula en cada sprint.</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 6. How It Runs ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <h2>
+    <span lang="en">How It Runs</span>
+    <span lang="es">Cómo Funciona</span>
+  </h2>
+
+  <p>
+    <span lang="en">Four consecutive mornings, remote, in your language, on your codebase. Cohorts of 6–12. Limited cohorts per quarter — the format only works small, because the leverage comes from the room, not the slides. Pricing and team plans live on the <a href="/teams">teams page</a>.</span>
+    <span lang="es">Cuatro mañanas consecutivas, remoto, en tu idioma, sobre tu base de código. Cohortes de 6 a 12. Cohortes limitadas por trimestre — el formato solo funciona en grupos chicos, porque el apalancamiento sale de la sala, no de las diapositivas. Los precios y planes de equipo están en la <a href="/teams">página de equipos</a>.</span>
+  </p>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ── 7. Final CTA ── -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="cta-box">
+    <div class="eyebrow">
+      <span lang="en">Next step</span>
+      <span lang="es">Siguiente paso</span>
+    </div>
+    <h3>
+      <span lang="en">Book a conversation</span>
+      <span lang="es">Agendá una conversación</span>
+    </h3>
+    <p>
+      <span lang="en">Tell me about your team and your codebase. If The Forge is a fit, we'll find a cohort date. If it isn't, I'll tell you that too.</span>
+      <span lang="es">Contame sobre tu equipo y tu base de código. Si La Fragua encaja, encontramos una fecha de cohorte. Si no encaja, también te lo digo.</span>
+    </p>
+    <div class="cta-actions">
+      <a class="btn-primary" href="mailto:juan@pragmaworks.dev?subject=The%20Forge%20—%20Inquiry">
+        <span lang="en">Book a conversation →</span>
+        <span lang="es">Agendá una conversación →</span>
+      </a>
+      <a class="btn-secondary" href="https://forgeworkshop.dev" target="_blank" rel="noopener">
+        <span lang="en">forgeworkshop.dev</span>
+        <span lang="es">forgeworkshop.dev</span>
+      </a>
+      <a class="btn-secondary" href="/teams">
+        <span lang="en">Pricing &amp; team plans</span>
+        <span lang="es">Precios y planes de equipo</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/try"><span lang="en">Developer Cookbook</span><span lang="es">Recetario</span></a> ·
+    <a href="/diagnose"><span lang="en">Diagnose</span><span lang="es">Diagnostica</span></a> ·
+    <a href="/leaders"><span lang="en">For Leaders</span><span lang="es">Para Líderes</span></a> ·
+    <a href="https://forgeworkshop.dev">forgeworkshop.dev</a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>

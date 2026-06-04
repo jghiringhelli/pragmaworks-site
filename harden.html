@@ -284,6 +284,75 @@
   </p>
 
   <h2>
+    <span lang="en">The T2 Execution Cycle</span>
+    <span lang="es">El Ciclo de Ejecución T2</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">What forces verification — the Tier 2 analog of the green test</span>
+    <span lang="es">Qué fuerza la verificación — el análogo en Tier 2 del test verde</span>
+  </div>
+
+  <p>
+    <span lang="en">At Tier 1, the forcing function is the green test plus the pre-commit hook: nothing commits that breaks the spec. Tier 2 needs its own forcing function — or the AI will write a CI/CD file, deploy, and call it done, without ever proving the use cases actually run. The forcing function is the CD gate.</span>
+    <span lang="es">En el Tier 1, la función forzante es el test verde más el hook de pre-commit: nada se commitea si rompe el spec. El Tier 2 necesita su propia función forzante — o el AI escribirá un archivo de CI/CD, desplegará y lo dará por hecho, sin jamás probar que los casos de uso de verdad corren. La función forzante es el gate de CD.</span>
+  </p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">
+      <span lang="en"><strong>Build passes Tier 1</strong> — unit + integration green.</span>
+      <span lang="es"><strong>El build pasa el Tier 1</strong> — unit + integración en verde.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">
+      <span lang="en"><strong>Deploy to local/staging</strong> against real services (Docker — see Step 02).</span>
+      <span lang="es"><strong>Despliega a local/staging</strong> contra servicios reales (Docker — ver Paso 02).</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">
+      <span lang="en"><strong>Use-case walk</strong> — the AI drives the running app through every UC/F-NNN via the Playwright MCP: real browser, real network, real database.</span>
+      <span lang="es"><strong>Paseo de casos de uso</strong> — el AI conduce la app en ejecución a través de cada UC/F-NNN vía el MCP de Playwright: navegador real, red real, base de datos real.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">
+      <span lang="en"><strong>QA verification</strong> — at each postcondition, an assertion + a screenshot + a vision check (multimodal AI-as-QA) against the expected state.</span>
+      <span lang="es"><strong>Verificación de QA</strong> — en cada postcondición, una aserción + un screenshot + un chequeo de visión (AI-como-QA multimodal) contra el estado esperado.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-text">
+      <span lang="en"><strong>NFR gates</strong> — load, latency, and security thresholds (Step 04).</span>
+      <span lang="es"><strong>Gates de NFR</strong> — umbrales de carga, latencia y seguridad (Paso 04).</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-text">
+      <span lang="en"><strong>Gate decision</strong> — every use case passes AND every NFR gate is green → promote. Any failure → roll back, do not promote.</span>
+      <span lang="es"><strong>Decisión del gate</strong> — cada caso de uso pasa Y cada gate de NFR está en verde → promueve. Cualquier fallo → rollback, no promuevas.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-text">
+      <span lang="en"><strong>Record</strong> — results logged; each failure becomes a spec or remediation item.</span>
+      <span lang="es"><strong>Registra</strong> — resultados logueados; cada fallo se convierte en un ítem de spec o de remediación.</span>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>What forces it:</strong> the pipeline invokes the use-case-walk skill and blocks promotion on its exit code. The AI cannot deploy-and-forget — promotion is gated on a green walk. This is the Tier 2 analog of Tier 1's green test.</span>
+    <span lang="es"><strong>Qué lo fuerza:</strong> el pipeline invoca el skill del paseo de casos de uso y bloquea la promoción según su exit code. El AI no puede desplegar-y-olvidar — la promoción está gateada por un paseo en verde. Este es el análogo en Tier 2 del test verde del Tier 1.</span>
+  </div>
+
+  <h2>
     <span lang="en">Step 01 — Expand the Spec for Tier 2</span>
     <span lang="es">Paso 01 — Expande el Spec para Tier 2</span>
   </h2>
@@ -440,6 +509,55 @@ Place suites in tests/tier2/. Report a table: NFR id | threshold | measured | pa
 Coloca las suites en tests/tier2/. Reporta una tabla: id NFR | umbral | medido | pasa/falla. Ante cualquier fallo, no parchees en silencio — muéstrame la brecha.</span></div>
 
   <h2>
+    <span lang="en">Step 04b — The Use-Case Walk (MCP QA Simulation)</span>
+    <span lang="es">Paso 04b — El Paseo de Casos de Uso (Simulación de QA con MCP)</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">A skill that simulates human QA over staging</span>
+    <span lang="es">Un skill que simula QA humano sobre staging</span>
+  </div>
+
+  <p>
+    <span lang="en">Codify the use-case walk as a project skill so it runs identically every time and the pipeline can invoke it. This is the human-QA simulation: the AI becomes the tester, driving the real app and judging the result against the spec — assertion plus vision.</span>
+    <span lang="es">Codifica el paseo de casos de uso como un skill del proyecto para que corra idéntico cada vez y el pipeline pueda invocarlo. Esta es la simulación de QA humano: el AI se vuelve el tester, conduce la app real y juzga el resultado contra el spec — aserción más visión.</span>
+  </p>
+
+  <div class="prompt-box"><span class="prompt-label"><span lang="en">Paste this — generate the qa-walk skill</span><span lang="es">Pega esto — generar el skill qa-walk</span></span><span lang="en">Generate a project skill that simulates human QA over staging using MCP tools.
+It must be invokable by the CD pipeline and exit nonzero on any failure.
+
+Create .claude/skills/qa-walk/ (or the slash-command equivalent for this assistant) that, when run:
+1. Reads docs/spec/SPEC.md and lists every use case (UC-NNN) and functional feature (F-NNN) in scope.
+2. Ensures the app is running against the local/staging service stack (docker compose up if needed).
+3. For each use case, using the Playwright MCP server:
+   - Drive the full flow in a real browser: actor → precondition → steps → postcondition.
+   - At the postcondition, capture a screenshot.
+   - Verify two ways: (a) DOM/assertion check, (b) vision check — compare the screenshot to the use case's expected visual state with a vision model.
+   - Run the error-path for each acceptance criterion that can fail.
+4. Aggregate into a table: UC/F id | assertion | vision | error-path | pass/fail.
+5. Write reports/qa-walk-[date].md and EXIT NONZERO if any use case fails.
+
+Then wire it: the CD pipeline must call this skill after deploy-to-staging and BLOCK promotion on its exit code. Nothing promotes without a green walk.</span><span lang="es">Genera un skill de proyecto que simule QA humano sobre staging usando herramientas MCP.
+Debe poder ser invocado por el pipeline de CD y salir con código distinto de cero ante cualquier fallo.
+
+Crea .claude/skills/qa-walk/ (o el equivalente de slash-command para este asistente) que, al correr:
+1. Lea docs/spec/SPEC.md y liste cada caso de uso (UC-NNN) y feature funcional (F-NNN) en alcance.
+2. Asegure que la app esté corriendo contra el stack de servicios local/staging (docker compose up si hace falta).
+3. Para cada caso de uso, usando el servidor MCP de Playwright:
+   - Conduzca el flujo completo en un navegador real: actor → precondición → pasos → postcondición.
+   - En la postcondición, capture un screenshot.
+   - Verifique de dos formas: (a) chequeo de DOM/aserción, (b) chequeo de visión — compara el screenshot con el estado visual esperado del caso de uso usando un modelo de visión.
+   - Corra el path de error de cada criterio de aceptación que pueda fallar.
+4. Agregue en una tabla: id UC/F | aserción | visión | path de error | pasa/falla.
+5. Escriba reports/qa-walk-[fecha].md y SALGA CON CÓDIGO DISTINTO DE CERO si algún caso de uso falla.
+
+Luego conéctalo: el pipeline de CD debe llamar a este skill después de desplegar-a-staging y BLOQUEAR la promoción según su exit code. Nada se promueve sin un paseo en verde.</span></div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>This is where skills + MCP replace the manual QA pass.</strong> The skill makes the walk deterministic; the MCP tools give the AI hands; the pipeline makes it mandatory.</span>
+    <span lang="es"><strong>Aquí es donde los skills + MCP reemplazan la pasada manual de QA.</strong> El skill hace el paseo determinista; las herramientas MCP le dan manos al AI; el pipeline lo vuelve obligatorio.</span>
+  </div>
+
+  <h2>
     <span lang="en">Step 05 — GS Writes the CI/CD Pipeline</span>
     <span lang="es">Paso 05 — GS Escribe el Pipeline CI/CD</span>
   </h2>
@@ -470,6 +588,11 @@ Genera el pipeline de CI/CD completo (.github/workflows/deploy.yml o la platafor
 5. Haga rollback automáticamente si algún smoke test falla.
 6. Nunca despliegue a producción en este tier — solo staging.
 Nombra cada step del pipeline con el artefacto de SPEC.md que verifica. Commitea: ci(tier2): spec-derived staging pipeline with NFR gates.</span></div>
+
+  <div class="pattern-note">
+    <span lang="en">The pipeline's promotion gate calls the qa-walk skill from the previous step — promotion is blocked unless the use-case walk exits green.</span>
+    <span lang="es">El gate de promoción del pipeline llama al skill qa-walk del paso anterior — la promoción se bloquea a menos que el paseo de casos de uso salga en verde.</span>
+  </div>
 
   <h2>
     <span lang="en">Step 06 — NFR Gates in Practice</span>
