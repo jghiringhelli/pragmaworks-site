@@ -136,7 +136,11 @@
     font-size: 13px;
     color: var(--forge-dark);
     display: block;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ash);
+    transition: color 0.12s, border-color 0.12s;
   }
+  a.stage-name:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
   .stage-sub {
     font-size: 11px;
@@ -299,8 +303,8 @@
     <span lang="es">Las Seis Etapas</span>
   </h2>
   <div class="h2-sub">
-    <span lang="en">From raw material to production artifact</span>
-    <span lang="es">De materia prima a artefacto de producción</span>
+    <span lang="en">From raw material to production artifact — each stage name links to its recipe</span>
+    <span lang="es">De materia prima a artefacto de producción — cada nombre de etapa enlaza a su receta</span>
   </div>
 
   <table>
@@ -316,7 +320,7 @@
       <tr>
         <td>
           <span class="stage-num">01</span>
-          <span class="stage-name">Calentamiento</span>
+          <a href="/heating" class="stage-name">Calentamiento</a>
           <span class="stage-sub"><span lang="en">Heating</span><span lang="es">Calentamiento</span></span>
         </td>
         <td><span lang="en">Steel heated to 1000 °C+ — rigid metal goes plastic, workable, ready to receive form.</span><span lang="es">Acero calentado a más de 1000 °C — el metal rígido se vuelve plástico, maleable, listo para recibir forma.</span></td>
@@ -326,7 +330,7 @@
       <tr>
         <td>
           <span class="stage-num">02</span>
-          <span class="stage-name">Moldeado</span>
+          <a href="/mold" class="stage-name">Moldeado</a>
           <span class="stage-sub"><span lang="en">Molding</span><span lang="es">Moldeado</span></span>
         </td>
         <td><span lang="en">Hot metal shaped by hammer or press into the mold — form is imposed while malleable.</span><span lang="es">El metal caliente es moldeado por martillo o prensa — la forma se impone mientras está maleable.</span></td>
@@ -336,7 +340,7 @@
       <tr>
         <td>
           <span class="stage-num">03</span>
-          <span class="stage-name">Temple</span>
+          <a href="/temple" class="stage-name">Temple</a>
           <span class="stage-sub"><span lang="en">Quenching</span><span lang="es">Temple</span></span>
         </td>
         <td><span lang="en">Rapid plunge into water or oil — shape locks, martensite forms, steel hardens instantly.</span><span lang="es">Inmersión rápida en agua o aceite — la forma se fija, se forma martensita, el acero se endurece al instante.</span></td>
@@ -346,7 +350,7 @@
       <tr class="star-row">
         <td>
           <span class="stage-num">04 ⭐</span>
-          <span class="stage-name">Revenido</span>
+          <a href="/temper" class="stage-name">Revenido</a>
           <span class="stage-sub"><span lang="en">Tempering</span><span lang="es">Revenido</span></span>
         </td>
         <td><span lang="en">Reheated to 150–700 °C, cooled slowly — relieves brittleness, tunes the hardness/toughness balance.</span><span lang="es">Recalentado a 150–700 °C, enfriado lentamente — alivia la fragilidad, ajusta el equilibrio dureza/tenacidad.</span></td>
@@ -356,7 +360,7 @@
       <tr>
         <td>
           <span class="stage-num">05</span>
-          <span class="stage-name">Endurecido</span>
+          <a href="/harden" class="stage-name">Endurecido</a>
           <span class="stage-sub"><span lang="en">Hardening</span><span lang="es">Endurecimiento</span></span>
         </td>
         <td><span lang="en">Case hardening or nitriding — surface resists wear and load; core stays tough.</span><span lang="es">Endurecimiento superficial o nitrurado — la superficie resiste el desgaste y la carga; el núcleo permanece tenaz.</span></td>
@@ -366,7 +370,7 @@
       <tr>
         <td>
           <span class="stage-num">06</span>
-          <span class="stage-name">Recocido</span>
+          <a href="/anneal" class="stage-name">Recocido</a>
           <span class="stage-sub"><span lang="en">Annealing</span><span lang="es">Recocido</span></span>
         </td>
         <td><span lang="en">Slow furnace cool — relieves internal stress, restores ductility, readies the piece for re-shaping.</span><span lang="es">Enfriamiento lento en horno — alivia el estrés interno, restaura la ductilidad, prepara la pieza para ser re-moldeada.</span></td>
