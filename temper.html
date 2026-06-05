@@ -671,6 +671,19 @@
     <span lang="es"><strong>Para un desarrollador solo esto apenas importa</strong> — tu propio tiempo domina el costo. Para una empresa corriendo AI en muchos ingenieros, los tokens-por-línea-correcta son una línea de presupuesto real, y es exactamente donde GS gana. Lo estamos midiendo directamente; el experimento está en diseño.</span>
   </div>
 
+  <h3>
+    <span lang="en">Why authored structure is cheaper — the mechanism</span>
+    <span lang="es">Por qué la estructura autorada es más barata — el mecanismo</span>
+  </h3>
+  <p>
+    <span lang="en">There is a deeper reason GS spends fewer tokens, and it was just measured in an independent benchmark. The sentinel, the CNT, and the cascade documents are, in effect, a <strong>compact knowledge graph of your codebase</strong> — structure authored once. A session <em>without</em> that structure must re-read thousands of tokens of code and re-derive the architecture every time. A session <em>with</em> it navigates directly to what it needs.</span>
+    <span lang="es">Hay una razón más profunda por la que GS gasta menos tokens, y se acaba de medir en un benchmark independiente. El sentinel, el CNT y los documentos de cascada son, en efecto, un <strong>grafo de conocimiento compacto de tu codebase</strong> — estructura autorada una vez. Una sesión <em>sin</em> esa estructura debe re-leer miles de tokens de código y re-derivar la arquitectura cada vez. Una sesión <em>con</em> ella navega directo a lo que necesita.</span>
+  </p>
+  <p>
+    <span lang="en">The Yarmoluk–McCreary CKG benchmark (April 2026) quantified exactly this gap for knowledge retrieval: reading a pre-authored structure cost <strong>11× fewer tokens at 3.8× higher accuracy</strong> than chunked-prose retrieval (RAG), and far less than re-deriving structure from text each time (GraphRAG). Their conclusion — "when expert structure is available, the dynamic extraction step is wasted computation" — is the GS thesis in another field. The token cost people fear is not the price of GS; it is the price of working <em>without</em> authored structure, paid again every session.</span>
+    <span lang="es">El benchmark CKG de Yarmoluk–McCreary (abril 2026) cuantificó exactamente esta brecha para retrieval de conocimiento: leer una estructura pre-autorada costó <strong>11× menos tokens con 3.8× más precisión</strong> que el retrieval de prosa troceada (RAG), y mucho menos que re-derivar la estructura del texto cada vez (GraphRAG). Su conclusión — "cuando la estructura experta está disponible, el paso de extracción dinámica es cómputo desperdiciado" — es la tesis de GS en otro campo. El costo en tokens que la gente teme no es el precio de GS; es el precio de trabajar <em>sin</em> estructura autorada, pagado de nuevo en cada sesión.</span>
+  </p>
+
   <!-- ══════════════════════════════════════════════════ -->
   <!-- ── Section 4: Enforce It ── -->
   <!-- ══════════════════════════════════════════════════ -->
