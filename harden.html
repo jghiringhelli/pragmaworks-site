@@ -374,6 +374,11 @@
     <span lang="es"><strong>Declarado en Mold, construido acá.</strong> La premisa de derivación sigue valiendo: el gate se <em>promete</em> en la especificación desde el día uno — los umbrales NFR y la regla "todo caso de uso debe pasar el paseo" viven en SPEC.md y en la política del harness desde que moldeás. Pero la <em>implementación</em> del gate — los archivos Hurl, el paseo de Playwright, el cableado a endpoints reales — solo se puede generar una vez que existe el código que verifica. Así que declarás el gate en Mold y derivás su cuerpo en Harden, igual que una feature se declara en el spec y su test se genera cuando se construye. Prometido una vez; vuelto ejecutable a medida que el sistema lo hace.</span>
   </div>
 
+  <div class="pattern-note">
+    <span lang="en"><strong>How it's enforced in practice.</strong> With the PragmaWorks toolchain, this gate is the <code>gs-verify-deploy</code> skill, governed by a ForgeCraft Tier 2 policy. Two forcing levels: a post-deploy hook auto-fires the skill on any deploy-shaped action (<code>git push</code>, <code>vercel</code>, <code>railway up</code>…) so the AI cannot quietly skip it; and in CI the skill exits nonzero on any failure, with the pipeline's promotion step gated on that exit code. Pure-GS variant: a post-deploy hook running the walk by hand. Either way — the gate is mechanical, not a reminder.</span>
+    <span lang="es"><strong>Cómo se hace cumplir en la práctica.</strong> Con el toolchain de PragmaWorks, este gate es el skill <code>gs-verify-deploy</code>, gobernado por una política Tier 2 de ForgeCraft. Dos niveles de forzado: un hook post-deploy auto-dispara el skill ante cualquier acción con forma de deploy (<code>git push</code>, <code>vercel</code>, <code>railway up</code>…) para que el AI no pueda saltearlo en silencio; y en CI el skill sale con código ≠0 ante cualquier fallo, con el paso de promoción del pipeline gateado por ese exit code. Variante Pure-GS: un hook post-deploy que corre el paseo a mano. De cualquier forma — el gate es mecánico, no un recordatorio.</span>
+  </div>
+
   <h2>
     <span lang="en">The Verification Loop — Multimodal AI-as-QA</span>
     <span lang="es">El Loop de Verificación — IA como QA Multimodal</span>
