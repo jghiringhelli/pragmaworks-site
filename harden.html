@@ -369,6 +369,11 @@
     <span lang="es"><strong>Batería NFR + ejecución generativa = Ejecutable y Verificable, demostradas.</strong> El gate exige ambas en verde para promover. No podés promover un artefacto que no mostró que corre y que está verificado contra el spec bajo condiciones de producción.</span>
   </p>
 
+  <div class="pattern-note">
+    <span lang="en"><strong>Declared at Mold, built here.</strong> The derivation premise still holds: the gate is <em>promised</em> in the specification from day one — the NFR thresholds and the rule "every use case must pass the walk" live in SPEC.md and the harness policy the moment you mold. But the gate's <em>implementation</em> — the actual Hurl files, the Playwright walk, the wiring to real endpoints — can only be generated once the code it verifies exists. So you declare the gate at Mold and derive its body at Harden, the same way a feature is declared in the spec and its test is generated when the feature is built. Promised once; made executable as the system does.</span>
+    <span lang="es"><strong>Declarado en Mold, construido acá.</strong> La premisa de derivación sigue valiendo: el gate se <em>promete</em> en la especificación desde el día uno — los umbrales NFR y la regla "todo caso de uso debe pasar el paseo" viven en SPEC.md y en la política del harness desde que moldeás. Pero la <em>implementación</em> del gate — los archivos Hurl, el paseo de Playwright, el cableado a endpoints reales — solo se puede generar una vez que existe el código que verifica. Así que declarás el gate en Mold y derivás su cuerpo en Harden, igual que una feature se declara en el spec y su test se genera cuando se construye. Prometido una vez; vuelto ejecutable a medida que el sistema lo hace.</span>
+  </div>
+
   <h2>
     <span lang="en">The Verification Loop — Multimodal AI-as-QA</span>
     <span lang="es">El Loop de Verificación — IA como QA Multimodal</span>
