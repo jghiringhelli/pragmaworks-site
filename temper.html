@@ -384,23 +384,23 @@
   <!-- ── Section 2: The Fourteen Disciplines ── -->
   <!-- ══════════════════════════════════════════════════ -->
   <h2>
-    <span lang="en">The Fourteen Disciplines</span>
-    <span lang="es">Las Catorce Disciplinas</span>
+    <span lang="en">The Structural Disciplines</span>
+    <span lang="es">Las Disciplinas Estructurales</span>
   </h2>
   <div class="h2-sub">
-    <span lang="en">Each one, and the mechanical advantage it gives the AI reader</span>
-    <span lang="es">Cada una, y la ventaja mecánica que le da al lector de IA</span>
+    <span lang="en">Each named for its real origin — and the mechanical advantage it gives the AI reader</span>
+    <span lang="es">Cada una con su origen real — y la ventaja mecánica que le da al lector de IA</span>
   </div>
 
   <p>
-    <span lang="en">Grouped in five families. For each: what it does for humans is well known — the column that matters is what it does for the AI.</span>
-    <span lang="es">Agrupadas en cinco familias. Para cada una: lo que hace por los humanos es bien conocido — la columna que importa es lo que hace por la IA.</span>
+    <span lang="en">Grouped by what they govern. For each: what it does for humans is well known — the column that matters is what it does for the AI reader. (Two notes: the doc-first cascade is GS's own discipline, covered under Mold; hooks and quality gates are enforcement — part of the harness, see Harden — not a design discipline, so they are not listed here.)</span>
+    <span lang="es">Agrupadas por lo que gobiernan. Para cada una: lo que hace por los humanos es bien conocido — la columna que importa es lo que hace por el lector de IA. (Dos notas: la cascada doc-first es la disciplina propia de GS, cubierta bajo Molde; los hooks y quality gates son enforcement — parte del harness, ver Harden — no una disciplina de diseño, así que no se listan aquí.)</span>
   </p>
 
-  <!-- ── Group 1: Architecture & Structure ── -->
+  <!-- ── Group 1: Object & Class Design ── -->
   <h3>
-    <span lang="en">Architecture &amp; Structure</span>
-    <span lang="es">Arquitectura y Estructura</span>
+    <span lang="en">Object &amp; Class Design</span>
+    <span lang="es">Diseño de Objetos y Clases</span>
   </h3>
   <table>
     <thead>
@@ -412,56 +412,23 @@
     <tbody>
       <tr>
         <td>
-          <span class="discipline-name">SOLID — interfaces + DI</span>
-        </td>
-        <td>
-          <span lang="en">AI reads the contract (N lines), not the implementation (N×10). Hallucinations about private state are structurally impossible.</span>
-          <span lang="es">El AI lee el contrato (N líneas), no la implementación (N×10). Las alucinaciones sobre estado privado son estructuralmente imposibles.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
           <span class="discipline-name">
-            <span lang="en">Single Responsibility</span>
-            <span lang="es">Responsabilidad Única</span>
+            <span lang="en">SOLID (Martin) — 5 principles: SRP · OCP · LSP · ISP · DIP</span>
+            <span lang="es">SOLID (Martin) — 5 principios: SRP · OCP · LSP · ISP · DIP</span>
           </span>
         </td>
         <td>
-          <span lang="en">The AI acts on the class without traversing the call graph. The class is its own complete spec.</span>
-          <span lang="es">El AI actúa sobre la clase sin recorrer el call graph. La clase es su propia spec completa.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">Hexagonal / ports &amp; adapters</span>
-            <span lang="es">Hexagonal / puertos y adaptadores</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en"><code>controllers/</code> always holds controllers. The first search hits. No discovery traversals.</span>
-          <span lang="es"><code>controllers/</code> siempre tiene controllers. La primera búsqueda acierta. Sin traversals de descubrimiento.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">Layered / clean architecture</span>
-            <span lang="es">Arquitectura por capas / limpia</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en">Dependency direction is fixed (domain → application → infrastructure). The AI never wires a layer backwards.</span>
-          <span lang="es">La dirección de dependencias es fija (dominio → aplicación → infraestructura). El AI nunca conecta una capa al revés.</span>
+          <span lang="en">The AI reads the contract (the interface), not the implementation. By Single Responsibility, a class is its own complete spec — no call-graph traversal. By Dependency Inversion, there is no hidden coupling, and hallucinations about private state are structurally impossible.</span>
+          <span lang="es">El AI lee el contrato (la interfaz), no la implementación. Por Responsabilidad Única, una clase es su propia spec completa — sin recorrer el call graph. Por Inversión de Dependencias, no hay acoplamiento oculto, y las alucinaciones sobre estado privado son estructuralmente imposibles.</span>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- ── Group 2: Modeling ── -->
+  <!-- ── Group 2: Architecture ── -->
   <h3>
-    <span lang="en">Modeling</span>
-    <span lang="es">Modelado</span>
+    <span lang="en">Architecture</span>
+    <span lang="es">Arquitectura</span>
   </h3>
   <table>
     <thead>
@@ -474,34 +441,22 @@
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">DDD — ubiquitous language</span>
-            <span lang="es">DDD — lenguaje ubicuo</span>
+            <span lang="en">Hexagonal / Clean Architecture (Cockburn; Martin) — ports &amp; adapters + the dependency rule (DIP at architectural scale)</span>
+            <span lang="es">Hexagonal / Clean Architecture (Cockburn; Martin) — ports &amp; adapters + la regla de dependencias (DIP a escala arquitectónica)</span>
           </span>
         </td>
         <td>
-          <span lang="en">Names in code map to the AI's training data about the same domain. Higher generation quality.</span>
-          <span lang="es">Los nombres en el código mapean al training data del AI sobre el mismo dominio. Mayor calidad de generación.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">CQRS — command/query separation</span>
-            <span lang="es">CQRS — separación comando/consulta</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en">Reads and writes are separate types. The AI cannot accidentally mutate state in a query path.</span>
-          <span lang="es">Lecturas y escrituras son tipos separados. El AI no puede mutar estado por accidente en un camino de lectura.</span>
+          <span lang="en">The domain core is isolated from infrastructure behind ports (interfaces); adapters are the glue to the database, UI, and external APIs. The AI reads and changes business logic through the port contract without reading or understanding the adapters — and the same ports let the harness drive the domain in isolation, with no real infrastructure. This is the Dependency Inversion Principle applied at the scale of the system.</span>
+          <span lang="es">El núcleo de dominio está aislado de la infraestructura detrás de ports (interfaces); los adapters son el pegamento a la base de datos, la UI y las APIs externas. El AI lee y cambia la lógica de negocio a través del contrato del port sin leer ni entender los adapters — y los mismos ports dejan que el harness ejercite el dominio en aislamiento, sin infraestructura real. Es el Principio de Inversión de Dependencias aplicado a escala de sistema.</span>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- ── Group 3: Testing ── -->
+  <!-- ── Group 3: Domain Modeling ── -->
   <h3>
-    <span lang="en">Testing</span>
-    <span lang="es">Pruebas</span>
+    <span lang="en">Domain Modeling</span>
+    <span lang="es">Modelado de Dominio</span>
   </h3>
   <table>
     <thead>
@@ -514,34 +469,74 @@
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">TDD — tests as spec</span>
-            <span lang="es">TDD — tests como spec</span>
+            <span lang="en">DDD — Ubiquitous Language (Evans)</span>
+            <span lang="es">DDD — Lenguaje Ubicuo (Evans)</span>
           </span>
         </td>
         <td>
-          <span lang="en">Each test is a behavioral declaration the AI reads before the implementation. Intent is stated, not inferred.</span>
-          <span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación. La intención está declarada, no inferida.</span>
+          <span lang="en">Names in code map to the model's training distribution for the same domain. Higher generation quality, fewer mistranslations between business and code.</span>
+          <span lang="es">Los nombres en el código mapean a la distribución de entrenamiento del modelo sobre el mismo dominio. Mayor calidad de generación, menos traducciones erróneas entre negocio y código.</span>
         </td>
       </tr>
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">BDD — behavior specs</span>
-            <span lang="es">BDD — specs de comportamiento</span>
+            <span lang="en">CQRS (Young)</span>
+            <span lang="es">CQRS (Young)</span>
           </span>
         </td>
         <td>
-          <span lang="en">Given/When/Then scenarios are executable acceptance criteria. The AI generates against the scenario, not a guess.</span>
+          <span lang="en">Reads and writes are separate types. The AI cannot accidentally mutate state in a query path; the intent of each operation is visible in its type.</span>
+          <span lang="es">Lecturas y escrituras son tipos separados. El AI no puede mutar estado por accidente en un camino de lectura; la intención de cada operación es visible en su tipo.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 4: Testing & Specification by Example ── -->
+  <h3>
+    <span lang="en">Testing &amp; Specification by Example</span>
+    <span lang="es">Pruebas y Especificación por Ejemplo</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">TDD (Beck)</span>
+            <span lang="es">TDD (Beck)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Each test is a behavioral declaration the AI reads before the implementation. Intent is stated, not inferred from existing code.</span>
+          <span lang="es">Cada test es una declaración de comportamiento que el AI lee antes de la implementación. La intención está declarada, no inferida del código existente.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">BDD (North)</span>
+            <span lang="es">BDD (North)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Given/When/Then scenarios are executable acceptance criteria. The AI generates against the scenario, not against a guess.</span>
           <span lang="es">Los escenarios Given/When/Then son criterios de aceptación ejecutables. El AI genera contra el escenario, no contra una suposición.</span>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- ── Group 4: Process & History ── -->
+  <!-- ── Group 5: Code Craft ── -->
   <h3>
-    <span lang="en">Process &amp; History</span>
-    <span lang="es">Proceso e Historia</span>
+    <span lang="en">Code Craft</span>
+    <span lang="es">Oficio del Código</span>
   </h3>
   <table>
     <thead>
@@ -554,86 +549,65 @@
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">Conventional commits</span>
-            <span lang="es">Conventional commits</span>
+            <span lang="en">Clean Code (Martin) — intentional naming, small functions</span>
+            <span lang="es">Clean Code (Martin) — naming intencional, funciones pequeñas</span>
           </span>
         </td>
         <td>
-          <span lang="en">The git log is queryable by type and scope. Cascade triggers fire from parseable types.</span>
-          <span lang="es">El git log es consultable por tipo y scope. Los cascade triggers se activan desde tipos parseables.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">ADRs</span>
-        </td>
-        <td>
-          <span lang="en">The AI reads the why behind decisions. It cannot "optimize" an intentional tradeoff that looks suboptimal without context.</span>
-          <span lang="es">El AI lee el porqué de las decisiones. No puede "optimizar" un tradeoff intencional que parece subóptimo sin contexto.</span>
+          <span lang="en"><code>calculateMonthlyCost(userId, period): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, and error contract, all in the signature. The AI reads zero implementation to use it correctly.</span>
+          <span lang="es"><code>calcularCostoMensual(userId, period): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output y contrato de error, todo en la firma. El AI lee cero implementación para usarla bien.</span>
         </td>
       </tr>
       <tr>
         <td>
           <span class="discipline-name">
-            <span lang="en">Doc-first cascade</span>
-            <span lang="es">Cascada doc-first</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en">The AI receives intent before implementation. Generating from spec is execution; from code without spec is reverse engineering.</span>
-          <span lang="es">El AI recibe la intención antes que la implementación. Generar desde spec es ejecución; desde código sin spec es ingeniería inversa.</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- ── Group 5: Code-level & Enforcement ── -->
-  <h3>
-    <span lang="en">Code-level &amp; Enforcement</span>
-    <span lang="es">Nivel de Código y Enforcement</span>
-  </h3>
-  <table>
-    <thead>
-      <tr>
-        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
-        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">Intentional naming</span>
-            <span lang="es">Naming intencional</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en"><code>calculateMonthlyCost(userId, period): Result&lt;Money, Error&gt;</code> — domain, operation, inputs, output, error contract, all in the signature. Zero implementation reading.</span>
-          <span lang="es"><code>calcularCostoMensual(userId, period): Result&lt;Money, Error&gt;</code> — dominio, operación, inputs, output, contrato de error, todo en la firma. Cero lectura de implementación.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">Hooks / quality gates</span>
-            <span lang="es">Hooks / quality gates</span>
-          </span>
-        </td>
-        <td>
-          <span lang="en">Structural rejection turns feedback from conversational to architectural. The AI corrects against machine rules, not per-session reminders.</span>
-          <span lang="es">El rechazo estructural convierte el feedback de conversacional a arquitectónico. El AI corrige contra reglas de máquina, no recordatorios por sesión.</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="discipline-name">
-            <span lang="en">GoF design patterns (named in the spec)</span>
-            <span lang="es">Patrones de diseño GoF (nombrados en la spec)</span>
+            <span lang="en">GoF Design Patterns (Gamma et al.) — named in the spec</span>
+            <span lang="es">Patrones de Diseño GoF (Gamma et al.) — nombrados en la spec</span>
           </span>
         </td>
         <td>
           <span lang="en">The pattern name activates the AI's full trained knowledge of the canonical structure, interface contracts, and invariants. The name IS the specification.</span>
           <span lang="es">El nombre del patrón activa el conocimiento entrenado completo del AI sobre la estructura canónica, contratos de interfaz e invariantes. El nombre ES la especificación.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 6: History & Decisions ── -->
+  <h3>
+    <span lang="en">History &amp; Decisions</span>
+    <span lang="es">Historia y Decisiones</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Conventional + Atomic Commits</span>
+            <span lang="es">Conventional + Atomic Commits</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Two disciplines: Conventional Commits standardizes the message (<code>type(scope): description</code>) so the git log is queryable and cascade triggers fire from parseable types; atomic commits keep each commit to one logical change, so history is a clean, bisectable, revertible sequence of intent.</span>
+          <span lang="es">Dos disciplinas: Conventional Commits estandariza el mensaje (<code>tipo(scope): descripción</code>) para que el git log sea consultable y los cascade triggers se activen desde tipos parseables; los atomic commits mantienen cada commit en un solo cambio lógico, así la historia es una secuencia de intención limpia, bisectable y reversible.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">ADRs (Nygard)</span>
+            <span lang="es">ADRs (Nygard)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">The AI reads the why behind decisions. It cannot "optimize" an intentional tradeoff that looks suboptimal without the context the ADR records.</span>
+          <span lang="es">El AI lee el porqué de las decisiones. No puede "optimizar" un tradeoff intencional que parece subóptimo sin el contexto que el ADR registra.</span>
         </td>
       </tr>
     </tbody>
