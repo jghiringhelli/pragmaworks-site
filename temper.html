@@ -381,7 +381,7 @@
   </p>
 
   <!-- ══════════════════════════════════════════════════ -->
-  <!-- ── Section 2: The Fourteen Disciplines ── -->
+  <!-- ── Section 2: The Structural Disciplines ── -->
   <!-- ══════════════════════════════════════════════════ -->
   <h2>
     <span lang="en">The Structural Disciplines</span>
@@ -450,10 +450,62 @@
           <span lang="es">El núcleo de dominio está aislado de la infraestructura detrás de ports (interfaces); los adapters son el pegamento a la base de datos, la UI y las APIs externas. El AI lee y cambia la lógica de negocio a través del contrato del port sin leer ni entender los adapters — y los mismos ports dejan que el harness ejercite el dominio en aislamiento, sin infraestructura real. Es el Principio de Inversión de Dependencias aplicado a escala de sistema.</span>
         </td>
       </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Convention over Configuration / Screaming Architecture (Rails; Martin)</span>
+            <span lang="es">Convention over Configuration / Screaming Architecture (Rails; Martin)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Predictable structure means the AI's first guess about where code lives is right — <code>controllers/</code> holds controllers. No discovery traversals; the project layout itself announces its intent.</span>
+          <span lang="es">Estructura predecible significa que la primera búsqueda del AI sobre dónde vive el código acierta — <code>controllers/</code> tiene controllers. Sin traversals de descubrimiento; el layout del proyecto anuncia su intención.</span>
+        </td>
+      </tr>
     </tbody>
   </table>
 
-  <!-- ── Group 3: Domain Modeling ── -->
+  <!-- ── Group 3: Types &amp; Contracts ── -->
+  <h3>
+    <span lang="en">Types &amp; Contracts</span>
+    <span lang="es">Tipos y Contratos</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th><span lang="en">Discipline</span><span lang="es">Disciplina</span></th>
+        <th><span lang="en">Mechanical advantage for the AI reader</span><span lang="es">Ventaja mecánica para el lector de IA</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Type-Driven Design (Minsky; King, &ldquo;Parse, don't validate&rdquo;)</span>
+            <span lang="es">Type-Driven Design (Minsky; King, &ldquo;Parse, don't validate&rdquo;)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">The type signature is a machine-checked contract — a free harness layer. Illegal states do not compile; every failure mode lives in the type (<code>Result&lt;T, E&gt;</code>), not hidden in exceptions. The AI reads the type; the compiler enforces it.</span>
+          <span lang="es">La firma de tipos es un contrato verificado por el compilador — una capa de harness gratis. Los estados ilegales no compilan; cada modo de falla vive en el tipo (<code>Result&lt;T, E&gt;</code>), no escondido en excepciones. El AI lee el tipo; el compilador lo hace cumplir.</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Design by Contract (Meyer)</span>
+            <span lang="es">Design by Contract (Meyer)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">Preconditions, postconditions, and invariants stated inline. The contract is the executable spec the AI generates against and the harness checks — and it is the lineage of the F-NNN specification format itself.</span>
+          <span lang="es">Precondiciones, postcondiciones e invariantes declaradas inline. El contrato es el spec ejecutable contra el que el AI genera y el harness verifica — y es el linaje del propio formato de especificación F-NNN.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Group 4: Domain Modeling ── -->
   <h3>
     <span lang="en">Domain Modeling</span>
     <span lang="es">Modelado de Dominio</span>
@@ -570,10 +622,22 @@
           <span lang="es">El nombre del patrón activa el conocimiento entrenado completo del AI sobre la estructura canónica, contratos de interfaz e invariantes. El nombre ES la especificación.</span>
         </td>
       </tr>
+      <tr>
+        <td>
+          <span class="discipline-name">
+            <span lang="en">Immutability / Functional Core, Imperative Shell (Bernhardt)</span>
+            <span lang="es">Immutability / Functional Core, Imperative Shell (Bernhardt)</span>
+          </span>
+        </td>
+        <td>
+          <span lang="en">No hidden state mutation to track across the call graph. A value object is fully described by its construction; the pure core is trivially testable and side effects are quarantined at the edges.</span>
+          <span lang="es">Sin mutación de estado oculta que rastrear por el call graph. Un value object está completamente descrito por su construcción; el núcleo puro es trivialmente testeable y los efectos quedan en los bordes.</span>
+        </td>
+      </tr>
     </tbody>
   </table>
 
-  <!-- ── Group 6: History & Decisions ── -->
+  <!-- ── Group 7: History & Decisions ── -->
   <h3>
     <span lang="en">History &amp; Decisions</span>
     <span lang="es">Historia y Decisiones</span>
