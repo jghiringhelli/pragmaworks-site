@@ -73,7 +73,7 @@
     '        <span>Research</span><i class="pw-chevron">&#8250;</i>',
     '      </button>',
     '      <div class="pw-nav-section-items">',
-    '        <a href="https://genspec.dev" class="pw-nav-item" target="_blank" rel="noopener">Generative Specification &#8599;</a>',
+    '        <a href="/#research" class="pw-nav-item">Generative Specification</a>',
     '        <a href="https://github.com/jghiringhelli/generative-specification" class="pw-nav-item" target="_blank" rel="noopener">White Paper &amp; Data &#8599;</a>',
     '      </div>',
     '    </div>',

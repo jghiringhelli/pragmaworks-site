@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Juan Carlos Ghiringhelli — Pragmaworks</title>
-<meta name="description" content="Independent researcher and engineer. Generative Specification, ForgeCraft, CodeSeeker, The Forge.">
+<title>Generative Specification — PragmaWorks</title>
+<meta name="description" content="Generative Specification: the engineering discipline for building software with AI that holds together over time. White paper, open tools, and The Forge workshop.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -59,7 +59,7 @@
   }
 
   .nav-brand span {
-    color: var(--ember-glow);
+    color: var(--molten);
   }
 
   .nav-links {
@@ -105,7 +105,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: var(--molten);
     margin-bottom: 1.5rem;
   }
 
@@ -115,7 +115,7 @@
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: 0.05em;
-    background: linear-gradient(160deg, var(--parchment) 30%, var(--molten) 80%, var(--ember) 100%);
+    background: linear-gradient(160deg, var(--parchment) 20%, var(--molten) 95%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -123,26 +123,37 @@
   }
 
   .hero-title {
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: var(--smoke);
-    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--parchment);
     margin-bottom: 2rem;
-    max-width: 600px;
+    max-width: 620px;
+    line-height: 1.5;
   }
 
   .hero-statement {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--ash);
-    max-width: 620px;
+    max-width: 640px;
     line-height: 1.75;
-    margin-bottom: 3rem;
+    margin-bottom: 1.75rem;
   }
 
   .hero-statement strong {
     color: var(--parchment);
     font-weight: 600;
   }
+
+  .hero-byline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--smoke);
+    margin-bottom: 3rem;
+  }
+
+  .hero-byline a { color: var(--ash); border-bottom: 1px solid rgba(244,166,35,0.35); }
+  .hero-byline a:hover { color: var(--molten); }
 
   .hero-links {
     display: flex;
@@ -184,7 +195,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: var(--molten);
     margin-bottom: 0.75rem;
     display: block;
   }
@@ -199,7 +210,7 @@
 
   .section-intro {
     font-size: 1rem;
-    color: var(--smoke);
+    color: var(--ash);
     max-width: 580px;
     margin-bottom: 3rem;
     line-height: 1.75;
@@ -231,7 +242,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: var(--molten);
     margin-bottom: 0.75rem;
   }
 
@@ -245,7 +256,7 @@
 
   .card-desc {
     font-size: 0.88rem;
-    color: var(--smoke);
+    color: var(--ash);
     line-height: 1.7;
     flex: 1;
     margin-bottom: 1.25rem;
@@ -256,11 +267,11 @@
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ember-glow);
+    color: var(--molten);
     transition: color 0.2s;
   }
 
-  .card-link:hover { color: var(--molten); }
+  .card-link:hover { color: var(--ember-glow); }
 
   .card-link::after { content: ' →'; }
 
@@ -277,7 +288,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: var(--molten);
     margin-bottom: 1rem;
     display: block;
   }
@@ -296,34 +307,7 @@
     color: var(--ash);
     line-height: 1.75;
     max-width: 640px;
-    margin-bottom: 1.5rem;
-  }
-
-  .featured-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
     margin-bottom: 1.75rem;
-    padding: 1.25rem 0;
-    border-top: 1px solid rgba(196,75,26,0.15);
-    border-bottom: 1px solid rgba(196,75,26,0.15);
-  }
-
-  .fstat-num {
-    font-family: 'Cinzel', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--molten);
-    display: block;
-    line-height: 1;
-  }
-
-  .fstat-desc {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    color: var(--smoke);
-    letter-spacing: 0.1em;
-    margin-top: 0.25rem;
   }
 
   .featured-links {
@@ -406,7 +390,7 @@
     font-size: 0.62rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: var(--molten);
     min-width: 80px;
   }
 
@@ -469,9 +453,7 @@
 <nav>
   <div class="nav-brand">PRAGMA<span>WORKS</span></div>
   <ul class="nav-links">
-    <li><a href="/greenfield">Greenfield</a></li>
-    <li><a href="/brownfield">Brownfield</a></li>
-    <li><a href="#research">Research</a></li>
+    <li><a href="#research">Discipline</a></li>
     <li><a href="#tools">Tools</a></li>
     <li><a href="#training">Training</a></li>
     <li><a href="#writing">Writing</a></li>
@@ -481,18 +463,20 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">Independent researcher · Engineer · Author</div>
-  <h1 class="hero-name">Juan Carlos<br>Ghiringhelli</h1>
-  <p class="hero-title">Building the methodology for engineering in the AI age.</p>
+  <div class="hero-eyebrow">Specification for the stateless reader</div>
+  <h1 class="hero-name">Generative<br>Specification</h1>
+  <p class="hero-title">The engineering discipline for building software with AI that doesn't quietly fall apart six months later.</p>
   <p class="hero-statement">
-    I research how software specifications change when the reader is stateless.
-    I build tools that encode that research into daily practice.
-    I teach teams how to direct AI instead of just prompting it.
-    <strong>Everything I make is designed to be used, not just read.</strong>
+    AI writes plausible code fast, and then every new session is a stranger to the last.
+    Generative Specification keeps intent explicit enough for a stateless reader, human or AI,
+    to rebuild a system without guessing. A specification, a harness that verifies it against a
+    running system, and a standard you can hold a codebase to.
+    <strong>Everything here is designed to be used, not just read.</strong>
   </p>
+  <p class="hero-byline">A discipline, tools, and training by <a href="#contact">Juan Carlos Ghiringhelli</a>.</p>
   <div class="hero-links">
-    <a href="#research" class="btn btn-primary">Generative Specification</a>
-    <a href="#training" class="btn">The Forge Workshop</a>
+    <a href="#research" class="btn btn-primary">The Discipline</a>
+    <a href="#training" class="btn">The Forge</a>
     <a href="/start" class="btn">Developer Cookbook →</a>
     <a href="#contact" class="btn">Get in touch</a>
   </div>
@@ -500,40 +484,25 @@
 
 <!-- RESEARCH -->
 <section id="research">
-  <span class="section-label">Research</span>
+  <span class="section-label">The Discipline</span>
   <h2 class="section-title">Generative Specification</h2>
   <p class="section-intro">
-    A programming paradigm for the stateless reader. Seven properties that make a specification derivable by an AI that carries no accumulated context.
+    A programming paradigm for the stateless reader. Seven properties that make a specification
+    derivable by an AI that carries no accumulated context, so the decisions that hold a system
+    together stop being forgotten between sessions.
   </p>
 
   <div class="featured">
-    <span class="featured-label">Preprint · v1.2 · March 2026</span>
+    <span class="featured-label">White Paper · v4.0 · August 2026</span>
     <div class="featured-title">Generative Specification: A Pragmatic Programming Paradigm for the Stateless Reader</div>
     <p class="featured-desc">
-      Structured programming operates at the syntactic tier. SOLID, TDD, and DDD operate at the semantic tier.
-      Generative Specification operates at the pragmatic tier: the tier at which derivability by a stateless reader becomes a binding constraint.
-      Empirical evidence spans six production projects, a multi-agent adversarial study (AX), and a cross-implementation replication experiment (BX).
+      Structured programming operates at the syntactic tier. SOLID, TDD, and DDD operate at the
+      semantic tier. Generative Specification operates at the pragmatic tier, where derivability by
+      a stateless reader becomes a binding constraint. The full argument, the formal lineage from
+      Aristotle to today, and the empirical evidence. Open access on Zenodo.
     </p>
-    <div class="featured-stats">
-      <div>
-        <span class="fstat-num">14/14</span>
-        <span class="fstat-desc">AX rubric score · v7</span>
-      </div>
-      <div>
-        <span class="fstat-num">109</span>
-        <span class="fstat-desc">passing tests · live DB</span>
-      </div>
-      <div>
-        <span class="fstat-num">104</span>
-        <span class="fstat-desc">RX replication tests</span>
-      </div>
-      <div>
-        <span class="fstat-num">386</span>
-        <span class="fstat-desc">acceptance tests · formal tier (ALX)</span>
-      </div>
-    </div>
     <div class="featured-links">
-      <a href="https://genspec.dev" class="btn btn-primary" target="_blank" rel="noopener">genspec.dev</a>
+      <a href="https://doi.org/10.5281/zenodo.21726017" class="btn btn-primary" target="_blank" rel="noopener">Read the white paper →</a>
       <a href="https://github.com/jghiringhelli/generative-specification" class="btn" target="_blank" rel="noopener">GitHub — experiments &amp; data</a>
     </div>
   </div>
@@ -618,7 +587,7 @@
   <p class="section-intro">
     Long-form writing on specification, AI-assisted development, and what it means to engineer in an age of stateless readers.
   </p>
-  <a href="https://ambientengineer.substack.com" class="btn" target="_blank" rel="noopener">ambientengineer.substack.com</a>
+  <a href="https://ambientengineer.dev" class="btn" target="_blank" rel="noopener">ambientengineer.dev</a>
   <a href="/manifesto" class="btn btn-primary" style="margin-top: 12px; display: inline-block;">The Harness Manifesto →</a>
 </section>
 
@@ -643,22 +612,21 @@
     </div>
     <div class="contact-line">
       <span class="contact-label">Substack</span>
-      <a href="https://ambientengineer.substack.com" class="contact-value" target="_blank" rel="noopener">ambientengineer.substack.com</a>
+      <a href="https://ambientengineer.dev" class="contact-value" target="_blank" rel="noopener">ambientengineer.dev</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <span class="footer-copy">© 2026 Juan Carlos Ghiringhelli · pragmaworks.dev</span>
+  <span class="footer-copy">© 2026 PragmaWorks LLC · pragmaworks.dev</span>
   <div class="footer-domains">
     <a href="/greenfield">greenfield</a>
     <a href="/brownfield">brownfield</a>
     <a href="/manifesto">manifesto</a>
     <a href="/diagnose">diagnose</a>
     <a href="/start">cookbook</a>
-    <a href="https://genspec.dev" target="_blank" rel="noopener">genspec.dev</a>
     <a href="https://forgecraft.tools" target="_blank" rel="noopener">forgecraft.tools</a>
-    <a href="https://ambientengineer.substack.com" target="_blank" rel="noopener">ambientengineer.dev</a>
+    <a href="https://ambientengineer.dev" target="_blank" rel="noopener">ambientengineer.dev</a>
     <a href="https://github.com/jghiringhelli/codeseeker" target="_blank" rel="noopener">codeseeker</a>
   </div>
 </footer>
