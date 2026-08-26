@@ -348,8 +348,8 @@
     <div class="what-you-get">
       <ul>
         <li>
-          <span lang="en"><strong>An initial audit PDF.</strong> Eight sections including the seven GS properties scored 0-2 with evidence, structural-discipline assessment, test pyramid coverage, documentation health, security/logging baseline, and a prioritized remediation plan.</span>
-          <span lang="es"><strong>Un PDF de auditoría inicial.</strong> Ocho secciones incluyendo las siete propiedades de GS puntuadas 0-2 con evidencia, evaluación de disciplinas estructurales, cobertura de la pirámide de pruebas, salud de la documentación, baseline de seguridad/logging, y un plan de remediación priorizado.</span>
+          <span lang="en"><strong>An initial audit PDF.</strong> Eight sections including the seven GS properties graded A–F with evidence, structural-discipline assessment, test pyramid coverage, documentation health, security/logging baseline, and a prioritized remediation plan.</span>
+          <span lang="es"><strong>Un PDF de auditoría inicial.</strong> Ocho secciones incluyendo las siete propiedades de GS calificadas A–F con evidencia, evaluación de disciplinas estructurales, cobertura de la pirámide de pruebas, salud de la documentación, baseline de seguridad/logging, y un plan de remediación priorizado.</span>
         </li>
         <li>
           <span lang="en"><strong>A team-habit report (separate PDF).</strong> Last 90 days of commit history analyzed: PR review density, regression coverage of past bugs, AI-introduced bug rate, commit-size distribution, collaboration graph across team members. Charts. The organizational metrics no other tool surfaces.</span>
@@ -402,7 +402,7 @@ pragmaworks on npm, install what you need, run the analysis on a new branch
 (don't touch main), and generate the initial report as both HTML and PDF.
 
 Cover: (1) the seven GS properties — Self-describing, Bounded, Composable,
-Verifiable, Auditable, Defended, Executable — each scored 0-2 with cited
+Verifiable, Auditable, Defended, Executable — each graded A–F with cited
 evidence and a concrete path to improve; (2) which structural disciplines
 apply to this codebase from the catalog (SOLID, TDD, hexagonal, layered,
 clean architecture) and how it scores against each; (3) documentation
@@ -420,7 +420,7 @@ y PDF.
 
 Cubre: (1) las siete propiedades de GS — Auto-descriptivo, Acotado,
 Componible, Verificable, Auditable, Defendido, Ejecutable — cada una
-puntuada 0-2 con evidencia citada y un camino concreto para mejorar;
+calificada A–F con evidencia citada y un camino concreto para mejorar;
 (2) qué disciplinas estructurales aplican a esta base desde el catálogo
 (SOLID, TDD, hexagonal, capas, clean architecture) y cómo puntúa contra
 cada una; (3) salud y desactualización de la documentación; (4) cobertura
@@ -444,13 +444,13 @@ tests, CI config, and git log. Produce a manager-readable markdown
 report at reports/audit-initial.md that I could hand a CTO or a board
 member without translation. Cover:
 
-(1) The seven Generative Specification properties, each scored 0/1/2
-    with cited file:line evidence and one specific path to improve:
-    Self-describing, Bounded, Composable, Verifiable, Auditable,
-    Defended, Executable. Score each on TWO independent passes and
-    report any divergence — the rubric is reproducible only when two
-    passes land within ±1. Where they don't, name the property and
-    explain why the evidence is thin.
+(1) The seven Generative Specification properties, each graded A
+    through F with cited file:line evidence and one specific path to
+    improve: Self-describing, Bounded, Composable, Verifiable,
+    Auditable, Defended, Executable. Grade each on TWO independent
+    passes and report any divergence — the rubric is reproducible
+    only when two passes land within one letter grade. Where they
+    don't, name the property and explain why the evidence is thin.
 
 (2) Which structural disciplines apply (SOLID, TDD, hexagonal,
     layered, clean architecture, CQRS, ports-and-adapters). Score
@@ -478,12 +478,13 @@ legible por un manager en reports/audit-initial.md que pudiera pasarle
 a un CTO o miembro del board sin traducción. Cubre:
 
 (1) Las siete propiedades de Especificación Generativa, cada una
-    puntuada 0/1/2 con evidencia file:line citada y un camino específico
-    para mejorar: Auto-descriptivo, Acotado, Componible, Verificable,
-    Auditable, Defendido, Ejecutable. Puntúa cada una en DOS pasadas
-    independientes y reporta cualquier divergencia — la rúbrica es
-    reproducible solo cuando dos pasadas caen dentro de ±1. Donde no,
-    nombra la propiedad y explica por qué la evidencia es delgada.
+    calificada de A a F con evidencia file:line citada y un camino
+    específico para mejorar: Auto-descriptivo, Acotado, Componible,
+    Verificable, Auditable, Defendido, Ejecutable. Califica cada una
+    en DOS pasadas independientes y reporta cualquier divergencia — la
+    rúbrica es reproducible solo cuando dos pasadas caen dentro de una
+    nota. Donde no, nombra la propiedad y explica por qué la evidencia
+    es delgada.
 
 (2) Qué disciplinas estructurales aplican (SOLID, TDD, hexagonal,
     capas, clean architecture, CQRS, ports-and-adapters). Puntúa
@@ -519,8 +520,8 @@ detrás. No apliques remediación en esta pasada.</span></div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-text">
-        <span lang="en"><strong>Review the initial report.</strong> The PDF tells you where the codebase is today. Score per property with cited evidence (so the rubric is reproducible — two independent runs land within ±1), structural-discipline assessment, the prioritized issue list. This is the document you can forward to peers — your CTO, your CEO, your board — without translation.</span>
-        <span lang="es"><strong>Revisa el reporte inicial.</strong> El PDF te dice dónde está la base de código hoy. Puntaje por propiedad con evidencia citada (para que la rúbrica sea reproducible — dos corridas independientes caen dentro de ±1), evaluación de disciplinas estructurales, lista de issues priorizada. Este es el documento que puedes reenviar a tus pares — tu CTO, tu CEO, tu board — sin traducción.</span>
+        <span lang="en"><strong>Review the initial report.</strong> The PDF tells you where the codebase is today. A letter grade per property with cited evidence (so the rubric is reproducible — two independent runs land within one letter grade), structural-discipline assessment, the prioritized issue list. This is the document you can forward to peers — your CTO, your CEO, your board — without translation.</span>
+        <span lang="es"><strong>Revisa el reporte inicial.</strong> El PDF te dice dónde está la base de código hoy. Una nota por propiedad con evidencia citada (para que la rúbrica sea reproducible — dos corridas independientes caen dentro de una nota), evaluación de disciplinas estructurales, lista de issues priorizada. Este es el documento que puedes reenviar a tus pares — tu CTO, tu CEO, tu board — sin traducción.</span>
       </div>
     </div>
 

@@ -351,8 +351,8 @@ Lee la codebase para responder — no me preguntes a mí.
   </div>
 
   <div class="pattern-note">
-    <span lang="en"><strong>Where the AI answers with silence, invention, or low confidence</strong> — that is where your sentinel needs to be explicit. Those gaps are what Step 02 scores.</span>
-    <span lang="es"><strong>Donde la IA responde con silencio, invención o baja confianza</strong> — ahí es donde tu sentinel necesita ser explícito. Esas brechas son lo que puntúa el Paso 02.</span>
+    <span lang="en"><strong>Where the AI answers with silence, invention, or low confidence</strong> — that is where your sentinel needs to be explicit. Those gaps are what Step 02 grades.</span>
+    <span lang="es"><strong>Donde la IA responde con silencio, invención o baja confianza</strong> — ahí es donde tu sentinel necesita ser explícito. Esas brechas son lo que califica el Paso 02.</span>
   </div>
 
   <!-- ─────────────────────────────────────── -->
@@ -362,13 +362,13 @@ Lee la codebase para responder — no me preguntes a mí.
     <span lang="es">Paso 02 — Auditoría GS</span>
   </h2>
   <div class="h2-sub">
-    <span lang="en">Heating · 7-property score · structural disciplines · architecture issues</span>
-    <span lang="es">Calentamiento · puntaje de 7 propiedades · disciplinas estructurales · problemas de arquitectura</span>
+    <span lang="en">Heating · SAVED report card · structural disciplines · architecture issues</span>
+    <span lang="es">Calentamiento · boletín SAVED · disciplinas estructurales · problemas de arquitectura</span>
   </div>
 
   <p>
-    <span lang="en">Run the GS Audit Report on your codebase. Scores the 7 properties (0–14), structural disciplines (SOLID, TDD, hexagonal, doc-first cascade), test pyramid, and documentation health. Produces a prioritized remediation plan. No tools required — one prompt.</span>
-    <span lang="es">Corre el Reporte de Auditoría GS sobre tu codebase. Puntúa las 7 propiedades (0–14), las disciplinas estructurales (SOLID, TDD, hexagonal, cascada doc-first), la pirámide de pruebas y la salud de la documentación. Produce un plan de remediación priorizado. No se requieren herramientas — un solo prompt.</span>
+    <span lang="en">Run the GS Audit Report on your codebase. Grades all seven GS properties (a letter grade each, A–F), structural disciplines (SOLID, TDD, hexagonal, doc-first cascade), test pyramid, and documentation health. Produces an overall grade with Strengths, Weaknesses, and a prioritized remediation plan. No tools required — one prompt.</span>
+    <span lang="es">Corre el Reporte de Auditoría GS sobre tu codebase. Califica las siete propiedades GS (una nota cada una, A–F), las disciplinas estructurales (SOLID, TDD, hexagonal, cascada doc-first), la pirámide de pruebas y la salud de la documentación. Produce una nota global con Fortalezas, Debilidades y un plan de remediación priorizado. No se requieren herramientas — un solo prompt.</span>
   </p>
 
   <div class="path-picker" style="margin-top: 24px; margin-bottom: 0;">
@@ -382,8 +382,8 @@ Lee la codebase para responder — no me preguntes a mí.
         <span lang="es">Corre la Auditoría GS →</span>
       </div>
       <div class="desc">
-        <span lang="en">Score your codebase on all 7 properties. 30 min, no tools required.</span>
-        <span lang="es">Puntúa tu codebase en las 7 propiedades. 30 min, sin herramientas.</span>
+        <span lang="en">Grade your codebase on all seven properties. 30 min, no tools required.</span>
+        <span lang="es">Califica tu codebase en las siete propiedades. 30 min, sin herramientas.</span>
       </div>
     </a>
     <a href="/diagnostico">
@@ -403,8 +403,8 @@ Lee la codebase para responder — no me preguntes a mí.
   </div>
 
   <div class="pattern-note">
-    <span lang="en"><strong>Score below 9?</strong> Start at Step 03 now — the audit gives you enough to generate a working spec. Don't wait for a perfect codebase before introducing discipline.</span>
-    <span lang="es"><strong>¿Puntaje por debajo de 9?</strong> Comienza en el Paso 03 ahora — la auditoría te da suficiente para generar un spec funcional. No esperes una codebase perfecta antes de introducir la disciplina.</span>
+    <span lang="en"><strong>Graded low?</strong> Start at Step 03 now — the audit gives you enough to generate a working spec. Don't wait for a perfect codebase before introducing discipline.</span>
+    <span lang="es"><strong>¿Nota baja?</strong> Comienza en el Paso 03 ahora — la auditoría te da suficiente para generar un spec funcional. No esperes una codebase perfecta antes de introducir la disciplina.</span>
   </div>
 
   <!-- ════════════════════════════════════════
@@ -525,7 +525,7 @@ STATUS.md
 Phase [N]: [Phase Name]
 
 ## Brownfield Baseline
-GS Audit score from Step 02: [N]/14
+GS Audit overall grade from Step 02: [B-]
 [TODO] markers requiring team clarification: [count]
 
 ## Last Session
@@ -639,7 +639,7 @@ STATUS.md
 Fase [N]: [Nombre de Fase]
 
 ## Baseline Brownfield
-Puntaje de Auditoría GS del Paso 02: [N]/14
+Nota global de Auditoría GS del Paso 02: [B-]
 Marcadores [TODO] que requieren clarificación del equipo: [cantidad]
 
 ## Última Sesión
@@ -1246,7 +1246,7 @@ For each HTTP endpoint (or equivalent system boundary):
 
 Commit: test(oracle): install boundary tests before remediation
 
-After all oracle tests pass: run the GS audit again — the score is
+After all oracle tests pass: run the GS audit again — the overall grade is
 your baseline.</span><span lang="es">Lee docs/spec/SPEC.md y CONSTITUTION.md.
 Instala oracle tests en el boundary del sistema ANTES de cualquier cambio estructural.
 
@@ -1261,7 +1261,7 @@ Para cada endpoint HTTP (o boundary equivalente del sistema):
 Commit: test(oracle): install boundary tests before remediation
 
 Después de que todos los oracle tests pasen: corre la auditoría GS
-nuevamente — ese puntaje es tu baseline.</span></div>
+nuevamente — esa nota global es tu baseline.</span></div>
     </div>
   </div>
 
@@ -1277,8 +1277,8 @@ nuevamente — ese puntaje es tu baseline.</span></div>
   </div>
 
   <p>
-    <span lang="en">Apply the remediation plan from Step 02 under full cascade discipline. Work in priority order: highest-impact, lowest-score properties first. Each item is one of three operation types: refactor, fix, or new spec entry. The harness rejects any commit that skips the discipline.</span>
-    <span lang="es">Aplica el plan de remediación del Paso 02 bajo disciplina de cascada completa. Trabaja en orden de prioridad: propiedades de mayor impacto y menor puntaje primero. Cada item es uno de tres tipos de operación: refactor, fix o nueva entrada de spec. El harness rechaza cualquier commit que saltee la disciplina.</span>
+    <span lang="en">Apply the remediation plan from Step 02 under full cascade discipline. Work in priority order: highest-impact, lowest-grade properties first. Each item is one of three operation types: refactor, fix, or new spec entry. The harness rejects any commit that skips the discipline.</span>
+    <span lang="es">Aplica el plan de remediación del Paso 02 bajo disciplina de cascada completa. Trabaja en orden de prioridad: propiedades de mayor impacto y menor nota primero. Cada item es uno de tres tipos de operación: refactor, fix o nueva entrada de spec. El harness rechaza cualquier commit que saltee la disciplina.</span>
   </p>
 
   <div class="step">
@@ -1299,7 +1299,7 @@ Rules:
    touching more than 10 files.
 
 After completing the remediation plan, run the GS audit again for the
-after-score.</span><span lang="es">Lee docs/spec/SPEC.md, CONSTITUTION.md y el reporte de auditoría GS del Paso 02.
+after-grade.</span><span lang="es">Lee docs/spec/SPEC.md, CONSTITUTION.md y el reporte de auditoría GS del Paso 02.
 Aplica el plan de remediación en orden de prioridad.
 
 Reglas:
@@ -1314,7 +1314,7 @@ Reglas:
    cualquier cambio que toque más de 10 archivos.
 
 Después de completar el plan de remediación, corre la auditoría GS
-nuevamente para el puntaje posterior.</span></div>
+nuevamente para la nota posterior.</span></div>
     </div>
   </div>
 
@@ -1432,8 +1432,8 @@ Tarea de refactor: [describe qué limpiar — duplicación / código muerto / es
         <span lang="es">Auditoría GS →</span>
       </div>
       <div class="desc">
-        <span lang="en">Score your codebase on all 7 properties. 30 min, no tools.</span>
-        <span lang="es">Puntúa tu codebase en las 7 propiedades. 30 min, sin herramientas.</span>
+        <span lang="en">Grade your codebase on all seven properties. 30 min, no tools.</span>
+        <span lang="es">Califica tu codebase en las siete propiedades. 30 min, sin herramientas.</span>
       </div>
     </a>
     <a href="/greenfield">

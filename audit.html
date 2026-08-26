@@ -192,13 +192,13 @@
     </h1>
 
     <p class="lede">
-      <span lang="en">Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. <strong>No install, no CLI.</strong> This prompt now mirrors the full <strong>pragmaworks CLI report — all eight dimensions</strong>: the AI reads the codebase, scores all seven GS properties with disease names at score 0, identifies which structural disciplines apply, maps the test pyramid, checks documentation health, reviews security &amp; logging, reads the git history for team habits, and produces a prioritized remediation plan as markdown. Nothing is changed in this pass.</span>
-      <span lang="es">Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. <strong>Sin instalar, sin CLI.</strong> Este prompt ahora espeja el reporte completo del <strong>CLI de pragmaworks — las ocho dimensiones</strong>: la IA lee la base de código, puntúa las siete propiedades GS con nombres de enfermedades en puntaje 0, identifica qué disciplinas estructurales aplican, mapea la pirámide de pruebas, verifica la salud de la documentación, revisa seguridad y logging, lee el historial de git para hábitos de equipo, y produce un plan de remediación priorizado como markdown. No se cambia nada en esta pasada.</span>
+      <span lang="en">Paste the template below into any AI assistant — Claude Code, Cursor, Copilot — pointed at the project root. <strong>No install, no CLI.</strong> This prompt now mirrors the full <strong>pragmaworks CLI report — all eight dimensions</strong>: the AI reads the codebase, grades all seven GS properties (the five SAVED plus two engineering) with the failure disease named at F, identifies which structural disciplines apply, maps the test pyramid, checks documentation health, reviews security &amp; logging, reads the git history for team habits, and produces a prioritized remediation plan as markdown. Nothing is changed in this pass.</span>
+      <span lang="es">Pega la plantilla de abajo en cualquier asistente de IA — Claude Code, Cursor, Copilot — apuntado a la raíz del proyecto. <strong>Sin instalar, sin CLI.</strong> Este prompt ahora espeja el reporte completo del <strong>CLI de pragmaworks — las ocho dimensiones</strong>: la IA lee la base de código, califica las siete propiedades GS (las cinco SAVED más dos de ingeniería) con la enfermedad de falla nombrada en F, identifica qué disciplinas estructurales aplican, mapea la pirámide de pruebas, verifica la salud de la documentación, revisa seguridad y logging, lee el historial de git para hábitos de equipo, y produce un plan de remediación priorizado como markdown. No se cambia nada en esta pasada.</span>
     </p>
 
     <div class="pattern-note">
-      <span lang="en"><strong>The eight dimensions, in order:</strong> 1 GS Property Scorecard (0–14) · 2 Total Score &amp; Band · 3 Structural Disciplines · 4 Test Pyramid · 5 Documentation Health · 6 Security &amp; Logging · 7 Team Habits (Git History) · 8 Remediation Plan. Dimensions 1–6 read the code; dimension 7 reads the <strong>git history</strong>, so the project must be a git repository for that section to run.</span>
-      <span lang="es"><strong>Las ocho dimensiones, en orden:</strong> 1 Scorecard de Propiedades GS (0–14) · 2 Puntaje Total y Banda · 3 Disciplinas Estructurales · 4 Pirámide de Pruebas · 5 Salud de Documentación · 6 Seguridad y Logging · 7 Hábitos de Equipo (Historial Git) · 8 Plan de Remediación. Las dimensiones 1–6 leen el código; la dimensión 7 lee el <strong>historial de git</strong>, por lo que el proyecto debe ser un repositorio git para que esa sección corra.</span>
+      <span lang="en"><strong>The eight dimensions, in order:</strong> 1 SAVED Report Card (letter grades) · 2 Report Card Summary · 3 Structural Disciplines · 4 Test Pyramid · 5 Documentation Health · 6 Security &amp; Logging · 7 Team Habits (Git History) · 8 Remediation Plan. Dimensions 1–6 read the code; dimension 7 reads the <strong>git history</strong>, so the project must be a git repository for that section to run.</span>
+      <span lang="es"><strong>Las ocho dimensiones, en orden:</strong> 1 Boletín SAVED (notas A–F) · 2 Resumen del Boletín · 3 Disciplinas Estructurales · 4 Pirámide de Pruebas · 5 Salud de Documentación · 6 Seguridad y Logging · 7 Hábitos de Equipo (Historial Git) · 8 Plan de Remediación. Las dimensiones 1–6 leen el código; la dimensión 7 lee el <strong>historial de git</strong>, por lo que el proyecto debe ser un repositorio git para que esa sección corra.</span>
     </div>
 
     <div class="step">
@@ -213,93 +213,105 @@ log. Write the report to reports/gs-audit-[YYYY-MM-DD].md. Do not modify
 any application code in this session.
 
 ──────────────────────────────────────
-SECTION 1 — GS PROPERTY SCORECARD (0–14)
+SECTION 1 — SAVED REPORT CARD
 ──────────────────────────────────────
-Score each property 0, 1, or 2.
-  0 = absent or severely deficient
-  1 = intent present, implementation incomplete
-  2 = solid — evidence is clear and reproducible
+Grade each property A through F, like a school report card.
+  A = exemplary; evidence is clear and reproducible
+  B = solid; only minor gaps
+  C = present but inconsistent; intent visible, implementation incomplete
+  D = weak; mostly absent, only isolated signs
+  F = absent or severely deficient — name the failure disease
 
-For each property: score · one-sentence finding · file:line citation ·
-one specific next step to raise it by 1.
+The five audit-facing properties spell SAVED. Two more, Bounded and
+Composable, are the engineering layer beneath that keeps SAVED true.
+Grade all seven.
 
-SELF-DESCRIBING
+For each property: grade · one-sentence finding · file:line citation ·
+one specific next step to raise it by one grade.
+
+═══ SAVED — the five an auditor can see ═══
+
+SELF-DESCRIBING (S)
 Does the codebase explain its own intent without the original author present?
 Look for: SPEC.md or equivalent, ADRs, README that states purpose not just
 setup, architectural constitution (CLAUDE.md / AGENTS.md / .cursor/rules).
-  Score 0 — "Empty Map": all intent lives in heads; codebase cannot
-             explain itself.
-  Score 1 — some docs exist; intent must still be inferred from code.
-  Score 2 — spec + ADRs + architectural constitution present and current.
+  F — "Empty Map": all intent lives in heads; codebase cannot explain itself.
+  C — some docs exist; intent must still be inferred from code.
+  A — spec + ADRs + architectural constitution present and current.
+
+AUDITABLE (A)
+Can decisions and changes be traced back to why they happened?
+Look for: commit message quality, ADRs present and current, changelog, PR
+descriptions with context.
+  F — "Amnesia Stack": changes happened; reasons are unknowable.
+  C — some ADRs or meaningful commits; traceability has gaps.
+  A — clear ADR coverage; meaningful commits; decisions traceable.
+
+VERIFIABLE (V)
+Do tests bind specification to behavior?
+Look for: test files, coverage %, whether tests describe behavior vs.
+internals, integration and e2e tests alongside unit tests.
+  F — "Unbound Spec": no structural link between spec and running code.
+  C — unit tests present; minimal behavior-level coverage.
+  A — tests at multiple layers that verify use-case behavior.
+
+EXECUTABLE (E)
+Do the use cases actually run? Is the spec operationally alive?
+Look for: can you run the project from a clean clone? Does CI run? Are
+there scripts that build, test, and start the project without tribal
+knowledge?
+  F — "Frozen Spec": specification is prose that nothing executes.
+  C — runnable but requires manual steps or tribal knowledge.
+  A — clean clone → running in one command; CI enforces it.
+
+DEFENDED (D)
+Are the rules enforced, not merely suggested?
+Look for: quality gates that fail the build rather than only warn, input
+validation at trust boundaries, secrets in env files not hardcoded, error
+handling that does not leak internals.
+  F — "Open Gates": gates are advisory; a failing check can be skipped under
+       deadline, and the system accepts and leaks without enforcement.
+  C — some enforcement; trust boundary is unclear or inconsistent.
+  A — gates fail the build; trust boundary defined; input validated; secrets managed.
+
+═══ ENGINEERING LAYER — what keeps SAVED true ═══
 
 BOUNDED
 Do files, functions, and modules stay within size discipline?
 Look for: files over 400 lines, functions over 50 lines, modules with
 multiple responsibilities.
-  Score 0 — "Spreading Boundary": no size discipline; modules grow
-             unchecked.
-  Score 1 — most modules bounded; notable outliers exist.
-  Score 2 — explicit size limits configured or documented; consistently
-             respected.
+  F — "Spreading Boundary": no size discipline; modules grow unchecked.
+  C — most modules bounded; notable outliers exist.
+  A — explicit size limits configured or documented; consistently respected.
 
 COMPOSABLE
 Do pieces compose without hidden coupling?
 Look for: circular dependencies, wide import fan-out (one file imports from
 3+ layers), direct cross-module writes, feature flags that span modules.
-  Score 0 — "Tangled Web": changing one module triggers cascading effects.
-  Score 1 — some coupling present but modules are isolatable with effort.
-  Score 2 — clear interface boundaries; no circular deps; coupling explicit.
-
-VERIFIABLE
-Do tests bind specification to behavior?
-Look for: test files, coverage %, whether tests describe behavior vs.
-internals, integration and e2e tests alongside unit tests.
-  Score 0 — "Unbound Spec": no structural link between spec and running
-             code.
-  Score 1 — unit tests present; minimal behavior-level coverage.
-  Score 2 — tests at multiple layers that verify use-case behavior.
-
-AUDITABLE
-Can decisions and changes be traced back to why they happened?
-Look for: commit message quality, ADRs present and current, changelog, PR
-descriptions with context.
-  Score 0 — "Amnesia Stack": changes happened; reasons are unknowable.
-  Score 1 — some ADRs or meaningful commits; traceability has gaps.
-  Score 2 — clear ADR coverage; meaningful commits; decisions traceable.
-
-DEFENDED
-Is the security and error-handling baseline in place?
-Look for: input validation at trust boundaries, secrets in env files not
-hardcoded, error handling that does not leak internals, what is logged at
-the trust boundary.
-  Score 0 — "Open Gates": system accepts and leaks without enforcement.
-  Score 1 — some validation; trust boundary is unclear or inconsistent.
-  Score 2 — trust boundary defined; input validated; secrets managed.
-
-EXECUTABLE
-Do the use cases actually run? Is the spec operationally alive?
-Look for: can you run the project from a clean clone? Does CI run? Are
-there scripts that build, test, and start the project without tribal
-knowledge?
-  Score 0 — "Frozen Spec": specification is prose that nothing executes.
-  Score 1 — runnable but requires manual steps or tribal knowledge.
-  Score 2 — clean clone → running in one command; CI enforces it.
+  F — "Tangled Web": changing one module triggers cascading effects.
+  C — some coupling present but modules are isolatable with effort.
+  A — clear interface boundaries; no circular deps; coupling explicit.
 
 ──────────────────────────────────────
-SECTION 2 — TOTAL SCORE AND BAND
+SECTION 2 — REPORT CARD SUMMARY
 ──────────────────────────────────────
-Total = sum of 7 scores (0–14).
+OVERALL GRADE — one SAVED grade, a single letter (for example B-), for the
+five audit-facing properties, judged holistically (do not average to a
+number), with the engineering layer noted separately. Add one line of
+confidence: how much of the grade rests on evidence you verified directly
+versus attestations you could not probe.
 
-  0–4   Critical — foundational properties absent; start with oracle
-        tests + Self-describing before anything else
-  5–8   Developing — partial discipline; one focused sprint can move
-        3–4 properties
-  9–11  Functional — solid base; targeted improvement per weak property
-  12–14 Strong — publish the approach; document what is working as
-        methodology
-
-State: total score · band · one sentence on the single highest-leverage
-property to improve first and why.
+Then, in prose, bounded so two runs stay comparable:
+  STRENGTHS — the two or three properties the codebase can already stand behind.
+  WEAKNESSES — the two or three that would not survive scrutiny, each named
+               with its disease AND the concrete risk it creates.
+  PRIORITIES — the top three fixes, in order of leverage (impact over effort),
+               naming which are prerequisites for the others (Self-describing
+               and Bounded are usually first). The full ordered plan is Section 8.
+  BLIND SPOTS — what this audit could not verify: evidence that lives outside
+               the repo and was not provided (observability, CI branch
+               protection, IaC in another repo). This lowers stated confidence
+               and is never a silent F.
 
 ──────────────────────────────────────
 SECTION 3 — STRUCTURAL DISCIPLINES
@@ -382,105 +394,113 @@ de git log. Escribe el reporte en reports/gs-audit-[YYYY-MM-DD].md. No
 modifiques ningún código de la aplicación en esta sesión.
 
 ──────────────────────────────────────
-SECCIÓN 1 — SCORECARD DE PROPIEDADES GS (0–14)
+SECCIÓN 1 — BOLETÍN SAVED
 ──────────────────────────────────────
-Puntúa cada propiedad 0, 1, o 2.
-  0 = ausente o severamente deficiente
-  1 = intención presente, implementación incompleta
-  2 = sólido — evidencia clara y reproducible
+Calificá cada propiedad de A a F, como un boletín escolar.
+  A = ejemplar; evidencia clara y reproducible
+  B = sólido; solo brechas menores
+  C = presente pero inconsistente; intención visible, implementación incompleta
+  D = flojo; mayormente ausente, solo señales aisladas
+  F = ausente o severamente deficiente — nombrá la enfermedad de falla
 
-Para cada propiedad: puntaje · hallazgo en una oración · citación file:line ·
-un siguiente paso específico para subirlo 1 punto.
+Las cinco propiedades que ve el auditor deletrean SAVED. Dos más, Acotado y
+Componible, son la capa de ingeniería debajo que mantiene SAVED cierto.
+Calificá las siete.
 
-AUTO-DESCRIPTIVO
+Para cada propiedad: nota · hallazgo en una oración · citación file:line ·
+un siguiente paso específico para subirla una nota.
+
+═══ SAVED — las cinco que ve el auditor ═══
+
+AUTO-DESCRIPTIVO (S)
 ¿La base de código explica su propia intención sin que el autor original
 esté presente?
 Busca: SPEC.md o equivalente, ADRs, README que explique propósito no solo
 setup, constitución arquitectónica (CLAUDE.md / AGENTS.md / .cursor/rules).
-  Puntaje 0 — "Mapa Vacío": toda la intención vive en cabezas; la base
-               no puede explicarse sola.
-  Puntaje 1 — existen algunos docs; la intención aún debe inferirse del
-               código.
-  Puntaje 2 — spec + ADRs + constitución arquitectónica presentes y
-               actuales.
+  F — "Mapa Vacío": toda la intención vive en cabezas; la base no puede
+       explicarse sola.
+  C — existen algunos docs; la intención aún debe inferirse del código.
+  A — spec + ADRs + constitución arquitectónica presentes y actuales.
+
+AUDITABLE (A)
+¿Se pueden rastrear decisiones y cambios hasta por qué ocurrieron?
+Busca: calidad de mensajes de commit, ADRs presentes y actuales,
+changelog, descripciones de PR con contexto.
+  F — "Pila Amnésica": los cambios ocurrieron; las razones son incognoscibles.
+  C — algunos ADRs o commits significativos; trazabilidad con brechas.
+  A — cobertura clara de ADRs; commits significativos; decisiones trazables.
+
+VERIFICABLE (V)
+¿Las pruebas conectan la especificación al comportamiento?
+Busca: archivos de pruebas, % de cobertura, si las pruebas describen
+comportamiento vs. internos, pruebas de integración y e2e.
+  F — "Spec Sin Límites": sin conexión estructural entre spec y código en
+       ejecución.
+  C — pruebas unitarias presentes; cobertura de comportamiento mínima.
+  A — pruebas en múltiples capas que verifican comportamiento de casos de uso.
+
+EJECUTABLE (E)
+¿Los casos de uso realmente corren? ¿Está viva la spec operacionalmente?
+Busca: ¿puedes correr el proyecto desde un clone limpio? ¿Corre CI? ¿Hay
+scripts que construyen, prueban, e inician el proyecto sin conocimiento
+tribal?
+  F — "Spec Congelada": la especificación es prosa que nada ejecuta.
+  C — ejecutable pero requiere pasos manuales o conocimiento tribal.
+  A — clone limpio → corriendo en un comando; CI lo refuerza.
+
+DEFENDIDO (D)
+¿Las reglas se aplican, no solo se sugieren?
+Busca: quality gates que hacen fallar el build en vez de solo advertir,
+validación de input en límites de confianza, secretos en archivos de
+entorno no hardcodeados, manejo de errores que no filtra internos.
+  F — "Puertas Abiertas": los gates son consultivos; un check que falla se
+       puede saltar bajo presión, y el sistema acepta y filtra sin enforcement.
+  C — algo de enforcement; el límite de confianza es poco claro o inconsistente.
+  A — los gates hacen fallar el build; límite de confianza definido; input
+       validado; secretos manejados.
+
+═══ CAPA DE INGENIERÍA — lo que mantiene SAVED cierto ═══
 
 ACOTADO
 ¿Los archivos, funciones y módulos se mantienen dentro de la disciplina
 de tamaño?
 Busca: archivos de más de 400 líneas, funciones de más de 50 líneas,
 módulos con múltiples responsabilidades.
-  Puntaje 0 — "Límite Expandido": sin disciplina de tamaño; módulos
-               crecen sin control.
-  Puntaje 1 — la mayoría de módulos acotados; existen excepciones notables.
-  Puntaje 2 — límites de tamaño explícitos configurados o documentados;
-               respetados consistentemente.
+  F — "Frontera Expansiva": sin disciplina de tamaño; módulos crecen sin control.
+  C — la mayoría de módulos acotados; existen excepciones notables.
+  A — límites de tamaño explícitos configurados o documentados; respetados
+       consistentemente.
 
 COMPONIBLE
 ¿Las piezas componen sin acoplamiento oculto?
 Busca: dependencias circulares, import fan-out amplio (un archivo importa
 de 3+ capas), escrituras directas entre módulos, feature flags que cruzan
 módulos.
-  Puntaje 0 — "Red Enredada": cambiar un módulo desencadena efectos en
-               cascada.
-  Puntaje 1 — algo de acoplamiento presente pero módulos son aislables.
-  Puntaje 2 — límites de interfaz claros; sin deps circulares.
-
-VERIFICABLE
-¿Las pruebas conectan la especificación al comportamiento?
-Busca: archivos de pruebas, % de cobertura, si las pruebas describen
-comportamiento vs. internos, pruebas de integración y e2e.
-  Puntaje 0 — "Spec Desvinculada": sin conexión estructural entre spec
-               y código en ejecución.
-  Puntaje 1 — pruebas unitarias presentes; cobertura de comportamiento mínima.
-  Puntaje 2 — pruebas en múltiples capas que verifican comportamiento
-               de casos de uso.
-
-AUDITABLE
-¿Se pueden rastrear decisiones y cambios hasta por qué ocurrieron?
-Busca: calidad de mensajes de commit, ADRs presentes y actuales,
-changelog, descripciones de PR con contexto.
-  Puntaje 0 — "Pila de Amnesia": los cambios ocurrieron; las razones son
-               incognoscibles.
-  Puntaje 1 — algunos ADRs o commits significativos; trazabilidad con brechas.
-  Puntaje 2 — cobertura clara de ADRs; commits significativos; decisiones
-               trazables.
-
-DEFENDIDO
-¿Está en marcha el baseline de seguridad y manejo de errores?
-Busca: validación de input en límites de confianza, secretos en archivos
-de entorno no hardcodeados, manejo de errores que no filtra internos.
-  Puntaje 0 — "Puertas Abiertas": el sistema acepta y filtra sin
-               enforcement.
-  Puntaje 1 — algo de validación; el límite de confianza es poco claro.
-  Puntaje 2 — límite de confianza definido; input validado; secretos
-               manejados.
-
-EJECUTABLE
-¿Los casos de uso realmente corren? ¿Está viva la spec operacionalmente?
-Busca: ¿puedes correr el proyecto desde un clone limpio? ¿Corre CI? ¿Hay
-scripts que construyen, prueban, e inician el proyecto sin conocimiento
-tribal?
-  Puntaje 0 — "Spec Congelada": la especificación es prosa que nada
-               ejecuta.
-  Puntaje 1 — ejecutable pero requiere pasos manuales o conocimiento
-               tribal.
-  Puntaje 2 — clone limpio → corriendo en un comando; CI lo refuerza.
+  F — "Red Enmarañada": cambiar un módulo desencadena efectos en cascada.
+  C — algo de acoplamiento presente pero módulos son aislables.
+  A — límites de interfaz claros; sin deps circulares; acoplamiento explícito.
 
 ──────────────────────────────────────
-SECCIÓN 2 — PUNTAJE TOTAL Y BANDA
+SECCIÓN 2 — RESUMEN DEL BOLETÍN
 ──────────────────────────────────────
-Total = suma de 7 puntajes (0–14).
+NOTA GLOBAL — una nota SAVED, una sola letra (por ejemplo B-), para las cinco
+propiedades que ve el auditor, juzgada de forma holística (no promedies a un
+número), con la capa de ingeniería anotada aparte. Agregá una línea de
+confianza: cuánto de la nota se apoya en evidencia que verificaste directamente
+versus atestaciones que no pudiste probar.
 
-  0–4   Crítico — propiedades fundamentales ausentes; empezar con oracle
-        tests + Auto-descriptivo antes que cualquier otra cosa
-  5–8   En desarrollo — disciplina parcial; un sprint enfocado puede mover
-        3–4 propiedades
-  9–11  Funcional — base sólida; mejora dirigida por propiedad débil
-  12–14 Sólido — publica el enfoque; documenta lo que funciona como
-        metodología
-
-Indica: puntaje total · banda · una oración sobre la propiedad de mayor
-apalancamiento para mejorar primero y por qué.
+Después, en prosa, acotado para que dos corridas queden comparables:
+  FORTALEZAS — las dos o tres propiedades que la base de código ya puede respaldar.
+  DEBILIDADES — las dos o tres que no sobrevivirían al escrutinio, cada una
+                nombrada con su enfermedad Y el riesgo concreto que genera.
+  PRIORIDADES — los tres arreglos de mayor apalancamiento, en orden (impacto
+                sobre esfuerzo), nombrando cuáles son prerequisito de los otros
+                (Auto-descriptivo y Acotado suelen ir primero). El plan completo
+                y ordenado es la Sección 8.
+  PUNTOS CIEGOS — lo que este audit no pudo verificar: evidencia que vive fuera
+                del repo y no fue provista (observabilidad, branch protection en
+                CI, IaC en otro repo). Baja la confianza declarada y nunca es
+                una F silenciosa.
 
 ──────────────────────────────────────
 SECCIÓN 3 — DISCIPLINAS ESTRUCTURALES
@@ -565,21 +585,21 @@ que sigue.</span></div>
     </div>
 
     <h3>
-      <span lang="en">1 · GS Property Scorecard (0–14)</span>
-      <span lang="es">1 · Tarjeta de Puntaje GS (0–14)</span>
+      <span lang="en">1 · SAVED Report Card</span>
+      <span lang="es">1 · Boletín SAVED</span>
     </h3>
     <p style="font-size:15px; color: var(--steel);">
-      <span lang="en">The core of the report. Each of the seven properties — Self-describing, Bounded, Composable, Verifiable, Auditable, Defended, Executable — is scored 0, 1, or 2 against concrete evidence in the code, with the failure disease named at each 0 (Empty Map, Spreading Boundary, Tangled Web, Unbound Spec, Amnesia Stack, Open Gates, Frozen Spec). Every score cites <code>file:line</code>, so two independent runs land within ±1 point.</span>
-      <span lang="es">El núcleo del reporte. Cada una de las siete propiedades — Auto-descriptiva, Acotada, Componible, Verificable, Auditable, Defendida, Ejecutable — se puntúa 0, 1 o 2 contra evidencia concreta en el código, nombrando la enfermedad de falla en cada 0 (Mapa Vacío, Límite Difuso, Telaraña, Spec sin Anclaje, Pila de Amnesia, Puertas Abiertas, Spec Congelada). Cada puntaje cita <code>file:line</code>, de modo que dos corridas independientes quedan dentro de ±1 punto.</span>
+      <span lang="en">The core of the report. Each of the seven properties gets a letter grade, A through F, against concrete evidence in the code, with the failure disease named at F (Empty Map, Spreading Boundary, Tangled Web, Unbound Spec, Amnesia Stack, Open Gates, Frozen Spec). The five audit-facing ones spell SAVED — Self-describing, Auditable, Verifiable, Executable, Defended — and Bounded and Composable are the engineering layer beneath. Every grade cites <code>file:line</code>, so two independent runs land within one letter grade.</span>
+      <span lang="es">El núcleo del reporte. Cada una de las siete propiedades recibe una nota, de A a F, contra evidencia concreta en el código, nombrando la enfermedad de falla en F (Mapa Vacío, Frontera Expansiva, Red Enmarañada, Spec Sin Límites, Pila Amnésica, Puertas Abiertas, Spec Congelada). Las cinco que ve el auditor deletrean SAVED — Auto-descriptivo, Auditable, Verificable, Ejecutable, Defendido — y Acotado y Componible son la capa de ingeniería debajo. Cada nota cita <code>file:line</code>, de modo que dos corridas independientes quedan dentro de una nota.</span>
     </p>
 
     <h3>
-      <span lang="en">2 · Total Score &amp; Band</span>
-      <span lang="es">2 · Puntaje Total y Banda</span>
+      <span lang="en">2 · Report Card Summary</span>
+      <span lang="es">2 · Resumen del Boletín</span>
     </h3>
     <p style="font-size:15px; color: var(--steel);">
-      <span lang="en">The seven scores sum to 0–14 and place the codebase in a band: <strong>0–4 Critical · 5–8 Developing · 9–11 Functional · 12–14 Strong</strong>. The band sets the expectation for how much remediation the project needs before it can be trusted to an unattended AI session.</span>
-      <span lang="es">Los siete puntajes suman 0–14 y ubican la base de código en una banda: <strong>0–4 Crítico · 5–8 En desarrollo · 9–11 Funcional · 12–14 Sólido</strong>. La banda fija la expectativa de cuánta remediación necesita el proyecto antes de poder confiarlo a una sesión de IA sin supervisión.</span>
+      <span lang="en">The five SAVED properties roll up into one overall grade, a single letter the way a report card gives a final mark, with the engineering layer noted separately and a line of confidence. The report then spells it out in prose: Strengths, Weaknesses with the risk each creates, the top prioritized fixes, and the blind spots the audit could not verify. Together they set the expectation for how much remediation the project needs before it can be trusted to an unattended AI session.</span>
+      <span lang="es">Las cinco propiedades SAVED se resumen en una nota global, una sola letra como la nota final de un boletín, con la capa de ingeniería anotada aparte y una línea de confianza. El reporte lo detalla en prosa: Fortalezas, Debilidades con el riesgo que cada una genera, las prioridades de arreglo, y los puntos ciegos que el audit no pudo verificar. Juntos fijan la expectativa de cuánta remediación necesita el proyecto antes de poder confiarlo a una sesión de IA sin supervisión.</span>
     </p>
 
     <h3>

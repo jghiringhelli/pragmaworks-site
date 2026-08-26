@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-en="The Seven GS Properties — PragmaWorks" data-es="Las Siete Propiedades GS — PragmaWorks">The Seven GS Properties — PragmaWorks</title>
+<title data-en="The SAVED Properties — PragmaWorks" data-es="Las Propiedades SAVED — PragmaWorks">The SAVED Properties — PragmaWorks</title>
 <meta name="description"
-  data-en="The seven properties of a Generative Specification — what each means, what score 2 looks like, what score 0 looks like. Total score: 0–14."
-  data-es="Las siete propiedades de una Especificación Generativa — qué significa cada una, cómo se ve el puntaje 2, cómo se ve el puntaje 0. Puntaje total: 0–14."
-  content="The seven properties of a Generative Specification — scored 0–14.">
+  data-en="SAVED — the five properties a non-engineer can check to know an AI-built system is trustworthy: Self-describing, Auditable, Verifiable, Executable, Defended. Plus the engineering layer beneath."
+  data-es="SAVED — las cinco propiedades que un no-ingeniero puede verificar para saber que un sistema construido con IA es confiable: Self-describing, Auditable, Verifiable, Executable, Defended. Más la capa de ingeniería debajo."
+  content="SAVED — the five properties that make an AI-built system trustworthy, plus the engineering layer beneath.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/i18n.css">
@@ -26,12 +26,10 @@
     --ash:         #D1D1D6;
     --parchment:   #F5F0E8;
     --forge-dark:  #1A1611;
-    --score2-bg:   #F0F7F0;
-    --score2-border: #4A9B6F;
-    --score1-bg:   #FFF8EC;
-    --score1-border: #D4A017;
-    --score0-bg:   #FDF3F0;
-    --score0-border: #C44B1A;
+    --healthy-bg:   #F0F7F0;
+    --healthy-border: #4A9B6F;
+    --fail-bg:   #FDF3F0;
+    --fail-border: #C44B1A;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,6 +66,8 @@
     margin-bottom: 16px;
   }
 
+  h1 .saved-mark { color: var(--ember); }
+
   .lede {
     font-size: 18px;
     color: var(--steel);
@@ -77,33 +77,45 @@
 
   .lede strong { color: var(--forge-dark); }
 
-  .score-legend {
-    display: flex;
-    gap: 12px;
-    margin: 0 0 40px;
-    flex-wrap: wrap;
+  /* Activation callout */
+  .callout {
+    background: #fff;
+    border: 1px solid var(--ash);
+    border-left: 3px solid var(--molten);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 32px 0 8px;
+    font-size: 15px;
+    color: var(--steel);
+    line-height: 1.55;
   }
+  .callout strong { color: var(--forge-dark); }
 
-  .score-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  /* Section heads */
+  .section-head {
+    margin: 56px 0 8px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ember);
+  }
+  .section-head .kicker {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--steel);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    display: block;
+    margin-bottom: 6px;
   }
-
-  .score-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
+  .section-head h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--forge-dark);
+    border: none;
+    padding: 0;
+    margin: 0;
   }
-
-  .dot-2 { background: var(--score2-border); }
-  .dot-1 { background: var(--score1-border); }
-  .dot-0 { background: var(--score0-border); }
+  .section-sub { font-size: 15px; color: var(--steel); margin: 10px 0 0; }
 
   /* Property cards */
   .prop-card {
@@ -111,17 +123,16 @@
     border: 1px solid var(--ash);
     border-radius: 4px;
     padding: 28px 32px;
-    margin: 32px 0;
+    margin: 24px 0;
     scroll-margin-top: 24px;
   }
 
-  .prop-number {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--smoke);
-    margin-bottom: 6px;
+  .prop-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
   }
 
   .prop-card h2 {
@@ -129,65 +140,58 @@
     font-weight: 700;
     font-size: 22px;
     color: var(--forge-dark);
-    margin: 0 0 6px;
+    margin: 0;
     border: none;
     padding: 0;
   }
 
+  .layer-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .tag-saved { background: #FBEAE1; color: var(--ember); border: 1px solid rgba(196,75,26,0.35); }
+  .tag-eng   { background: #EDEFF2; color: var(--steel); border: 1px solid var(--ash); }
+
   .prop-tagline {
-    font-size: 15px;
+    font-size: 15.5px;
     color: var(--steel);
     font-style: italic;
-    margin-bottom: 20px;
+    margin: 8px 0 20px;
     border-bottom: 1px solid var(--ash);
     padding-bottom: 16px;
   }
 
-  .score-row {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    gap: 10px 16px;
-    margin-bottom: 10px;
-    align-items: start;
+  .tier {
+    border-left: 3px solid var(--ash);
+    padding: 2px 0 2px 16px;
+    margin-bottom: 16px;
   }
+  .tier-healthy { border-color: var(--healthy-border); }
+  .tier-fail    { border-color: var(--fail-border); }
 
-  .score-badge {
+  .tier-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 3px;
-    text-align: center;
-    line-height: 1.3;
-    margin-top: 1px;
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
   }
+  .tier-healthy .tier-label { color: var(--healthy-border); }
+  .tier-fail .tier-label    { color: var(--fail-border); }
 
-  .badge-2 {
-    background: var(--score2-bg);
-    color: var(--score2-border);
-    border: 1px solid var(--score2-border);
-  }
-
-  .badge-1 {
-    background: var(--score1-bg);
-    color: #9A7010;
-    border: 1px solid var(--score1-border);
-  }
-
-  .badge-0 {
-    background: var(--score0-bg);
-    color: var(--ember);
-    border: 1px solid var(--score0-border);
-  }
-
-  .score-text { font-size: 14.5px; color: var(--steel); line-height: 1.5; }
-  .score-text strong { color: var(--forge-dark); }
+  .tier-text { font-size: 14.5px; color: var(--steel); line-height: 1.5; }
+  .tier-text strong { color: var(--forge-dark); }
 
   .disease-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 12px;
+    margin-top: 4px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--ember);
@@ -196,8 +200,21 @@
     border-bottom: 1px solid rgba(196,75,26,0.25);
     padding-bottom: 1px;
   }
-
   .disease-link:hover { border-color: var(--ember); }
+
+  /* Decagon note */
+  .decagon-note {
+    background: var(--parchment);
+    border: 1px dashed var(--ash);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: var(--steel);
+    line-height: 1.55;
+  }
+  .decagon-note strong { color: var(--forge-dark); }
+  .decagon-note a { color: var(--ember); text-decoration: none; border-bottom: 1px solid rgba(196,75,26,0.3); }
 
   /* Reference table */
   .ref-section {
@@ -205,7 +222,6 @@
     padding-top: 24px;
     border-top: 2px solid var(--ember);
   }
-
   .ref-section h2 {
     font-family: 'Cinzel', serif;
     font-weight: 700;
@@ -220,9 +236,7 @@
     font-size: 13.5px;
     margin-bottom: 24px;
   }
-
   thead tr { background: var(--forge-dark); color: var(--parchment); }
-
   thead th {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -232,23 +246,27 @@
     text-align: left;
     font-weight: 400;
   }
-
   tbody tr { border-bottom: 1px solid var(--ash); }
   tbody tr:hover { background: #fff; }
-
   tbody td {
     padding: 10px 14px;
     color: var(--steel);
     vertical-align: middle;
   }
-
   tbody td:first-child {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 13px;
     color: var(--forge-dark);
   }
-
+  tbody td .layer-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .layer-cell.saved { color: var(--ember); }
+  .layer-cell.eng { color: var(--smoke); }
   tbody td a {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -256,21 +274,7 @@
     text-decoration: none;
     letter-spacing: 0.05em;
   }
-
   tbody td a:hover { color: var(--ember-glow); }
-
-  .total-score {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--steel);
-    background: var(--parchment);
-    border: 1px solid var(--ash);
-    border-radius: 4px;
-    padding: 14px 18px;
-    margin-bottom: 32px;
-  }
-
-  .total-score strong { color: var(--forge-dark); }
 
   /* Path picker */
   .path-picker {
@@ -279,7 +283,6 @@
     gap: 16px;
     margin: 48px 0 24px;
   }
-
   .path-picker a {
     display: block;
     padding: 22px 24px;
@@ -290,9 +293,7 @@
     color: var(--iron);
     transition: border-color 0.15s, transform 0.15s;
   }
-
   .path-picker a:hover { border-color: var(--ember); transform: translateY(-1px); }
-
   .path-picker .label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -301,7 +302,6 @@
     color: var(--ember);
     margin-bottom: 8px;
   }
-
   .path-picker .name {
     font-family: 'Cinzel', serif;
     font-weight: 700;
@@ -309,7 +309,6 @@
     color: var(--forge-dark);
     margin-bottom: 4px;
   }
-
   .path-picker .desc { font-size: 14px; color: var(--steel); }
 
   .footer {
@@ -320,7 +319,6 @@
     color: var(--smoke);
     text-align: center;
   }
-
   .footer a { color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--ash); }
   .footer a:hover { color: var(--ember); border-color: var(--ember); }
 
@@ -329,7 +327,6 @@
     .container { padding: 64px 20px 64px; }
     .prop-card { padding: 20px; }
     .path-picker { grid-template-columns: 1fr; }
-    .score-row { grid-template-columns: 44px 1fr; }
   }
 
   body > nav {
@@ -357,246 +354,188 @@
 <div class="container">
 
   <div class="eyebrow">
-    <span lang="en">Reference · 7 properties · scored 0–14</span>
-    <span lang="es">Referencia · 7 propiedades · puntaje 0–14</span>
+    <span lang="en">Reference · SAVED · the five an auditor can see</span>
+    <span lang="es">Referencia · SAVED · las cinco que un auditor puede ver</span>
   </div>
   <h1>
-    <span lang="en">The Seven GS Properties</span>
-    <span lang="es">Las Siete Propiedades GS</span>
+    <span lang="en"><span class="saved-mark">SAVED</span>, and the Layer Beneath</span>
+    <span lang="es"><span class="saved-mark">SAVED</span>, y la Capa Debajo</span>
   </h1>
   <p class="lede">
-    <span lang="en">A Generative Specification scores 0–2 on each property. <strong>14 = fully healthy.</strong> Each property addresses a specific way an AI-assisted codebase degrades without it. Score 0 has a name — find it at <a href="/diseases" style="color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(196,75,26,0.3)">/diseases</a>.</span>
-    <span lang="es">Una Especificación Generativa puntúa 0–2 en cada propiedad. <strong>14 = completamente saludable.</strong> Cada propiedad aborda una forma específica en que una base de código asistida por IA se degrada sin ella. El puntaje 0 tiene un nombre — encuéntralo en <a href="/diseases" style="color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(196,75,26,0.3)">/diseases</a>.</span>
+    <span lang="en">A machine can build a system in an afternoon now. The question that moved is whether you can <strong>show it is sound</strong>, without asking anyone to take your word. So I grade every codebase against ten properties that can actually be checked. Five are the ones a non-engineer can care about, because they are what let a system survive scrutiny. They spell <strong>SAVED</strong>. Beneath them is an engineering layer that keeps them true. Together they form the fuller standard, the <strong>decagon</strong>.</span>
+    <span lang="es">Una máquina hoy construye un sistema en una tarde. La pregunta que se movió es si podés <strong>mostrar que es sólido</strong>, sin pedirle a nadie que te crea. Por eso califico cada base de código contra diez propiedades que se pueden chequear de verdad. Cinco son las que un no-ingeniero puede mirar, porque son las que dejan que un sistema sobreviva al escrutinio. Deletrean <strong>SAVED</strong>. Debajo hay una capa de ingeniería que las mantiene ciertas. Juntas forman el estándar completo, el <strong>decágono</strong>.</span>
   </p>
 
-  <div class="score-legend">
-    <div class="score-legend-item"><div class="score-dot dot-2"></div><span lang="en">2 — Healthy</span><span lang="es">2 — Saludable</span></div>
-    <div class="score-legend-item"><div class="score-dot dot-1"></div><span lang="en">1 — Partial</span><span lang="es">1 — Parcial</span></div>
-    <div class="score-legend-item"><div class="score-dot dot-0"></div><span lang="en">0 — Disease state</span><span lang="es">0 — Estado de enfermedad</span></div>
+  <div class="callout">
+    <span lang="en"><strong>Two of these do the most work.</strong> A specification that is Self-describing and Bounded narrows the model to the region of what it already knows that actually applies here, rather than the average of every similar project it has seen. Every other property builds on that activation.</span>
+    <span lang="es"><strong>Dos de estas hacen la mayor parte del trabajo.</strong> Una especificación que es Self-describing y Bounded acota el modelo a la región de lo que ya sabe que realmente aplica acá, en lugar del promedio de cada proyecto parecido que vio. Cada otra propiedad se apoya en esa activación.</span>
   </div>
 
-  <!-- ─── P1: Self-describing ─── -->
+  <!-- ══════════ SAVED ══════════ -->
+  <div class="section-head">
+    <span class="kicker"><span lang="en">The audit-facing five</span><span lang="es">Las cinco que ve el auditor</span></span>
+    <h2><span lang="en">SAVED</span><span lang="es">SAVED</span></h2>
+    <p class="section-sub"><span lang="en">If you could only ask five questions of an AI-built system, these are the five. They deal with the software as an artifact standing in the world it is deployed in, and they decide whether you can stand behind it.</span><span lang="es">Si solo pudieras hacerle cinco preguntas a un sistema construido con IA, son estas. Tratan al software como un artefacto parado en el mundo donde se despliega, y deciden si podés respaldarlo.</span></p>
+  </div>
+
+  <!-- ─── Self-describing ─── -->
   <div class="prop-card" id="self-describing">
-    <div class="prop-number">
-      <span lang="en">Property 1 of 7</span>
-      <span lang="es">Propiedad 1 de 7</span>
+    <div class="prop-head">
+      <h2><span lang="en">Self-describing</span><span lang="es">Self-describing</span></h2>
+      <span class="layer-tag tag-saved">S · SAVED</span>
     </div>
-    <h2>
-      <span lang="en">Self-describing</span>
-      <span lang="es">Auto-descriptiva</span>
-    </h2>
     <p class="prop-tagline">
-      <span lang="en">Any session can read the codebase and derive full context without external explanation.</span>
-      <span lang="es">Cualquier sesión puede leer la base de código y derivar contexto completo sin explicación externa.</span>
+      <span lang="en">The system explains itself. A stranger, human or AI, can pick it up and understand it from the surface, without the one engineer who built it.</span>
+      <span lang="es">El sistema se explica solo. Un extraño, humano o IA, puede tomarlo y entenderlo desde la superficie, sin el único ingeniero que lo construyó.</span>
     </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">SPEC.md, CLAUDE.md (or AGENTS.md), and STATUS.md exist and are current. The AI reads them at session start and derives intent, constraints, and architecture without any additional prompting.</span><span lang="es">SPEC.md, CLAUDE.md (o AGENTS.md) y STATUS.md existen y están actualizados. La IA los lee al inicio de la sesión y deriva intención, restricciones y arquitectura sin prompting adicional.</span></div>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">Its interfaces, names, tests, and decision records tell you what it does and why, with no person narrating it. SPEC.md, CLAUDE.md (or AGENTS.md), and STATUS.md exist and are current, and the AI derives intent, constraints, and architecture at session start without extra prompting.</span><span lang="es">Sus interfaces, nombres, pruebas y registros de decisión te dicen qué hace y por qué, sin una persona narrándolo. SPEC.md, CLAUDE.md (o AGENTS.md) y STATUS.md existen y están al día, y la IA deriva intención, restricciones y arquitectura al inicio de la sesión sin prompting extra.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">A README exists with purpose but key architectural decisions, constraints, or non-goals are not written down. The AI can read what the system does but not why it is structured as it is.</span><span lang="es">Existe un README con propósito, pero las decisiones arquitectónicas clave, restricciones o no-objetivos no están escritos. La IA puede leer qué hace el sistema pero no por qué está estructurado así.</span></div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Empty Map.</strong> Intent lives in the original author's head. A new AI session cannot determine what the system is supposed to do or why constraints exist, so it fills in the blanks from training data. It is a single point of failure with a person's name on it.</span><span lang="es"><strong>Mapa Vacío.</strong> La intención vive en la cabeza del autor original. Una nueva sesión de IA no puede determinar qué se supone que hace el sistema ni por qué existen las restricciones, así que llena los blancos desde el training data. Es un punto único de falla con el nombre de una persona.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Empty Map.</strong> Intent lives in the original author's head. A new AI session cannot determine what the system is supposed to do or why constraints exist — so it fills in the blanks from training data.</span><span lang="es"><strong>Mapa Vacío.</strong> La intención vive en la cabeza del autor original. Una nueva sesión de IA no puede determinar qué se supone que hace el sistema ni por qué existen las restricciones — así que llena los blancos desde el training data.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#empty-map">
-      <span lang="en">→ Empty Map — full disease card</span>
-      <span lang="es">→ Mapa Vacío — tarjeta de enfermedad completa</span>
-    </a>
+    <a class="disease-link" href="/diseases#empty-map"><span lang="en">→ Empty Map — full disease card</span><span lang="es">→ Mapa Vacío — tarjeta completa</span></a>
   </div>
 
-  <!-- ─── P2: Bounded ─── -->
-  <div class="prop-card" id="bounded">
-    <div class="prop-number">
-      <span lang="en">Property 2 of 7</span>
-      <span lang="es">Propiedad 2 de 7</span>
-    </div>
-    <h2>
-      <span lang="en">Bounded</span>
-      <span lang="es">Acotada</span>
-    </h2>
-    <p class="prop-tagline">
-      <span lang="en">Every module and function has a single declared responsibility. Explicit size limits enforced.</span>
-      <span lang="es">Cada módulo y función tiene una responsabilidad única declarada. Límites de tamaño explícitos aplicados.</span>
-    </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">Explicit size limits declared in the spec (max file length, max function length) and enforced in CI. Every module has a single declared responsibility. Files fit within any AI's read window — no silent truncation.</span><span lang="es">Límites de tamaño explícitos declarados en la spec (longitud máxima de archivo, longitud máxima de función) y aplicados en CI. Cada módulo tiene una responsabilidad única declarada. Los archivos caben dentro de la ventana de lectura de cualquier IA — sin truncación silenciosa.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">Most modules are well-scoped. Some files have grown over time. No enforced size limits — the AI may be silently reading truncated files in some sessions.</span><span lang="es">La mayoría de los módulos están bien delimitados. Algunos archivos han crecido con el tiempo. Sin límites de tamaño aplicados — la IA puede estar leyendo silenciosamente archivos truncados en algunas sesiones.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Spreading Boundary.</strong> Responsibilities have crept outward. Files exceed the AI's read budget and are silently truncated. The AI edits against an incomplete view and adds code that contradicts what it couldn't see.</span><span lang="es"><strong>Frontera Expansiva.</strong> Las responsabilidades se han expandido. Los archivos superan el presupuesto de lectura de la IA y se truncan silenciosamente. La IA edita contra una vista incompleta y agrega código que contradice lo que no pudo ver.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#spreading-boundary">
-      <span lang="en">→ Spreading Boundary — full disease card</span>
-      <span lang="es">→ Frontera Expansiva — tarjeta de enfermedad completa</span>
-    </a>
-  </div>
-
-  <!-- ─── P3: Composable ─── -->
-  <div class="prop-card" id="composable">
-    <div class="prop-number">
-      <span lang="en">Property 3 of 7</span>
-      <span lang="es">Propiedad 3 de 7</span>
-    </div>
-    <h2>
-      <span lang="en">Composable</span>
-      <span lang="es">Componible</span>
-    </h2>
-    <p class="prop-tagline">
-      <span lang="en">Clean module interfaces. Declared dependency direction. Changes are local, not cascading.</span>
-      <span lang="es">Interfaces de módulo limpias. Dirección de dependencias declarada. Los cambios son locales, no en cascada.</span>
-    </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">Dependency direction declared in the spec (e.g., domain → application → infrastructure, never reversed). No circular imports. A change in one module does not require changes in others unless the interface changes.</span><span lang="es">Dirección de dependencias declarada en la spec (p.ej., dominio → aplicación → infraestructura, nunca invertido). Sin importaciones circulares. Un cambio en un módulo no requiere cambios en otros a menos que cambie la interfaz.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">Most modules are reasonably independent. Some circular dependencies or undeclared coupling exist. The AI can usually work within a module but occasionally needs to read widely to understand blast radius.</span><span lang="es">La mayoría de los módulos son razonablemente independientes. Existen algunas dependencias circulares o acoplamiento no declarado. La IA generalmente puede trabajar dentro de un módulo pero ocasionalmente necesita leer ampliamente para entender el radio de impacto.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Tangled Web.</strong> Circular imports. A single change cascades to five other modules. The AI cannot model the blast radius of any change without reading the entire codebase — and hallucinated side effects proliferate.</span><span lang="es"><strong>Red Enmarañada.</strong> Importaciones circulares. Un solo cambio se propaga en cascada a otros cinco módulos. La IA no puede modelar el radio de impacto de ningún cambio sin leer toda la base de código — y los efectos secundarios alucinados proliferan.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#tangled-web">
-      <span lang="en">→ Tangled Web — full disease card</span>
-      <span lang="es">→ Red Enmarañada — tarjeta de enfermedad completa</span>
-    </a>
-  </div>
-
-  <!-- ─── P4: Verifiable ─── -->
-  <div class="prop-card" id="verifiable">
-    <div class="prop-number">
-      <span lang="en">Property 4 of 7</span>
-      <span lang="es">Propiedad 4 de 7</span>
-    </div>
-    <h2>
-      <span lang="en">Verifiable</span>
-      <span lang="es">Verificable</span>
-    </h2>
-    <p class="prop-tagline">
-      <span lang="en">Every spec claim is backed by a running test. The AI can verify its own output against declared intent.</span>
-      <span lang="es">Cada afirmación de la spec está respaldada por una prueba en ejecución. La IA puede verificar su propio output contra la intención declarada.</span>
-    </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">Test pyramid complete: unit at function boundaries, integration at module boundaries, end-to-end at use case boundaries. Every F-NNN feature in SPEC.md has at least one passing acceptance test. The AI runs tests and verifies output before closing any session.</span><span lang="es">Pirámide de pruebas completa: unitarias en fronteras de función, integración en fronteras de módulo, end-to-end en fronteras de caso de uso. Cada funcionalidad F-NNN en SPEC.md tiene al menos una prueba de aceptación pasando. La IA corre pruebas y verifica el output antes de cerrar cualquier sesión.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">Unit tests exist and pass. Integration or behavioral coverage is sparse. Some spec claims are not backed by tests — the AI generates code that looks correct but cannot be verified against declared intent.</span><span lang="es">Las pruebas unitarias existen y pasan. La cobertura de integración o conductual es escasa. Algunas afirmaciones de la spec no están respaldadas por pruebas — la IA genera código que parece correcto pero no puede verificarse contra la intención declarada.</span></div>
-    </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Unbound Spec.</strong> No executable tests, or tests cover implementation details rather than behavior. The AI generates, the output looks plausible, and the session closes. Defects surface in production — or not at all.</span><span lang="es"><strong>Spec Sin Límites.</strong> Sin pruebas ejecutables, o las pruebas cubren detalles de implementación en lugar de comportamiento. La IA genera, el output parece plausible, y la sesión cierra. Los defectos aparecen en producción — o no aparecen.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#unbound-spec">
-      <span lang="en">→ Unbound Spec — full disease card</span>
-      <span lang="es">→ Spec Sin Límites — tarjeta de enfermedad completa</span>
-    </a>
-  </div>
-
-  <!-- ─── P5: Auditable ─── -->
+  <!-- ─── Auditable ─── -->
   <div class="prop-card" id="auditable">
-    <div class="prop-number">
-      <span lang="en">Property 5 of 7</span>
-      <span lang="es">Propiedad 5 de 7</span>
+    <div class="prop-head">
+      <h2><span lang="en">Auditable</span><span lang="es">Auditable</span></h2>
+      <span class="layer-tag tag-saved">A · SAVED</span>
     </div>
-    <h2>
-      <span lang="en">Auditable</span>
-      <span lang="es">Auditable</span>
-    </h2>
     <p class="prop-tagline">
-      <span lang="en">Every architectural decision is traceable. The AI reads the why before modifying any constraint.</span>
-      <span lang="es">Cada decisión arquitectónica es trazable. La IA lee el por qué antes de modificar cualquier restricción.</span>
+      <span lang="en">The decisions are on the record. Not only what the system does, but why it was built this way, what was ruled out, and what changed.</span>
+      <span lang="es">Las decisiones están registradas. No solo qué hace el sistema, sino por qué se construyó así, qué se descartó y qué cambió.</span>
     </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">Conventional Commits enforced on every commit. ADR directory with decision records for all architectural choices. The AI can always answer: why is this constraint here, who decided, and when. Intentional tradeoffs cannot be mistaken for bugs.</span><span lang="es">Conventional Commits aplicados en cada commit. Directorio de ADRs con registros de decisión para todas las elecciones arquitectónicas. La IA siempre puede responder: por qué está aquí esta restricción, quién decidió y cuándo. Los tradeoffs intencionales no pueden confundirse con bugs.</span></div>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">Conventional Commits on every commit, and an ADR directory with decision records for the architectural choices. When someone asks "why does it do that," the answer is retrievable, not folklore. It is the property that turns a codebase from something you defend in a meeting into something you can hand to an auditor.</span><span lang="es">Conventional Commits en cada commit, y un directorio de ADRs con registros de decisión para las elecciones arquitectónicas. Cuando alguien pregunta "por qué hace eso", la respuesta es recuperable, no folklore. Es la propiedad que convierte una base de código de algo que defendés en una reunión a algo que podés entregarle a un auditor.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">Commit messages are inconsistent — some are descriptive, most are not. Some ADRs exist for major decisions but not systematically maintained. The AI can identify some constraints but not all.</span><span lang="es">Los mensajes de commit son inconsistentes — algunos son descriptivos, la mayoría no. Algunos ADRs existen para decisiones mayores pero no se mantienen sistemáticamente. La IA puede identificar algunas restricciones pero no todas.</span></div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Amnesia Stack.</strong> No commit discipline, no ADRs. The AI meets a constraint that looks suboptimal and "corrects" it, because the rationale exists nowhere it can read. Over many sessions, every intentional tradeoff gets normalized away.</span><span lang="es"><strong>Pila Amnésica.</strong> Sin disciplina de commits, sin ADRs. La IA encuentra una restricción que parece subóptima y la "corrige", porque la justificación no existe en ningún lugar que pueda leer. A lo largo de muchas sesiones, cada tradeoff intencional se normaliza y desaparece.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Amnesia Stack.</strong> No commit discipline. No ADRs. The AI encounters a constraint that looks suboptimal and "corrects" it — because the rationale for that constraint does not exist anywhere the AI can read. Over many sessions, every intentional tradeoff gets normalized away.</span><span lang="es"><strong>Pila Amnésica.</strong> Sin disciplina de commits. Sin ADRs. La IA encuentra una restricción que parece subóptima y la "corrige" — porque la justificación de esa restricción no existe en ningún lugar que la IA pueda leer. A lo largo de muchas sesiones, cada tradeoff intencional se va normalizando.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#amnesia-stack">
-      <span lang="en">→ Amnesia Stack — full disease card</span>
-      <span lang="es">→ Pila Amnésica — tarjeta de enfermedad completa</span>
-    </a>
+    <a class="disease-link" href="/diseases#amnesia-stack"><span lang="en">→ Amnesia Stack — full disease card</span><span lang="es">→ Pila Amnésica — tarjeta completa</span></a>
   </div>
 
-  <!-- ─── P6: Defended ─── -->
-  <div class="prop-card" id="defended">
-    <div class="prop-number">
-      <span lang="en">Property 6 of 7</span>
-      <span lang="es">Propiedad 6 de 7</span>
+  <!-- ─── Verifiable ─── -->
+  <div class="prop-card" id="verifiable">
+    <div class="prop-head">
+      <h2><span lang="en">Verifiable</span><span lang="es">Verifiable</span></h2>
+      <span class="layer-tag tag-saved">V · SAVED</span>
     </div>
-    <h2>
-      <span lang="en">Defended</span>
-      <span lang="es">Defendida</span>
-    </h2>
     <p class="prop-tagline">
-      <span lang="en">Trust boundary declared. Irreversible operations classified. The AI generates defensive code by default.</span>
-      <span lang="es">Trust boundary declarado. Operaciones irreversibles clasificadas. La IA genera código defensivo por defecto.</span>
+      <span lang="en">Correctness is computed, not claimed. "The tests pass" is a fact a machine produces on demand, not a promise a person makes.</span>
+      <span lang="es">La corrección se computa, no se afirma. "Las pruebas pasan" es un hecho que produce una máquina a pedido, no una promesa que hace una persona.</span>
     </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">Trust boundary explicitly declared in SPEC.md. Input validation required at every API boundary. Irreversible operations classified and gated. Secrets in environment only — enforced in the architectural constitution. The AI observes these patterns and replicates them in all new code.</span><span lang="es">Trust boundary declarado explícitamente en SPEC.md. Validación de input requerida en cada boundary de API. Operaciones irreversibles clasificadas y protegidas. Secretos solo en entorno — aplicado en la constitución arquitectónica. La IA observa estos patrones y los replica en todo el código nuevo.</span></div>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">A complete test pyramid: unit at function boundaries, integration at module boundaries, end-to-end at use case boundaries. Every feature in the spec has at least one passing acceptance test, and the AI runs the tests and verifies output before closing a session.</span><span lang="es">Una pirámide de pruebas completa: unitarias en fronteras de función, integración en fronteras de módulo, end-to-end en fronteras de caso de uso. Cada funcionalidad de la spec tiene al menos una prueba de aceptación pasando, y la IA corre las pruebas y verifica el output antes de cerrar una sesión.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">Some validation in place at key endpoints. Secrets management inconsistent. Not all trust boundaries explicitly declared. The AI applies defensive patterns to familiar code but adds new attack surface on unfamiliar paths.</span><span lang="es">Algo de validación en endpoints clave. Gestión de secretos inconsistente. No todos los trust boundaries declarados explícitamente. La IA aplica patrones defensivos en código familiar pero agrega nueva superficie de ataque en rutas no familiares.</span></div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Unbound Spec.</strong> No executable tests, or tests that cover implementation details rather than behavior. The AI generates, the output looks plausible, the session closes, and defects surface in production or not at all. If the only evidence that something is correct is that someone said so, it is not verifiable.</span><span lang="es"><strong>Spec Sin Límites.</strong> Sin pruebas ejecutables, o pruebas que cubren detalles de implementación en lugar de comportamiento. La IA genera, el output parece plausible, la sesión cierra, y los defectos aparecen en producción o no aparecen. Si la única evidencia de que algo es correcto es que alguien lo dijo, no es verificable.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Open Gates.</strong> No declared trust boundary. Secrets in source. Error responses leak internals. The AI replicates the undefended patterns it observes — every new endpoint is generated in the style of the existing unprotected codebase.</span><span lang="es"><strong>Puertas Abiertas.</strong> Sin trust boundary declarado. Secretos en código fuente. Las respuestas de error filtran internos. La IA replica los patrones no defendidos que observa — cada nuevo endpoint se genera en el estilo de la base de código existente sin protección.</span></div>
-    </div>
-    <a class="disease-link" href="/diseases#open-gates">
-      <span lang="en">→ Open Gates — full disease card</span>
-      <span lang="es">→ Puertas Abiertas — tarjeta de enfermedad completa</span>
-    </a>
+    <a class="disease-link" href="/diseases#unbound-spec"><span lang="en">→ Unbound Spec — full disease card</span><span lang="es">→ Spec Sin Límites — tarjeta completa</span></a>
   </div>
 
-  <!-- ─── P7: Executable ─── -->
+  <!-- ─── Executable ─── -->
   <div class="prop-card" id="executable">
-    <div class="prop-number">
-      <span lang="en">Property 7 of 7</span>
-      <span lang="es">Propiedad 7 de 7</span>
+    <div class="prop-head">
+      <h2><span lang="en">Executable</span><span lang="es">Executable</span></h2>
+      <span class="layer-tag tag-saved">E · SAVED</span>
     </div>
-    <h2>
-      <span lang="en">Executable</span>
-      <span lang="es">Ejecutable</span>
-    </h2>
     <p class="prop-tagline">
-      <span lang="en">Every spec claim is backed by a passing test. CI enforced. Runnable from a clean clone.</span>
-      <span lang="es">Cada afirmación de la spec está respaldada por una prueba pasando. CI aplicado. Ejecutable desde un clone limpio.</span>
+      <span lang="en">The specification is bound to the running system, not a document describing an older version of it. What you read is what actually runs.</span>
+      <span lang="es">La especificación está atada al sistema en ejecución, no es un documento que describe una versión anterior. Lo que leés es lo que realmente corre.</span>
     </p>
-    <div class="score-row">
-      <div class="score-badge badge-2">2</div>
-      <div class="score-text"><span lang="en">The spec is live: every claim maps to a passing test. CI runs on every commit to the main branch. The project runs from a clean clone with only the manifest as setup guide — no tribal knowledge required. Spec and implementation are in sync.</span><span lang="es">La spec está viva: cada afirmación mapea a una prueba pasando. CI corre en cada commit a la rama main. El proyecto se ejecuta desde un clone limpio con solo el manifiesto como guía de setup — sin conocimiento tribal requerido. Spec e implementación están en sincronía.</span></div>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">The spec is live: every claim maps to a passing test, CI runs on every commit to the main branch, and the project runs from a clean clone with only the manifest as setup guide. The description and the behavior are forced to match, so spec and implementation stay in sync.</span><span lang="es">La spec está viva: cada afirmación mapea a una prueba pasando, CI corre en cada commit a la rama main, y el proyecto se ejecuta desde un clone limpio con solo el manifiesto como guía de setup. La descripción y el comportamiento están forzados a coincidir, así spec e implementación quedan sincronizadas.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-1">1</div>
-      <div class="score-text"><span lang="en">CI exists but not fully enforced on all branches. Some spec sections are not backed by executable tests. The project mostly runs from clone but requires some undocumented steps. Spec and implementation occasionally drift.</span><span lang="es">CI existe pero no completamente aplicado en todas las ramas. Algunas secciones de la spec no están respaldadas por pruebas ejecutables. El proyecto mayormente se ejecuta desde clone pero requiere algunos pasos no documentados. La spec y la implementación ocasionalmente divergen.</span></div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Frozen Spec.</strong> The spec describes behavior the system no longer exhibits. The AI reads the spec and believes it, generating correct code for a fiction, and the two diverge further with every session. If the contract and the code can drift apart in silence, the contract is decoration.</span><span lang="es"><strong>Spec Congelada.</strong> La spec describe comportamiento que el sistema ya no exhibe. La IA lee la spec y la cree, generando código correcto para una ficción, y las dos divergen más con cada sesión. Si el contrato y el código pueden separarse en silencio, el contrato es decoración.</span></div>
     </div>
-    <div class="score-row">
-      <div class="score-badge badge-0">0</div>
-      <div class="score-text"><span lang="en"><strong>Frozen Spec.</strong> The spec describes behavior the system does not exhibit. The AI reads the spec and believes it — generating correct code for a fiction. Spec and implementation diverge further with every session.</span><span lang="es"><strong>Spec Congelada.</strong> La spec describe comportamiento que el sistema no exhibe. La IA lee la spec y la cree — generando código correcto para una ficción. La spec y la implementación divergen más con cada sesión.</span></div>
+    <a class="disease-link" href="/diseases#frozen-spec"><span lang="en">→ Frozen Spec — full disease card</span><span lang="es">→ Spec Congelada — tarjeta completa</span></a>
+  </div>
+
+  <!-- ─── Defended ─── -->
+  <div class="prop-card" id="defended">
+    <div class="prop-head">
+      <h2><span lang="en">Defended</span><span lang="es">Defended</span></h2>
+      <span class="layer-tag tag-saved">D · SAVED</span>
     </div>
-    <a class="disease-link" href="/diseases#frozen-spec">
-      <span lang="en">→ Frozen Spec — full disease card</span>
-      <span lang="es">→ Spec Congelada — tarjeta de enfermedad completa</span>
-    </a>
+    <p class="prop-tagline">
+      <span lang="en">The rules are enforced, not suggested. A quality gate that can be skipped when the deadline is tight is not a gate, it is a suggestion.</span>
+      <span lang="es">Las reglas se aplican, no se sugieren. Un quality gate que se puede saltar cuando el plazo aprieta no es un gate, es una sugerencia.</span>
+    </p>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">The constraints fail the build when they are violated, so the standard holds on the worst day and not only the calm one. Security rules are enforced the same way: a declared trust boundary, input validation at every boundary, secrets in environment only. The AI observes these enforced patterns and replicates them in new code.</span><span lang="es">Las restricciones hacen fallar el build cuando se violan, así el estándar se sostiene el peor día y no solo el tranquilo. Las reglas de seguridad se aplican igual: un trust boundary declarado, validación de input en cada boundary, secretos solo en el entorno. La IA observa estos patrones aplicados y los replica en el código nuevo.</span></div>
+    </div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Open Gates.</strong> The gates are advisory. A failing check can be merged past when the deadline is tight, so the constraint holds only when no one is under pressure. Secrets leak into source, error responses expose internals, and the AI replicates the undefended patterns it observes.</span><span lang="es"><strong>Puertas Abiertas.</strong> Los gates son consultivos. Un check que falla se puede mergear igual cuando el plazo aprieta, así la restricción se sostiene solo cuando nadie está bajo presión. Los secretos se filtran al código fuente, las respuestas de error exponen internos, y la IA replica los patrones no defendidos que observa.</span></div>
+    </div>
+    <a class="disease-link" href="/diseases#open-gates"><span lang="en">→ Open Gates — full disease card</span><span lang="es">→ Puertas Abiertas — tarjeta completa</span></a>
+  </div>
+
+  <!-- ══════════ Engineering layer ══════════ -->
+  <div class="section-head">
+    <span class="kicker"><span lang="en">The engineering layer beneath</span><span lang="es">La capa de ingeniería debajo</span></span>
+    <h2><span lang="en">What keeps SAVED true</span><span lang="es">Lo que mantiene SAVED cierto</span></h2>
+    <p class="section-sub"><span lang="en">An auditor sees SAVED. Underneath, engineering properties keep it that way. These do not spell a word for a non-engineer, but they are what a system needs so the five above can hold under change.</span><span lang="es">Un auditor ve SAVED. Debajo, propiedades de ingeniería lo mantienen así. No deletrean una palabra para un no-ingeniero, pero son lo que un sistema necesita para que las cinco de arriba se sostengan bajo cambio.</span></p>
+  </div>
+
+  <!-- ─── Bounded ─── -->
+  <div class="prop-card" id="bounded">
+    <div class="prop-head">
+      <h2><span lang="en">Bounded</span><span lang="es">Bounded</span></h2>
+      <span class="layer-tag tag-eng"><span lang="en">Engineering · activation pair</span><span lang="es">Ingeniería · par de activación</span></span>
+    </div>
+    <p class="prop-tagline">
+      <span lang="en">Every module and function has a single declared responsibility, with explicit size limits. A bounded unit loads only its own slice, so it fits any reader's window, human or AI.</span>
+      <span lang="es">Cada módulo y función tiene una responsabilidad única declarada, con límites de tamaño explícitos. Una unidad acotada carga solo su porción, así entra en la ventana de cualquier lector, humano o IA.</span>
+    </p>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">Explicit size limits declared in the spec (max file, max function) and enforced in CI. Every module has a single declared responsibility. Files fit within any AI's read window, with no silent truncation.</span><span lang="es">Límites de tamaño explícitos declarados en la spec (máximo de archivo, máximo de función) y aplicados en CI. Cada módulo tiene una responsabilidad única declarada. Los archivos entran en la ventana de lectura de cualquier IA, sin truncación silenciosa.</span></div>
+    </div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Spreading Boundary.</strong> Responsibilities creep outward, files exceed the AI's read budget and are silently truncated, and the AI edits against an incomplete view, adding code that contradicts what it could not see.</span><span lang="es"><strong>Frontera Expansiva.</strong> Las responsabilidades se expanden, los archivos superan el presupuesto de lectura de la IA y se truncan en silencio, y la IA edita contra una vista incompleta, agregando código que contradice lo que no pudo ver.</span></div>
+    </div>
+    <a class="disease-link" href="/diseases#spreading-boundary"><span lang="en">→ Spreading Boundary — full disease card</span><span lang="es">→ Frontera Expansiva — tarjeta completa</span></a>
+  </div>
+
+  <!-- ─── Composable ─── -->
+  <div class="prop-card" id="composable">
+    <div class="prop-head">
+      <h2><span lang="en">Composable</span><span lang="es">Composable</span></h2>
+      <span class="layer-tag tag-eng"><span lang="en">Engineering</span><span lang="es">Ingeniería</span></span>
+    </div>
+    <p class="prop-tagline">
+      <span lang="en">Clean module interfaces and a declared dependency direction. A change stays local instead of cascading.</span>
+      <span lang="es">Interfaces de módulo limpias y una dirección de dependencias declarada. Un cambio queda local en lugar de propagarse en cascada.</span>
+    </p>
+    <div class="tier tier-healthy">
+      <div class="tier-label"><span lang="en">In practice</span><span lang="es">En la práctica</span></div>
+      <div class="tier-text"><span lang="en">Dependency direction declared in the spec (for example domain → application → infrastructure, never reversed). No circular imports. A change in one module does not force changes in others unless the interface changes.</span><span lang="es">Dirección de dependencias declarada en la spec (por ejemplo dominio → aplicación → infraestructura, nunca invertido). Sin importaciones circulares. Un cambio en un módulo no fuerza cambios en otros a menos que cambie la interfaz.</span></div>
+    </div>
+    <div class="tier tier-fail">
+      <div class="tier-label"><span lang="en">When it is missing</span><span lang="es">Cuando falta</span></div>
+      <div class="tier-text"><span lang="en"><strong>Tangled Web.</strong> Circular imports, and a single change that cascades to five other modules. The AI cannot model the blast radius without reading the whole codebase, and hallucinated side effects proliferate.</span><span lang="es"><strong>Red Enmarañada.</strong> Importaciones circulares, y un solo cambio que se propaga a otros cinco módulos. La IA no puede modelar el radio de impacto sin leer toda la base de código, y los efectos secundarios alucinados proliferan.</span></div>
+    </div>
+    <a class="disease-link" href="/diseases#tangled-web"><span lang="en">→ Tangled Web — full disease card</span><span lang="es">→ Red Enmarañada — tarjeta completa</span></a>
+  </div>
+
+  <!-- ─── Rest of the decagon ─── -->
+  <div class="decagon-note">
+    <span lang="en"><strong>The rest of the decagon.</strong> Three more layers complete the fuller standard, among them how the system behaves at runtime and how it improves over time. They are graded in the <a href="https://doi.org/10.5281/zenodo.21726017">white paper</a>, along with the full treatment of the ten. SAVED plus the engineering layer above is what most teams need to start.</span>
+    <span lang="es"><strong>El resto del decágono.</strong> Tres capas más completan el estándar, entre ellas cómo se comporta el sistema en runtime y cómo mejora con el tiempo. Se califican en el <a href="https://doi.org/10.5281/zenodo.21726017">white paper</a>, junto con el tratamiento completo de las diez. SAVED más la capa de ingeniería de arriba es lo que la mayoría de los equipos necesita para empezar.</span>
   </div>
 
   <!-- ─── Reference table ─── -->
@@ -605,55 +544,57 @@
       <span lang="en">Quick Reference</span>
       <span lang="es">Referencia Rápida</span>
     </h2>
-
-    <div class="total-score">
-      <span lang="en"><strong>Total score:</strong> 0–14 · 14 = fully healthy · 0 = all seven diseases active · Each property scores 0 (disease), 1 (partial), or 2 (healthy).</span>
-      <span lang="es"><strong>Puntaje total:</strong> 0–14 · 14 = completamente saludable · 0 = las siete enfermedades activas · Cada propiedad puntúa 0 (enfermedad), 1 (parcial) o 2 (saludable).</span>
-    </div>
-
     <table>
       <thead>
         <tr>
           <th><span lang="en">Property</span><span lang="es">Propiedad</span></th>
-          <th><span lang="en">Score 0 name</span><span lang="es">Nombre puntaje 0</span></th>
+          <th><span lang="en">Layer</span><span lang="es">Capa</span></th>
+          <th><span lang="en">Failure mode</span><span lang="es">Modo de falla</span></th>
           <th><span lang="en">Anchor</span><span lang="es">Ancla</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><span lang="en">Self-describing</span><span lang="es">Auto-descriptiva</span></td>
+          <td><span lang="en">Self-describing</span><span lang="es">Self-describing</span></td>
+          <td><span class="layer-cell saved">SAVED</span></td>
           <td><span lang="en">Empty Map</span><span lang="es">Mapa Vacío</span></td>
-          <td><a href="/properties#self-describing">/properties#self-describing</a></td>
-        </tr>
-        <tr>
-          <td><span lang="en">Bounded</span><span lang="es">Acotada</span></td>
-          <td><span lang="en">Spreading Boundary</span><span lang="es">Frontera Expansiva</span></td>
-          <td><a href="/properties#bounded">/properties#bounded</a></td>
-        </tr>
-        <tr>
-          <td><span lang="en">Composable</span><span lang="es">Componible</span></td>
-          <td><span lang="en">Tangled Web</span><span lang="es">Red Enmarañada</span></td>
-          <td><a href="/properties#composable">/properties#composable</a></td>
-        </tr>
-        <tr>
-          <td><span lang="en">Verifiable</span><span lang="es">Verificable</span></td>
-          <td><span lang="en">Unbound Spec</span><span lang="es">Spec Sin Límites</span></td>
-          <td><a href="/properties#verifiable">/properties#verifiable</a></td>
+          <td><a href="/properties#self-describing">#self-describing</a></td>
         </tr>
         <tr>
           <td><span lang="en">Auditable</span><span lang="es">Auditable</span></td>
+          <td><span class="layer-cell saved">SAVED</span></td>
           <td><span lang="en">Amnesia Stack</span><span lang="es">Pila Amnésica</span></td>
-          <td><a href="/properties#auditable">/properties#auditable</a></td>
+          <td><a href="/properties#auditable">#auditable</a></td>
         </tr>
         <tr>
-          <td><span lang="en">Defended</span><span lang="es">Defendida</span></td>
-          <td><span lang="en">Open Gates</span><span lang="es">Puertas Abiertas</span></td>
-          <td><a href="/properties#defended">/properties#defended</a></td>
+          <td><span lang="en">Verifiable</span><span lang="es">Verifiable</span></td>
+          <td><span class="layer-cell saved">SAVED</span></td>
+          <td><span lang="en">Unbound Spec</span><span lang="es">Spec Sin Límites</span></td>
+          <td><a href="/properties#verifiable">#verifiable</a></td>
         </tr>
         <tr>
-          <td><span lang="en">Executable</span><span lang="es">Ejecutable</span></td>
+          <td><span lang="en">Executable</span><span lang="es">Executable</span></td>
+          <td><span class="layer-cell saved">SAVED</span></td>
           <td><span lang="en">Frozen Spec</span><span lang="es">Spec Congelada</span></td>
-          <td><a href="/properties#executable">/properties#executable</a></td>
+          <td><a href="/properties#executable">#executable</a></td>
+        </tr>
+        <tr>
+          <td><span lang="en">Defended</span><span lang="es">Defended</span></td>
+          <td><span class="layer-cell saved">SAVED</span></td>
+          <td><span lang="en">Open Gates</span><span lang="es">Puertas Abiertas</span></td>
+          <td><a href="/properties#defended">#defended</a></td>
+        </tr>
+        <tr>
+          <td><span lang="en">Bounded</span><span lang="es">Bounded</span></td>
+          <td><span class="layer-cell eng"><span lang="en">Engineering</span><span lang="es">Ingeniería</span></span></td>
+          <td><span lang="en">Spreading Boundary</span><span lang="es">Frontera Expansiva</span></td>
+          <td><a href="/properties#bounded">#bounded</a></td>
+        </tr>
+        <tr>
+          <td><span lang="en">Composable</span><span lang="es">Composable</span></td>
+          <td><span class="layer-cell eng"><span lang="en">Engineering</span><span lang="es">Ingeniería</span></span></td>
+          <td><span lang="en">Tangled Web</span><span lang="es">Red Enmarañada</span></td>
+          <td><a href="/properties#composable">#composable</a></td>
         </tr>
       </tbody>
     </table>
@@ -661,60 +602,24 @@
 
   <div class="path-picker">
     <a href="/audit">
-      <div class="label">
-        <span lang="en">Workshop · 30 min</span>
-        <span lang="es">Taller · 30 min</span>
-      </div>
-      <div class="name">
-        <span lang="en">Run the Full Audit →</span>
-        <span lang="es">Corre la Auditoría Completa →</span>
-      </div>
-      <div class="desc">
-        <span lang="en">Score all seven properties. One prompt, no tools required.</span>
-        <span lang="es">Puntúa las siete propiedades. Un prompt, sin herramientas.</span>
-      </div>
+      <div class="label"><span lang="en">Workshop · 30 min</span><span lang="es">Taller · 30 min</span></div>
+      <div class="name"><span lang="en">Run the Full Audit →</span><span lang="es">Corre la Auditoría Completa →</span></div>
+      <div class="desc"><span lang="en">A SAVED report card: a letter grade per property, an overall grade, and what to fix first. One prompt, no tools required.</span><span lang="es">Un boletín SAVED: una nota por propiedad, una nota global, y qué arreglar primero. Un prompt, sin herramientas.</span></div>
     </a>
     <a href="/diseases">
-      <div class="label">
-        <span lang="en">Reference</span>
-        <span lang="es">Referencia</span>
-      </div>
-      <div class="name">
-        <span lang="en">7 Disease Cards →</span>
-        <span lang="es">7 Tarjetas de Enfermedad →</span>
-      </div>
-      <div class="desc">
-        <span lang="en">Deep dives into each score-0 failure mode and the cure.</span>
-        <span lang="es">Análisis profundo de cada modo de falla en puntaje 0 y la cura.</span>
-      </div>
+      <div class="label"><span lang="en">Reference</span><span lang="es">Referencia</span></div>
+      <div class="name"><span lang="en">The Disease Cards →</span><span lang="es">Las Tarjetas de Enfermedad →</span></div>
+      <div class="desc"><span lang="en">Deep dives into each failure mode and the cure.</span><span lang="es">Análisis profundo de cada modo de falla y la cura.</span></div>
     </a>
     <a href="/sentinel">
-      <div class="label">
-        <span lang="en">Foundation · 90 min</span>
-        <span lang="es">Fundación · 90 min</span>
-      </div>
-      <div class="name">
-        <span lang="en">Generate Your Specification →</span>
-        <span lang="es">Genera tu Especificación →</span>
-      </div>
-      <div class="desc">
-        <span lang="en">Full sentinel tree: SPEC.md, constitutions, STATUS.md, ADR-000.</span>
-        <span lang="es">Árbol sentinel completo: SPEC.md, constituciones, STATUS.md, ADR-000.</span>
-      </div>
+      <div class="label"><span lang="en">Foundation · 90 min</span><span lang="es">Fundación · 90 min</span></div>
+      <div class="name"><span lang="en">Generate Your Specification →</span><span lang="es">Genera tu Especificación →</span></div>
+      <div class="desc"><span lang="en">Full sentinel tree: SPEC.md, constitutions, STATUS.md, ADR-000.</span><span lang="es">Árbol sentinel completo: SPEC.md, constituciones, STATUS.md, ADR-000.</span></div>
     </a>
     <a href="/forge">
-      <div class="label">
-        <span lang="en">Reference</span>
-        <span lang="es">Referencia</span>
-      </div>
-      <div class="name">
-        <span lang="en">The Forge Cycle →</span>
-        <span lang="es">El Ciclo de La Fragua →</span>
-      </div>
-      <div class="desc">
-        <span lang="en">6 stages + Why structural disciplines help the AI mechanically.</span>
-        <span lang="es">6 etapas + Por qué las disciplinas estructurales ayudan mecánicamente a la IA.</span>
-      </div>
+      <div class="label"><span lang="en">Reference</span><span lang="es">Referencia</span></div>
+      <div class="name"><span lang="en">The Forge Cycle →</span><span lang="es">El Ciclo de La Fragua →</span></div>
+      <div class="desc"><span lang="en">6 stages + why structural disciplines help the AI mechanically.</span><span lang="es">6 etapas + por qué las disciplinas estructurales ayudan mecánicamente a la IA.</span></div>
     </a>
   </div>
 
