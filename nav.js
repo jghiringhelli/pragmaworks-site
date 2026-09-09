@@ -5,6 +5,21 @@
     '  <div class="pw-sidebar-brand"><a href="/">Pragma<span>Works</span></a></div>',
     '  <nav class="pw-sidebar-nav" aria-label="Site navigation">',
 
+    '    <div class="pw-nav-section" data-section="engagements">',
+    '      <button class="pw-nav-section-toggle" aria-expanded="false">',
+    '        <span>Engagements</span><i class="pw-chevron">&#8250;</i>',
+    '      </button>',
+    '      <div class="pw-nav-section-items">',
+    '        <a href="/services" class="pw-nav-item">All Engagements</a>',
+    '        <a href="/services" class="pw-nav-item">Readiness Assessment · $4K</a>',
+    '        <a href="/services" class="pw-nav-item">Remediation · from $15K</a>',
+    '        <a href="/services" class="pw-nav-item">Technical Due Diligence</a>',
+    '        <a href="/workshop" class="pw-nav-item">The Forge · workshop</a>',
+    '      </div>',
+    '    </div>',
+
+    '    <div class="pw-nav-divider"></div>',
+
     '    <div class="pw-nav-section" data-section="forge">',
     '      <button class="pw-nav-section-toggle" aria-expanded="false">',
     '        <span>Forge Flow</span><i class="pw-chevron">&#8250;</i>',
@@ -118,6 +133,7 @@
 
   // Path → section key
   var SECTIONS = {
+    '/services': 'engagements',
     '/try': 'try', '/audit': 'try', '/cookbook': 'try', '/start': 'try',
     '/greenfield': 'try', '/brownfield': 'try', '/onboarding': 'try', '/migration': 'try',
     '/heating': 'forge', '/mold': 'forge', '/temple': 'forge', '/temper': 'forge',
