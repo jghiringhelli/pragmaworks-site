@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Quality Gates — PragmaWorks"
+  data-es="Quality Gates — PragmaWorks"
+>Quality Gates — PragmaWorks</title>
+<meta name="description"
+  data-en="The deterministic gates that make Generative Specification enforceable — standard CI hooks, by property, that a modern AI wires from the spec. No proprietary tool required."
+  data-es="Los gates deterministas que hacen exigible la Generative Specification — hooks de CI estándar, por propiedad, que una IA moderna cablea desde la spec. Sin herramienta propietaria."
+  content="The deterministic gates that make Generative Specification enforceable.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root { --ember:#C44B1A; --ember-glow:#E8652E; --molten:#F4A623; --iron:#2C2C2E; --steel:#48484A;
+          --smoke:#8E8E93; --ash:#D1D1D6; --parchment:#F5F0E8; --forge-dark:#1A1611; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--parchment); font-family:'Source Serif 4',Georgia,serif; line-height:1.55; color:var(--iron); min-height:100vh; }
+  .container { max-width:920px; margin:0 auto; padding:64px 32px 80px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--ember); margin-bottom:18px; }
+  h1 { font-family:'Cinzel',serif; font-weight:700; font-size:38px; line-height:1.15; color:var(--forge-dark); margin-bottom:16px; }
+  .lede { font-size:18px; color:var(--steel); margin-bottom:14px; line-height:1.55; }
+  .lede strong { color:var(--forge-dark); }
+  h2 { font-family:'Cinzel',serif; font-weight:700; font-size:24px; color:var(--forge-dark); margin:48px 0 12px; padding-top:20px; border-top:2px solid var(--ember); }
+  p { margin-bottom:14px; font-size:15.5px; color:var(--steel); }
+  p strong { color:var(--forge-dark); }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; margin:8px 0 24px; line-height:1.45; }
+  thead tr { background:var(--forge-dark); color:var(--parchment); }
+  thead th { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:9px 12px; text-align:left; font-weight:400; }
+  tbody tr { border-bottom:1px solid var(--ash); }
+  tbody tr:hover { background:#fff; }
+  tbody td { padding:9px 12px; color:var(--steel); vertical-align:top; }
+  .prop { font-family:'Cinzel',serif; font-weight:700; font-size:12px; color:var(--forge-dark); white-space:nowrap; }
+  .lvl-block { color:var(--ember); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; }
+  .lvl-adv { color:var(--smoke); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; }
+  code { font-family:'JetBrains Mono',monospace; font-size:11.5px; background:rgba(196,75,26,0.08); color:var(--ember); padding:1px 4px; border-radius:2px; }
+  .callout { background:var(--forge-dark); color:var(--parchment); border-radius:4px; padding:18px 22px; margin:20px 0; font-size:14.5px; line-height:1.55; }
+  .callout strong { color:var(--molten); }
+  .note { background:#fff; border-left:3px solid var(--molten); border-radius:0 4px 4px 0; padding:12px 18px; margin:0 0 14px; font-size:14px; color:var(--steel); }
+  .note strong { color:var(--forge-dark); }
+  .footer { margin-top:64px; padding-top:28px; border-top:1px solid var(--ash); font-size:14px; color:var(--smoke); text-align:center; }
+  .footer a { color:var(--steel); text-decoration:none; border-bottom:1px solid var(--ash); }
+  .footer a:hover { color:var(--ember); border-color:var(--ember); }
+  body > nav { position:sticky; top:0; z-index:50; background:rgba(245,240,232,0.93); backdrop-filter:blur(8px); border-bottom:1px solid rgba(196,75,26,0.15); display:flex; align-items:center; padding:0.85rem 2rem; }
+  .nav-brand { font-family:'Cinzel',serif; font-size:0.8rem; font-weight:700; letter-spacing:0.15em; color:var(--forge-dark); text-decoration:none; }
+  .nav-brand span { color:var(--ember); }
+  @media (max-width:640px){ h1{font-size:30px;} .container{padding:64px 18px 64px;} table{font-size:11px;} thead th,tbody td{padding:6px 8px;} }
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-brand">Pragma<span>Works</span></a></nav>
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+  <div class="eyebrow"><span lang="en">Reference · the enforceable half</span><span lang="es">Referencia · la mitad exigible</span></div>
+  <h1><span lang="en">Quality Gates</span><span lang="es">Quality Gates</span></h1>
+  <p class="lede">
+    <span lang="en">Generative Specification is only as good as what a machine can <strong>verify</strong>. These are the deterministic gates that make the discipline enforceable: standard CI hooks, grouped by the property each defends. An LLM may write the code, but a <strong>non-LLM checker verifies it</strong> — these gates are those checkers.</span>
+    <span lang="es">La Generative Specification vale lo que una máquina puede <strong>verificar</strong>. Estos son los gates deterministas que hacen exigible la disciplina: hooks de CI estándar, agrupados por la propiedad que defiende cada uno. La IA escribe el código, pero un <strong>verificador que NO es IA lo chequea</strong> — estos gates son ese verificador.</span>
+  </p>
+  <div class="callout">
+    <span lang="en">You do not need a proprietary tool. Point a capable AI at the <a href="https://doi.org/10.5281/zenodo.21726017" style="color:var(--molten)">white paper</a> and this page and ask it to wire the applicable gates for your stack. The tools below are the JS/TS defaults; the assistant substitutes per language.</span>
+    <span lang="es">No necesitás una herramienta propietaria. Apuntá una IA capaz al <a href="https://doi.org/10.5281/zenodo.21726017" style="color:var(--molten)">white paper</a> y a esta página, y pedile que cablee los gates que apliquen a tu stack. Las herramientas de abajo son los defaults JS/TS; el asistente sustituye por lenguaje.</span>
+  </div>
+
+  <h2><span lang="en">The gates, by property</span><span lang="es">Los gates, por propiedad</span></h2>
+  <table>
+    <thead><tr>
+      <th><span lang="en">Property</span><span lang="es">Propiedad</span></th>
+      <th><span lang="en">Gate — what it checks</span><span lang="es">Gate — qué chequea</span></th>
+      <th><span lang="en">Standard tool</span><span lang="es">Herramienta</span></th>
+      <th><span lang="en">Rule</span><span lang="es">Regla</span></th>
+      <th><span lang="en">Level</span><span lang="es">Nivel</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="prop">Bounded</td><td><span lang="en">file length</span><span lang="es">largo de archivo</span></td><td><code>wc</code> / loc</td><td>&le; ~300 lines</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Bounded</td><td><span lang="en">function length + params</span><span lang="es">largo de función + params</span></td><td><code>eslint</code></td><td>max-lines-per-function, max-params</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Bounded</td><td><span lang="en">cyclomatic complexity</span><span lang="es">complejidad ciclomática</span></td><td><code>eslint</code> complexity</td><td>function CC &le; 10</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Bounded</td><td><span lang="en">code duplication</span><span lang="es">duplicación</span></td><td><code>jscpd</code></td><td>~5-10% ceiling</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Bounded</td><td><span lang="en">dead code</span><span lang="es">código muerto</span></td><td><code>ts-prune</code> / knip</td><td>no unused exports</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Composable</td><td><span lang="en">layer boundaries</span><span lang="es">límites de capas</span></td><td><code>dependency-cruiser</code></td><td>controller ↛ repo; domain pure</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Composable</td><td><span lang="en">circular imports</span><span lang="es">imports circulares</span></td><td><code>madge</code></td><td>no cycles</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Verifiable</td><td><span lang="en">type strictness</span><span lang="es">tipos estrictos</span></td><td><code>tsc --strict</code></td><td>strict passes; no <code>any</code></td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Verifiable</td><td><span lang="en">line/branch coverage</span><span lang="es">cobertura</span></td><td><code>c8</code> / istanbul</td><td>&ge; target (e.g. 70%)</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Verifiable</td><td><span lang="en">mutation score</span><span lang="es">score de mutación</span></td><td><code>stryker</code></td><td>&ge; target</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Executable</td><td><span lang="en">behavioural probes vs live</span><span lang="es">probes contra app viva</span></td><td><code>hurl</code> (o newman)</td><td>acceptance criteria pass on deploy</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Executable</td><td><span lang="en">module boot smoke</span><span lang="es">smoke de boot</span></td><td>CI boot script</td><td>every module boots</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Defended</td><td><span lang="en">secrets scan</span><span lang="es">escaneo de secretos</span></td><td><code>gitleaks</code></td><td>no secrets in diff</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Defended</td><td><span lang="en">dependency audit</span><span lang="es">auditoría de deps</span></td><td><code>npm audit</code> / osv</td><td>no high/critical vulns</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Defended</td><td><span lang="en">forbidden patterns</span><span lang="es">patrones prohibidos</span></td><td><code>eslint</code> custom</td><td>no eval, no DB-in-controller</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Self-describing</td><td><span lang="en">screaming architecture + sentinel present</span><span lang="es">arquitectura que grita + sentinela</span></td><td><span lang="en">structure check</span><span lang="es">chequeo de estructura</span></td><td>names announce domain; CLAUDE.md routes</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Auditable</td><td><span lang="en">conventional commits</span><span lang="es">conventional commits</span></td><td><code>commitlint</code></td><td>commits parse by type/scope</td><td class="lvl-block">blocking</td></tr>
+      <tr><td class="prop">Auditable</td><td><span lang="en">TDD phase order + decision records</span><span lang="es">orden TDD + decision records</span></td><td><span lang="en">commit-history hook</span><span lang="es">hook de historia</span></td><td><code>test:[RED]</code> before <code>feat:</code>; ADR/EDR</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Reproducible</td><td><span lang="en">regression fixtures + determinism</span><span lang="es">fixtures + determinismo</span></td><td><span lang="en">snapshots / seeded runs</span><span lang="es">snapshots / seeds</span></td><td>flaky tests fail CI</td><td class="lvl-adv">advisory</td></tr>
+      <tr><td class="prop">Observable</td><td><span lang="en">structured-logging / trace presence</span><span lang="es">logging estructurado / trazas</span></td><td><span lang="en">presence check</span><span lang="es">chequeo de presencia</span></td><td>key paths emit structured logs</td><td class="lvl-adv"><span lang="en">not yet gated</span><span lang="es">aún no</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span lang="en"><strong>Blocking vs advisory</strong> mirrors the maturity score: a codebase is rated by how many of these gates it actually enforces. <strong>Observable</strong> is the honest ungated gap today; nothing is scored where no gate evidences it.</span>
+    <span lang="es"><strong>Blocking vs advisory</strong> refleja el score de madurez: una base de código se califica por cuántos de estos gates realmente hace cumplir. <strong>Observable</strong> es el hueco honesto sin gate hoy; no se puntúa nada donde ningún gate lo evidencia.</span>
+  </div>
+  <div class="note">
+    <span lang="en"><strong>The ratchet.</strong> Each new defect that slips becomes a new blocking gate, derived from a real incident. The set only grows, and it only tightens. That accumulation is the value.</span>
+    <span lang="es"><strong>El trinquete.</strong> Cada defecto nuevo que se escapa se vuelve un gate blocking nuevo, derivado de un incidente real. El conjunto solo crece, y solo se ajusta. Esa acumulación es el valor.</span>
+  </div>
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/properties"><span lang="en">7 Properties</span><span lang="es">7 Propiedades</span></a> ·
+    <a href="/diagnose"><span lang="en">Diagnose</span><span lang="es">Diagnostica</span></a> ·
+    <a href="/services"><span lang="en">Work with us</span><span lang="es">Trabajá con nosotros</span></a> ·
+    <a href="https://doi.org/10.5281/zenodo.21726017"><span lang="en">White paper</span><span lang="es">White paper</span></a>
+  </div>
+</div>
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
