@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Sample Readiness Report — PragmaWorks" data-es="Reporte de Preparación de Muestra — PragmaWorks">Sample Readiness Report — PragmaWorks</title>
+<meta name="description"
+  data-en="An illustrative Readiness Report: the ten-property Decagon scored, a maturity level, and the two next moves. Based on our public teaching codebase, not a client."
+  data-es="Un Reporte de Preparación ilustrativo: el Decágono de diez propiedades puntuado, un nivel de madurez, y los dos próximos movimientos. Sobre nuestro código de enseñanza público, no un cliente.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root { --ember:#C44B1A; --molten:#F4A623; --iron:#2C2C2E; --steel:#48484A;
+          --smoke:#8E8E93; --ash:#D1D1D6; --parchment:#F5F0E8; --forge-dark:#1A1611;
+          --grade-a:#2E7D32; --grade-b:#558B2F; --grade-c:#B8860B; --grade-d:#C44B1A; --grade-f:#B02020; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--parchment); font-family:'Source Serif 4',Georgia,serif; line-height:1.55; color:var(--iron); }
+  .container { max-width:880px; margin:0 auto; padding:60px 32px 80px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--ember); margin-bottom:16px; }
+  h1 { font-family:'Cinzel',serif; font-weight:700; font-size:34px; line-height:1.15; color:var(--forge-dark); margin-bottom:14px; }
+  .disclaimer { background:#fff; border:1px solid var(--ash); border-left:3px solid var(--molten); border-radius:4px; padding:14px 18px; font-size:14px; color:var(--steel); margin-bottom:28px; }
+  .disclaimer strong { color:var(--forge-dark); }
+  h2 { font-family:'Cinzel',serif; font-weight:700; font-size:20px; color:var(--forge-dark); margin:38px 0 12px; padding-top:16px; border-top:2px solid var(--ember); }
+  p { margin-bottom:13px; font-size:15.5px; color:var(--steel); }
+  p strong, li strong { color:var(--forge-dark); }
+  .verdict { background:var(--forge-dark); color:var(--parchment); border-radius:6px; padding:26px 28px; margin:8px 0 4px; }
+  .verdict .level { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.15em; text-transform:uppercase; color:var(--molten); margin-bottom:8px; }
+  .verdict .big { font-family:'Cinzel',serif; font-size:30px; font-weight:700; color:#fff; margin-bottom:10px; }
+  .verdict p { color:var(--ash); margin-bottom:0; font-size:15px; }
+  table { width:100%; border-collapse:collapse; margin:6px 0 18px; font-size:14.5px; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--ash); vertical-align:top; }
+  th { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.15em; text-transform:uppercase; color:var(--smoke); }
+  td.prop { font-weight:600; color:var(--forge-dark); white-space:nowrap; }
+  .grade { display:inline-block; width:26px; text-align:center; font-family:'Cinzel',serif; font-weight:700; color:#fff; border-radius:4px; padding:2px 0; font-size:14px; }
+  .g-A{background:var(--grade-a)} .g-B{background:var(--grade-b)} .g-C{background:var(--grade-c)} .g-D{background:var(--grade-d)} .g-F{background:var(--grade-f)}
+  .tier-label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--smoke); padding:14px 12px 4px; }
+  ul { list-style:none; margin:0 0 16px; }
+  li { position:relative; padding-left:20px; margin-bottom:9px; font-size:15px; color:var(--steel); }
+  li::before { content:"▸"; position:absolute; left:0; color:var(--ember); font-size:12px; top:2px; }
+  .next { background:#fff; border:1px solid var(--ash); border-radius:4px; padding:18px 22px; margin:12px 0; }
+  .next .n-prop { font-family:'Cinzel',serif; color:var(--ember); font-weight:700; }
+  .cta { background:var(--forge-dark); border-radius:6px; padding:24px 28px; margin:32px 0 0; text-align:center; }
+  .cta p { color:var(--ash); margin-bottom:14px; }
+  .cta a { display:inline-block; margin:4px 6px; padding:10px 18px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.05em; text-decoration:none; }
+  .cta a.primary { background:var(--ember); color:#fff; }
+  .cta a.ghost { color:var(--molten); border:1px solid rgba(244,166,35,0.4); }
+  .footer { margin-top:48px; padding-top:24px; border-top:1px solid var(--ash); font-size:14px; color:var(--smoke); text-align:center; }
+  .footer a { color:var(--steel); text-decoration:none; border-bottom:1px solid var(--ash); }
+  body > nav { position:sticky; top:0; z-index:50; background:rgba(245,240,232,0.93); backdrop-filter:blur(8px); border-bottom:1px solid rgba(196,75,26,0.15); display:flex; align-items:center; padding:0.85rem 2rem; }
+  .nav-brand { font-family:'Cinzel',serif; font-size:0.8rem; font-weight:700; letter-spacing:0.15em; color:var(--forge-dark); text-decoration:none; }
+  .nav-brand span { color:var(--ember); }
+  .table-wrap { overflow-x:auto; }
+  @media (max-width:640px){ h1{font-size:27px;} .container{padding:56px 16px 64px;} }
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-brand">Pragma<span>Works</span></a></nav>
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+  <div class="eyebrow"><span lang="en">Sample · what a Readiness Assessment hands you</span><span lang="es">Muestra · lo que te entrega un Readiness Assessment</span></div>
+  <h1><span lang="en">Sample Readiness Report</span><span lang="es">Reporte de Preparación de muestra</span></h1>
+  <div class="disclaimer">
+    <span lang="en"><strong>Illustrative example, not a client.</strong> Scored on our own public teaching codebase (a deliberately messy legacy app we rebuilt and rescued commit by commit). The format, the ten-property scorecard, the maturity level, and the remediation roadmap are exactly what a real assessment delivers. Real client reports stay under NDA.</span>
+    <span lang="es"><strong>Ejemplo ilustrativo, no un cliente.</strong> Puntuado sobre nuestro propio código de enseñanza público (una app legacy deliberadamente desordenada que reconstruimos y rescatamos commit a commit). El formato, el scorecard de diez propiedades, el nivel de madurez y el plan de remediación son exactamente lo que entrega un assessment real. Los reportes de clientes reales quedan bajo NDA.</span>
+  </div>
+
+  <div class="verdict">
+    <div class="level"><span lang="en">Maturity level</span><span lang="es">Nivel de madurez</span></div>
+    <div class="big">L2 · <span lang="en">Emerging</span><span lang="es">Emergente</span></div>
+    <p><span lang="en">The system runs and ships, but a stateless reader cannot rebuild it without guessing. Behaviour is under-pinned by tests in places and unguarded in others, and the decisions that hold it together live only in people's heads. Safe to run, not yet safe to hand to an AI at speed.</span><span lang="es">El sistema corre y despliega, pero un lector sin estado no puede reconstruirlo sin adivinar. El comportamiento está respaldado por tests en partes y desprotegido en otras, y las decisiones que lo sostienen viven solo en la cabeza de la gente. Seguro para correr, todavía no para entregárselo a una IA a velocidad.</span></p>
+  </div>
+
+  <h2><span lang="en">The Decagon, scored</span><span lang="es">El Decágono, puntuado</span></h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th><span lang="en">Property</span><span lang="es">Propiedad</span></th>
+      <th></th>
+      <th><span lang="en">Finding</span><span lang="es">Hallazgo</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td colspan="3" class="tier-label"><span lang="en">SAVED — what a reviewer reads</span><span lang="es">SAVED — lo que lee quien revisa</span></td></tr>
+      <tr><td class="prop">Self-describing</td><td><span class="grade g-D">D</span></td><td><span lang="en">Names do not announce the domain; a newcomer maps the code by reading it.</span><span lang="es">Los nombres no anuncian el dominio; un recién llegado mapea el código leyéndolo.</span></td></tr>
+      <tr><td class="prop">Auditable</td><td><span class="grade g-F">F</span></td><td><span lang="en">No decision records. "When it fails there is no substance" to check against.</span><span lang="es">Sin registros de decisión. "Cuando falla no hay sustancia" contra qué chequear.</span></td></tr>
+      <tr><td class="prop">Verifiable</td><td><span class="grade g-C">C</span></td><td><span lang="en">Tests exist, but the gate counted files, not violations: green meant nothing.</span><span lang="es">Hay tests, pero el gate contaba archivos, no violaciones: el verde no significaba nada.</span></td></tr>
+      <tr><td class="prop">Executable</td><td><span class="grade g-B">B</span></td><td><span lang="en">It runs and ships. The one property this codebase has always had.</span><span lang="es">Corre y despliega. La única propiedad que este código siempre tuvo.</span></td></tr>
+      <tr><td class="prop">Defended</td><td><span class="grade g-D">D</span></td><td><span lang="en">Few guards, no gate on the real branch; regressions reach production.</span><span lang="es">Pocos guardas, sin gate en la rama real; las regresiones llegan a producción.</span></td></tr>
+      <tr><td colspan="3" class="tier-label"><span lang="en">Engineering layer</span><span lang="es">Capa de ingeniería</span></td></tr>
+      <tr><td class="prop">Bounded</td><td><span class="grade g-C">C</span></td><td><span lang="en">Two God-methods and a 600-line file carry most of the logic.</span><span lang="es">Dos God-methods y un archivo de 600 líneas cargan la mayor parte.</span></td></tr>
+      <tr><td class="prop">Composable</td><td><span class="grade g-C">C</span></td><td><span lang="en">Layers blur: routes reach the database directly in three places.</span><span lang="es">Las capas se mezclan: las rutas llegan a la base directo en tres lugares.</span></td></tr>
+      <tr><td colspan="3" class="tier-label"><span lang="en">Runtime + evolution — scored from runtime and history evidence</span><span lang="es">Runtime + evolución — desde evidencia de runtime e historia</span></td></tr>
+      <tr><td class="prop">Observable</td><td><span class="grade g-D">D</span></td><td><span lang="en">Little runtime signal; a failure is a mystery until someone reproduces it.</span><span lang="es">Poca señal de runtime; una falla es un misterio hasta que alguien la reproduce.</span></td></tr>
+      <tr><td class="prop">Reproducible</td><td><span class="grade g-C">C</span></td><td><span lang="en">Builds, but environment setup is tribal knowledge, not a spec.</span><span lang="es">Compila, pero armar el entorno es conocimiento tribal, no una spec.</span></td></tr>
+      <tr><td class="prop">Evolvable</td><td><span class="grade g-D">D</span></td><td><span lang="en">Every change risks a silent break; the team edits carefully and slowly.</span><span lang="es">Cada cambio arriesga una ruptura silenciosa; el equipo edita con cuidado y lento.</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:14px;color:var(--smoke)"><span lang="en">Passing 5 of 10 honestly. The point of the score is not the number; it is that two low grades tell you exactly where to move next.</span><span lang="es">Pasa 5 de 10 con honestidad. El punto de la nota no es el número; es que dos notas bajas te dicen exactamente dónde moverte primero.</span></p>
+
+  <h2><span lang="en">Your next two moves</span><span lang="es">Tus dos próximos movimientos</span></h2>
+  <div class="next">
+    <p><span class="n-prop">Auditable (F) →</span> <span lang="en"><strong>Capture the load-bearing decisions.</strong> Write the handful of architectural decision records that today live only in memory, and make the merge gate require one for any structural change. This is the move that turns "no substance when it fails" into a system you can reason about.</span><span lang="es"><strong>Capturá las decisiones que cargan peso.</strong> Escribí el puñado de registros de decisión arquitectónica que hoy viven solo en la memoria, y que el gate de merge exija uno para cualquier cambio estructural. Este es el movimiento que convierte "sin sustancia cuando falla" en un sistema sobre el que se puede razonar.</span></p>
+  </div>
+  <div class="next">
+    <p><span class="n-prop">Verifiable (C) →</span> <span lang="en"><strong>Make the gate count what matters.</strong> The gate counted files instead of violations, so green was meaningless. Point it at real signals (mutation score, layer-boundary checks, coverage of the critical paths) and the ratchet can only go up from there.</span><span lang="es"><strong>Hacé que el gate cuente lo que importa.</strong> El gate contaba archivos en vez de violaciones, así que el verde no significaba nada. Apuntalo a señales reales (mutation score, chequeos de límite de capa, cobertura de los caminos críticos) y el trinquete solo puede subir desde ahí.</span></p>
+  </div>
+
+  <div class="cta">
+    <p><span lang="en">This is the report. Get one for your own code, free, or have us run the full assessment.</span><span lang="es">Este es el reporte. Conseguí uno para tu propio código, gratis, o que corramos el assessment completo.</span></p>
+    <a href="/audit" class="primary"><span lang="en">Score your codebase free →</span><span lang="es">Puntuá tu código gratis →</span></a>
+    <a href="/services" class="ghost"><span lang="en">Book a Readiness Assessment</span><span lang="es">Reservá un Readiness Assessment</span></a>
+  </div>
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/properties"><span lang="en">The ten properties</span><span lang="es">Las diez propiedades</span></a> ·
+    <a href="/services"><span lang="en">Engagements</span><span lang="es">Engagements</span></a>
+  </div>
+</div>
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
