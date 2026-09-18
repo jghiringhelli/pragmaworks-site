@@ -3,6 +3,13 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/sentinel", "destination": "/mold", "permanent": true },
-    { "source": "/revenido", "destination": "/temper", "permanent": true }
+    { "source": "/revenido", "destination": "/temper", "permanent": true },
+    { "source": "/curso", "destination": "/course", "permanent": true },
+    { "source": "/curso/p0", "destination": "/course/lab-0", "permanent": true },
+    { "source": "/curso/p1", "destination": "/course/lab-1", "permanent": true },
+    { "source": "/curso/p2", "destination": "/course/lab-2", "permanent": true },
+    { "source": "/curso/p3", "destination": "/course/lab-3", "permanent": true },
+    { "source": "/curso/p4", "destination": "/course/lab-4", "permanent": true },
+    { "source": "/curso/p5", "destination": "/course/lab-5", "permanent": true }
   ]
 }

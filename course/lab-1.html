@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="Lab 1 — Turn the Order Around · GS Core · PragmaWorks"
+  data-es="Práctica 1 — Dar Vuelta el Orden · GS Core · PragmaWorks"
+>Lab 1 — Turn the Order Around · GS Core · PragmaWorks</title>
+<meta name="description"
+  data-en="GS Core, Lab 1: write the WHAT before a single line of code, and watch the difference it makes to what the AI builds. Follow along on Cancha Libre or do it on your own project."
+  data-es="GS Core, Práctica 1: escribí el QUÉ antes de una sola línea de código, y mirá la diferencia en lo que construye la IA. Seguime sobre Cancha Libre o hacelo en tu proyecto."
+  content="GS Core, Lab 1: write the WHAT before a single line of code.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:#C44B1A; --ember-glow:#E8652E; --molten:#F4A623; --iron:#2C2C2E;
+    --steel:#48484A; --smoke:#8E8E93; --ash:#D1D1D6; --parchment:#F5F0E8;
+    --parchment2:#EDE8DF; --forge-dark:#1A1611;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--parchment); font-family:'Source Serif 4',Georgia,serif; line-height:1.55; color:var(--iron); min-height:100vh; }
+  .container { max-width:760px; margin:0 auto; padding:64px 32px 80px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--ember); margin-bottom:18px; }
+  h1 { font-family:'Cinzel',serif; font-weight:700; font-size:38px; line-height:1.15; color:var(--forge-dark); margin-bottom:16px; }
+  .lede { font-size:18px; color:var(--steel); margin-bottom:12px; line-height:1.55; }
+  .lede strong { color:var(--forge-dark); }
+  h2 { font-family:'Cinzel',serif; font-weight:700; font-size:26px; color:var(--forge-dark); margin:64px 0 12px; padding-top:24px; border-top:2px solid var(--ember); }
+  .h2-sub { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember); margin-bottom:28px; }
+  p { margin-bottom:16px; font-size:16px; }
+  .step { display:grid; grid-template-columns:36px 1fr; gap:16px; margin-bottom:22px; align-items:start; }
+  .step-num { font-family:'JetBrains Mono',monospace; color:var(--ember); font-size:18px; font-weight:600; padding-top:1px; }
+  .step-text { font-size:16px; }
+  .step-text strong { font-family:'Cinzel',serif; color:var(--forge-dark); }
+  .prompt-box { background:var(--forge-dark); color:var(--parchment); border-radius:4px; padding:18px 22px; margin:12px 0; font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.55; white-space:pre-wrap; border-left:3px solid var(--molten); }
+  .prompt-box .prompt-label { color:var(--molten); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
+  .file-block { background:#fff; border:1px solid var(--ash); border-left:3px solid var(--steel); border-radius:0 4px 4px 0; padding:16px 20px; margin:12px 0; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.5; white-space:pre-wrap; color:var(--iron); overflow-x:auto; }
+  .file-block .file-label { color:var(--steel); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
+  .pattern-note { margin:28px 0 0; padding:14px 20px; background:#fff; border-left:3px solid var(--ash); border-radius:0 4px 4px 0; font-size:14px; color:var(--steel); }
+  .pattern-note strong { color:var(--forge-dark); font-style:normal; }
+  .facilitator-note { margin:20px 0 0; padding:14px 20px; background:var(--parchment2); border-left:3px solid var(--ember); border-radius:0 4px 4px 0; font-size:14px; color:var(--steel); font-style:italic; }
+  .facilitator-note strong { color:var(--forge-dark); font-style:normal; }
+  a.inline { color:var(--ember); text-decoration:none; border-bottom:1px solid var(--ash); }
+  a.inline:hover { border-color:var(--ember); }
+  .soon { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--smoke); }
+  .forge-pagination { display:flex; justify-content:space-between; align-items:center; margin-top:64px; padding-top:28px; border-top:1px solid var(--ash); gap:16px; flex-wrap:wrap; }
+  .fp-prev, .fp-next-btn { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; }
+  .fp-prev { color:var(--smoke); } .fp-prev:hover { color:var(--steel); }
+  .fp-next-btn { color:var(--ember); } .fp-next-btn:hover { color:var(--ember-glow); }
+  .footer { margin-top:72px; padding-top:28px; border-top:1px solid var(--ash); font-size:14px; color:var(--smoke); text-align:center; }
+  .footer a { color:var(--steel); text-decoration:none; border-bottom:1px solid var(--ash); }
+  .footer a:hover { color:var(--ember); border-color:var(--ember); }
+  @media (max-width:600px) { h1{font-size:30px;} h2{font-size:22px;} .container{padding:64px 20px 64px;} body>nav{padding:0.75rem 1.2rem;} }
+  body > nav { position:sticky; top:0; z-index:50; background:rgba(245,240,232,0.93); backdrop-filter:blur(8px); border-bottom:1px solid rgba(196,75,26,0.15); display:flex; align-items:center; padding:0.85rem 2rem; }
+  .nav-brand { font-family:'Cinzel',serif; font-size:0.8rem; font-weight:700; letter-spacing:0.15em; color:var(--forge-dark); text-decoration:none; }
+  .nav-brand span { color:var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en"><a href="/course" class="inline">Course · GS Core</a> · Lab 1</span>
+    <span lang="es"><a href="/course" class="inline">Curso · GS Core</a> · Práctica 1</span>
+  </div>
+
+  <h1>
+    <span lang="en">Turn the order around in ten minutes</span>
+    <span lang="es">Dar vuelta el orden en diez minutos</span>
+  </h1>
+
+  <p class="lede">
+    <span lang="en">One thing only: <strong>write the WHAT before a single line of code</strong>, and watch the difference it makes to what the AI builds. This lab does not teach a complete spec, live verification, or gates — just the order.</span>
+    <span lang="es">Una sola cosa: <strong>escribí el QUÉ antes de una sola línea de código</strong>, y mirá la diferencia en lo que construye la IA. Esta práctica no enseña una spec completa, ni la verificación en vivo, ni los gates — solo el orden.</span>
+  </p>
+
+  <div class="pattern-note">
+    <span lang="en">The prompts and the spec file below are the real artifacts from the recorded session, on the Spanish-domain project <strong>Cancha Libre</strong> (a court-booking app). The English twin project ships with the English course; the steps are identical either way.</span>
+    <span lang="es">Los prompts y el archivo de spec de abajo son los artefactos reales de la sesión grabada, sobre <strong>Cancha Libre</strong> (una app de reservas de canchas). El proyecto gemelo en inglés viene con el curso en inglés; los pasos son idénticos.</span>
+  </div>
+
+  <!-- ══════════════ FOLLOW ALONG ══════════════ -->
+  <h2>
+    <span lang="en">Follow along</span>
+    <span lang="es">Seguime</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">on Cancha Libre · everyone sees the same thing</span>
+    <span lang="es">sobre Cancha Libre · todos ven lo mismo</span>
+  </div>
+
+  <div class="step">
+    <div class="step-num">↓</div>
+    <div class="step-text">
+      <span lang="en"><strong>Download the project.</strong> <span class="soon">public download coming soon</span> — then <code>npm install</code> and <code>npm test</code> (18 tests green).</span>
+      <span lang="es"><strong>Bajá el proyecto.</strong> <span class="soon">descarga pública en camino</span> — después <code>npm install</code> y <code>npm test</code> (18 tests en verde).</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">00</div>
+    <div class="step-text">
+      <span lang="en"><strong>See what happens without writing anything</strong> (optional, two minutes). In the project root:</span>
+      <span lang="es"><strong>Mirá qué pasa sin escribir nada</strong> (opcional, dos minutos). En la raíz del proyecto:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Run this — no spec</span><span lang="es">Corré esto — sin spec</span></span>claude -p "Agregá la posibilidad de reprogramar una reserva (cambiarla de fecha y hora)."</div>
+      <span lang="en">Find the phrase <em>"la decisión que tomé por vos"</em> (the decision I made for you) in the answer — a business decision the machine made on its own. Reset: <code>git checkout . && git clean -fd</code>.</span>
+      <span lang="es">Buscá en la respuesta la frase <em>"la decisión que tomé por vos"</em>. Esa decisión de negocio la tomó la máquina. Volvé al estado limpio: <code>git checkout . && git clean -fd</code>.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+      <span lang="en"><strong>Write the WHAT, before a single line of code.</strong> Create <code>docs/features/F-004-reprogramar.md</code>. The rules are business decisions — <strong>you make them</strong>. Want different ones? Change them here, not in the code.</span>
+      <span lang="es"><strong>Escribí el QUÉ, antes de una sola línea de código.</strong> Creá <code>docs/features/F-004-reprogramar.md</code>. Las reglas son decisiones de negocio: <strong>las tomás vos</strong>. Si querés otras, cambialas acá, no en el código.</span>
+<div class="file-block"><span class="file-label">docs/features/F-004-reprogramar.md</span># F-004 — Reprogramar una reserva (el QUÉ, escrito antes del código)
+
+**Qué:** el cliente puede mover su reserva confirmada a otro día y hora, en la misma cancha.
+
+**Reglas**
+1. Se puede reprogramar hasta dos horas antes del inicio original. Con menos, no.
+2. La seña ya pagada vale para la fecha nueva; no se cobra otra.
+3. La fecha nueva respeta la regla 1 del archivo raíz (no superposición), sin contar la reserva que se está moviendo.
+4. Una reserva reprogramada, si después se cancela, NO reembolsa la seña, aunque falten más de 24 horas.
+5. Se avisa al cliente con la fecha nueva.
+
+**Fuera:** no se cambia de cancha ni de precio; para eso, cancelar y reservar de nuevo.
+
+**Criterios de aceptación**
+- [ ] reprogramar a un horario libre devuelve la reserva con inicio y fin nuevos, mismo pagoId, estado CONFIRMADA
+- [ ] reprogramar a un horario que se pisa con otra reserva confirmada de la cancha → SUPERPOSICION_DE_RESERVA
+- [ ] reprogramar la reserva sobre su propio horario corrido (18–19 a 18:30–19:30) funciona
+- [ ] con menos de dos horas para el inicio original → error ANTICIPACION_INSUFICIENTE
+- [ ] una reserva reprogramada que se cancela con más de 24 h → no hay reembolso
+- [ ] una reserva cancelada o inexistente no se puede reprogramar → RESERVA_INEXISTENTE
+- [ ] se envía una notificación con la fecha nueva</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+      <span lang="en"><strong>Ask it to implement — without assuming.</strong></span>
+      <span lang="es"><strong>Pedile que lo implemente sin asumir.</strong></span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Run this — with spec</span><span lang="es">Corré esto — con spec</span></span>claude -p "Leé CANCHA-LIBRE.md y docs/features/F-004-reprogramar.md. Implementá F-004 exactamente como está escrito: código, tests para cada criterio de aceptación, y actualizá la documentación del módulo. No tomes decisiones de negocio que no estén en F-004; si algo falta, decímelo en vez de asumirlo. Al final corré los tests y el gate."</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+      <span lang="en"><strong>Verify.</strong> <code>npm test</code> (one test per criterion) · <code>npm run gate</code>. Read the end of the answer: the list of <em>"what F-004 does not define"</em> is what you still have to write — add it to the document, not the code.</span>
+      <span lang="es"><strong>Verificá.</strong> <code>npm test</code> (un test por criterio) · <code>npm run gate</code>. Leé el final de la respuesta: la lista de <em>"lo que F-004 no define"</em> es lo que te falta escribir. Agregalo al documento, no al código.</span>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-text">
+      <span lang="en"><strong>The question.</strong> In the same session:</span>
+      <span lang="es"><strong>La pregunta.</strong> En la misma sesión:</span>
+<div class="prompt-box"><span class="prompt-label"><span lang="en">Ask the AI</span><span lang="es">Preguntale a la IA</span></span>claude -p "Acabás de implementar F-004 a partir de docs/features/F-004-reprogramar.md, que escribí antes de pedirte el código. ¿Qué diferencia debería hacer que te diera ese documento antes que el código, comparado con pedirte 'agregá reprogramar reservas' y nada más? Cinco líneas como máximo."</div>
+      <span lang="en">Compare its answer with the one in the video. It won't be identical — check whether it says the same thing.</span>
+      <span lang="es">Compará su respuesta con la del video. No va a ser idéntica; fijate si dice lo mismo.</span>
+    </div>
+  </div>
+
+  <div class="facilitator-note">
+    <span lang="en">Without the spec, the machine made a business decision for you and moved on. With it, the machine built exactly what you wrote — and told you what you left undecided. That is the whole lab: the order.</span>
+    <span lang="es">Sin la spec, la máquina tomó una decisión de negocio por vos y siguió. Con ella, la máquina construyó exactamente lo que escribiste — y te dijo qué dejaste sin decidir. Esa es toda la práctica: el orden.</span>
+  </div>
+
+  <!-- ══════════════ ON YOUR OWN ══════════════ -->
+  <h2>
+    <span lang="en">On your own project</span>
+    <span lang="es">Hacelo en el tuyo</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">same steps, your codebase</span>
+    <span lang="es">los mismos pasos, tu código</span>
+  </div>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-text">
+      <span lang="en">Pick <strong>one small feature</strong> of your project that doesn't exist yet.</span>
+      <span lang="es">Elegí <strong>una funcionalidad chica</strong> de tu proyecto, que no exista todavía.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-text">
+      <span lang="en">Write its WHAT in the same shape: what it is, the rules (your decisions), what's out of scope, testable acceptance criteria.</span>
+      <span lang="es">Escribí su QUÉ con la misma forma: qué es, las reglas (tus decisiones), qué queda afuera, criterios de aceptación verificables.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-text">
+      <span lang="en">Use the step-02 prompt, swapping the root file name for yours (<code>AGENTS.md</code>, <code>CLAUDE.md</code>, or whatever your tool reads).</span>
+      <span lang="es">Usá el prompt del paso 02, cambiando el nombre del archivo raíz por el tuyo (<code>AGENTS.md</code>, <code>CLAUDE.md</code> o el que use tu herramienta).</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-text">
+      <span lang="en">Steps 03 and 04 the same.</span>
+      <span lang="es">Paso 03 y paso 04 iguales.</span>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en">No root file or tests in your project? Doesn't matter for this lab — the WHAT is enough. The root file comes in <a href="/course/lab-4" class="inline">Lab 4</a>; the gates that stop the build, in <a href="/course/lab-3" class="inline">Lab 3</a>.</span>
+    <span lang="es">¿Tu proyecto no tiene archivo raíz ni tests? No importa para este práctico: el QUÉ alcanza. El archivo raíz lo armamos en la <a href="/course/lab-4" class="inline">Práctica 4</a>; los tests que frenan, en la <a href="/course/lab-3" class="inline">Práctica 3</a>.</span>
+  </div>
+
+  <!-- ══════════════ NOT THIS LAB ══════════════ -->
+  <h2>
+    <span lang="en">What this lab does not teach</span>
+    <span lang="es">Lo que esta práctica no enseña</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">one thing at a time</span>
+    <span lang="es">una cosa a la vez</span>
+  </div>
+  <p>
+    <span lang="en">How to write a complete spec (video 14 and <a href="/spec" class="inline">/spec</a>), how to make the AI test the live system (<a href="/course/lab-2" class="inline">Lab 2</a>), or the gates (<a href="/course/lab-3" class="inline">Lab 3</a>). Here it's one thing only: <strong>the order</strong>.</span>
+    <span lang="es">Cómo escribir una spec completa (video 14 y <a href="/spec" class="inline">/spec</a>), ni cómo hacer que la IA pruebe el sistema vivo (<a href="/course/lab-2" class="inline">Práctica 2</a>), ni los gates (<a href="/course/lab-3" class="inline">Práctica 3</a>). Acá es una sola cosa: <strong>el orden</strong>.</span>
+  </p>
+
+  <!-- pagination -->
+  <div class="forge-pagination">
+    <a href="/course" class="fp-prev"><span lang="en">← Course index</span><span lang="es">← Índice del curso</span></a>
+    <a href="/course/lab-2" class="fp-next-btn"><span lang="en">Lab 2: test your live app →</span><span lang="es">Práctica 2: probá tu app viva →</span></a>
+  </div>
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/course"><span lang="en">Course</span><span lang="es">Curso</span></a> ·
+    <a href="/spec"><span lang="en">Spec Completeness</span><span lang="es">Spec Completa</span></a> ·
+    <a href="/findings"><span lang="en">Findings</span><span lang="es">Hallazgos</span></a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
