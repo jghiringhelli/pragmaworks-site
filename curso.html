@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title
+  data-en="GS Core — The Course · PragmaWorks"
+  data-es="GS Core — El Curso · PragmaWorks"
+>GS Core — The Course · PragmaWorks</title>
+<meta name="description"
+  data-en="GS Core: 21 short videos, theory intercut with five hands-on labs. By the end you have a small project running under Generative Specification — spec before code, a sentinel that routes, a gate that stops the build, the rubric applied — and you know where to do it on your own."
+  data-es="GS Core: 21 videos cortos, teoría intercalada con cinco prácticas. Al terminar tenés un proyecto chico corriendo con Generative Specification — la spec antes del código, un sentinela que rutea, un gate que frena, la rúbrica aplicada — y sabés dónde hacerlo en el tuyo."
+  content="GS Core: 21 short videos, theory intercut with five hands-on labs. By the end you have a small project running under Generative Specification.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/i18n.css">
+<link rel="stylesheet" href="/nav.css">
+<!-- Pre-render language detection (no flash) -->
+<script>
+(function(){var s=null;try{s=localStorage.getItem('pragmaworks-lang');}catch(e){}var b=(navigator.language||'en').toLowerCase().split('-')[0];document.documentElement.lang=(s==='en'||s==='es')?s:(b==='es'?'es':'en');})();
+</script>
+<style>
+  :root {
+    --ember:       #C44B1A;
+    --ember-glow:  #E8652E;
+    --molten:      #F4A623;
+    --iron:        #2C2C2E;
+    --steel:       #48484A;
+    --smoke:       #8E8E93;
+    --ash:         #D1D1D6;
+    --parchment:   #F5F0E8;
+    --parchment2:  #EDE8DF;
+    --forge-dark:  #1A1611;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.55;
+    color: var(--iron);
+    min-height: 100vh;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 64px 32px 80px; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 38px; line-height: 1.15; color: var(--forge-dark); margin-bottom: 16px;
+  }
+
+  .lede { font-size: 18px; color: var(--steel); margin-bottom: 12px; line-height: 1.55; }
+  .lede strong { color: var(--forge-dark); }
+
+  h2 {
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; color: var(--forge-dark);
+    margin: 64px 0 12px; padding-top: 24px; border-top: 2px solid var(--ember);
+  }
+
+  .h2-sub {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ember); margin-bottom: 28px;
+  }
+
+  h3 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 17px; color: var(--forge-dark); margin: 40px 0 8px; }
+
+  p { margin-bottom: 16px; font-size: 16px; }
+
+  .pattern-note {
+    margin: 28px 0 0; padding: 14px 20px; background: #fff;
+    border-left: 3px solid var(--ash); border-radius: 0 4px 4px 0;
+    font-size: 14px; color: var(--steel);
+  }
+  .pattern-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .facilitator-note {
+    margin: 20px 0 0; padding: 14px 20px; background: var(--parchment2);
+    border-left: 3px solid var(--ember); border-radius: 0 4px 4px 0;
+    font-size: 14px; color: var(--steel); font-style: italic;
+  }
+  .facilitator-note strong { color: var(--forge-dark); font-style: normal; }
+
+  .path-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 40px 0 24px; }
+  .path-picker a, .path-picker .card {
+    display: block; padding: 22px 24px; background: #fff; border: 1px solid var(--ash);
+    border-radius: 4px; text-decoration: none; color: var(--iron);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .path-picker a:hover { border-color: var(--ember); transform: translateY(-1px); }
+  .path-picker .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--ember); margin-bottom: 8px;
+  }
+  .path-picker .name { font-family: 'Cinzel', serif; font-weight: 700; font-size: 16px; color: var(--forge-dark); margin-bottom: 4px; }
+  .path-picker .desc { font-size: 14px; color: var(--steel); }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+  table thead tr { background: var(--parchment2); }
+  table th {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--steel); padding: 10px 14px; text-align: left;
+    border-bottom: 2px solid var(--ash);
+  }
+  table td { padding: 9px 14px; border-bottom: 1px solid var(--ash); color: var(--iron); vertical-align: top; }
+  table td code {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--parchment2);
+    padding: 1px 5px; border-radius: 2px; white-space: nowrap;
+  }
+  tr.lab td { background: #FBF6EE; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+  }
+  .tag-teoria { color: var(--steel); background: var(--parchment2); }
+  .tag-lab { color: #fff; background: var(--ember); }
+
+  /* Practical micro cards */
+  .lab {
+    background: #fff; border: 1px solid var(--ash); border-left: 3px solid var(--ember);
+    border-radius: 0 4px 4px 0; padding: 20px 24px; margin: 16px 0;
+  }
+  .lab .lab-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .lab .lab-id { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ember); font-weight: 600; }
+  .lab .lab-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 17px; color: var(--forge-dark); }
+  .lab .lab-q { font-size: 14px; color: var(--steel); font-style: italic; margin: 8px 0 10px; }
+  .lab .lab-links { font-size: 13px; }
+  .lab .lab-links a { color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--ash); }
+  .lab .lab-links a:hover { border-color: var(--ember); }
+  .lab .soon { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--smoke); }
+
+  a.inline { color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--ash); }
+  a.inline:hover { border-color: var(--ember); }
+
+  .footer { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--ash); font-size: 14px; color: var(--smoke); text-align: center; }
+  .footer a { color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--ash); }
+  .footer a:hover { color: var(--ember); border-color: var(--ember); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 30px; } h2 { font-size: 22px; }
+    .container { padding: 64px 20px 64px; }
+    .path-picker { grid-template-columns: 1fr; }
+    body > nav { padding: 0.75rem 1.2rem; }
+  }
+
+  body > nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,240,232,0.93); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,75,26,0.15);
+    display: flex; align-items: center; padding: 0.85rem 2rem;
+  }
+  .nav-brand { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--forge-dark); text-decoration: none; }
+  .nav-brand span { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Pragma<span>Works</span></a>
+</nav>
+
+<!-- Language toggle (fixed top-right of viewport) -->
+<div class="lang-toggle" aria-label="Language toggle">
+  <button data-lang="en" aria-label="English">EN</button>
+  <button data-lang="es" aria-label="Español">ES</button>
+</div>
+
+<div class="container">
+
+  <div class="eyebrow">
+    <span lang="en">Course · GS Core · 21 micro-videos</span>
+    <span lang="es">Curso · GS Core · 21 micro-videos</span>
+  </div>
+
+  <h1>GS Core</h1>
+
+  <p class="lede">
+    <span lang="en">Theory intercut with five hands-on labs. By the end you have a small project running under Generative Specification: a <strong>spec written before the code</strong>, a <strong>sentinel that routes</strong>, a <strong>gate that stops the build</strong>, and the <strong>rubric applied</strong> — and you know where on this site to do it on your own.</span>
+    <span lang="es">Teoría intercalada con cinco prácticas. Al terminar tenés un proyecto chico corriendo con Generative Specification: una <strong>spec escrita antes que el código</strong>, un <strong>sentinela que rutea</strong>, un <strong>gate que frena</strong>, y la <strong>rúbrica aplicada</strong> — y sabés dónde, en este sitio, hacerlo en el tuyo.</span>
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- BEFORE YOU START (P0) + THE TWO LANES                        -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">Before you start</span>
+    <span lang="es">Antes de empezar</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">P0 · optional · pick your lane</span>
+    <span lang="es">P0 · opcional · elegí tu carril</span>
+  </div>
+
+  <p>
+    <span lang="en">Every hands-on lab can be done two ways. Pick one — or do both.</span>
+    <span lang="es">Cada práctica se puede hacer de dos maneras. Elegí una — o hacé las dos.</span>
+  </p>
+
+  <div class="path-picker">
+    <div class="card">
+      <div class="label"><span lang="en">Follow me</span><span lang="es">Seguime</span></div>
+      <div class="name"><span lang="en">On Cancha Libre</span><span lang="es">Sobre Cancha Libre</span></div>
+      <div class="desc">
+        <span lang="en">A small public project you download and repeat step by step — the only way everyone sees the same thing, including the AI's answer to each lab's question. <span class="soon">public download coming soon</span></span>
+        <span lang="es">Un proyecto chico y público que bajás y repetís paso a paso — lo único que garantiza que todos vean lo mismo, incluida la respuesta de la IA a la pregunta de cada práctica. <span class="soon">descarga pública en camino</span></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label"><span lang="en">Do it on yours</span><span lang="es">Hacelo en el tuyo</span></div>
+      <div class="name"><span lang="en">On your own project</span><span lang="es">En tu propio proyecto</span></div>
+      <div class="desc">
+        <span lang="en">Each lab closes with a recipe on this site plus one question to ask your AI — apply it to your own codebase. P0 is the optional prep video for this lane.</span>
+        <span lang="es">Cada práctica cierra con una receta en este sitio más una pregunta para tu IA — aplicalo a tu propio código. P0 es el video opcional de preparación para este carril.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pattern-note">
+    <span lang="en"><strong>Bringing a legacy codebase?</strong> That has its own path — see <a href="/brownfield" class="inline">/brownfield</a> and the workshop at <a href="/audit" class="inline">/audit</a>. This course builds the muscle on a small project first.</span>
+    <span lang="es"><strong>¿Traés un proyecto legacy?</strong> Ese tiene su propio camino — mirá <a href="/brownfield" class="inline">/brownfield</a> y el taller en <a href="/audit" class="inline">/audit</a>. Este curso primero te arma el músculo sobre un proyecto chico.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- THE PATH — full index of 21 micros                          -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">The path</span>
+    <span lang="es">El recorrido</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">15 theory + 5 labs + 1 optional · theory lands in the next lab</span>
+    <span lang="es">15 teóricos + 5 prácticas + 1 opcional · la teoría aterriza en la práctica siguiente</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><span lang="en">Micro</span><span lang="es">Micro</span></th>
+        <th><span lang="en">Type</span><span lang="es">Tipo</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="lab"><td><code>P0</code></td><td><span lang="en">Prepare your project (optional)</span><span lang="es">Preparar tu proyecto (opcional)</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C1</code></td><td><span lang="en">The stateless reader</span><span lang="es">El lector sin estado</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C2</code></td><td><span lang="en">The inversion</span><span lang="es">La inversión</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C3</code></td><td><span lang="en">Why only now</span><span lang="es">Por qué recién ahora</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr class="lab"><td><code>P1</code></td><td><span lang="en">Turn the order around in ten minutes</span><span lang="es">Dar vuelta el orden en diez minutos</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C4</code></td><td><span lang="en">The discipline that combines</span><span lang="es">La disciplina que combina</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C5</code></td><td><span lang="en">The two harnesses</span><span lang="es">Los dos harness</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C6</code></td><td><span lang="en">The loop and generative execution</span><span lang="es">El bucle y la ejecución generativa</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C7</code></td><td><span lang="en">Phase collapse</span><span lang="es">El colapso de fase</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr class="lab"><td><code>P2</code></td><td><span lang="en">Make the AI test your live app</span><span lang="es">Hacé que la IA pruebe tu app viva</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C8</code></td><td><span lang="en">Leave nothing to chance</span><span lang="es">No dejar nada al azar</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C9</code></td><td><span lang="en">The ratchet</span><span lang="es">El trinquete</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr class="lab"><td><code>P3</code></td><td><span lang="en">One MUST, one gate, one turn of the ratchet</span><span lang="es">Un DEBE, un gate, una vuelta del trinquete</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C10</code></td><td><span lang="en">The bridge and the asymmetry</span><span lang="es">El puente y la asimetría</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C11</code></td><td><span lang="en">The disciplines that activate</span><span lang="es">Las disciplinas que se activan</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C12</code></td><td><span lang="en">The sentinel</span><span lang="es">El sentinela</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr class="lab"><td><code>P4</code></td><td><span lang="en">Your sentinel in fifteen minutes</span><span lang="es">Tu sentinela en quince minutos</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C13</code></td><td><span lang="en">The layers that rise</span><span lang="es">Las capas que suben</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr><td><code>C14</code></td><td><span lang="en">The rubric</span><span lang="es">La rúbrica</span></td><td><span class="tag tag-teoria"><span lang="en">Theory</span><span lang="es">Teoría</span></span></td></tr>
+      <tr class="lab"><td><code>P5</code></td><td><span lang="en">Score your spec</span><span lang="es">Calificá tu spec</span></td><td><span class="tag tag-lab">Lab</span></td></tr>
+      <tr><td><code>C15</code></td><td><span lang="en">What you're buying</span><span lang="es">Qué comprás</span></td><td><span class="tag tag-teoria"><span lang="en">Close</span><span lang="es">Cierre</span></span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- THE FIVE LABS — recipe + AI question                         -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">The five labs</span>
+    <span lang="es">Las cinco prácticas</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">each closes with a recipe on this site and one question for your AI</span>
+    <span lang="es">cada una cierra con una receta en este sitio y una pregunta para tu IA</span>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head"><span class="lab-id">P1</span><span class="lab-title"><span lang="en">Turn the order around in ten minutes</span><span lang="es">Dar vuelta el orden en diez minutos</span></span></div>
+    <div class="lab-q"><span lang="en">Ask your AI: "What difference should it make that I gave you this before the code?"</span><span lang="es">Preguntale a tu IA: "¿Qué diferencia debería hacer que te diera esto antes que el código?"</span></div>
+    <div class="lab-links"><span lang="en">Recipe: <a href="/greenfield">/greenfield</a> (steps 01–02) → dedicated <code>/curso/p1</code> coming.</span><span lang="es">Receta: <a href="/greenfield">/greenfield</a> (pasos 01–02) → <code>/curso/p1</code> dedicada en camino.</span></div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head"><span class="lab-id">P2</span><span class="lab-title"><span lang="en">Make the AI test your live app</span><span lang="es">Hacé que la IA pruebe tu app viva</span></span></div>
+    <div class="lab-q"><span lang="en">Ask your AI: "What did you verify, and what couldn't you verify?"</span><span lang="es">Preguntale a tu IA: "¿Qué verificaste, y qué no pudiste verificar?"</span></div>
+    <div class="lab-links"><span lang="en">Recipe: <span class="soon">generative execution — /curso/p2 coming</span></span><span lang="es">Receta: <span class="soon">ejecución generativa — /curso/p2 en camino</span></span></div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head"><span class="lab-id">P3</span><span class="lab-title"><span lang="en">One MUST, one gate, one turn of the ratchet</span><span lang="es">Un DEBE, un gate, una vuelta del trinquete</span></span></div>
+    <div class="lab-q"><span lang="en">Ask your AI: "What class of error just became impossible?"</span><span lang="es">Preguntale a tu IA: "¿Qué clase de error acaba de volverse imposible?"</span></div>
+    <div class="lab-links"><span lang="en">Recipe: <a href="/gates">/gates</a> → dedicated <code>/curso/p3</code> coming.</span><span lang="es">Receta: <a href="/gates">/gates</a> → <code>/curso/p3</code> dedicada en camino.</span></div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head"><span class="lab-id">P4</span><span class="lab-title"><span lang="en">Your sentinel in fifteen minutes</span><span lang="es">Tu sentinela en quince minutos</span></span></div>
+    <div class="lab-q"><span lang="en">Ask your AI: "What did you read this time that you didn't last time?"</span><span lang="es">Preguntale a tu IA: "¿Qué leíste esta vez que la vez anterior no?"</span></div>
+    <div class="lab-links"><span lang="en">Recipe: <a href="/sentinel">/sentinel</a> · <a href="/greenfield">/greenfield</a> (step 04) → dedicated <code>/curso/p4</code> coming.</span><span lang="es">Receta: <a href="/sentinel">/sentinel</a> · <a href="/greenfield">/greenfield</a> (paso 04) → <code>/curso/p4</code> dedicada en camino.</span></div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head"><span class="lab-id">P5</span><span class="lab-title"><span lang="en">Score your spec</span><span lang="es">Calificá tu spec</span></span></div>
+    <div class="lab-q"><span lang="en">Ask your AI: "Where would you guess if this were all you had?"</span><span lang="es">Preguntale a tu IA: "¿Dónde adivinarías si solo tuvieras esto?"</span></div>
+    <div class="lab-links"><span lang="en">Recipe: <a href="/spec">/spec</a> · <a href="/audit">/audit</a> · <a href="/sample-report">/sample-report</a> → dedicated <code>/curso/p5</code> coming.</span><span lang="es">Receta: <a href="/spec">/spec</a> · <a href="/audit">/audit</a> · <a href="/sample-report">/sample-report</a> → <code>/curso/p5</code> dedicada en camino.</span></div>
+  </div>
+
+  <div class="facilitator-note">
+    <span lang="en">The recipes reuse the pages this site already has — they link, they don't duplicate. Dedicated <code>/curso/pN</code> pages ship alongside each lab video.</span>
+    <span lang="es">Las recetas reusan las páginas que este sitio ya tiene — enlazan, no duplican. Las páginas <code>/curso/pN</code> dedicadas se publican junto con el video de cada práctica.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- WHERE TO GO NEXT                                             -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <h2>
+    <span lang="en">After the course</span>
+    <span lang="es">Después del curso</span>
+  </h2>
+  <div class="h2-sub">
+    <span lang="en">do it on your own project</span>
+    <span lang="es">hacelo en tu propio proyecto</span>
+  </div>
+
+  <div class="path-picker">
+    <a href="/spec">
+      <div class="label"><span lang="en">Spec completeness</span><span lang="es">Spec completa</span></div>
+      <div class="name"><span lang="en">Is my spec complete? →</span><span lang="es">¿Está completa mi spec? →</span></div>
+      <div class="desc"><span lang="en">The stranger test + a template to build yours</span><span lang="es">La prueba del desconocido + una plantilla para armar la tuya</span></div>
+    </a>
+    <a href="/findings">
+      <div class="label"><span lang="en">Findings</span><span lang="es">Hallazgos</span></div>
+      <div class="name"><span lang="en">The numbers, with their limits →</span><span lang="es">Los números, con sus límites →</span></div>
+      <div class="desc"><span lang="en">What we measured, honestly — and what we didn't</span><span lang="es">Lo que medimos, honestamente — y lo que no</span></div>
+    </a>
+    <a href="/audit">
+      <div class="label"><span lang="en">Audit</span><span lang="es">Auditoría</span></div>
+      <div class="name"><span lang="en">Score your codebase →</span><span lang="es">Puntuá tu código →</span></div>
+      <div class="desc"><span lang="en">A readiness report on all seven properties</span><span lang="es">Un reporte de preparación en las siete propiedades</span></div>
+    </a>
+    <a href="/greenfield">
+      <div class="label"><span lang="en">Greenfield</span><span lang="es">Greenfield</span></div>
+      <div class="name"><span lang="en">Set up a new project →</span><span lang="es">Armá un proyecto nuevo →</span></div>
+      <div class="desc"><span lang="en">Empty folder to running project under GS</span><span lang="es">De carpeta vacía a proyecto corriendo con GS</span></div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <div class="footer">
+    Juan Carlos Ghiringhelli · PragmaWorks Labs LLC ·
+    <a href="/spec"><span lang="en">Spec Completeness</span><span lang="es">Spec Completa</span></a> ·
+    <a href="/findings"><span lang="en">Findings</span><span lang="es">Hallazgos</span></a> ·
+    <a href="/audit"><span lang="en">GS Audit</span><span lang="es">Auditoría GS</span></a>
+  </div>
+
+</div>
+
+<script src="/i18n.js" defer></script>
+<script src="/nav.js" defer></script>
+</body>
+</html>
