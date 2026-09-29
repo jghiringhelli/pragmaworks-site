@@ -89,11 +89,14 @@
 
     '    <div class="pw-nav-section" data-section="research">',
     '      <button class="pw-nav-section-toggle" aria-expanded="false">',
-    '        <span>Research</span><i class="pw-chevron">&#8250;</i>',
+    '        <span>The Method · genspec.dev</span><i class="pw-chevron">&#8250;</i>',
     '      </button>',
     '      <div class="pw-nav-section-items">',
-    '        <a href="/#research" class="pw-nav-item">Generative Specification</a>',
-    '        <a href="https://github.com/jghiringhelli/generative-specification" class="pw-nav-item" target="_blank" rel="noopener">White Paper &amp; Data &#8599;</a>',
+    '        <a href="https://genspec.dev" class="pw-nav-item" target="_blank" rel="noopener">Method home &#8599;</a>',
+    '        <a href="https://genspec.dev/#the-papers" class="pw-nav-item" target="_blank" rel="noopener">The papers &#8599;</a>',
+    '        <a href="https://genspec.dev/#the-formulas" class="pw-nav-item" target="_blank" rel="noopener">The formulas &#8599;</a>',
+    '        <a href="https://genspec.dev/#the-evidence" class="pw-nav-item" target="_blank" rel="noopener">The evidence &#8599;</a>',
+    '        <a href="https://doi.org/10.5281/zenodo.21726017" class="pw-nav-item" target="_blank" rel="noopener">Base paper v4.0 (DOI) &#8599;</a>',
     '      </div>',
     '    </div>',
 
@@ -104,7 +107,7 @@
     '        <span>Writing</span><i class="pw-chevron">&#8250;</i>',
     '      </button>',
     '      <div class="pw-nav-section-items">',
-    '        <a href="/manifesto" class="pw-nav-item">Harness Manifesto</a>',
+    '        <a href="https://genspec.dev/method/andon/" class="pw-nav-item" target="_blank" rel="noopener">The Andon Method &#8599;</a>',
     '        <a href="https://ambientengineer.substack.com" class="pw-nav-item" target="_blank" rel="noopener">Substack &#8599;</a>',
     '      </div>',
     '    </div>',
@@ -146,7 +149,6 @@
     '/spec': 'reference', '/findings': 'reference', '/sample-report': 'reference',
     '/sentinel': 'reference', '/revenido': 'reference',
     '/teams': 'workshops', '/leaders': 'workshops',
-    '/manifesto': 'writing',
     '/diagnose': 'tools', '/diagnostico': 'tools'
   };
 
