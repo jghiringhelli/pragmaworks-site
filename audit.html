@@ -197,8 +197,8 @@
     </p>
 
     <p class="lede" style="font-size:15px">
-      <span lang="en">Want to see what comes out before you spend the tokens? <a href="/sample-report"><strong>Read a sample report &rarr;</strong></a> — the ten-property scorecard, a maturity level, and the two next moves, on a real (messy) codebase.</span>
-      <span lang="es">¿Querés ver qué sale antes de gastar los tokens? <a href="/sample-report"><strong>Leé un reporte de muestra &rarr;</strong></a> — el scorecard de diez propiedades, un nivel de madurez, y los dos próximos movimientos, sobre un código real (desordenado).</span>
+      <span lang="en">Want to see what the paid Readiness Assessment report looks like? <a href="/sample-report"><strong>Read a sample report &rarr;</strong></a> — the ten-property scorecard, a maturity level, and the two next moves, on a real (messy) codebase. The free prompt below gives you a letter for each of the seven properties and what to fix first, not the level.</span>
+      <span lang="es">¿Querés ver cómo es el informe del Readiness Assessment pago? <a href="/sample-report"><strong>Leé un reporte de muestra &rarr;</strong></a> — el scorecard de diez propiedades, un nivel de madurez y los dos próximos movimientos, sobre un código real (desordenado). El prompt gratis de abajo te da una letra por cada una de las siete propiedades y qué arreglar primero, sin el nivel.</span>
     </p>
 
     <div class="pattern-note">
@@ -300,11 +300,9 @@ Look for: circular dependencies, wide import fan-out (one file imports from
 ──────────────────────────────────────
 SECTION 2 — REPORT CARD SUMMARY
 ──────────────────────────────────────
-OVERALL GRADE — one SAVED grade, a single letter (for example B-), for the
-five audit-facing properties, judged holistically (do not average to a
-number), with the engineering layer noted separately. Add one line of
-confidence: how much of the grade rests on evidence you verified directly
-versus attestations you could not probe.
+CONFIDENCE — one line: how much of the report card rests on evidence you
+verified directly versus attestations you could not probe. Do not give an
+overall grade: an average hides the low letters. The grades stay per property.
 
 Then, in prose, bounded so two runs stay comparable:
   STRENGTHS — the two or three properties the codebase can already stand behind.
@@ -488,11 +486,9 @@ módulos.
 ──────────────────────────────────────
 SECCIÓN 2 — RESUMEN DEL BOLETÍN
 ──────────────────────────────────────
-NOTA GLOBAL — una nota SAVED, una sola letra (por ejemplo B-), para las cinco
-propiedades que ve el auditor, juzgada de forma holística (no promedies a un
-número), con la capa de ingeniería anotada aparte. Agregá una línea de
-confianza: cuánto de la nota se apoya en evidencia que verificaste directamente
-versus atestaciones que no pudiste probar.
+CONFIANZA — una línea: cuánto del boletín se apoya en evidencia que verificaste
+directamente versus atestaciones que no pudiste probar. No des una nota global:
+un promedio esconde las letras bajas. Las notas quedan por propiedad.
 
 Después, en prosa, acotado para que dos corridas queden comparables:
   FORTALEZAS — las dos o tres propiedades que la base de código ya puede respaldar.
@@ -603,8 +599,8 @@ que sigue.</span></div>
       <span lang="es">2 · Resumen del Boletín</span>
     </h3>
     <p style="font-size:15px; color: var(--steel);">
-      <span lang="en">The five SAVED properties roll up into one overall grade, a single letter the way a report card gives a final mark, with the engineering layer noted separately and a line of confidence. The report then spells it out in prose: Strengths, Weaknesses with the risk each creates, the top prioritized fixes, and the blind spots the audit could not verify. Together they set the expectation for how much remediation the project needs before it can be trusted to an unattended AI session.</span>
-      <span lang="es">Las cinco propiedades SAVED se resumen en una nota global, una sola letra como la nota final de un boletín, con la capa de ingeniería anotada aparte y una línea de confianza. El reporte lo detalla en prosa: Fortalezas, Debilidades con el riesgo que cada una genera, las prioridades de arreglo, y los puntos ciegos que el audit no pudo verificar. Juntos fijan la expectativa de cuánta remediación necesita el proyecto antes de poder confiarlo a una sesión de IA sin supervisión.</span>
+      <span lang="en">The report card closes with a line of confidence and no overall grade: an average hides the low letters. The report then spells it out in prose: Strengths, Weaknesses with the risk each creates, the top prioritized fixes, and the blind spots the audit could not verify. Together they set the expectation for how much remediation the project needs before it can be trusted to an unattended AI session.</span>
+      <span lang="es">El boletín cierra con una línea de confianza y sin nota global: un promedio esconde las letras bajas. El reporte lo detalla en prosa: Fortalezas, Debilidades con el riesgo que cada una genera, las prioridades de arreglo, y los puntos ciegos que el audit no pudo verificar. Juntos fijan la expectativa de cuánta remediación necesita el proyecto antes de poder confiarlo a una sesión de IA sin supervisión.</span>
     </p>
 
     <h3>
