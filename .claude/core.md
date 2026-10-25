@@ -5,7 +5,7 @@
 ## Identity
 - Live site: **pragmaworks.dev**
 - Repo: `C:\workspace\PragmaWorks\pragmaworks-site\` → GitHub: `jghiringhelli/pragmaworks-site`
-- Deploy: Vercel (auto-deploys on push to main). `vercel.json`: `cleanUrls: true, trailingSlash: false`
+- Deploy: GitHub Pages (publishes on push to main; verified 2026-10-24 by the live `Server: GitHub.com` header). `vercel.json` is a leftover from the Vercel days: its redirects do NOT apply on GitHub Pages, so duplicate pages (sentinel, revenido) point their canonical to the replacement (mold, temper)
 - Owner: PragmaWorks LLC · juan@pragmaworks.dev
 - Tech: Pure HTML/CSS/JS. No build step. No package.json. No npm dependencies.
 
@@ -22,8 +22,11 @@
 - Google Fonts on every page: Cinzel · Source Serif 4 · JetBrains Mono
 - CSS custom properties defined inline per page (no shared stylesheet beyond i18n.css)
 - Do NOT add bundlers, build tools, or npm packages
-- Commit to main → Vercel deploys automatically (no manual deploy step)
+- Commit to main → GitHub Pages deploys automatically (no manual deploy step)
 
 ## Deploy Workflow
 `git add <file> && git commit -m "feat(...): ..." && git push`
-Vercel picks it up. Done.
+GitHub Pages picks it up. Done.
+
+## SEO (added 2026-10-24)
+- Every indexable page carries the `<!-- seo-tags -->` block (canonical, Open Graph, Twitter card) right after the favicon link; `og-image.png` (1200x630) is the share image; `index.html` carries the Organization/Person JSON-LD; `robots.txt` and `sitemap.xml` live in the root. A new page needs its own canonical, its sitemap line and a mobile check (no horizontal scroll at 390 px).
